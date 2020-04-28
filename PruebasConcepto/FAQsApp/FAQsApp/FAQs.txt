@@ -1,0 +1,4 @@
+Cuantos gatos tienes?
+2
+Cual es tu color favorito?
+Azul
