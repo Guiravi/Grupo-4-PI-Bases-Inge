@@ -18,15 +18,27 @@
     <form id="form1" runat="server">
 			<table class="auto-style1">
 				<tr>
-					<td class="auto-style2">Nueva pregunta </td>
+                    <!--Se pregunta por el número de prioridad de la nueva pregunta y respuesta al miembro-->
+                    <td class="auto-style2">Inserte el numero de prioridad</td>
 					<td>
-        	<asp:TextBox ID="txtNuevaPregunta" runat="server"></asp:TextBox>
+                        <!--la prioridad se guarda en opcionNueva para utilizarla en C#-->
+                        <asp:TextBox ID="opcionNueva" runat="server"></asp:TextBox>             	
+                    </td>
+				</tr>
+                <tr>
+					<!--Se pregunta por la nueva pregunta al miembro-->
+                    <td class="auto-style2">Nueva pregunta </td>
+					<td>
+        	            <!--la nueva pregunta se guarda en txtNuevaPregunta para utilizarla en C#-->
+                        <asp:TextBox ID="txtNuevaPregunta" runat="server"></asp:TextBox>
         			</td>
 				</tr>
 				<tr>
-					<td class="auto-style2">Nueva respuesta</td>
+					<!--Se pregunta por la nueva respuesta al miembro-->
+                    <td class="auto-style2">Nueva respuesta</td>
 					<td>
-        	<asp:TextBox ID="txtNuevaRespuesta" runat="server"></asp:TextBox>
+        	            <!--la nueva respuesta se guarda en txtNuevaRespuesta para utilizarla en C#-->
+                        <asp:TextBox ID="txtNuevaRespuesta" runat="server"></asp:TextBox>
         			</td>
 				</tr>
 				<tr>
@@ -34,7 +46,6 @@
 					<td>
         	<asp:Button ID="btnAgregar" runat="server" Text="Modificar" OnClick="btnAgregar_Click"/>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<asp:Label ID="lblAccion" runat="server" Text=""></asp:Label>
 					</td>
 				</tr>
 			</table>
