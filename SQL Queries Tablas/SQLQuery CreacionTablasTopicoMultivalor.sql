@@ -37,8 +37,8 @@ CREATE TABLE Articulo
 
 CREATE TABLE Topico
 (
-	nombreTopico NVARCHAR(50),
-	idArticuloFK INTEGER
+	nombreTopico NVARCHAR(50) NOT NULL,
+	idArticuloFK INTEGER	NOT NULL
 
 	CONSTRAINT PK_Topico PRIMARY KEY (nombreTopico, idArticuloFK),
 	CONSTRAINT FK_Topico_Articulo FOREIGN KEY (idArticuloFK) REFERENCES Articulo(idArticuloPK)
@@ -48,7 +48,7 @@ CREATE TABLE Topico
 
 CREATE TABLE ImagenArticuloCorto
 (
-	idImagenPK INTEGER IDENTITY(0,1),
+	idImagenPK INTEGER IDENTITY(0,1) NOT NULL,
 	rutaImagen NVARCHAR(MAX) NOT NULL,
 	idArticuloFK INTEGER NOT NULL
 
