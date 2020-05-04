@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+/// <summary>
+/// Summary description for 
+/// </summary>
+namespace TheCoffeePlace.Views
+{
+	public interface IView_EscribirArticulo
+	{
+		String titulo { get; set; }
+		String resumen { get; set; }
+		String contenido { get; set; }
+
+		void btnGuardar_Click(object sender, EventArgs e);
+	}
+}
