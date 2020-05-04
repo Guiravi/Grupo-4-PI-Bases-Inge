@@ -1,3 +1,4 @@
+USE BD_Grupo4
 CREATE TABLE Autor
 (	usernamePK NVARCHAR(20) NOT NULL,
 	email	NVARCHAR(50) NOT NULL,
@@ -25,11 +26,11 @@ CREATE TABLE Articulo
 	contenido NVARCHAR(MAX) NOT NULL,
 	fechaPublicacion DATE NOT NULL,
 	nombreAutor NVARCHAR(MAX) NOT NULL,
-	usernameFK NVARVCHAR(20) NOT NULL
+	usernameFK NVARCHAR(20)
 
 	CONSTRAINT PK_Articulo PRIMARY KEY (idArticuloPK),
 	CONSTRAINT UQ_Articulo_titulo UNIQUE (titulo),
-	CONSTRAINT CK_Articulo_tipo CHECK (tipo IN (0,1))
+	CONSTRAINT CK_Articulo_tipo CHECK (tipo IN (0,1)),
 	CONSTRAINT FK_Articulo_Autor FOREIGN KEY (usernameFK) REFERENCES Autor(usernamePK)
 		ON DELETE SET NULL
 		ON UPDATE CASCADE
