@@ -4,9 +4,9 @@
 /// Summary description for ArticleImageModel
 /// </summary>
 
-namespace PruebasConcepto.Models
+namespace TheCoffeePlace.Models
 {
-    public class ArticleImageModel
+    public class ImagenArticulo
     {
             public int idImagenPK { get; set; }
 
@@ -14,5 +14,4 @@ namespace PruebasConcepto.Models
 
             public int idArticuloFK { get; set; }
     }
-
 }

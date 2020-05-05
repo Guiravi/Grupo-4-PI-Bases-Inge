@@ -6,12 +6,15 @@ using System.Web;
 /// <summary>
 /// Summary description for ArticuloDBHandler
 /// </summary>
-public class ArticuloDBHandler
+namespace TheCoffeePlace.Models
 {
-	public ArticuloDBHandler()
+	public class ArticuloDBHandler
 	{
-		//
-		// TODO: Add constructor logic here
-		//
+		public ArticuloDBHandler()
+		{
+			//
+			// TODO: Add constructor logic here
+			//
+		}
 	}
 }

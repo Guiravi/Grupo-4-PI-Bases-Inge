@@ -8,7 +8,7 @@ using System.Configuration;
 /// Summary description for ImageDBHandle
 /// </summary>
 /// 
-namespace PruebasConcepto.Models
+namespace TheCoffeePlace.Models
 {
     public class ImageDBHandler
     {
@@ -21,7 +21,7 @@ namespace PruebasConcepto.Models
         }
 
         //***************** AGREGAR NUEVA IMAGEN *****************
-        public bool AgregarImagen (ArticleImageModel aimodel)
+        public bool AgregarImagen(ImagenArticulo aimodel)
         {
             Connection();
             SqlCommand cmd = new SqlCommand("AgregarNuevaImagen", conn);
@@ -41,10 +41,10 @@ namespace PruebasConcepto.Models
         }
 
         //***************** OBTENER IMAGEN *****************
-        public List <ArticleImageModel> ObtenerImagen(int articleId) 
+        public List <ImagenArticulo> ObtenerImagen(int articleId) 
         {
             Connection();
-            List<ArticleImageModel> imageList = new List<ArticleImageModel>();
+            List<ImagenArticulo> imageList = new List<ImagenArticulo>();
 
             SqlCommand cmd = new SqlCommand("ObtenerImagen", conn);
             cmd.CommandType = CommandType.StoredProcedure;
@@ -61,7 +61,7 @@ namespace PruebasConcepto.Models
             foreach (DataRow dr in dt.Rows)
             {
                 imageList.Add(
-                    new ArticleImageModel
+                    new ImagenArticulo
                     {
                         idImagenPK = Convert.ToInt32(dr["idImagenPK"]),
                         rutaImagen = Convert.ToString(dr["rutaImagen"]),
