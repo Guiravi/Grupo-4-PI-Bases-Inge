@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="EscribirArticulo.aspx.cs" Inherits="EscribirArticulo" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="EscribirArticulo.aspx.cs" Inherits="EscribirArticulo"  %>
 <%@ Register TagPrefix="FTB" Namespace="FreeTextBoxControls" Assembly="FreeTextBox" %>
 <!DOCTYPE html>
 <script runat="server">
@@ -12,10 +12,16 @@
 		.auto-style1 {
 			width: 100%;
 		}
+		.auto-style2 {
+			margin-left: 960px;
+		}
 	</style>
 </head>
 <body>
     <form id="form" runat="server">
+		<div class="auto-style2">
+			<asp:label ID="lblUsername" runat="server" text="Manuelito01"></asp:label>
+		</div>
 		<table class="auto-style1">
 			<tr>
 				<td>

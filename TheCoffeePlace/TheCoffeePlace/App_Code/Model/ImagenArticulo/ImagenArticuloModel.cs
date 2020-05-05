@@ -6,7 +6,7 @@
 
 namespace TheCoffeePlace.Models
 {
-    public class ImagenArticulo
+    public class ImagenArticuloModel
     {
             public int idImagenPK { get; set; }
 

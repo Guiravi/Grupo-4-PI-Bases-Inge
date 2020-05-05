@@ -13,6 +13,8 @@ namespace TheCoffeePlace.Views
 		String titulo { get; set; }
 		String resumen { get; set; }
 		String contenido { get; set; }
+		int tipo { get; }
+		String username { get; }
 
 		void btnGuardar_Click(object sender, EventArgs e);
 	}

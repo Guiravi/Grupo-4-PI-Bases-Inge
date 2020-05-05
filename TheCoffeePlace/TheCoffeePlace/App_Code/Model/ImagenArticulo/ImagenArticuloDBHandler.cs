@@ -21,7 +21,7 @@ namespace TheCoffeePlace.Models
         }
 
         //***************** AGREGAR NUEVA IMAGEN *****************
-        public bool AgregarImagen(ImagenArticulo aimodel)
+        public bool AgregarImagen(ImagenArticuloModel aimodel)
         {
             Connection();
             SqlCommand cmd = new SqlCommand("AgregarNuevaImagen", conn);
@@ -41,10 +41,10 @@ namespace TheCoffeePlace.Models
         }
 
         //***************** OBTENER IMAGEN *****************
-        public List <ImagenArticulo> ObtenerImagen(int articleId) 
+        public List <ImagenArticuloModel> ObtenerImagen(int articleId) 
         {
             Connection();
-            List<ImagenArticulo> imageList = new List<ImagenArticulo>();
+            List<ImagenArticuloModel> imageList = new List<ImagenArticuloModel>();
 
             SqlCommand cmd = new SqlCommand("ObtenerImagen", conn);
             cmd.CommandType = CommandType.StoredProcedure;
@@ -61,7 +61,7 @@ namespace TheCoffeePlace.Models
             foreach (DataRow dr in dt.Rows)
             {
                 imageList.Add(
-                    new ImagenArticulo
+                    new ImagenArticuloModel
                     {
                         idImagenPK = Convert.ToInt32(dr["idImagenPK"]),
                         rutaImagen = Convert.ToString(dr["rutaImagen"]),

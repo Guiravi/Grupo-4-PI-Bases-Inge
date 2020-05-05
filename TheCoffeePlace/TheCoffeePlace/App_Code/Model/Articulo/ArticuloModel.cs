@@ -9,7 +9,7 @@ using System.Web;
 ///
 namespace TheCoffeePlace.Models
 { 
-	public class Articulo
+	public class ArticuloModel
 	{
 		public int idArticuloPK { get; set; }
 		public String titulo { get; set; }
@@ -20,10 +20,15 @@ namespace TheCoffeePlace.Models
 		public String nombreAutor { get; set; }
 		public String usernameFK { get; set; }
 
-		public Articulo()
+		public ArticuloModel(String titulo, String resumen, int tipo, String contenido, String fechaPublicacion, String nombreAutor, String usernameFK)
 		{
-			
-
+			this.titulo = titulo;
+			this.resumen = resumen;
+			this.tipo = tipo;
+			this.contenido = contenido;
+			this.fechaPublicacion = fechaPublicacion;
+			this.nombreAutor = nombreAutor;
+			this.usernameFK = usernameFK;
 		}
 	}
 }
