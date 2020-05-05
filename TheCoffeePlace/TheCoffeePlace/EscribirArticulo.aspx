@@ -10,7 +10,7 @@
     <title> Escribir artículo</title>
 	<style type="text/css">
 		.auto-style1 {
-			width: 100%;
+			width: 61%;
 		}
 		.auto-style2 {
 			margin-left: 960px;
@@ -48,6 +48,37 @@
     			</td>
 			</tr>
 		</table>
+
+        <table class="auto-style1">
+
+            <tr>
+				    <td>
+					    <p>Subir imágenes de su computadora, escoja un archivo .jpg o .png</p>
+					    <asp:FileUpload ID="fileupImagen" runat="server" />
+                        <br></br>
+                        <asp:Label ID="lblErrorImagen" runat="server" Text="Error" Visible="false"></asp:Label>
+				    </td>
+		    </tr>
+            <tr>
+				    <td>
+					    <asp:Button ID="btnSubir" runat="server" Text="Subir" />
+				    </td>
+		    </tr>
+            <tr>
+				    <td>
+                        <p>Tabla de Imágenes</p>
+					    <asp:GridView ID="gridviewImagenes" runat="server" CssClass="Grid" HeaderStyle-BackColor ="DarkCyan" BorderColor="Black" AutoGenerateColumns="False" EmptyDataText ="No hay archivos subidos" OnRowDeleting="OnRowDeleting">
+                            <Columns>
+                                <asp:BoundField DataField="NombreImagen" HeaderText="Nombre Imagen" />
+                                <asp:ImageField DataImageUrlField="Imagen" HeaderText="Imagen"></asp:ImageField>   
+                                <asp:CommandField ShowDeleteButton="True" ButtonType="Button" />
+                            </Columns>
+                         </asp:GridView>
+				    </td>
+		    </tr>
+        </table>
+    
     </form>
-</body>
+
+    </body>
 </html>
