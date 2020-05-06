@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using TheCoffeePlace.Views;
 using TheCoffeePlace.Controllers;
 
-public partial class EscribirArticulo : System.Web.UI.Page, IView_EscribirArticulo
+public partial class EscribirArticulo : System.Web.UI.Page, IView_Articulo
 {
 	public string titulo
 	{	
@@ -44,10 +44,7 @@ public partial class EscribirArticulo : System.Web.UI.Page, IView_EscribirArticu
 
 	public void btnGuardar_Click(object sender, EventArgs e)
 	{
-		// Se crea el ArticuloController(this)
 		ArticuloController artController = new ArticuloController(this);
-
-		// ArticuloController.GuardarArticulo()
 		artController.GuardarArticulo();
 	}
 

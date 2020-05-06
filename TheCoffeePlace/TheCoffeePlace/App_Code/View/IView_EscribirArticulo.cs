@@ -8,7 +8,7 @@ using System.Web;
 /// </summary>
 namespace TheCoffeePlace.Views
 {
-	public interface IView_EscribirArticulo
+	public interface IView_Articulo
 	{
 		String titulo { get; set; }
 		String resumen { get; set; }
