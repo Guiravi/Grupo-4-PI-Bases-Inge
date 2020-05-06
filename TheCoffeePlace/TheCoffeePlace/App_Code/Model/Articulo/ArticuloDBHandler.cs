@@ -43,9 +43,34 @@ namespace TheCoffeePlace.Models
 			}
 		}
 
-		//public int GetIdentity()
-		//{
+        public int ObtenerSiguienteId()
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
+            SqlCommand cmd;
+            int current_id;
 
-		//}
-	}
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
+                connection.Open();
+
+                cmd = new SqlCommand("SELECT IDENT_CURRENT ('Articulo')", connection);
+
+                SqlDataReader identReader = cmd.ExecuteReader();
+
+                current_id = 0;
+
+                while (identReader.Read())
+                {
+                    current_id = Convert.ToInt32(identReader.GetValue(0));
+                }
+
+                identReader.Close();
+
+                connection.Close();
+            }
+
+            return current_id;
+        }
+    }
 }

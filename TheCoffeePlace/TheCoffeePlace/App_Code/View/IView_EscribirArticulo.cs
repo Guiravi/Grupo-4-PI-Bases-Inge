@@ -16,6 +16,5 @@ namespace TheCoffeePlace.Views
 		int tipo { get; }
 		String username { get; }
 
-		void btnGuardar_Click(object sender, EventArgs e);
 	}
 }
