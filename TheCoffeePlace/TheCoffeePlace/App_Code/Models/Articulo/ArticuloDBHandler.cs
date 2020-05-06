@@ -100,5 +100,38 @@ namespace TheCoffeePlace.Models
 
             return System.Convert.FromBase64String(contenido);
         }
-    }
+
+		public List<ArticuloModel> GetArticulosPorTopico(String topico)
+		{
+			String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
+
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+				connection.Open();
+
+				SqlCommand cmd = new SqlCommand("SELECT  Articulo.idArticuloPK, Articulo.titulo, Articulo.resumen, Articulo.tipo, Articulo.contenido, Articulo.fechaPublicacion, Articulo.nombreAutor, Articulo.usernameFK " +
+				" FROM  Articulo JOIN TopicosArticulo ON " +
+						" Articulo.idArticuloPK = TopicosArticulo.idArticuloFK JOIN Topico ON " +
+						" TopicosArticulo.nombreTopicoFK = @topico", connection);
+
+				cmd.Parameters.AddWithValue("@topico", topico);
+
+				SqlDataReader identReader = cmd.ExecuteReader();
+
+				List<ArticuloModel> art = new List<ArticuloModel>();
+				while (identReader.Read())
+				{
+					ArticuloModel am = new ArticuloModel((String)identReader.GetValue(1), 
+						(String)identReader.GetValue(2),
+						(int)identReader.GetValue(3), (String)identReader.GetValue(4),
+						identReader.GetValue(5).ToString(), (String)identReader.GetValue(6), (String)identReader.GetValue(7));
+					art.Add(am);
+				}
+
+				identReader.Close();
+
+				return art;
+			}
+		}
+	}
 }
