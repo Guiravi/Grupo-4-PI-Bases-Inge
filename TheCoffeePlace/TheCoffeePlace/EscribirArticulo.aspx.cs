@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using TheCoffeePlace.Views;
 using TheCoffeePlace.Controllers;
 
-public partial class EscribirArticulo : System.Web.UI.Page, IView_EscribirArticulo, IView_SubirArticulo, IView_ImagenArticulo
+public partial class EscribirArticulo : System.Web.UI.Page, IView_EscribirArticulo, IView_ImagenArticulo
 {
 
     protected void Page_Load(object sender, EventArgs e)
@@ -28,17 +28,11 @@ public partial class EscribirArticulo : System.Web.UI.Page, IView_EscribirArticu
 		set { txtResumen.Text = value; }
 	}
 
-	string IView_EscribirArticulo.contenido
+	string contenido
 	{
 		get { return ftxtEditor.Text; }
 		set { ftxtEditor.Text = value; }
 	}
-
-    
-    byte[] IView_SubirArticulo.contenido
-    {
-        get { return new byte[0]; }
-    }
 
     public int tipo
 	{
