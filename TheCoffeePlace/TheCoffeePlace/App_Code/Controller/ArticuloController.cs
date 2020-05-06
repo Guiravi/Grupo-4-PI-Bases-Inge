@@ -12,9 +12,9 @@ namespace TheCoffeePlace.Controllers
 {
 	public class ArticuloController
 	{
-		private IView_EscribirArticulo view;
+		private IView_Articulo view;
 
-		public ArticuloController(IView_EscribirArticulo view)
+		public ArticuloController(IView_Articulo view)
 		{
 			this.view = view;
 		}

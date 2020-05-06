@@ -18,16 +18,16 @@
     <form id="form1" runat="server">
 			<table class="auto-style1">
 				<tr>
-                    <!--Se pregunta por el número de prioridad de la nueva pregunta y respuesta al miembro-->
-                    <td class="auto-style2">Inserte el numero de prioridad</td>
+                    <!--Se agrega una pregunta a la categoria correspondiente-->
+                    <td class="auto-style2">category</td>
 					<td>
                         <!--la prioridad se guarda en opcionNueva para utilizarla en C#-->
-                        <asp:TextBox ID="opcionNueva" runat="server"></asp:TextBox>             	
+                        <asp:TextBox ID="category" runat="server"></asp:TextBox>             	
                     </td>
 				</tr>
                 <tr>
 					<!--Se pregunta por la nueva pregunta al miembro-->
-                    <td class="auto-style2">Nueva pregunta </td>
+                    <td class="auto-style2">New question </td>
 					<td>
         	            <!--la nueva pregunta se guarda en txtNuevaPregunta para utilizarla en C#-->
                         <asp:TextBox ID="txtNuevaPregunta" runat="server"></asp:TextBox>
@@ -35,7 +35,7 @@
 				</tr>
 				<tr>
 					<!--Se pregunta por la nueva respuesta al miembro-->
-                    <td class="auto-style2">Nueva respuesta</td>
+                    <td class="auto-style2">New answer</td>
 					<td>
         	            <!--la nueva respuesta se guarda en txtNuevaRespuesta para utilizarla en C#-->
                         <asp:TextBox ID="txtNuevaRespuesta" runat="server"></asp:TextBox>
@@ -44,7 +44,7 @@
 				<tr>
 					<td class="auto-style2">&nbsp;</td>
 					<td>
-        	<asp:Button ID="btnAgregar" runat="server" Text="Modificar" OnClick="btnAgregar_Click"/>
+        	<asp:Button ID="btnAgregar" runat="server" Text="Modify" OnClick="btnAgregar_Click"/>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					</td>
 				</tr>
