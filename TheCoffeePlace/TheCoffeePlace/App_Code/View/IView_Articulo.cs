@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Web;
 using System.Data;
-
 /// <summary>
 /// Summary description for 
 /// </summary>
@@ -28,12 +27,10 @@ namespace TheCoffeePlace.Views
     public interface IView_EscribirArticulo : IView_Articulo
     {
         String contenido { get; set; }
-
     }
 
     public interface IView_SubirArticulo : IView_Articulo
     {
         byte[] contenido { get; }
-
     }
 }
