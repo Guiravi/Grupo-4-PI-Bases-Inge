@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
+using System.Data;
 
 /// <summary>
 /// Summary description for 
@@ -17,4 +17,12 @@ namespace TheCoffeePlace.Views
 		String username { get; }
 
 	}
+
+    public interface IView_ImagenArticulo
+    {
+        string nombreArchivoFileUpImagen { get; }
+        byte[] getContenidoFileUpImagen();
+        void setContenidoGridViewImagenes(DataSet ds);
+
+    }
 }
