@@ -63,8 +63,8 @@ public partial class EscribirArticulo : System.Web.UI.Page, IView_EscribirArticu
 	protected void btnGuardar_Click(object sender, EventArgs e)
 	{
 		// Se crea el ArticuloController(this)
-		ArticuloController artController = new ArticuloController(this);
-		artController.GuardarArticulo();
+		ArticuloController artController = new ArticuloController();
+		artController.GuardarArticulo(this);
 	}
 
     protected void btnSubir_Click(object sender, EventArgs e)
