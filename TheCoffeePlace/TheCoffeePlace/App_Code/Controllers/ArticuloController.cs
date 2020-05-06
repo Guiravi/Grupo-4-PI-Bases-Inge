@@ -48,6 +48,7 @@ namespace TheCoffeePlace.Controllers
 			view.gridView.DataSource = articulos;
 			view.gridView.DataBind();
 		}
+
         /*
         public void DescargarArticulo(IView_SubirArticulo view)
         {

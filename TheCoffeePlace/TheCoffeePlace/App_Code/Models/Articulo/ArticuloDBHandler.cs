@@ -121,10 +121,11 @@ namespace TheCoffeePlace.Models
 				List<ArticuloModel> art = new List<ArticuloModel>();
 				while (identReader.Read())
 				{
-					ArticuloModel am = new ArticuloModel((String)identReader.GetValue(1), 
-						(String)identReader.GetValue(2),
+					ArticuloModel am = new ArticuloModel((int)identReader.GetValue(0), 
+                        (String)identReader.GetValue(1), (String)identReader.GetValue(2),
 						(int)identReader.GetValue(3), (String)identReader.GetValue(4),
-						identReader.GetValue(5).ToString(), (String)identReader.GetValue(6), (String)identReader.GetValue(7));
+						identReader.GetValue(5).ToString().Remove(identReader.GetValue(5).ToString().Length - 12, 12), 
+                        (String)identReader.GetValue(6), (String)identReader.GetValue(7));
 					art.Add(am);
 				}
 

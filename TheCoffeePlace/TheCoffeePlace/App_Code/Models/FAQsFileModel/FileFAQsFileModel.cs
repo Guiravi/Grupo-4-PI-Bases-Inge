@@ -21,7 +21,6 @@ namespace TheCoffeePlace.Models
 
         public FAQsFileModel()
         {
-
             this.filePathFaqs = HttpContext.Current.Server.MapPath(ConfigurationManager.ConnectionStrings["filePathFaqs"].ToString());
             this.linesFaqs = File.ReadAllLines(this.filePathFaqs);
         }

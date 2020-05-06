@@ -31,4 +31,5 @@ public partial class BuscarArticulos : System.Web.UI.Page, IView_BuscarArticulos
 		ArticuloController articuloController = new ArticuloController();
 		articuloController.BuscarArticuloPorTopico(this);
 	}
+
 }

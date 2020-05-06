@@ -20,8 +20,9 @@ namespace TheCoffeePlace.Models
 		public String nombreAutor { get; set; }
 		public String usernameFK { get; set; }
 
-		public ArticuloModel(String titulo, String resumen, int tipo, String contenido, String fechaPublicacion, String nombreAutor, String usernameFK)
+		public ArticuloModel(int idArticulo, String titulo, String resumen, int tipo, String contenido, String fechaPublicacion, String nombreAutor, String usernameFK)
 		{
+            this.idArticuloPK = idArticulo;
 			this.titulo = titulo;
 			this.resumen = resumen;
 			this.tipo = tipo;
@@ -30,5 +31,16 @@ namespace TheCoffeePlace.Models
 			this.nombreAutor = nombreAutor;
 			this.usernameFK = usernameFK;
 		}
-	}
+
+        public ArticuloModel(String titulo, String resumen, int tipo, String contenido, String fechaPublicacion, String nombreAutor, String usernameFK)
+        {
+            this.titulo = titulo;
+            this.resumen = resumen;
+            this.tipo = tipo;
+            this.contenido = contenido;
+            this.fechaPublicacion = fechaPublicacion;
+            this.nombreAutor = nombreAutor;
+            this.usernameFK = usernameFK;
+        }
+    }
 }
