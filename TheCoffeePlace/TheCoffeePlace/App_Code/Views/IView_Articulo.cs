@@ -35,13 +35,9 @@ namespace TheCoffeePlace.Views
 
     }
 
-	namespace TheCoffeePlace.Views
+	public interface IView_BuscarArticulos
 	{
-		public interface IView_BuscarArticulos
-		{
-			String topico { get; set; }
-			GridView gridView { get; }
-		}
+		String topico { get; set; }
+		GridView gridView { get; }
 	}
-
 }
