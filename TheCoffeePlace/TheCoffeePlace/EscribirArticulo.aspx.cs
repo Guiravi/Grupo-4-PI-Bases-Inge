@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using TheCoffeePlace.Views;
+using TheCoffeePlace.Views;   
 using TheCoffeePlace.Controllers;
 
 public partial class EscribirArticulo : System.Web.UI.Page, IView_EscribirArticulo
