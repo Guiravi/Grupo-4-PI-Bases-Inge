@@ -6,6 +6,7 @@ using System.Data;
 using System.Web.UI.WebControls;
 using TheCoffeePlace.Views;
 using TheCoffeePlace.Controllers;
+using TheCoffeePlace.Utilities;
 
 public partial class EscribirArticulo : System.Web.UI.Page, IView_EscribirArticulo, IView_ImagenArticulo
 {
@@ -73,7 +74,8 @@ public partial class EscribirArticulo : System.Web.UI.Page, IView_EscribirArticu
 
         if (fileupImagen.HasFile)
         {
-            if (EsImagen(fileupImagen.FileName) && EsNombreCortoImagen(fileupImagen.FileName))
+            bool tipoArchivoValido = (Utilidades.EsTipoArchivo(fileupImagen.FileName, "jpg") || Utilidades.EsTipoArchivo(fileupImagen.FileName, "png") || Utilidades.EsTipoArchivo(fileupImagen.FileName, "JPG") || Utilidades.EsTipoArchivo(fileupImagen.FileName, "PNG"));
+            if ( tipoArchivoValido && EsNombreCortoImagen(fileupImagen.FileName))
             {
                 ImagenArticuloController imArtController = new ImagenArticuloController(this);
                 imArtController.GuardarImagen();
