@@ -28,7 +28,7 @@ public partial class EscribirArticulo : System.Web.UI.Page, IView_EscribirArticu
 		set { txtResumen.Text = value; }
 	}
 
-	string contenido
+	public string contenido
 	{
 		get { return ftxtEditor.Text; }
 		set { ftxtEditor.Text = value; }
