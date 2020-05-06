@@ -15,6 +15,13 @@
 		.auto-style2 {
 			margin-left: 960px;
 		}
+		img {
+			width: 50px;
+			height: 50px;
+		}
+	    .colID {
+	        display: none;
+        }
 	</style>
 </head>
 <body>
@@ -37,10 +44,10 @@
 
 			</tr>
 			<tr>
-				<td>
+                <td>
 					<p>Artículo</p>
 					<FTB:FreeTextBox ID="ftxtEditor" runat="server"></FTB:FreeTextBox>
-    			</td>
+                </td>
 			</tr>
 			<tr>
 				<td>
@@ -48,6 +55,37 @@
     			</td>
 			</tr>
 		</table>
+
+        <table class="auto-style1">
+            <tr>
+				    <td>
+					    <p>Subir imágenes de su computadora, escoja un archivo .jpg o .png</p>
+					    <asp:FileUpload ID="fileupImagen" runat="server" AllowMultiple="false" accept =".jpg, .png"/>
+                        <br></br>
+                        <asp:Label ID="lblErrorImagen" runat="server" Text="Error" Visible="false"></asp:Label>
+				    </td>
+		    </tr>
+            <tr>
+				    <td>
+					    <asp:Button ID="btnSubir" runat="server" Text="Subir" OnClick="btnSubir_Click" />
+				    </td>
+		    </tr>
+            <tr>
+				    <td>
+                        <h3>Tabla de Imágenes</h3>
+                        <p>Puede arrastrar las imágenes subidas directamente a su artículo.</p>
+					    <asp:GridView ID="gridviewImagenes" runat="server" CssClass="Grid" HeaderStyle-BackColor ="DarkCyan" BorderColor="Black" AutoGenerateColumns="False" EmptyDataText ="No hay archivos subidos" OnRowDeleting="OnRowDeleting" DataKeysNames="idImagenPK">
+                            <Columns>
+                                <asp:BoundField DataField="idImagenPK" ItemStyle-CssClass="colID" HeaderStyle-CssClass="colID"/>
+                                <asp:ImageField DataImageUrlField="rutaImagen" HeaderText="Imagen"></asp:ImageField>   
+                                <asp:CommandField ShowDeleteButton="True" ButtonType="Button" />
+                            </Columns>
+                         </asp:GridView>
+				    </td>
+		    </tr>
+        </table>
+    
     </form>
-</body>
+
+    </body>
 </html>

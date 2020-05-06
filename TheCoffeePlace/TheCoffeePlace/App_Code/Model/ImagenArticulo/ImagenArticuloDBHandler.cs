@@ -10,7 +10,7 @@ using System.Configuration;
 /// 
 namespace TheCoffeePlace.Models
 {
-    public class ImageDBHandler
+    public class ImagenArticuloDBHandler
     {
 
         private SqlConnection conn;
@@ -41,35 +41,22 @@ namespace TheCoffeePlace.Models
         }
 
         //***************** OBTENER IMAGEN *****************
-        public List <ImagenArticuloModel> ObtenerImagen(int articleId) 
+        public DataSet ObtenerImagen(int articleId) 
         {
             Connection();
-            List<ImagenArticuloModel> imageList = new List<ImagenArticuloModel>();
-
             SqlCommand cmd = new SqlCommand("ObtenerImagen", conn);
             cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.AddWithValue("@idArticuloPK", articleId);
+            cmd.Parameters.AddWithValue("@idArticuloFK", articleId);
 
             SqlDataAdapter sda = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
+            DataSet ds = new DataSet();
 
             conn.Open();
-            sda.Fill(dt);
+            sda.Fill(ds);
             conn.Close();
 
-            foreach (DataRow dr in dt.Rows)
-            {
-                imageList.Add(
-                    new ImagenArticuloModel
-                    {
-                        idImagenPK = Convert.ToInt32(dr["idImagenPK"]),
-                        rutaImagen = Convert.ToString(dr["rutaImagen"]),
-                        idArticuloFK = Convert.ToInt32(dr["idArticuloFK"])
-
-                    });
-            }
-            return imageList;
+            return ds;
         }
 
         //***************** BORRAR IMAGEN *****************
@@ -89,6 +76,59 @@ namespace TheCoffeePlace.Models
                 return true;
             else
                 return false;
+        }
+
+        //***************** OBTENER SIGUIENTE ID IMAGEN *****************
+            
+        public int ObtenerSiguienteId()
+        {
+            Connection();
+            SqlCommand cmd;
+
+            conn.Open();
+
+            cmd = new SqlCommand("SELECT IDENT_CURRENT ('ImagenArticuloCorto')", conn);
+
+            SqlDataReader identReader = cmd.ExecuteReader();
+
+            int current_id = 0;
+
+            while (identReader.Read())
+            {
+                current_id = Convert.ToInt32(identReader.GetValue(0));
+            }
+
+            identReader.Close();
+
+            conn.Close();
+
+            return current_id;
+        }
+
+        public string ObtenerRutaImagen(int idImagen)
+        {
+            Connection();
+            SqlCommand cmd;
+            conn.Open();
+
+            cmd = new SqlCommand("SELECT rutaImagen FROM [dbo].[ImagenArticuloCorto] WHERE idImagenPK = @idImagenPK", conn);
+
+            cmd.Parameters.AddWithValue("@idImagenPK", idImagen);
+
+            SqlDataReader identReader = cmd.ExecuteReader();
+
+            string ruta = "";
+
+            while (identReader.Read())
+            {
+                ruta = Convert.ToString(identReader.GetValue(0));
+            }
+
+            identReader.Close();
+
+            conn.Close();
+
+            return ruta;
         }
     }
 }

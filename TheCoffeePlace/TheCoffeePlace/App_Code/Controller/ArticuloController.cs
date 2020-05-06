@@ -12,14 +12,8 @@ namespace TheCoffeePlace.Controllers
 {
 	public class ArticuloController
 	{
-		private IView_EscribirArticulo view;
 
-		public ArticuloController(IView_EscribirArticulo view)
-		{
-			this.view = view;
-		}
-
-		public void GuardarArticulo()
+		public void GuardarArticulo(IView_EscribirArticulo view)
 		{
 			ArticuloDBHandler artdbHandler = new ArticuloDBHandler();
 			AutorDBHandler autdbHandler = new AutorDBHandler();
@@ -28,5 +22,11 @@ namespace TheCoffeePlace.Controllers
 			ArticuloModel articulo = new ArticuloModel(view.titulo, view.resumen, view.tipo, view.contenido, fechaPublicacion, nombreCompletoAutor, view.username);
 			artdbHandler.SaveArticulo(articulo);
 		}
-	}
+
+
+        public void GuardarArticulo(IView_SubirArticulo view)
+        {
+
+        }
+    }
 }
