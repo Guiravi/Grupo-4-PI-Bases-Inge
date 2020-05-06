@@ -40,7 +40,14 @@ namespace TheCoffeePlace.Controllers
             ArticuloModel articulo = new ArticuloModel(view.titulo, view.resumen, view.tipo, contenidoString, fechaPublicacion, nombreCompletoAutor, view.username);
             artdbHandler.SaveArticulo(articulo);
         }
-
+		
+		public void BuscarArticuloPorTopico(IView_BuscarArticulos view)
+		{
+			ArticuloDBHandler artdbHandler = new ArticuloDBHandler();
+			List<ArticuloModel> articulos = artdbHandler.GetArticulosPorTopico(view.topico);
+			view.gridView.DataSource = articulos;
+			view.gridView.DataBind();
+		}
         /*
         public void DescargarArticulo(IView_SubirArticulo view)
         {
