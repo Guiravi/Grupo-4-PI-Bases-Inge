@@ -22,7 +22,7 @@ namespace TheCoffeePlace.Models
         public NumCatFileModel()
         {
 
-            this.filePathNumCat = ConfigurationManager.ConnectionStrings["filePathNumCat"].ToString();
+            this.filePathNumCat = HttpContext.Current.Server.MapPath(ConfigurationManager.ConnectionStrings["filePathNumCat"].ToString());
             this.linesNumCat = File.ReadAllLines(this.filePathNumCat);
         }
 
