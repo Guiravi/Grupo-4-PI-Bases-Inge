@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web;
 using System.Data;
+using System.Web.UI.WebControls;
 /// <summary>
 /// Summary description for 
 /// </summary>
@@ -16,7 +17,17 @@ namespace TheCoffeePlace.Views
 
 	}
 
-    public interface IView_ImagenArticulo
+	public interface IView_EscribirArticulo : IView_Articulo
+	{
+		String contenido { get; set; }
+	}
+
+	public interface IView_SubirArticulo : IView_Articulo
+	{
+		byte[] contenido { get; }
+	}
+
+	public interface IView_ImagenArticulo
     {
         string nombreArchivoFileUpImagen { get; }
         byte[] getContenidoFileUpImagen();
@@ -24,13 +35,13 @@ namespace TheCoffeePlace.Views
 
     }
 
-    public interface IView_EscribirArticulo : IView_Articulo
-    {
-        String contenido { get; set; }
-    }
+	namespace TheCoffeePlace.Views
+	{
+		public interface IView_BuscarArticulos
+		{
+			String topico { get; set; }
+			GridView gridView { get; }
+		}
+	}
 
-    public interface IView_SubirArticulo : IView_Articulo
-    {
-        byte[] contenido { get; }
-    }
 }
