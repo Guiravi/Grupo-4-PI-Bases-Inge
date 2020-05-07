@@ -231,5 +231,32 @@ namespace TheCoffeePlace.Models
                 return art;
             }
         }
+
+        public ArticuloModel GetInfoPaginaResumen(int id)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
+
+            ArticuloModel articulo = null;
+
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+                connection.Open();
+
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Articulo WHERE Articulo.idArticuloPK = @id", connection);
+                cmd.Parameters.AddWithValue("@id", id);
+
+                SqlDataReader identReader = cmd.ExecuteReader();
+
+                while ( identReader.Read() )
+                {
+                    articulo = new ArticuloModel((string) identReader["titulo"], (string) identReader["resumen"], (int) identReader["tipo"],
+                        (string) identReader["contenido"], (string) identReader["fechaPublicacion"], (string) identReader["nombreAutor"],
+                        (string) identReader["usernameFK"]);
+                }
+
+                identReader.Close();
+            }
+            return articulo;
+        }
     }
 }
