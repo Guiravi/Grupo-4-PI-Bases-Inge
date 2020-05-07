@@ -34,7 +34,7 @@ namespace TheCoffeePlace.Models
 
         public ArticuloModel(String titulo, String resumen, int tipo, String contenido, String fechaPublicacion, String nombreAutor, String usernameFK)
         {
-            this.titulo = titulo;
+			this.titulo = titulo;
             this.resumen = resumen;
             this.tipo = tipo;
             this.contenido = contenido;

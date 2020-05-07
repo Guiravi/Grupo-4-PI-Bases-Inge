@@ -6,6 +6,7 @@ using System.IO;
 using System.Web.UI;
 using TheCoffeePlace.Views;
 using TheCoffeePlace.Models;
+using System.Web.UI.WebControls;
 /// <summary>
 /// Summary description for ArticuloController
 /// </summary>
@@ -22,7 +23,16 @@ namespace TheCoffeePlace.Controllers
 			String nombreCompletoAutor = autdbHandler.GetFullName(view.username);
 			String fechaPublicacion = DateTime.Today.Year.ToString() + "-" + DateTime.Today.Month.ToString() + "-" + DateTime.Today.Day.ToString();
 			ArticuloModel articulo = new ArticuloModel(view.titulo, view.resumen, view.tipo, view.contenido, fechaPublicacion, nombreCompletoAutor, view.username);
-			artdbHandler.SaveArticulo(articulo);
+
+			List<TopicoModel> topicosArticulo = new List<TopicoModel>();
+			foreach (ListItem item in view.checkBoxList.Items)
+			{
+				if (item.Selected)
+				{
+					topicosArticulo.Add(new TopicoModel(item.Value));
+				}
+			}
+			artdbHandler.SaveArticulo(articulo, topicosArticulo);
 		}
 
 
@@ -38,8 +48,17 @@ namespace TheCoffeePlace.Controllers
 
             String fechaPublicacion = DateTime.Today.Year.ToString() + "-" + DateTime.Today.Month.ToString() + "-" + DateTime.Today.Day.ToString();
             ArticuloModel articulo = new ArticuloModel(view.titulo, view.resumen, view.tipo, contenidoString, fechaPublicacion, nombreCompletoAutor, view.username);
-            artdbHandler.SaveArticulo(articulo);
-        }
+
+			List<TopicoModel> topicosArticulo = new List<TopicoModel>();
+			foreach (ListItem item in view.checkBoxList.Items)
+			{
+				if (item.Selected)
+				{
+					topicosArticulo.Add(new TopicoModel(item.Value));
+				}
+			}
+			artdbHandler.SaveArticulo(articulo, topicosArticulo);
+		}
 		
 		public void BuscarArticuloPorTopico(IView_BuscarArticulos view)
 		{

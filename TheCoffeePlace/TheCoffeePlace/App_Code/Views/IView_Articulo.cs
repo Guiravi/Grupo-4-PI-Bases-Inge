@@ -14,7 +14,7 @@ namespace TheCoffeePlace.Views
 		String resumen { get; set; }	
 		int tipo { get; }
 		String username { get; }
-
+		CheckBoxList checkBoxList { get; set; }
 	}
 
 	public interface IView_EscribirArticulo : IView_Articulo

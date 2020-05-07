@@ -39,10 +39,21 @@ public partial class SubirArticulo : System.Web.UI.Page, IView_SubirArticulo
         get { return lblUsername.Text; }
     }
 
-    protected void Page_Load(object sender, EventArgs e)
-    {
+	public CheckBoxList checkBoxList
+	{
+		get { return chkblTopicos; }
+		set { chkblTopicos = value; }
+	}
 
-    }
+	protected void Page_Load(object sender, EventArgs e)
+	{
+		if (!IsPostBack)
+		{
+			TopicoController topicoController = new TopicoController();
+			topicoController.SetTopicos(this);
+
+		}
+	}
 
 
     protected void btnGuardar_Click(object sender, EventArgs e)

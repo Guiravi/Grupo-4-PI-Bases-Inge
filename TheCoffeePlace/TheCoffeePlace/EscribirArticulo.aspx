@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="EscribirArticulo.aspx.cs" Inherits="EscribirArticulo"  %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="EscribirArticulo.aspx.cs" Inherits="TheCoffeePlace.Views.EscribirArticulo"  %>
 <%@ Register TagPrefix="FTB" Namespace="FreeTextBoxControls" Assembly="FreeTextBox" %>
 <!DOCTYPE html>
 <script runat="server">
@@ -59,8 +59,7 @@
 								</FTB:FreeTextBox>
 							</td>
 							<td class="auto-style3">
-								<asp:CheckBoxList ID="CheckBoxList1" runat="server">
-								</asp:CheckBoxList>
+								<asp:CheckBoxList ID="chkblTopicos" runat="server"></asp:CheckBoxList>
 							</td>
 						</tr>
 						</table>

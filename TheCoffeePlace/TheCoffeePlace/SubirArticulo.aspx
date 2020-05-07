@@ -42,6 +42,11 @@
 			</tr>
 			<tr>
 				<td>
+					<asp:CheckBoxList ID="chkblTopicos" runat="server"></asp:CheckBoxList>
+    			</td>
+			</tr>
+			<tr>
+				<td>
 					<asp:Button ID="btnSubir" runat="server" Text="Subir artículo" OnClick="btnGuardar_Click" />
     			</td>
 			</tr>

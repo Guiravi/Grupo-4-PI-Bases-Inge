@@ -19,7 +19,7 @@ namespace TheCoffeePlace.Models
 			//
 		}
 
-		public void  SaveArticulo(ArticuloModel articulo)
+		public void  SaveArticulo(ArticuloModel articulo, List<TopicoModel> topicos)
 		{
 			String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
 			using (SqlConnection connection = new SqlConnection(connectionString))
@@ -39,7 +39,19 @@ namespace TheCoffeePlace.Models
 
 					connection.Open();
 					command.ExecuteNonQuery();
+
+					articulo.idArticuloPK = ObtenerSiguienteId();
+					command.CommandText = "INSERT INTO TopicosArticulo VALUES(@idArticuloFK, @nombreTopicoFK)";
+
+					foreach (TopicoModel topico in topicos)
+					{	
+						command.Parameters.Clear();
+						command.Parameters.AddWithValue("@idArticuloFK", articulo.idArticuloPK);
+						command.Parameters.AddWithValue("@nombreTopicoFK", topico.nombre);
+						command.ExecuteNonQuery();
+					}
 				}
+				
 			}
 		}
 
