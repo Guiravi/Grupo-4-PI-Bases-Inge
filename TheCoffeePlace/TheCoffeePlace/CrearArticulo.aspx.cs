@@ -13,9 +13,13 @@ public partial class CrearArticulo : System.Web.UI.Page
 
 	}
 
-
-	protected void btnDescargar_Click(object sender, EventArgs e)
+	protected void btnCrearCorto_Click(object sender, EventArgs e)
 	{
-		Utilidades.verPDF(this, "~/ArticulosPDF/articulo.pdf");
+		Response.Redirect("~/EscribirArticulo.aspx");
+	}
+
+	protected void btnCrearLargo_Click(object sender, EventArgs e)
+	{
+		Response.Redirect("~/SubirArticulo.aspx");
 	}
 }
