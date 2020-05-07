@@ -58,7 +58,7 @@
 				<Columns>
                     <asp:BoundField DataField="idArticuloPK" ItemStyle-CssClass="colID" HeaderStyle-CssClass="colID"/>
                     <asp:BoundField DataField="tipo" HeaderText="Tipo"/>  
-                    <asp:HyperLinkField DataTextField="titulo" DataNavigateUrlFields="idArticuloPK" DataNavigateUrlFormatString="~/EscribirArticulo.aspx?idArticuloPK={0}" HeaderText="Título"/>
+                    <asp:HyperLinkField DataTextField="titulo" DataNavigateUrlFields="idArticuloPK" DataNavigateUrlFormatString="~/VerResumen.aspx?idArticuloPK={0}" HeaderText="Título"/>
                     <asp:BoundField DataField="resumen" HeaderText="Resumen"/>   
                     <asp:BoundField DataField="nombreAutor" HeaderText="Autor"/>   
                     <asp:BoundField DataField="fechaPublicacion" HeaderText="FechaPublicacion"/>   

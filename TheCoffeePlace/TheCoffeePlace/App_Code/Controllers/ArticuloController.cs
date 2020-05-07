@@ -49,6 +49,15 @@ namespace TheCoffeePlace.Controllers
 			view.gridView.DataBind();
 		}
 
+        public void ObtenerPaginaResumen(IView_VerResumen view) {
+            ArticuloDBHandler artDBHandler = new ArticuloDBHandler();
+            ArticuloModel articulo = artDBHandler.GetInfoPaginaResumen(view.idArticuloPK);
+
+            view.titulo = articulo.titulo;
+            view.autor = articulo.nombreAutor;
+            view.resumen = articulo.resumen;
+        }
+
         /*
         public void DescargarArticulo(IView_SubirArticulo view)
         {
