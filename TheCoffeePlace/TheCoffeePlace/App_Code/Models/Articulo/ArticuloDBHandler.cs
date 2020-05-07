@@ -250,8 +250,9 @@ namespace TheCoffeePlace.Models
                 while ( identReader.Read() )
                 {
                     articulo = new ArticuloModel((string) identReader["titulo"], (string) identReader["resumen"], (int) identReader["tipo"],
-                        (string) identReader["contenido"], (string) identReader["fechaPublicacion"], (string) identReader["nombreAutor"],
-                        (string) identReader["usernameFK"]);
+                        (string) identReader["contenido"], 
+                        identReader["fechaPublicacion"].ToString().Remove(identReader["fechaPublicacion"].ToString().Length -12 , 12), 
+                        (string) identReader["nombreAutor"], (string) identReader["usernameFK"]);
                 }
 
                 identReader.Close();

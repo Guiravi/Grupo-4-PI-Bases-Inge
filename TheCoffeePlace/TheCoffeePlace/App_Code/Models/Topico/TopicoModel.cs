@@ -10,7 +10,7 @@ namespace TheCoffeePlace.Models
 {
 	public class TopicoModel
 	{
-		private string nombre { get; set; }
+		public string nombre { get; set; }
 
 		public TopicoModel(string nombre)
 		{

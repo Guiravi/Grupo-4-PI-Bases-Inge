@@ -16,6 +16,9 @@ public partial class VerResumen : System.Web.UI.Page, IView_VerResumen
         ArticuloController artController = new ArticuloController();
         artController.ObtenerPaginaResumen(this);
 
+        TopicoController topController = new TopicoController();
+        topController.GetTopicosArticulo(this);
+
     }
 
     protected void buttonVerArticulo_Click(object sender, EventArgs e)

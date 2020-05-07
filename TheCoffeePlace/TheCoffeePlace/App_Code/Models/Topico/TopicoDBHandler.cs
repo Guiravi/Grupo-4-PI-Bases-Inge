@@ -41,17 +41,20 @@ namespace TheCoffeePlace.Models
 			return topicos;
 		}
 
-        public List<TopicoModel> ObtenerAllTopicos(int id)
+        public List<TopicoModel> ObtenerTopicosArticulo(int id)
         {
             List<TopicoModel> topicos = new List<TopicoModel>();
 
             String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
-            String sqlString = "SELECT Topico.nombreTopicoPK FROM Topico JOIN TopicoArticulo ON idArticuloFK = @id";
+            String sqlString = "SELECT Topico.nombreTopicoPK FROM Topico JOIN TopicosArticulo ON idArticuloFK = @id";
+
             using ( SqlConnection connection = new SqlConnection(connectionString) )
             {
                 using ( SqlCommand command = new SqlCommand(sqlString, connection) )
                 {
                     connection.Open();
+                    command.Parameters.AddWithValue("@id", id);
+
                     SqlDataReader reader = command.ExecuteReader();
 
                     while ( reader.Read() )
