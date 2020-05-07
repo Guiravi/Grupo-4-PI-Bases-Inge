@@ -43,11 +43,49 @@ namespace TheCoffeePlace.Controllers
 		
 		public void BuscarArticuloPorTopico(IView_BuscarArticulos view)
 		{
+            int tipos = 0;
+
+            if (view.chkbBCortoChecked)
+                tipos = 1;
+
+            if (view.chkbBLargoChecked)
+                tipos = 2;
+
+            if (view.chkbBCortoChecked && view.chkbBLargoChecked)
+                tipos = 0;
+
 			ArticuloDBHandler artdbHandler = new ArticuloDBHandler();
-			List<ArticuloModel> articulos = artdbHandler.GetArticulosPorTopico(view.topico);
+			List<ArticuloModel> articulos = artdbHandler.GetArticulosPorTopico(view.contenidoBusqueda, tipos);
 			view.gridView.DataSource = articulos;
 			view.gridView.DataBind();
 		}
+
+        public void BuscarArticuloPorTitulo(IView_BuscarArticulos view)
+        {
+            int tipos = 0;
+
+            if (view.chkbBCortoChecked)
+                tipos = 1;
+
+            if (view.chkbBLargoChecked)
+                tipos = 2;
+
+            if (view.chkbBCortoChecked && view.chkbBLargoChecked)
+                tipos = 0;
+
+            ArticuloDBHandler artdbHandler = new ArticuloDBHandler();
+            List<ArticuloModel> articulos = artdbHandler.GetArticulosPorTitulo(view.contenidoBusqueda, tipos);
+            view.gridView.DataSource = articulos;
+            view.gridView.DataBind();
+        }
+
+        public void BuscarTodosArticulos (IView_BuscarArticulos view)
+        {
+            ArticuloDBHandler artdbHandler = new ArticuloDBHandler();
+            List<ArticuloModel> articulos = artdbHandler.GetTodosArticulos();
+            view.gridView.DataSource = articulos;
+            view.gridView.DataBind();
+        }
 
         public void ObtenerPaginaResumen(IView_VerResumen view) {
             ArticuloDBHandler artDBHandler = new ArticuloDBHandler();
@@ -75,6 +113,6 @@ namespace TheCoffeePlace.Controllers
             view.resp.End();
         }
         */
-        
+
     }
 }

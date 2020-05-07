@@ -22,6 +22,13 @@
 	    .colID {
 	        display: none;
         }
+		.auto-style3 {
+			height: 23px;
+		}
+		.auto-style4 {
+			height: 23px;
+			width: 599px;
+		}
 	</style>
 </head>
 <body>
@@ -45,8 +52,19 @@
 			</tr>
 			<tr>
                 <td>
-					<p>Artículo</p>
-					<FTB:FreeTextBox ID="ftxtEditor" runat="server"></FTB:FreeTextBox>
+					<p>Artículo<table class="auto-style1">
+						<tr>
+							<td class="auto-style4">
+								<FTB:FreeTextBox ID="ftxtEditor" runat="server" ButtonSet="OfficeMac">
+								</FTB:FreeTextBox>
+							</td>
+							<td class="auto-style3">
+								<asp:CheckBoxList ID="CheckBoxList1" runat="server">
+								</asp:CheckBoxList>
+							</td>
+						</tr>
+						</table>
+					</p>
                 </td>
 			</tr>
 			<tr>
