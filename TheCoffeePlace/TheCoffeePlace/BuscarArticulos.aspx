@@ -39,7 +39,7 @@
     <form id="form1" runat="server">
         <div>
         	<br />
-			<asp:TextBox ID="txtTopico" runat="server"></asp:TextBox>
+			<asp:TextBox ID="txtBusqueda" runat="server"></asp:TextBox>
 &nbsp;&nbsp;&nbsp;
 			<asp:Button ID="btnBuscar" runat="server" Text="Buscar" OnClick="btnBuscar_Click" />
 			<br />
@@ -48,11 +48,11 @@
                 <h2>Opciones de Búsqueda</h2>
                 <h4 style="margin-left: 5px">  Tipo:  <asp:CheckBox ID="chkbTipoCorto" runat="server" Text="Corto (0)"/><asp:CheckBox ID="chkbTipoLargo" runat="server" Text="Largo (1)"/></h4>
                 <asp:RadioButtonList ID="radbtnltTopico" runat="server" CssClass="radlistMargin">
-                    <asp:ListItem> Búsqueda por tópicos </asp:ListItem>
-                    <asp:ListItem> Búsqueda por títulos </asp:ListItem>
-                    <asp:ListItem> Búsqueda por autores </asp:ListItem>   
+                    <asp:ListItem Value = "1"> Búsqueda por tópicos </asp:ListItem>
+                    <asp:ListItem Value = "2"> Búsqueda por títulos </asp:ListItem>
+                    <asp:ListItem Value = "3"> Búsqueda por autores </asp:ListItem>   
                 </asp:RadioButtonList>
-                <asp:Button ID="btnMostrarTodos" runat="server" Text="Mostrar todos" CssClass="btnMargin" />
+                <asp:Button ID="btnMostrarTodos" runat="server" Text="Mostrar todos" CssClass="btnMargin" OnClick="btnMostrarTodos_Click" />
 			</div>
 			<asp:GridView ID="gvArticulos" AutoGenerateColumns="false" runat="server" CssClass="gridMargin">
 				<Columns>

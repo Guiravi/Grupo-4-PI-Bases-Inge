@@ -37,7 +37,12 @@ namespace TheCoffeePlace.Views
 
 	public interface IView_BuscarArticulos
 	{
-		String topico { get; set; }
+		String contenidoBusqueda { get; set; }
 		GridView gridView { get; }
-	}
+
+        bool chkbBCortoChecked { get; }
+
+        bool chkbBLargoChecked { get; }
+
+    }
 }
