@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Web;
+using System.Net;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 /// <summary>
 /// Summary description for Utilidades
@@ -11,7 +14,7 @@ using System.Web;
 namespace TheCoffeePlace.Utilities
 {
     static public class Utilidades
-    {
+    { 
         static public bool EsTipoArchivo(string nombreArchivo, string tipoArchivo)
         {
 
@@ -33,6 +36,19 @@ namespace TheCoffeePlace.Utilities
             }
 
         }
+
+		static public void verPDF(Page pagina, string pathVirtualArchivoPDF)
+		{
+			WebClient User = new WebClient();
+			string filePath = pagina.Server.MapPath(pathVirtualArchivoPDF);
+			byte[] fileBuffer = User.DownloadData(filePath);
+			if (fileBuffer != null)
+			{
+				pagina.Response.ContentType = "application/pdf";
+				pagina.Response.AddHeader("content-length", fileBuffer.Length.ToString());
+				pagina.Response.BinaryWrite(fileBuffer);
+			}
+		}
 
     }
 }
