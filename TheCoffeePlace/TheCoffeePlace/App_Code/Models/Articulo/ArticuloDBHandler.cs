@@ -101,7 +101,7 @@ namespace TheCoffeePlace.Models
             return System.Convert.FromBase64String(contenido);
         }
 
-		public List<ArticuloModel> GetArticulosPorTopico(String topico)
+		public List<ArticuloModel> GetArticulosPorTopico(String topico, int tipos)
 		{
 			String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
 
@@ -109,11 +109,31 @@ namespace TheCoffeePlace.Models
 			{
 				connection.Open();
 
-				SqlCommand cmd = new SqlCommand("SELECT  Articulo.idArticuloPK, Articulo.titulo, Articulo.resumen, Articulo.tipo, Articulo.contenido, Articulo.fechaPublicacion, Articulo.nombreAutor, Articulo.usernameFK " +
-				" FROM  Articulo JOIN TopicosArticulo ON " +
-						" Articulo.idArticuloPK = TopicosArticulo.idArticuloFK JOIN Topico ON " +
-						" TopicosArticulo.nombreTopicoFK = @topico", connection);
+                SqlCommand cmd;
 
+                switch (tipos)
+                {                     
+                    case 1:
+                        cmd = new SqlCommand("SELECT  Articulo.idArticuloPK, Articulo.titulo, Articulo.resumen, Articulo.tipo, Articulo.contenido, Articulo.fechaPublicacion, Articulo.nombreAutor, Articulo.usernameFK " +
+                        " FROM  Articulo JOIN TopicosArticulo ON " +
+                        " Articulo.idArticuloPK = TopicosArticulo.idArticuloFK JOIN Topico ON " +
+                        " TopicosArticulo.nombreTopicoFK = @topico AND Articulo.tipo = 0 ORDER BY fechaPublicacion DESC", connection);
+                        break;
+                    case 2:
+                        cmd = new SqlCommand("SELECT  Articulo.idArticuloPK, Articulo.titulo, Articulo.resumen, Articulo.tipo, Articulo.contenido, Articulo.fechaPublicacion, Articulo.nombreAutor, Articulo.usernameFK " +
+                        " FROM  Articulo JOIN TopicosArticulo ON " +
+                        " Articulo.idArticuloPK = TopicosArticulo.idArticuloFK JOIN Topico ON " +
+                        " TopicosArticulo.nombreTopicoFK = @topico AND Articulo.tipo = 1 ORDER BY fechaPublicacion DESC", connection);
+                        break;
+                    default:
+                        cmd = new SqlCommand("SELECT  Articulo.idArticuloPK, Articulo.titulo, Articulo.resumen, Articulo.tipo, Articulo.contenido, Articulo.fechaPublicacion, Articulo.nombreAutor, Articulo.usernameFK " +
+                        " FROM  Articulo JOIN TopicosArticulo ON " +
+                        " Articulo.idArticuloPK = TopicosArticulo.idArticuloFK JOIN Topico ON " +
+                        " TopicosArticulo.nombreTopicoFK = @topico ORDER BY fechaPublicacion DESC", connection);
+                        break;
+                }
+
+	
 				cmd.Parameters.AddWithValue("@topico", topico);
 
 				SqlDataReader identReader = cmd.ExecuteReader();
@@ -134,5 +154,82 @@ namespace TheCoffeePlace.Models
 				return art;
 			}
 		}
-	}
+
+        public List<ArticuloModel> GetArticulosPorTitulo(String titulo, int tipos)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand cmd;
+
+                switch (tipos)
+                {
+                    case 1:
+                        cmd = new SqlCommand("SELECT  idArticuloPK, titulo, resumen, tipo, contenido, fechaPublicacion, nombreAutor, usernameFK " +
+                        " FROM  Articulo  WHERE titulo LIKE @titulo AND tipo = 0 ORDER BY fechaPublicacion DESC", connection);
+                        break;
+                    case 2:
+                        cmd = new SqlCommand("SELECT  idArticuloPK, titulo, resumen, tipo, contenido, fechaPublicacion, nombreAutor, usernameFK " +
+                       " FROM  Articulo  WHERE titulo LIKE @titulo AND tipo = 1 ORDER BY fechaPublicacion DESC", connection);
+                        break;
+                    default:
+                        cmd = new SqlCommand("SELECT  idArticuloPK, titulo, resumen, tipo, contenido, fechaPublicacion, nombreAutor, usernameFK " +
+                       " FROM  Articulo  WHERE titulo LIKE @titulo ORDER BY fechaPublicacion DESC", connection);
+                        break;
+                }
+
+                cmd.Parameters.AddWithValue("@titulo", "%" + titulo + "%");
+
+                SqlDataReader identReader = cmd.ExecuteReader();
+
+                List<ArticuloModel> art = new List<ArticuloModel>();
+                while (identReader.Read())
+                {
+                    ArticuloModel am = new ArticuloModel((int)identReader.GetValue(0),
+                        (String)identReader.GetValue(1), (String)identReader.GetValue(2),
+                        (int)identReader.GetValue(3), (String)identReader.GetValue(4),
+                        identReader.GetValue(5).ToString().Remove(identReader.GetValue(5).ToString().Length - 12, 12),
+                        (String)identReader.GetValue(6), (String)identReader.GetValue(7));
+                    art.Add(am);
+                }
+
+                identReader.Close();
+
+                return art;
+            }
+        }
+
+        public List<ArticuloModel> GetTodosArticulos()
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand cmd = new SqlCommand("SELECT  idArticuloPK, titulo, resumen, tipo, contenido, fechaPublicacion, nombreAutor, usernameFK " +
+                        " FROM  Articulo ORDER BY fechaPublicacion DESC", connection);
+
+                SqlDataReader identReader = cmd.ExecuteReader();
+
+                List<ArticuloModel> art = new List<ArticuloModel>();
+                while (identReader.Read())
+                {
+                    ArticuloModel am = new ArticuloModel((int)identReader.GetValue(0),
+                        (String)identReader.GetValue(1), (String)identReader.GetValue(2),
+                        (int)identReader.GetValue(3), (String)identReader.GetValue(4),
+                        identReader.GetValue(5).ToString().Remove(identReader.GetValue(5).ToString().Length - 12, 12),
+                        (String)identReader.GetValue(6), (String)identReader.GetValue(7));
+                    art.Add(am);
+                }
+
+                identReader.Close();
+
+                return art;
+            }
+        }
+    }
 }
