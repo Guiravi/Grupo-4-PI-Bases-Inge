@@ -14,7 +14,8 @@ public partial class EscribirArticulo : System.Web.UI.Page, IView_EscribirArticu
     protected void Page_Load(object sender, EventArgs e)
     {
         ImagenArticuloController imArtController = new ImagenArticuloController(this);
-        imArtController.ObtenerImagen();
+		imArtController.ObtenerImagen();
+
     }
 
     public string titulo
