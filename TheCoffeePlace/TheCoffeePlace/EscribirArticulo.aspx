@@ -15,10 +15,36 @@
 		.auto-style2 {
 			margin-left: 960px;
 		}
-		img {
-			width: 50px;
-			height: 50px;
+	    
+	    img[src*="jpg"] {
+
+        width: 50px;
+		height: 50px;	
+                
 		}
+
+        img[src*="png"] {
+
+        width: 50px;
+		height: 50px;	
+                
+		}
+
+        img[src*="JPG"] {
+
+        width: 50px;
+		height: 50px;	
+                
+		}
+
+        img[src*="PNG"] {
+
+        width: 50px;
+		height: 50px;	
+                
+		}
+        
+
 	    .colID {
 	        display: none;
         }
@@ -78,7 +104,7 @@
 				    <td>
 					    <p>Subir imágenes de su computadora, escoja un archivo .jpg o .png</p>
 					    <asp:FileUpload ID="fileupImagen" runat="server" AllowMultiple="false" accept =".jpg, .png"/>
-                        <br></br>
+                        <br />
                         <asp:Label ID="lblErrorImagen" runat="server" Text="Error" Visible="false"></asp:Label>
 				    </td>
 		    </tr>
@@ -91,7 +117,7 @@
 				    <td>
                         <h3>Tabla de Imágenes</h3>
                         <p>Puede arrastrar las imágenes subidas directamente a su artículo.</p>
-					    <asp:GridView ID="gridviewImagenes" runat="server" CssClass="Grid" HeaderStyle-BackColor ="DarkCyan" BorderColor="Black" AutoGenerateColumns="False" EmptyDataText ="No hay archivos subidos" OnRowDeleting="OnRowDeleting" DataKeysNames="idImagenPK">
+					    <asp:GridView ID="gridviewImagenes" runat="server" HeaderStyle-BackColor ="DarkCyan" BorderColor="Black" AutoGenerateColumns="False" EmptyDataText ="No hay archivos subidos" OnRowDeleting="OnRowDeleting" DataKeysNames="idImagenPK">
                             <Columns>
                                 <asp:BoundField DataField="idImagenPK" ItemStyle-CssClass="colID" HeaderStyle-CssClass="colID"/>
                                 <asp:ImageField DataImageUrlField="rutaImagen" HeaderText="Imagen"></asp:ImageField>   
@@ -103,6 +129,5 @@
         </table>
     
     </form>
-
     </body>
 </html>
