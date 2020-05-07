@@ -10,38 +10,38 @@ using System.Web;
 /// </summary>
 namespace TheCoffeePlace.Models
 {
-	public class ArticuloDBHandler
-	{
-		public ArticuloDBHandler()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
+    public class ArticuloDBHandler
+    {
+        public ArticuloDBHandler()
+        {
+            //
+            // TODO: Add constructor logic here
+            //
+        }
 
-		public void  SaveArticulo(ArticuloModel articulo)
-		{
-			String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
-			using (SqlConnection connection = new SqlConnection(connectionString))
-			{
-				String sqlString = "INSERT INTO Articulo(titulo, resumen, tipo, contenido, fechaPublicacion, nombreAutor, usernameFK)";
-				sqlString += "VALUES(@titulo, @resumen, @tipo, @contenido, @fechaPublicacion, @nombreAutor, @usernameFK)";
+        public void SaveArticulo(ArticuloModel articulo)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+                String sqlString = "INSERT INTO Articulo(titulo, resumen, tipo, contenido, fechaPublicacion, nombreAutor, usernameFK)";
+                sqlString += "VALUES(@titulo, @resumen, @tipo, @contenido, @fechaPublicacion, @nombreAutor, @usernameFK)";
 
-				using (SqlCommand command = new SqlCommand(sqlString, connection))
-				{
-					command.Parameters.AddWithValue("@titulo", articulo.titulo);
-					command.Parameters.AddWithValue("@resumen", articulo.resumen);
-					command.Parameters.AddWithValue("@tipo", articulo.tipo);
-					command.Parameters.AddWithValue("@contenido", articulo.contenido);
-					command.Parameters.AddWithValue("@fechaPublicacion", articulo.fechaPublicacion);
-					command.Parameters.AddWithValue("@nombreAutor", articulo.nombreAutor);
-					command.Parameters.AddWithValue("@usernameFK", articulo.usernameFK);
+                using ( SqlCommand command = new SqlCommand(sqlString, connection) )
+                {
+                    command.Parameters.AddWithValue("@titulo", articulo.titulo);
+                    command.Parameters.AddWithValue("@resumen", articulo.resumen);
+                    command.Parameters.AddWithValue("@tipo", articulo.tipo);
+                    command.Parameters.AddWithValue("@contenido", articulo.contenido);
+                    command.Parameters.AddWithValue("@fechaPublicacion", articulo.fechaPublicacion);
+                    command.Parameters.AddWithValue("@nombreAutor", articulo.nombreAutor);
+                    command.Parameters.AddWithValue("@usernameFK", articulo.usernameFK);
 
-					connection.Open();
-					command.ExecuteNonQuery();
-				}
-			}
-		}
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
 
         public int ObtenerSiguienteId()
         {
@@ -49,7 +49,7 @@ namespace TheCoffeePlace.Models
             SqlCommand cmd;
             int current_id;
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
             {
 
                 connection.Open();
@@ -60,7 +60,7 @@ namespace TheCoffeePlace.Models
 
                 current_id = 0;
 
-                while (identReader.Read())
+                while ( identReader.Read() )
                 {
                     current_id = Convert.ToInt32(identReader.GetValue(0));
                 }
@@ -78,7 +78,7 @@ namespace TheCoffeePlace.Models
             SqlCommand cmd;
             string contenido = "";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
             {
 
                 connection.Open();
@@ -89,7 +89,7 @@ namespace TheCoffeePlace.Models
 
                 SqlDataReader identReader = cmd.ExecuteReader();
 
-                while (identReader.Read())
+                while ( identReader.Read() )
                 {
                     contenido = Convert.ToString(identReader.GetValue(0));
                 }
@@ -105,9 +105,9 @@ namespace TheCoffeePlace.Models
 		{
 			String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
 
-			using (SqlConnection connection = new SqlConnection(connectionString))
-			{
-				connection.Open();
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+                connection.Open();
 
                 SqlCommand cmd;
 
@@ -136,20 +136,20 @@ namespace TheCoffeePlace.Models
 	
 				cmd.Parameters.AddWithValue("@topico", topico);
 
-				SqlDataReader identReader = cmd.ExecuteReader();
+                SqlDataReader identReader = cmd.ExecuteReader();
 
-				List<ArticuloModel> art = new List<ArticuloModel>();
-				while (identReader.Read())
-				{
-					ArticuloModel am = new ArticuloModel((int)identReader.GetValue(0), 
-                        (String)identReader.GetValue(1), (String)identReader.GetValue(2),
-						(int)identReader.GetValue(3), (String)identReader.GetValue(4),
-						identReader.GetValue(5).ToString().Remove(identReader.GetValue(5).ToString().Length - 12, 12), 
-                        (String)identReader.GetValue(6), (String)identReader.GetValue(7));
-					art.Add(am);
-				}
+                List<ArticuloModel> art = new List<ArticuloModel>();
+                while ( identReader.Read() )
+                {
+                    ArticuloModel am = new ArticuloModel((int) identReader.GetValue(0),
+                        (String) identReader.GetValue(1), (String) identReader.GetValue(2),
+                        (int) identReader.GetValue(3), (String) identReader.GetValue(4),
+                        identReader.GetValue(5).ToString().Remove(identReader.GetValue(5).ToString().Length - 12, 12),
+                        (String) identReader.GetValue(6), (String) identReader.GetValue(7));
+                    art.Add(am);
+                }
 
-				identReader.Close();
+                identReader.Close();
 
 				return art;
 			}
@@ -230,6 +230,33 @@ namespace TheCoffeePlace.Models
 
                 return art;
             }
+        }
+
+        public ArticuloModel GetInfoPaginaResumen(int id)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
+
+            ArticuloModel articulo = null;
+
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+                connection.Open();
+
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Articulo WHERE Articulo.idArticuloPK = @id", connection);
+                cmd.Parameters.AddWithValue("@id", id);
+
+                SqlDataReader identReader = cmd.ExecuteReader();
+
+                while ( identReader.Read() )
+                {
+                    articulo = new ArticuloModel((string) identReader["titulo"], (string) identReader["resumen"], (int) identReader["tipo"],
+                        (string) identReader["contenido"], (string) identReader["fechaPublicacion"], (string) identReader["nombreAutor"],
+                        (string) identReader["usernameFK"]);
+                }
+
+                identReader.Close();
+            }
+            return articulo;
         }
     }
 }
