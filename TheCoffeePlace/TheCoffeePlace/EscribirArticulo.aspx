@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="EscribirArticulo.aspx.cs" Inherits="TheCoffeePlace.Views.EscribirArticulo"  %>
+﻿<%@ Page Language="C#" validateRequest="false" AutoEventWireup="true" CodeFile="EscribirArticulo.aspx.cs" Inherits="TheCoffeePlace.Views.EscribirArticulo"  %>
 <%@ Register TagPrefix="FTB" Namespace="FreeTextBoxControls" Assembly="FreeTextBox" %>
 <!DOCTYPE html>
 <script runat="server">
