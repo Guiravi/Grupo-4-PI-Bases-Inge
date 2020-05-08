@@ -65,7 +65,7 @@ namespace TheCoffeePlace.Views
 				string autores = "";
 				foreach (GridViewRow row in gvAutor.Rows)
 				{
-					autores += row.Cells[1].Text;
+					autores += row.Cells[1].Text + ",";
 				}
 				autores.TrimEnd(',');
 				return autores;
