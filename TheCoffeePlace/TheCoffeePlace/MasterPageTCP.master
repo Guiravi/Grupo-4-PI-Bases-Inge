@@ -121,6 +121,7 @@
             min-height: 1000px;
             background-color: #D4D4D0;
             padding: 50px 50px;
+            font-family: 'Times New Roman', Times, serif;
         }
 
     </style>
