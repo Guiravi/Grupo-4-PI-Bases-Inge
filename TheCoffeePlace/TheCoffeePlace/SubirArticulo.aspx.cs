@@ -39,6 +39,10 @@ public partial class SubirArticulo : System.Web.UI.Page, IView_SubirArticulo
         get { return lblUsername.Text; }
     }
 
+	public String autor
+	{
+		get { return lblUsername.Text; }
+	}
 	public CheckBoxList checkBoxList
 	{
 		get { return chkblTopicos; }

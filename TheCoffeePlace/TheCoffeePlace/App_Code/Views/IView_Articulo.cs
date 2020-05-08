@@ -14,6 +14,7 @@ namespace TheCoffeePlace.Views
 		String resumen { get; set; }	
 		int tipo { get; }
 		String username { get; }
+		String autor { get; }
 		CheckBoxList checkBoxList { get; set; }
 	}
 

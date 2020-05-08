@@ -20,9 +20,9 @@ namespace TheCoffeePlace.Controllers
 		{
 			ArticuloDBHandler artdbHandler = new ArticuloDBHandler();
 			AutorDBHandler autdbHandler = new AutorDBHandler();
-			String nombreCompletoAutor = autdbHandler.GetFullName(view.username);
+			String nombreAutor = view.autor;
 			String fechaPublicacion = DateTime.Today.Year.ToString() + "-" + DateTime.Today.Month.ToString() + "-" + DateTime.Today.Day.ToString();
-			ArticuloModel articulo = new ArticuloModel(view.titulo, view.resumen, view.tipo, view.contenido, fechaPublicacion, nombreCompletoAutor, view.username);
+			ArticuloModel articulo = new ArticuloModel(view.titulo, view.resumen, view.tipo, view.contenido, fechaPublicacion, nombreAutor, view.username);
 
 			List<TopicoModel> topicosArticulo = new List<TopicoModel>();
 			foreach (ListItem item in view.checkBoxList.Items)
