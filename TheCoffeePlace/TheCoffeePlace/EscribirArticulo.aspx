@@ -1,12 +1,6 @@
-﻿<%@ Page Language="C#" validateRequest="false" AutoEventWireup="true" CodeFile="EscribirArticulo.aspx.cs" Inherits="TheCoffeePlace.Views.EscribirArticulo"  %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="EscribirArticulo.aspx.cs" Inherits="TheCoffeePlace.Views.EscribirArticulo"  MasterPageFile="~/MasterPageTCP.master" %>
 <%@ Register TagPrefix="FTB" Namespace="FreeTextBoxControls" Assembly="FreeTextBox" %>
-<!DOCTYPE html>
-<script runat="server">
-</script>
-
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
+<asp:content runat="server" ContentPlaceHolderID ="pageHead">
     <title> Escribir artículo</title>
 	<style type="text/css">
 		.auto-style1 {
@@ -48,7 +42,6 @@
                 
 		}
         
-
 	    .colID {
 	        display: none;
         }
@@ -59,13 +52,21 @@
 			height: 23px;
 			width: 599px;
 		}
+
+	    form {
+	        margin: 30px 30px;
+        }
 	</style>
-</head>
-<body>
+
+</asp:content>
+
+
+<asp:content runat="server" ContentPlaceHolderID ="pageContent">
+
     <form id="form" runat="server">
-		<div class="auto-style2">
-			<asp:label ID="lblUsername" runat="server" text="Manuelito01"></asp:label>
-		</div>
+
+		<asp:label ID="lblUsername" runat="server" text="Manuelito01"></asp:label>
+		
 		<table class="auto-style1">
 			<tr>
 				<td>
@@ -142,6 +143,8 @@
 		    </tr>
         </table>
     
-    </form>
-    </body>
-</html>
+   </form>
+
+</asp:content>
+
+
