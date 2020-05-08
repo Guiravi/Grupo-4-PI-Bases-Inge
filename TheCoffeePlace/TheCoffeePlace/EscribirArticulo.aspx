@@ -1,62 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="EscribirArticulo.aspx.cs" Inherits="TheCoffeePlace.Views.EscribirArticulo"  MasterPageFile="~/MasterPageTCP.master" %>
+﻿<%@ Page Language="C#" validateRequest="false" AutoEventWireup="true" CodeFile="EscribirArticulo.aspx.cs" Inherits="TheCoffeePlace.Views.EscribirArticulo"  MasterPageFile="~/MasterPageTCP.master" %>
 <%@ Register TagPrefix="FTB" Namespace="FreeTextBoxControls" Assembly="FreeTextBox" %>
+
 <asp:content runat="server" ContentPlaceHolderID ="pageHead">
+    
     <title> Escribir artículo</title>
-	<style type="text/css">
-		.auto-style1 {
-			width: 100%;
-		}
-		.auto-style2 {
-			margin-left: 960px;
-		}
-		.gvAutor{
-			display: none;
-		}
-	    
-	    
-	    img[src*="jpg"] {
-
-        width: 50px;
-		height: 50px;	
-                
-		}
-
-        img[src*="png"] {
-
-        width: 50px;
-		height: 50px;	
-                
-		}
-
-        img[src*="JPG"] {
-
-        width: 50px;
-		height: 50px;	
-                
-		}
-
-        img[src*="PNG"] {
-
-        width: 50px;
-		height: 50px;	
-                
-		}
-        
-	    .colID {
-	        display: none;
-        }
-		.auto-style3 {
-			height: 23px;
-		}
-		.auto-style4 {
-			height: 23px;
-			width: 599px;
-		}
-
-	    form {
-	        margin: 30px 30px;
-        }
-	</style>
+	<link rel="stylesheet" type="text/css" href="CssStyle/EscribirArticuloCSS.css">
 
 </asp:content>
 
@@ -146,5 +94,3 @@
    </form>
 
 </asp:content>
-
-

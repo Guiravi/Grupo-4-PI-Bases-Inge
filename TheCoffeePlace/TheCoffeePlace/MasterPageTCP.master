@@ -8,7 +8,7 @@
 
     <style>
         header {
-            background-image: url("Imagenes/Sitio/mpBanner.jpg");
+            background-image: url("Imagenes/Sitio/trip.gif");
             background-attachment: fixed;
             width: 100%;
             height: 75px;
@@ -31,7 +31,7 @@
             border-bottom: solid black 2px;
         }
 
-        a {
+        .navLink {
             display: block;
             width: 100%;
             height: 100%;
@@ -84,7 +84,7 @@
             height: 100%;
             background: linear-gradient(90deg, #4CB8C4 0%, #3CD3AD 100%);
             position: static;
-            float: left;
+            float: right;
             border-bottom: solid black 2px; 
             border-left: solid black 2px; 
         }
@@ -104,7 +104,6 @@
             width: 100%;
             height:50px;
             background: linear-gradient(90deg, #4CB8C4 0%, #3CD3AD 100%);
-        
         }
 
         a[href="MiPerfil.aspx"] {
@@ -118,6 +117,12 @@
             width: 100px
         }
 
+        main {
+            min-height: 1000px;
+            background-color: #D4D4D0;
+            padding: 50px 50px;
+        }
+
     </style>
 
     <asp:ContentPlaceHolder ID="pageHead" runat="server"></asp:ContentPlaceHolder>
@@ -129,13 +134,13 @@
     <nav>
         <img id="logo" src="Imagenes/Sitio/logoTCP.png">
         <ul>
-            <li><a href="Inicio.aspx">Inicio</a></li>
-            <li><a href="Noticias.aspx">Noticias</a></li>
-            <li><a href="BuscarArticulos.aspx">Buscar</a></li>
-            <li><a href="UserFaqs.aspx">FAQ</a></li>
+            <li><a class="navLink" href="Inicio.aspx">Inicio</a></li>
+            <li><a class="navLink" href="Noticias.aspx">Noticias</a></li>
+            <li><a class="navLink" href="BuscarArticulos.aspx">Buscar</a></li>
+            <li><a class="navLink" href="UserFaqs.aspx">FAQ</a></li>
         </ul>
         <div id="seccionAvatar">
-            <a id="miPefil" href="MiPerfil.aspx">Mi <br \>Perfil</a>
+            <a id="miPefil" class="navLink" href="MiPerfil.aspx">Mi <br \>Perfil</a>
             <img id="avatar" src="Imagenes/Sitio/avatarDefecto.png">
         </div>
     </nav>

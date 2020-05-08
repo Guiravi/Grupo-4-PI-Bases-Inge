@@ -1,27 +1,19 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="SubirArticulo.aspx.cs" Inherits="SubirArticulo"  %>
-<!DOCTYPE html>
-<script runat="server">
-</script>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="SubirArticulo.aspx.cs" Inherits="SubirArticulo"  MasterPageFile="~/MasterPageTCP.master" %>
 
+<asp:content runat="server" ContentPlaceHolderID ="pageHead">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
     <title> Subir artículo</title>
-	<style type="text/css">
-		.auto-style1 {
-			width: 100%;
-		}
-		.auto-style2 {
-			margin-left: 960px;
-		}
-	</style>
-</head>
-<body>
+    <link rel="stylesheet" type="text/css" href="CssStyle/SubirArticuloCSS.css">
+
+</asp:Content>
+
+
+<asp:Content ContentPlaceHolderID="pageContent" Runat="Server">
     <form id="form" runat="server">
-		<div class="auto-style2">
+		<div>
 			<asp:label ID="lblUsername" runat="server" text="Manuelito01"></asp:label>
 		</div>
-		<table class="auto-style1">
+		<table>
 			<tr>
 				<td>
 					<p>Título</p>
@@ -52,5 +44,4 @@
 			</tr>
 		</table>
     </form>
-</body>
-</html>
+</asp:Content>
