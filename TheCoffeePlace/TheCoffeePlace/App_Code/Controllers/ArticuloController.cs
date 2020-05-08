@@ -12,25 +12,25 @@ using TheCoffeePlace.Models;
 ///
 namespace TheCoffeePlace.Controllers
 {
-	public class ArticuloController
-	{
+    public class ArticuloController
+    {
 
-		public void GuardarArticulo(IView_EscribirArticulo view)
-		{
-			ArticuloDBHandler artdbHandler = new ArticuloDBHandler();
-			AutorDBHandler autdbHandler = new AutorDBHandler();
-			String nombreCompletoAutor = autdbHandler.GetFullName(view.username);
-			String fechaPublicacion = DateTime.Today.Year.ToString() + "-" + DateTime.Today.Month.ToString() + "-" + DateTime.Today.Day.ToString();
-			ArticuloModel articulo = new ArticuloModel(view.titulo, view.resumen, view.tipo, view.contenido, fechaPublicacion, nombreCompletoAutor, view.username);
-			artdbHandler.SaveArticulo(articulo);
-		}
+        public void GuardarArticulo(IView_EscribirArticulo view)
+        {
+            ArticuloDBHandler artdbHandler = new ArticuloDBHandler();
+            AutorDBHandler autdbHandler = new AutorDBHandler();
+            String nombreCompletoAutor = autdbHandler.GetFullName(view.username);
+            String fechaPublicacion = DateTime.Today.Year.ToString() + "-" + DateTime.Today.Month.ToString() + "-" + DateTime.Today.Day.ToString();
+            ArticuloModel articulo = new ArticuloModel(view.titulo, view.resumen, view.tipo, view.contenido, fechaPublicacion, nombreCompletoAutor, view.username);
+            artdbHandler.SaveArticulo(articulo);
+        }
 
 
         public void GuardarArticulo(IView_SubirArticulo view)
         {
             ArticuloDBHandler artdbHandler = new ArticuloDBHandler();
             AutorDBHandler autdbHandler = new AutorDBHandler();
-            
+
 
             String nombreCompletoAutor = autdbHandler.GetFullName(view.username);
 
@@ -40,7 +40,7 @@ namespace TheCoffeePlace.Controllers
             ArticuloModel articulo = new ArticuloModel(view.titulo, view.resumen, view.tipo, contenidoString, fechaPublicacion, nombreCompletoAutor, view.username);
             artdbHandler.SaveArticulo(articulo);
         }
-		
+
 		public void BuscarArticuloPorTopico(IView_BuscarArticulos view)
 		{
 			ArticuloDBHandler artdbHandler = new ArticuloDBHandler();

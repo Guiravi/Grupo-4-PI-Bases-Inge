@@ -39,7 +39,7 @@ public partial class MemberFaqs : System.Web.UI.Page, IViewMemberFaqs
     }
     //Se llama al método de la clase controlador de la vista del miembro para que se actualizen los FAQs
     protected void BtnAddClick(object sender, EventArgs e) {
-        MemberFaqController memberFaqController = new MemberFaqController(this);
-        memberFaqController.UploadFaqs();
+        FAQsController memberFaqController = new FAQsController(Category,Answer,Question,Label);
+        memberFaqController.UploadFAQs();
     }
 }

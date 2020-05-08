@@ -13,8 +13,8 @@ public partial class UserFaqs : System.Web.UI.Page, IViewUserFaqs
     //Se llama al método de la clase controlador de la vista del usuaruio para que el usuario pueda ver los FAQs
     protected void Page_Load(object sender, EventArgs e)
     {
-        UserFaqController userFaqController = new UserFaqController(this);
-        userFaqController.SeeFaqs();
+        FAQsController userFAQsController = new FAQsController(Label);
+        userFAQsController.SeeFAQs();
     }
     //Se guardan valores de variables del código html de la vista
 
