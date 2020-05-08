@@ -1,0 +1,12 @@
+﻿img[src*="jpg"], img[src*="png"], img[src*="JPG"], img[src*="PNG"] {
+    width: 50px;
+    height: 50px;
+}
+
+.colID {
+    display: none;
+}
+
+.gvAutor {
+    display: none;
+}
