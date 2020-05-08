@@ -126,19 +126,19 @@ namespace TheCoffeePlace.Models
                 switch (tipos)
                 {                     
                     case 1:
-                        cmd = new SqlCommand("SELECT  Articulo.idArticuloPK, Articulo.titulo, Articulo.resumen, Articulo.tipo, Articulo.contenido, Articulo.fechaPublicacion, Articulo.nombreAutor, Articulo.usernameFK " +
+                        cmd = new SqlCommand("SELECT  DISTINCT Articulo.idArticuloPK, Articulo.titulo, Articulo.resumen, Articulo.tipo, Articulo.contenido, Articulo.fechaPublicacion, Articulo.nombreAutor, Articulo.usernameFK " +
                         " FROM  Articulo JOIN TopicosArticulo ON " +
                         " Articulo.idArticuloPK = TopicosArticulo.idArticuloFK JOIN Topico ON " +
                         " TopicosArticulo.nombreTopicoFK = @topico AND Articulo.tipo = 0 ORDER BY fechaPublicacion DESC", connection);
                         break;
                     case 2:
-                        cmd = new SqlCommand("SELECT  Articulo.idArticuloPK, Articulo.titulo, Articulo.resumen, Articulo.tipo, Articulo.contenido, Articulo.fechaPublicacion, Articulo.nombreAutor, Articulo.usernameFK " +
+                        cmd = new SqlCommand("SELECT  DISTINCT Articulo.idArticuloPK, Articulo.titulo, Articulo.resumen, Articulo.tipo, Articulo.contenido, Articulo.fechaPublicacion, Articulo.nombreAutor, Articulo.usernameFK " +
                         " FROM  Articulo JOIN TopicosArticulo ON " +
                         " Articulo.idArticuloPK = TopicosArticulo.idArticuloFK JOIN Topico ON " +
                         " TopicosArticulo.nombreTopicoFK = @topico AND Articulo.tipo = 1 ORDER BY fechaPublicacion DESC", connection);
                         break;
                     default:
-                        cmd = new SqlCommand("SELECT  Articulo.idArticuloPK, Articulo.titulo, Articulo.resumen, Articulo.tipo, Articulo.contenido, Articulo.fechaPublicacion, Articulo.nombreAutor, Articulo.usernameFK " +
+                        cmd = new SqlCommand("SELECT  DISTINCT Articulo.idArticuloPK, Articulo.titulo, Articulo.resumen, Articulo.tipo, Articulo.contenido, Articulo.fechaPublicacion, Articulo.nombreAutor, Articulo.usernameFK " +
                         " FROM  Articulo JOIN TopicosArticulo ON " +
                         " Articulo.idArticuloPK = TopicosArticulo.idArticuloFK JOIN Topico ON " +
                         " TopicosArticulo.nombreTopicoFK = @topico ORDER BY fechaPublicacion DESC", connection);

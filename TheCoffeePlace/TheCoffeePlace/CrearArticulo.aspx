@@ -1,24 +1,18 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CrearArticulo.aspx.cs" Inherits="CrearArticulo" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CrearArticulo.aspx.cs" Inherits="CrearArticulo" MasterPageFile="~/MasterPageTCP.master" %>
 
-<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
+<asp:content runat="server" ContentPlaceHolderID ="pageHead">
+
     <title> Crear artículo</title>
-	<style type="text/css">
-		.auto-style1 {
-			width: 100%;
-			height: 100%;
-		}
-		.auto-style2 {
-			height: 23px;
-		}
-	</style>
-</head>
-<body>
+	<link rel="stylesheet" type="text/css" href="CssStyle/CrearArticuloCSS.css">
+
+</asp:content>
+
+<asp:content runat="server" ContentPlaceHolderID ="pageContent">
+
     <form id="form" runat="server">
 		
-    	<table align="center" class="auto-style1">
+    	<table align="center">
 			<tr>
 				<td><h2>Articulo corto</h2></td>
 				<td><h2>Articulo largo</h2></td>
@@ -34,5 +28,5 @@
 		</table>
 		
     </form>
-</body>
-</html>
+
+</asp:content>

@@ -1,41 +1,13 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="BuscarArticulos.aspx.cs" Inherits="BuscarArticulos" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="BuscarArticulos.aspx.cs" Inherits="BuscarArticulos" MasterPageFile="~/MasterPageTCP.master" %>
 
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
+<asp:content runat="server" ContentPlaceHolderID ="pageHead">
+    
     <title>Buscar Artículos</title>
-    <style type="text/css">
-		.auto-style1 {
-			width: 100%;
-		}
-		.auto-style2 {
-			margin-left: 960px;
-		}
-		img {
-			width: 50px;
-			height: 50px;
-		}
-	    .colID {
-	        display: none;
-        }
+    <link rel="stylesheet" type="text/css" href="CssStyle/BuscarArticulosCSS.css">
 
-        .btnMargin {
-            margin-left: 70px;
-            margin-bottom: 5px;
-        }
+</asp:content>
 
-        .radlistMargin {
-            margin-bottom: 10px;
-        }
-
-        .gridMargin {
-            margin-top: 10px;
-        }
-        
-	</style>
-</head>
-<body>
+<asp:content runat="server" ContentPlaceHolderID ="pageContent">
     <form id="form1" runat="server">
         <div>
         	<br />
@@ -66,5 +38,4 @@
 			</asp:GridView>
         </div>
     </form>
-</body>
-</html>
+</asp:content>
