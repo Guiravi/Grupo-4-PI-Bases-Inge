@@ -11,4 +11,9 @@ public partial class MiPerfil : System.Web.UI.Page
     {
 
     }
+
+    protected void btnCrearArticulo_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/CrearArticulo.aspx");
+    }
 }

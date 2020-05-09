@@ -6,4 +6,10 @@
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="pageContent" Runat="Server">
+    <form id="form1" runat="server">
+    
+        <asp:button ID="btnCrearArticulo" runat="server" text="Crear Artículo" OnClick="btnCrearArticulo_Click"/>
+
+    </form>
+
 </asp:Content>
