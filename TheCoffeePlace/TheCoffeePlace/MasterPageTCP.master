@@ -47,6 +47,10 @@
             text-decoration: underline;
         }
 
+		#errorMsg {
+           float: right;
+        }
+
         li {
         
             float: left;
@@ -76,6 +80,7 @@
             border-right: solid black 2px; 
             position: static;
             float: left;
+			background-color:indianred
             
         }
 
@@ -141,14 +146,14 @@
             <li><a class="navLink" href="UserFaqs.aspx">FAQ</a></li>
         </ul>
         <div id="seccionAvatar">
-            <a id="miPefil" class="navLink" href="MiPerfil.aspx">Mi <br \>Perfil</a>
+            <a id="miPefil" class="navLink" href="MiPerfil.aspx">Mi <br\>Perfil</a>
             <img id="avatar" src="Imagenes/Sitio/avatarDefecto.png">
-        </div>
+		</div>
+		<div id="errorMsg" runat="server">
+	</div>
     </nav>
     <main>
-
         <asp:ContentPlaceHolder ID="pageContent" runat="server"></asp:ContentPlaceHolder>
-    
     </main>
     <footer>
         <div id="foot""></div>

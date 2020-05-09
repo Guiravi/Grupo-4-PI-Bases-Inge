@@ -37,7 +37,7 @@ namespace TheCoffeePlace.Utilities
 
         }
 
-		static public void verPDF(Page pagina, string pathVirtualArchivoPDF)
+		static public void VerPDF(Page pagina, string pathVirtualArchivoPDF)
 		{
 			WebClient User = new WebClient();
 			string filePath = pagina.Server.MapPath(pathVirtualArchivoPDF);
@@ -48,6 +48,12 @@ namespace TheCoffeePlace.Utilities
 				pagina.Response.AddHeader("content-length", fileBuffer.Length.ToString());
 				pagina.Response.BinaryWrite(fileBuffer);
 			}
+		}
+
+		static public void SetErrorMsg(Page page, string errorMsg, string redirectVirtualPath)
+		{
+			page.Session["ErrorMsg"] = errorMsg;
+			page.Response.Redirect(redirectVirtualPath);
 		}
 
     }

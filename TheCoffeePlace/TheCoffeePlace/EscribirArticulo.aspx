@@ -41,7 +41,7 @@
 			</tr>
 			<tr>
                 <td>
-					<p>Artículo<table class="auto-style1">
+					<p>Artículo</p><table class="auto-style1">
 						<tr>
 							<td class="auto-style4">
 								<FTB:FreeTextBox ID="ftxtEditor" runat="server" ButtonSet="OfficeMac">
@@ -52,7 +52,6 @@
 							</td>
 						</tr>
 						</table>
-					</p>
                 </td>
 			</tr>
 			<tr>
