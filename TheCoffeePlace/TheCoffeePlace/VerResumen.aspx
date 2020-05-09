@@ -4,9 +4,7 @@
 
     <title>Resumen de Artículo</title>
     <link rel="stylesheet" type="text/css" href="CssStyle/VerResumenCSS.css">
-    <style>
-        
-    </style>
+
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="pageContent" Runat="Server">
