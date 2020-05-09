@@ -64,4 +64,11 @@ public partial class BuscarArticulos : System.Web.UI.Page, IView_BuscarArticulos
         ArticuloController articuloController = new ArticuloController();
         articuloController.BuscarTodosArticulos(this);
     }
+
+    protected void gvArticulos_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        gvArticulos.PageIndex = e.NewPageIndex;
+
+        gvArticulos.DataBind();
+    }
 }
