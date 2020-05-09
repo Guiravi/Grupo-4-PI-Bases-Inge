@@ -67,8 +67,7 @@ namespace TheCoffeePlace.Views
 				{
 					autores += row.Cells[1].Text + ",";
 				}
-				autores.TrimEnd(',');
-				return autores;
+				return autores.Remove(autores.Length - 1);
 			}
 		}
 
