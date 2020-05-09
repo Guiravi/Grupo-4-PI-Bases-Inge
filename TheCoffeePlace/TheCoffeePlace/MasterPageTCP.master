@@ -47,6 +47,10 @@
             text-decoration: underline;
         }
 
+		#errorMsg {
+           float: right;
+        }
+
         #master li {
         
             float: left;
@@ -159,12 +163,12 @@
                 <li><a id="cerSes" class="" href="Inicio.aspx">Cerrar Sesión</a></li>
             </ul>
             <img id="avatar" src="Imagenes/Sitio/avatarDefecto.png">
-        </div>
+		</div>
+		<div id="errorMsg" runat="server">
+	</div>
     </nav>
     <main>
-
         <asp:ContentPlaceHolder ID="pageContent" runat="server"></asp:ContentPlaceHolder>
-    
     </main>
     <footer>
         <div id="foot""></div>

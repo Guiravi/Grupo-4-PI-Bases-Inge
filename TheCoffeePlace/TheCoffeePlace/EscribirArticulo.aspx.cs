@@ -11,7 +11,6 @@ namespace TheCoffeePlace.Views
 {
 	public partial class EscribirArticulo : System.Web.UI.Page, IView_EscribirArticulo, IView_ImagenArticulo
 	{
-
 		protected void Page_Load(object sender, EventArgs e)
 		{
 			ImagenArticuloController imArtController = new ImagenArticuloController(this);
@@ -27,7 +26,6 @@ namespace TheCoffeePlace.Views
 				gvAutor.DataSource = listaAutores;
 				gvAutor.DataBind();
 			}
-
 		}
 
 		public string titulo
