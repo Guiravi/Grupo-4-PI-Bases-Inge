@@ -37,6 +37,18 @@ namespace TheCoffeePlace.Utilities
 
         }
 
+        static public bool EsNombreDeArchivoCorto(string nombreArchivo, int tamano)
+        {
+            if (nombreArchivo.Length < tamano)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
 		static public void VerPDF(Page pagina, string pathVirtualArchivoPDF)
 		{
 			WebClient User = new WebClient();
