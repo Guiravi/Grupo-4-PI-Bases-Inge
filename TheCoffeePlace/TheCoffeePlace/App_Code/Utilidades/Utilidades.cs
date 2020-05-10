@@ -64,6 +64,7 @@ namespace TheCoffeePlace.Utilities
 				pagina.Response.AddHeader("content-length", fileBuffer.Length.ToString());
 				pagina.Response.AppendHeader("Content-Disposition", "filename=" + fileName);
 				pagina.Response.BinaryWrite(fileBuffer);
+				pagina.Response.End();
 			}
 		}
 

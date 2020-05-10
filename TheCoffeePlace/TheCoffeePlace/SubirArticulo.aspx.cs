@@ -60,8 +60,6 @@ public partial class SubirArticulo : System.Web.UI.Page, IView_SubirArticulo
 			ViewState["listaAutores"] = listaAutores;
 			gvAutor.DataSource = listaAutores;
 			gvAutor.DataBind();
-			Utilidades.DocxToPDF("~/ArticulosDOCX/Agile.docx");
-			Utilidades.VerPDF(this, "~/ArticulosPDF/Agile.pdf");
 		}
 	}
 
