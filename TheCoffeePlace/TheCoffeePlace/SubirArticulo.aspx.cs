@@ -55,7 +55,13 @@ public partial class SubirArticulo : System.Web.UI.Page, IView_SubirArticulo
 		{
 			TopicoController topicoController = new TopicoController();
 			topicoController.SetTopicos(this);
-
+			List<string> listaAutores = new List<string>();
+			listaAutores.Add("Nombre del autor");
+			ViewState["listaAutores"] = listaAutores;
+			gvAutor.DataSource = listaAutores;
+			gvAutor.DataBind();
+			Utilidades.DocxToPDF("~/ArticulosDOCX/Agile.docx");
+			Utilidades.VerPDF(this, "~/ArticulosPDF/Agile.pdf");
 		}
 	}
 
@@ -74,4 +80,49 @@ public partial class SubirArticulo : System.Web.UI.Page, IView_SubirArticulo
         }
     }
 
+	protected void gvAutor_RowEditing(object sender, GridViewEditEventArgs e)
+	{
+		gvAutor.EditIndex = e.NewEditIndex;
+		gvAutor.DataSource = (List<string>)ViewState["listaAutores"];
+		gvAutor.DataBind();
+	}
+
+
+	protected void gvAutor_RowUpdated(object sender, GridViewUpdateEventArgs e)
+	{
+	}
+
+	protected void gvAutor_RowUpdating(object sender, GridViewUpdateEventArgs e)
+	{
+		List<string> listaAutores = (List<string>)ViewState["listaAutores"];
+		listaAutores[e.RowIndex] = (gvAutor.Rows[e.RowIndex].Cells[1].Controls[0] as TextBox).Text;
+		gvAutor.DataSource = (List<string>)ViewState["listaAutores"];
+		gvAutor.EditIndex = -1;
+		gvAutor.DataBind();
+	}
+
+	protected void btnAgregarAutor_Click(object sender, EventArgs e)
+	{
+		List<string> listaAutores = (List<string>)ViewState["listaAutores"];
+		listaAutores.Add(txtNuevoAutor.Text);
+		gvAutor.DataSource = (List<string>)ViewState["listaAutores"];
+		gvAutor.DataBind();
+	}
+
+	protected void gvAutor_RowDeleted(object sender, GridViewDeletedEventArgs e)
+	{
+	}
+
+	protected void gvAutor_RowDeleting(object sender, GridViewDeleteEventArgs e)
+	{
+		List<string> listaAutores = (List<string>)ViewState["listaAutores"];
+		listaAutores.RemoveAt(e.RowIndex);
+		gvAutor.DataSource = (List<string>)ViewState["listaAutores"];
+		gvAutor.DataBind();
+	}
+
+	protected void gvAutor_PageIndexChanging(object sender, GridViewPageEventArgs e)
+	{
+		gvAutor.PageIndex = e.NewPageIndex;
+	}
 }
