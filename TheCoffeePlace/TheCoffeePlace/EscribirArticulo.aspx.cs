@@ -26,6 +26,8 @@ namespace TheCoffeePlace.Views
 				gvAutor.DataSource = listaAutores;
 				gvAutor.DataBind();
 			}
+
+            ftxtEditor.EnableHtmlMode= false;
 		}
 
 		public string titulo
@@ -104,12 +106,25 @@ namespace TheCoffeePlace.Views
 			if (fileupImagen.HasFile)
 			{
 				bool tipoArchivoValido = (Utilidades.EsTipoArchivo(fileupImagen.FileName, "jpg") || Utilidades.EsTipoArchivo(fileupImagen.FileName, "png") || Utilidades.EsTipoArchivo(fileupImagen.FileName, "JPG") || Utilidades.EsTipoArchivo(fileupImagen.FileName, "PNG"));
-				if (tipoArchivoValido && EsNombreCortoImagen(fileupImagen.FileName))
-				{
-					ImagenArticuloController imArtController = new ImagenArticuloController(this);
-					imArtController.GuardarImagen();
-					imArtController.ObtenerImagen();
-				}
+                if (tipoArchivoValido)
+                {
+                    if (Utilidades.EsNombreDeArchivoCorto(fileupImagen.FileName, 30))
+                    {
+                        ImagenArticuloController imArtController = new ImagenArticuloController(this);
+                        imArtController.GuardarImagen();
+                        imArtController.ObtenerImagen();
+                    }
+                    else
+                    {
+                        lblErrorImagen.Text = "Error. Favor seleccione un archivo con nombre menor a 30 caracteres o cambie el nombre del archivo que quizo ingresar";
+                        lblErrorImagen.Visible = true;
+                    }
+                }
+                else
+                {
+                    lblErrorImagen.Text = "Error. Favor seleccione solo archivos de tipo .jpg o .png";
+                    lblErrorImagen.Visible = true;
+                }
 			}
 			else
 			{
@@ -128,46 +143,6 @@ namespace TheCoffeePlace.Views
 			ImagenArticuloController imArtController = new ImagenArticuloController(this);
 			imArtController.BorrarImagen(idImagen);
 			imArtController.ObtenerImagen();
-		}
-
-		private bool EsImagen(string nombreArchivo)
-		{
-
-			string extension = "";
-			int contExt = nombreArchivo.Length - 1;
-			for (int i = 0; i < 3; i++)
-			{
-				extension = nombreArchivo[contExt] + extension;
-				contExt -= 1;
-			}
-
-			if (extension == "jpg" || extension == "png" || extension == "JPG" || extension == "PNG")
-			{
-				return true;
-			}
-			else
-			{
-				lblErrorImagen.Text = "Error. Favor seleccione solo archivos de tipo .jpg o .png";
-				lblErrorImagen.Visible = true;
-				return false;
-			}
-
-		}
-
-		private bool EsNombreCortoImagen(string nombreArchivo)
-		{
-			if (nombreArchivo.Length < 30)
-			{
-				return true;
-			}
-			else
-			{
-				lblErrorImagen.Text = "Error. Favor seleccione un archivo con nombre menor a 30 caracteres o cambie el nombre del archivo que quizo ingresar";
-				lblErrorImagen.Visible = true;
-				return false;
-			}
-
-
 		}
 
 		protected void gvAutor_RowEditing(object sender, GridViewEditEventArgs e)
@@ -210,6 +185,18 @@ namespace TheCoffeePlace.Views
 			gvAutor.DataSource = (List<string>)ViewState["listaAutores"];
 			gvAutor.DataBind();
 		}
-	}
+
+        protected void gvAutor_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvAutor.PageIndex = e.NewPageIndex;
+        }
+
+        protected void gridviewImagenes_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gridviewImagenes.PageIndex = e.NewPageIndex;
+            gridviewImagenes.DataBind();
+        }
+        
+    }
 }
 
