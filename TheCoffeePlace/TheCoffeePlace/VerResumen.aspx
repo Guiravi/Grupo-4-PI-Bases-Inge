@@ -14,7 +14,7 @@
         </div>
         <p>
             <asp:Label ID="labelPalabraAutor" runat="server" Text="Autor(es): " CssClass="textTitle"></asp:Label>
-            <asp:Label ID="labelAutor" runat="server" Text="Label" CssClass="text" align></asp:Label>
+            <asp:Label ID="labelAutor" runat="server" Text="Label" CssClass="text"></asp:Label>
         </p>
 
         <p>
