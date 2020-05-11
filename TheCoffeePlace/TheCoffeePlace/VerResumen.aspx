@@ -33,5 +33,9 @@
         <div style="text-align:center">
             <asp:Button ID="btnVerArticulo" CssClass="text" runat="server" Text="Ver artículo completo" OnClick="btnVerArticulo_Click"/>
         </div>
+
+
+        <div id="artCorto" runat="server" style="width:95%; margin-top: 100px; margin-left:50px; border: solid black 2px; background-color: white; height: auto;" visible="false"></div>
+
     </form>
 </asp:Content>

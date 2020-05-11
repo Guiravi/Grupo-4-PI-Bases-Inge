@@ -126,21 +126,22 @@ namespace TheCoffeePlace.Controllers
             /* Intentar abrir el pdf */
             String nombre_Art =  Convert.ToString(view.idArticuloPK) ;
             if (File.Exists(HttpContext.Current.Server.MapPath("~/ArticulosPDF/" + nombre_Art + ".pdf"))){
-                Utilidades.VerPDF((Page)view, nombre_Art + ".pdf");
+                Utilidades.VerPDF((Page)view, "~/ArticulosPDF/" + nombre_Art + ".pdf");
             }
             else
             {
                 ArticuloDBHandler articuloDBHandler = new ArticuloDBHandler();
                 if (view.tipo == 0)
                 {
-
+                    string contenido = articuloDBHandler.DescargarArticuloHtml(view.idArticuloPK);
+                    view.setArticuloCorto(contenido);
                 }
                 else
                 {
-                    byte[] contenido = articuloDBHandler.DescargarArticulo(view.idArticuloPK);
+                    byte[] contenido = articuloDBHandler.DescargarArticuloDocx(view.idArticuloPK);
                     File.WriteAllBytes(HttpContext.Current.Server.MapPath("~/ArticulosDocx/" + nombre_Art + ".docx"), contenido);
                     Utilidades.ConvertToPDF("~/ArticulosDocx/" + nombre_Art + ".docx");
-                    Utilidades.VerPDF((Page)view, nombre_Art + ".pdf");
+                    Utilidades.VerPDF((Page)view, "~/ArticulosPDF/" + nombre_Art + ".pdf");
                 }
             }
         }

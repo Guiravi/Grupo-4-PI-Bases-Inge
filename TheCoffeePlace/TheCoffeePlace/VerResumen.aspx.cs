@@ -21,7 +21,7 @@ public partial class VerResumen : System.Web.UI.Page, IView_VerResumen
 
     }
 
-    
+
     private int _idArticuloPK;
     private int _tipo;
     public int idArticuloPK
@@ -60,9 +60,16 @@ public partial class VerResumen : System.Web.UI.Page, IView_VerResumen
         set { labelResumen.Text = value; }
     }
 
+    public void setArticuloCorto(string contenido)
+    {
+        artCorto.InnerHtml = contenido;
+        artCorto.Visible = true;
+    }
+
     protected void btnVerArticulo_Click(object sender, EventArgs e)
     {
         ArticuloController articuloController = new ArticuloController();
         articuloController.MostrarArticulo(this);
+        
     }
 }

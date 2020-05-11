@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.UI.WebControls;
 
 /// <summary>
 /// Summary description for IView_VerResumen
@@ -17,5 +18,7 @@ namespace TheCoffeePlace.Views
         string autor { set; }
         string topicos { set; }
         string resumen { set; }
+
+        void setArticuloCorto(string contenido);
     }
 }

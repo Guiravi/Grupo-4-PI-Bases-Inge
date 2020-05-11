@@ -68,7 +68,7 @@ namespace TheCoffeePlace.Utilities
 			}
 		}
 
-		static public void SetErrorMsg(Page page, string errorMsg, string redirectVirtualPath)
+        static public void SetErrorMsg(Page page, string errorMsg, string redirectVirtualPath)
 		{
 			page.Session["ErrorMsg"] = errorMsg;
 			page.Response.Redirect(redirectVirtualPath);
@@ -84,10 +84,10 @@ namespace TheCoffeePlace.Utilities
 
 		static public void ConvertToPDF(string docxVirtualPath)
 		{
-			string libreOfficePath = HttpContext.Current.Server.MapPath("~/libreoffice/program/soffice.exe");
+			string libreOfficePath = "D:/LibreOffice/program/soffice.exe"; //Ruta local de la instalación de OpenOffice en su propia computadora.
 			string docxFullPath = HttpContext.Current.Server.MapPath(docxVirtualPath);
 			string pdfsFullPath = HttpContext.Current.Server.MapPath("~/ArticulosPDF");
-			string stringArgs = " --convert-to pdf " + docxFullPath + " --outdir " + pdfsFullPath;
+			string stringArgs = "--convert-to pdf " + docxFullPath + " --outdir " + pdfsFullPath;
 			ProcessStartInfo procStartInfo = new ProcessStartInfo(libreOfficePath, stringArgs);
 			procStartInfo.RedirectStandardOutput = true;
 			procStartInfo.UseShellExecute = false;
