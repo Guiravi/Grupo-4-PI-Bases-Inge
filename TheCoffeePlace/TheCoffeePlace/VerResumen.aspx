@@ -31,7 +31,7 @@
         </p>
 
         <div style="text-align:center">
-            <asp:Button ID="buttonVerArticulo" CssClass="text" runat="server" Text="Ver artículo completo" OnClick="buttonVerArticulo_Click"/>
+            <asp:Button ID="btnVerArticulo" CssClass="text" runat="server" Text="Ver artículo completo" OnClick="btnVerArticulo_Click"/>
         </div>
     </form>
 </asp:Content>

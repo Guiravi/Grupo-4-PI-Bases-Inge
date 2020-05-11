@@ -40,7 +40,6 @@ public partial class BuscarArticulos : System.Web.UI.Page, IView_BuscarArticulos
     protected void btnBuscar_Click(object sender, EventArgs e)
 	{
         ArticuloController articuloController = new ArticuloController();
-
         switch (radbtnltTopico.SelectedValue)
         {
             case "1":
@@ -58,7 +57,6 @@ public partial class BuscarArticulos : System.Web.UI.Page, IView_BuscarArticulos
         }
     }
 
-
     protected void btnMostrarTodos_Click(object sender, EventArgs e)
     {
         ArticuloController articuloController = new ArticuloController();
@@ -71,4 +69,5 @@ public partial class BuscarArticulos : System.Web.UI.Page, IView_BuscarArticulos
 
         gvArticulos.DataBind();
     }
+    
 }

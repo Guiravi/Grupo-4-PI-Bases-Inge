@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using TheCoffeePlace.Views;
+using System.Web;
 using TheCoffeePlace.Models;
 using TheCoffeePlace.Utilities;
+using System.IO;
 /// <summary>
 /// Summary description for ArticuloController
 /// </summary>
@@ -113,9 +115,34 @@ namespace TheCoffeePlace.Controllers
             ArticuloDBHandler artDBHandler = new ArticuloDBHandler();
             ArticuloModel articulo = artDBHandler.GetInfoPaginaResumen(view.idArticuloPK);
 
+            view.tipo = articulo.tipo;
             view.titulo = articulo.titulo;
             view.autor = articulo.nombreAutor;
             view.resumen = articulo.resumen;
+        }
+
+        public void MostrarArticulo(IView_VerResumen view)
+        {
+            /* Intentar abrir el pdf */
+            String nombre_Art =  Convert.ToString(view.idArticuloPK) ;
+            if (File.Exists(HttpContext.Current.Server.MapPath("~/ArticulosPDF/" + nombre_Art + ".pdf"))){
+                Utilidades.VerPDF((Page)view, nombre_Art + ".pdf");
+            }
+            else
+            {
+                ArticuloDBHandler articuloDBHandler = new ArticuloDBHandler();
+                if (view.tipo == 0)
+                {
+
+                }
+                else
+                {
+                    byte[] contenido = articuloDBHandler.DescargarArticulo(view.idArticuloPK);
+                    File.WriteAllBytes(HttpContext.Current.Server.MapPath("~/ArticulosDocx/" + nombre_Art + ".docx"), contenido);
+                    Utilidades.ConvertToPDF("~/ArticulosDocx/" + nombre_Art + ".docx");
+                    Utilidades.VerPDF((Page)view, nombre_Art + ".pdf");
+                }
+            }
         }
 
         /*

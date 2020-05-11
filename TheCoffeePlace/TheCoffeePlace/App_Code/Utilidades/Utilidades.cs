@@ -82,12 +82,12 @@ namespace TheCoffeePlace.Utilities
 			{ }
 		}
 
-		static public void DocxToPDF(string docxVirtualPath)
+		static public void ConvertToPDF(string docxVirtualPath)
 		{
 			string libreOfficePath = HttpContext.Current.Server.MapPath("~/libreoffice/program/soffice.exe");
 			string docxFullPath = HttpContext.Current.Server.MapPath(docxVirtualPath);
 			string pdfsFullPath = HttpContext.Current.Server.MapPath("~/ArticulosPDF");
-			string stringArgs = "--convert-to pdf " + docxFullPath + " --outdir " + pdfsFullPath;
+			string stringArgs = " --convert-to pdf " + docxFullPath + " --outdir " + pdfsFullPath;
 			ProcessStartInfo procStartInfo = new ProcessStartInfo(libreOfficePath, stringArgs);
 			procStartInfo.RedirectStandardOutput = true;
 			procStartInfo.UseShellExecute = false;

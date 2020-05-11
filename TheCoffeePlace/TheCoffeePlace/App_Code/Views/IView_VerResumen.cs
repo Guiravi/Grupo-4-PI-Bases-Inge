@@ -12,6 +12,7 @@ namespace TheCoffeePlace.Views
     public interface IView_VerResumen
     {
         int idArticuloPK { get; set; }
+        int tipo { get; set; }
         string titulo { set; }
         string autor { set; }
         string topicos { set; }
