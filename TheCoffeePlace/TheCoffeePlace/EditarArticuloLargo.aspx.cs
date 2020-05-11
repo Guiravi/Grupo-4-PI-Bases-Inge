@@ -10,17 +10,17 @@ using TheCoffeePlace.Utilities;
 
 
 
-public partial class SubirArticulo : System.Web.UI.Page, IView_SubirArticulo
+public partial class EditarArticuloLargo : System.Web.UI.Page, IView_SubirArticulo
 {
     public string titulo
     {
-        get { return txtTituloArticulo.Text; }
+        get { return txtTituloArticulo.Text; }     
         set { txtTituloArticulo.Text = value; }
     }
 
     public string resumen
     {
-        get { return txtResumen.Text; }
+        get { return txtResumen.Text; }  
         set { txtResumen.Text = value; }
     }
 
@@ -51,8 +51,11 @@ public partial class SubirArticulo : System.Web.UI.Page, IView_SubirArticulo
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        //Aqui se pone lo necesaio para descargar el articulo
         if (!IsPostBack)
         {
+            txtTituloArticulo.Text = Request.QueryString["titulo"];
+            txtResumen.Text = Request.QueryString["resumen"];
             TopicoController topicoController = new TopicoController();
             topicoController.SetTopicos(this);
             List<string> listaAutores = new List<string>();
