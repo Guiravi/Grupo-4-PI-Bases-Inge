@@ -14,7 +14,7 @@
         </div>
         <p>
             <asp:Label ID="labelPalabraAutor" runat="server" Text="Autor(es): " CssClass="textTitle"></asp:Label>
-            <asp:Label ID="labelAutor" runat="server" Text="Label" CssClass="text"></asp:Label>
+            <asp:Label ID="labelAutor" runat="server" Text="Label" CssClass="text" align></asp:Label>
         </p>
 
         <p>
@@ -34,6 +34,7 @@
             <asp:Button ID="btnVerArticulo" CssClass="text" runat="server" Text="Ver artículo completo" OnClick="btnVerArticulo_Click"/>
         </div>
 
+        <asp:button ID="btnDescargar" runat="server" text="Descargar" visible="false" OnClick="btnDescargar_Click"/>
 
         <div id="artCorto" runat="server" style="width:95%; margin-top: 100px; margin-left:50px; border: solid black 2px; background-color: white; height: auto;" visible="false"></div>
 
