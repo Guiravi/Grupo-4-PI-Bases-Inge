@@ -16,4 +16,9 @@ public partial class MiPerfil : System.Web.UI.Page
     {
         Response.Redirect("~/CrearArticulo.aspx");
     }
+
+    protected void btnEnviarMensaje_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/EnviarEmail.aspx");
+    }
 }

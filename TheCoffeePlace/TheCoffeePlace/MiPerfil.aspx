@@ -10,6 +10,10 @@
     
         <asp:button ID="btnCrearArticulo" runat="server" text="Crear Artículo" OnClick="btnCrearArticulo_Click"/>
 
+        <div>
+            <asp:button ID="EnviarMensaje" runat="server" text="Enviar un mensaje" OnClick="btnEnviarMensaje_Click"/>
+        </div>
+
     </form>
 
 </asp:Content>

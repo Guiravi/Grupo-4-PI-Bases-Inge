@@ -17,7 +17,8 @@
                         <asp:Label ID="labelPalabraUsuario" runat="server" Text="Usuario Destino: " CssClass="textTitle"></asp:Label>
                     </th>
                     <th style="width: 400px">
-                        <asp:TextBox ID="TextBoxDestino" runat="server" AutoCompleteType="DisplayName" OnTextChanged="TextBoxDestino_TextChanged" TextMode="Search" Width="400px" Style="font-size: 20px"></asp:TextBox>
+                        <asp:DropDownList ID="DownListDestino" runat="server" style="margin-left: 0px;font-size:24px" Width="400px" OnSelectedIndexChanged="DownListDestino_SelectedIndexChanged">
+                        </asp:DropDownList>
                     </th>
                 </tr>
                 <tr>

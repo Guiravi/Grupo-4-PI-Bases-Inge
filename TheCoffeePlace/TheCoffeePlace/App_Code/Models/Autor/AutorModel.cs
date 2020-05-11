@@ -10,7 +10,7 @@ namespace TheCoffeePlace.Models
 {
 	public class AutorModel
 	{
-		public int usernamePK { get; set; }
+		public String usernamePK { get; set; }
 		public String email { get; set; }
 		public String nombre { get; set; }
 		public String apellido1 { get; set; }
@@ -22,11 +22,28 @@ namespace TheCoffeePlace.Models
 		public String hobbies { get; set; }
 		public String habilidades { get; set; }
 
-		public AutorModel()
+		public AutorModel(string usernamePK, string email, string nombre, string apellido1, string apellido2, string pais, string estado, string ciudad, string imagenPerfil, string hobbies, string habilidades)
 		{
-			//
-			// TODO: Add constructor logic here
-			//
+            this.usernamePK = usernamePK;
+            this.email = email;
+            this.nombre = nombre;
+            this.apellido1 = apellido1;
+            this.apellido2 = apellido2;
+            this.pais = pais;
+            this.estado = estado;
+            this.ciudad = ciudad;
+            this.imagenPerfil = imagenPerfil;
+            this.hobbies = hobbies;
+            this.habilidades = habilidades;
 		}
+
+        public AutorModel(string usernamePK, string email, string nombre, string apellido1, string apellido2)
+        {
+            this.usernamePK = usernamePK;
+            this.email = email;
+            this.nombre = nombre;
+            this.apellido1 = apellido1;
+            this.apellido2 = apellido2;
+        }
 	}
 }
