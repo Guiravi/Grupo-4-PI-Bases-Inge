@@ -14,10 +14,6 @@
     
         <asp:button ID="btnEnviarEmail" runat="server" text="Enviar E-mail" OnClick="btnEnviarEmail_Click" CssClass="btnFuncion"/>
 
-        <div>
-            <asp:button ID="EnviarMensaje" runat="server" text="Enviar un mensaje" OnClick="btnEnviarMensaje_Click"/>
-        </div>
-
     </form>
 
 </asp:Content>
