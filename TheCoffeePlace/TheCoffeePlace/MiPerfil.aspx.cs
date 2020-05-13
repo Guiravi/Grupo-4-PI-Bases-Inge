@@ -11,4 +11,19 @@ public partial class MiPerfil : System.Web.UI.Page
     {
 
     }
+
+    protected void btnCrearArticulo_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/CrearArticulo.aspx");
+    }
+
+    protected void btnMemberFaqs_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/MemberFaqs.aspx");
+    }
+
+    protected void btnEnviarEmail_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/EnviarEmail.aspx");
+    }
 }

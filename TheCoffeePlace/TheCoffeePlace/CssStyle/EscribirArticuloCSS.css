@@ -1,12 +1,160 @@
-﻿img[src*="jpg"], img[src*="png"], img[src*="JPG"], img[src*="PNG"] {
-    width: 50px;
+﻿.colID {
+    display: none;
+}
+
+form {
+    width: 100%;
+    min-height: 1300px;
+}
+
+#escritor {
+    display: block;
+    list-style-type: none;
+    width: 65%;
+    float: left;
+    margin: 0;
+    padding: 0;
+    font-size: 150%;
+}
+
+#escritor li {
+    display: block;
+}
+
+#imagenes {
+    display: block;
+    list-style-type: none;
+    width: 30%;
+    float: right;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-size: 115%;
+}
+
+li {
+    width: 100%;
+}
+
+#ftxtEdit {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+
+#art {
+    margin-top: 25px;
+    font-size: 150%;
+    position: page;
+}
+
+#autores {
+    float: right;
+    margin-bottom: -240px;
+    position: relative;
+    bottom: 250px;
+}
+
+.resumen {
+    width: 800px;
+    max-width: 800px;
+    height: 100px;
+    max-height: 100px;
+}
+
+.titulo {
+    width: 800px;
+    height: 25px;
+}
+
+.grid {
+    background-color: none;
+    font-size: 80%;
+}
+
+.grid td {
+    width: 100px;
+    max-width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis
+}
+
+.grid tr:nth-child(even) {
+    background-color: #b2ffdd;
+}
+
+.grid tr:nth-child(odd) {
+
+    background-color: #FFFFFF;
+}
+
+.tops {
+    border: solid black 2px;
+    height: auto;
+    width: auto;
+}
+
+.tops tr {
+    border: solid black 1px;
+    float: left;
+}
+
+.guardar {
+    width: 300px;
+    height: 100px;
+    font-size: 200%;
+    margin-top: 50px;
+    margin-left: 700px;
+}
+
+.gridImg {
+    width: 100%;
+}
+
+.gridImg img {
+    width: 100px;
+    height: 100px;
+}
+
+.gridImg tr:nth-child(even) {
+    background-color: #b2ffdd;
+}
+
+.gridImg tr:nth-child(odd) {
+    background-color: #FFFFFF;
+}
+
+.gridImg td {
+    text-align:center;
+}
+
+.header {
     height: 50px;
+    background: linear-gradient(90deg, #4CB8C4 0%, #3CD3AD 100%);
+    font-size: 150%;
 }
 
-.colID {
-    display: none;
+.btnSubir {
+    margin-top: 20px;
+    width: 100px;
+    height: 30px;
+    font-size: 110%;
 }
 
-.gvAutor {
-    display: none;
+.btnDelete {
+    font-size: 125%;
+}
+
+.fileup {
+    font-size: 110%;
+    padding-left: 100px;
+}
+
+.errfu {
+    margin: 2px;
+    display: block;
+    border: dashed red 1px;
+    border-radius: 20px;
+    color: red;
 }

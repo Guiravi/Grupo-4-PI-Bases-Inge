@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.IO;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 using TheCoffeePlace.Views;
 using TheCoffeePlace.Models;
-using System.Web.UI.WebControls;
+using TheCoffeePlace.Utilities;
 /// <summary>
 /// Summary description for ArticuloController
 /// </summary>
@@ -31,6 +29,11 @@ namespace TheCoffeePlace.Controllers
 				{
 					topicosArticulo.Add(new TopicoModel(item.Value));
 				}
+			}
+
+			if(topicosArticulo.Count ==0)
+			{
+				Utilidades.SetErrorMsg((Page)view, "Debe elegir al menos un topico", "~/EscribirArticulo.aspx");
 			}
 			artdbHandler.SaveArticulo(articulo, topicosArticulo);
 		}

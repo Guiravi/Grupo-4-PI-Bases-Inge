@@ -3,26 +3,26 @@
 }
 
 .grid {
-    min-width: 80%;
-    align-self: center;
-    margin-left: 150px;
+    min-width: 90%;
+    margin-left: 100px;
     margin-top: 50px;
     background-color: none;
 }
+
 
 .grid tr:nth-child(even){
     background-color: #b2ffdd;
 }
 
 .grid tr:nth-child(odd) {
-        background-color: #FFFFFF;
+    background-color: #FFFFFF;
 }
 
 .grid td {
     padding: 10px;
-    overflow-x: hidden;
     font-size: 125%;
 }
+
 
 .pgr {
     background: linear-gradient(90deg, #4CB8C4 0%, #3CD3AD 100%);   
@@ -93,4 +93,20 @@ h4 {
     width: 40%;
     height: 30px;
     font-size: 105%;
+}
+
+.resumen{
+    max-width: 300px;
+    max-height: 50px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis
+}
+
+.titulo {
+    max-width: 300px;
+    max-height: 50px;
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;
 }

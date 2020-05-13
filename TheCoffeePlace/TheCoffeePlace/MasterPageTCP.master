@@ -21,7 +21,7 @@
             padding: 0;
         }
 
-        ul {
+        #master {
             list-style-type: none;
             height: 100%;
             width: 1280px;
@@ -43,11 +43,15 @@
             
         }
 
-        a:hover {
+        nav a:hover {
             text-decoration: underline;
         }
 
-        li {
+		#errorMsg {
+           float: right;
+        }
+
+        #master li {
         
             float: left;
             vertical-align: middle;
@@ -96,7 +100,7 @@
             border: solid black 1px;
             border-radius: 100px 100px;
             margin-top: 15px;
-            margin-left: 25px;
+            margin-left: 50px;
         
         }
 
@@ -106,15 +110,28 @@
             background: linear-gradient(90deg, #4CB8C4 0%, #3CD3AD 100%);
         }
 
-        a[href="MiPerfil.aspx"] {
-            text-align: left;
+        #seccionAvatar ul {
+            display: block;
+            list-style-type: none;
+            float: left;
             margin: 0;
             padding: 0;
-            padding-left: 50px;
-            padding-top: 20px;
-            float: left;
-            height: 50px;
-            width: 100px
+            margin-left: 25px;
+            
+        }
+
+        #seccionAvatar li {
+            margin-top: 15px;
+        }
+
+        #seccionAvatar li a{
+            font-size: 150%;
+            text-decoration: none;
+            color: black;
+        }
+
+        #seccionAvatar li a:hover{
+            text-decoration: underline;
         }
 
         main {
@@ -134,21 +151,24 @@
     </header>
     <nav>
         <img id="logo" src="Imagenes/Sitio/logoTCP.png">
-        <ul>
+        <ul id="master">
             <li><a class="navLink" href="Inicio.aspx">Inicio</a></li>
             <li><a class="navLink" href="Noticias.aspx">Noticias</a></li>
             <li><a class="navLink" href="BuscarArticulos.aspx">Buscar</a></li>
             <li><a class="navLink" href="UserFaqs.aspx">FAQ</a></li>
         </ul>
         <div id="seccionAvatar">
-            <a id="miPefil" class="navLink" href="MiPerfil.aspx">Mi <br \>Perfil</a>
+            <ul>
+                <li><a id="miPefil" class="" href="MiPerfil.aspx">Mi Perfil</a></li>
+                <li><a id="cerSes" class="" href="Inicio.aspx">Cerrar Sesión</a></li>
+            </ul>
             <img id="avatar" src="Imagenes/Sitio/avatarDefecto.png">
-        </div>
+		</div>
+		<div id="errorMsg" runat="server">
+	</div>
     </nav>
     <main>
-
         <asp:ContentPlaceHolder ID="pageContent" runat="server"></asp:ContentPlaceHolder>
-    
     </main>
     <footer>
         <div id="foot""></div>

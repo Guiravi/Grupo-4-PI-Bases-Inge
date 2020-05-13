@@ -49,19 +49,19 @@ public partial class SubirArticulo : System.Web.UI.Page, IView_SubirArticulo
         set { chkblTopicos = value; }
     }
 
-    protected void Page_Load(object sender, EventArgs e)
-    {
-        if (!IsPostBack)
-        {
-            TopicoController topicoController = new TopicoController();
-            topicoController.SetTopicos(this);
-            List<string> listaAutores = new List<string>();
-            listaAutores.Add("Nombre del autor");
-            ViewState["listaAutores"] = listaAutores;
-            gvAutor.DataSource = listaAutores;
-            gvAutor.DataBind();
-        }
-    }
+	protected void Page_Load(object sender, EventArgs e)
+	{
+		if (!IsPostBack)
+		{
+			TopicoController topicoController = new TopicoController();
+			topicoController.SetTopicos(this);
+			List<string> listaAutores = new List<string>();
+			listaAutores.Add("Nombre del autor");
+			ViewState["listaAutores"] = listaAutores;
+			gvAutor.DataSource = listaAutores;
+			gvAutor.DataBind();
+		}
+	}
 
 
     protected void btnGuardar_Click(object sender, EventArgs e)
@@ -71,9 +71,9 @@ public partial class SubirArticulo : System.Web.UI.Page, IView_SubirArticulo
         if (fuArticulo.HasFile)
         {
             if (Utilidades.EsTipoArchivo(fuArticulo.FileName, "docx") || Utilidades.EsTipoArchivo(fuArticulo.FileName, "DOCX"))
-            {
-                ArticuloController artController = new ArticuloController();
-                artController.GuardarArticulo(this);
+            {            
+               ArticuloController artController = new ArticuloController();
+               artController.GuardarArticulo(this);     
             }
             else
             {
@@ -87,7 +87,7 @@ public partial class SubirArticulo : System.Web.UI.Page, IView_SubirArticulo
             lblErrorArticulo.Text = "Error. Favor escoger un documento";
             lblErrorArticulo.Visible = true;
         }
-
+        
     }
 
     protected void gvAutor_PageIndexChanging(object sender, GridViewPageEventArgs e)

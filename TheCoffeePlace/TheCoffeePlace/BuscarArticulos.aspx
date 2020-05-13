@@ -28,12 +28,11 @@
 				<Columns>
                     <asp:BoundField DataField="idArticuloPK" ItemStyle-CssClass="colID" HeaderStyle-CssClass="colID"/>
                     <asp:BoundField DataField="tipo" HeaderText="Tipo"/>  
-                    <asp:HyperLinkField DataTextField="titulo" DataNavigateUrlFields="idArticuloPK" DataNavigateUrlFormatString="~/VerResumen.aspx?idArticuloPK={0}" HeaderText="Título"/>
-                    <asp:BoundField DataField="resumen" HeaderText="Resumen"/>   
-                    <asp:BoundField DataField="nombreAutor" HeaderText="Autor"/>   
+                    <asp:HyperLinkField DataTextField="titulo" DataNavigateUrlFields="idArticuloPK" DataNavigateUrlFormatString="~/VerResumen.aspx?idArticuloPK={0}" HeaderText="Título" ItemStyle-CssClass="titulo"/>
+                    <asp:BoundField DataField="resumen" HeaderText="Resumen" ItemStyle-CssClass="resumen"/>   
+                    <asp:BoundField DataField="nombreAutor" HeaderText="Autor(es)"/>   
                     <asp:BoundField DataField="fechaPublicacion" HeaderText="FechaPublicacion"/>   
                 </Columns>
-                
 			</asp:GridView>
         
     </form>
