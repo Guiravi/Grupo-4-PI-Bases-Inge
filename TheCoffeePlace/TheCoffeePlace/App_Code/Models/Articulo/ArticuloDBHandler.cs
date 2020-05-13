@@ -126,7 +126,7 @@ namespace TheCoffeePlace.Models
             return current_id;
         }
 
-        public byte[] DescargarArticulo(int idArticulo)
+        public byte[] DescargarArticuloDocx(int idArticulo)
         {
             String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
             SqlCommand cmd;
