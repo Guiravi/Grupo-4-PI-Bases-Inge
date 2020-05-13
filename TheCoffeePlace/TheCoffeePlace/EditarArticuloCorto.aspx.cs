@@ -17,30 +17,32 @@ namespace TheCoffeePlace.Views
             
             int tipo = Convert.ToInt32(Request.QueryString["tipo"]);
             if (tipo == 1) {
-                Response.Redirect("~/EditarArticuloLargo.aspx?idArticuloPK="+ Request.QueryString["idArticulo"] + "&titulo="+ Request.QueryString["titulo"] + "&resumen="+ Request.QueryString["resumen"] + "&tipo="+ Request.QueryString["tipo"] + "&nombreAutor="+ Request.QueryString["nombreAutor"] + "&usernameFK="+ Request.QueryString["usernameFK"]);
+                Response.Redirect("~/EditarArticuloLargo.aspx?idArticuloPK="+ Request.QueryString["idArticuloPK"] + "&tipo="+ Request.QueryString["tipo"]  + "&usernameFK="+ Request.QueryString["usernameFK"]+ "&descarga=" + Request.QueryString["descarga"]);
+                
             }
 
             else
             {
-                txtTituloArticulo.Text = Request.QueryString["titulo"];
-                txtResumen.Text = Request.QueryString["resumen"];
-                ArticuloController artController = new ArticuloController();
                 int idArticuloPK = Convert.ToInt32(Request.QueryString["idArticuloPK"]);
-                ftxtEditor.Text = artController.getContenidoArticuloCorto(idArticuloPK) ;
+                
                 ImagenArticuloController imArtController = new ImagenArticuloController(this);
+                imArtController.ObtenerImagen();
 
-
-
-                //artController.
-                //imArtController.ObtenerImagen();
 
                 if (!IsPostBack)
                 {
                     TopicoController topicoController = new TopicoController();
                     topicoController.SetTopicos(this);
-                    List<string> listaAutores = new List<string>();
-                    listaAutores.Add("Nombre del autor");
+                    ArticuloController artController = new ArticuloController();
+
+                    txtTituloArticulo.Text = artController.GetTitulo(idArticuloPK);
+                    txtResumen.Text = artController.GetResumen(idArticuloPK);
+                    string nombreAutor = artController.GetAutores(idArticuloPK);
+                    List<string> listaAutores = new List<string>(nombreAutor.Split(','));
+                    ftxtEditor.Text = artController.GetContenidoArticuloCorto(idArticuloPK);
+
                     ViewState["listaAutores"] = listaAutores;
+                    listaAutores.Add("Nombre del autor");
                     gvAutor.DataSource = listaAutores;
                     gvAutor.DataBind();
                 }
@@ -77,17 +79,16 @@ namespace TheCoffeePlace.Views
 
 		public String autor
 		{
-			get
-			{
-				string autores = "";
-				foreach (GridViewRow row in gvAutor.Rows)
-				{
-					autores += row.Cells[1].Text + ",";
-				}
-				autores.TrimEnd(',');
-				return autores;
-			}
-		}
+            get
+            {
+                string autores = "";
+                foreach (GridViewRow row in gvAutor.Rows)
+                {
+                    autores += row.Cells[1].Text + ",";
+                }
+                return autores.Remove(autores.Length - 1);
+            }
+        }
 
 		public CheckBoxList checkBoxList
 		{
@@ -192,6 +193,7 @@ namespace TheCoffeePlace.Views
 
 		}
 
+
 		protected void gvAutor_RowEditing(object sender, GridViewEditEventArgs e)
 		{
 			gvAutor.EditIndex = e.NewEditIndex;
@@ -212,8 +214,9 @@ namespace TheCoffeePlace.Views
 			gvAutor.EditIndex = -1;
 			gvAutor.DataBind();
 		}
+   
 
-		protected void btnAgregarAutor_Click(object sender, EventArgs e)
+        protected void btnAgregarAutor_Click(object sender, EventArgs e)
 		{
 			List<string> listaAutores = (List<string>)ViewState["listaAutores"];
 			listaAutores.Add(txtNuevoAutor.Text);

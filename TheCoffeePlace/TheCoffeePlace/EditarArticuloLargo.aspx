@@ -1,5 +1,4 @@
-﻿   
-<%@ Page Language="C#" AutoEventWireup="true" CodeFile="EditarArticuloLargo.aspx.cs" Inherits="EditarArticuloLargo"  MasterPageFile="~/MasterPageTCP.master" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="EditarArticuloLargo.aspx.cs" Inherits="EditarArticuloLargo"  MasterPageFile="~/MasterPageTCP.master" %>
 
 <asp:content runat="server" ContentPlaceHolderID ="pageHead">
 

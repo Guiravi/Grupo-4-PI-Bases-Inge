@@ -173,11 +173,28 @@ namespace TheCoffeePlace.Controllers
             List<ArticuloModel> articulos = artdbHandler.GetArticlesByAutorEdit(view.autor);
             view.gridView.DataSource = articulos;
             view.gridView.DataBind();
+
         }
-        public string getContenidoArticuloCorto(int idArticuloPK) {
+        public string GetContenidoArticuloCorto(int idArticuloPK) {
             ArticuloDBHandler artdbHandler = new ArticuloDBHandler();
             string contenido = artdbHandler.GetContenidoCortoDB(idArticuloPK);
             return contenido;
+        }
+        public string GetTitulo(int idArticuloPK) {
+            ArticuloDBHandler artdbHandler = new ArticuloDBHandler();
+            string titulo = artdbHandler.GetTituloDB(idArticuloPK);
+            return titulo;
+        }
+        public string GetResumen(int idArticuloPK) {
+            ArticuloDBHandler artdbHandler = new ArticuloDBHandler();
+            string titulo = artdbHandler.GetResumenDB(idArticuloPK);
+            return titulo;
+        }
+        public string GetAutores(int idArticuloPK)
+        {
+            ArticuloDBHandler artdbHandler = new ArticuloDBHandler();
+            string autores = artdbHandler.GetAutoresDB(idArticuloPK);
+            return autores;
         }
         public void ObtenerPaginaResumen(IView_VerResumen view) {
             ArticuloDBHandler artDBHandler = new ArticuloDBHandler();
@@ -188,23 +205,24 @@ namespace TheCoffeePlace.Controllers
             view.resumen = articulo.resumen;
         }
 
-        /*
-        public void DescargarArticulo(IView_SubirArticulo view)
+        
+        public void DescargarArticulo(IView_SubirArticulo view, int idArticuloPK)
         {
             ArticuloDBHandler artdbHandler = new ArticuloDBHandler();
 
-            byte[] articulo = artdbHandler.DescargarArticulo(view.idArticulo);
+            byte[] articulo = artdbHandler.DescargarArticulo(idArticuloPK);
 
             
-            view.resp.Clear();
-            view.resp.ContentType = "Application/docx";
-            view.resp.AppendHeader("Content-Disposition", "attachment; filename=articulo.docx");
+            //view.Clear();
+            ((Page)view).Response.ContentType = "Application/docx";
+            ((Page)view).Response.AppendHeader("Content-Disposition", "attachment; filename=articulo.docx");
 
-            view.resp.OutputStream.Write(articulo, 0, articulo.Length);
-
-            view.resp.End();
+            ((Page)view).Response.OutputStream.Write(articulo, 0, articulo.Length);
+            
+            ((Page)view).Response.End();
+            //((Page)view).Response.Redirect("~/EditarArticuloLargo.aspx?idArticuloPK=" + ((Page)view).Request.QueryString["idArticuloPK"] + "&tipo=" + ((Page)view).Request.QueryString["tipo"] + "&usernameFK=" + ((Page)view).Request.QueryString["usernameFK"] + "&descarga=" + 0,true);
         }
-        */
+        
 
     }
 }

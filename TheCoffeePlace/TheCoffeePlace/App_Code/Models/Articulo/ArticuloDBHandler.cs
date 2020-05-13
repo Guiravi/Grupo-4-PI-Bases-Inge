@@ -80,7 +80,7 @@ namespace TheCoffeePlace.Models
                     command.ExecuteNonQuery();
 
                     articulo.idArticuloPK = ObtenerSiguienteId();
-                    command.CommandText = "UPDATE TopicosArticulo SET nombreTopicoFK= @nombreTopicoFK WHERE idArticuloFK = @idArticuloFK";
+                    
                    
 
                     foreach (TopicoModel topico in topicos)
@@ -202,7 +202,80 @@ namespace TheCoffeePlace.Models
             }
 
         }
+        public string GetResumenDB(int idArticuloPK)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
 
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand cmd;
+                cmd = new SqlCommand("SELECT resumen FROM Articulo WHERE idArticuloPK = @idArticuloPK", connection);
+
+
+                cmd.Parameters.AddWithValue("@idArticuloPK", idArticuloPK);
+
+                SqlDataReader identReader = cmd.ExecuteReader();
+                string resumen = "";
+                while (identReader.Read())
+                {
+                    resumen = (string)identReader.GetValue(0);
+                }
+
+                identReader.Close();
+                return resumen;
+            }
+        }
+        public string GetAutoresDB(int idArticuloPK)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand cmd;
+                cmd = new SqlCommand("SELECT nombreAutor FROM Articulo WHERE idArticuloPK = @idArticuloPK", connection);
+
+
+                cmd.Parameters.AddWithValue("@idArticuloPK", idArticuloPK);
+
+                SqlDataReader identReader = cmd.ExecuteReader();
+                string autores = "";
+                while (identReader.Read())
+                {
+                    autores = (string)identReader.GetValue(0);
+                }
+
+                identReader.Close();
+                return autores;
+            }
+        }
+        public string GetTituloDB(int idArticuloPK) {
+            String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand cmd;
+                cmd = new SqlCommand("SELECT titulo FROM Articulo WHERE idArticuloPK = @idArticuloPK", connection);
+
+
+                cmd.Parameters.AddWithValue("@idArticuloPK", idArticuloPK);
+
+                SqlDataReader identReader = cmd.ExecuteReader();
+                string titulo = "";
+                while (identReader.Read())
+                {
+                    titulo = (string)identReader.GetValue(0);
+                }
+
+                identReader.Close();
+                return titulo;
+            }
+        }
         public string GetContenidoCortoDB(int idArticuloPK) {
             String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
 

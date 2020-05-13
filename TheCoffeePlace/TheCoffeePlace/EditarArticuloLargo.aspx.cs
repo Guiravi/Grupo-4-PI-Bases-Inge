@@ -14,13 +14,13 @@ public partial class EditarArticuloLargo : System.Web.UI.Page, IView_SubirArticu
 {
     public string titulo
     {
-        get { return txtTituloArticulo.Text; }     
+        get { return txtTituloArticulo.Text; }
         set { txtTituloArticulo.Text = value; }
     }
 
     public string resumen
     {
-        get { return txtResumen.Text; }  
+        get { return txtResumen.Text; }
         set { txtResumen.Text = value; }
     }
 
@@ -51,16 +51,28 @@ public partial class EditarArticuloLargo : System.Web.UI.Page, IView_SubirArticu
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        //Aqui se pone lo necesaio para descargar el articulo
+        int idArticuloPK = Convert.ToInt32(Request.QueryString["idArticuloPK"]);
+        
+        
         if (!IsPostBack)
         {
-            txtTituloArticulo.Text = Request.QueryString["titulo"];
-            txtResumen.Text = Request.QueryString["resumen"];
+            ArticuloController artController = new ArticuloController();
+            if (Convert.ToInt32(Request.QueryString["descarga"]) == 1) {
+                artController.DescargarArticulo(this, idArticuloPK);
+            }
+            
             TopicoController topicoController = new TopicoController();
             topicoController.SetTopicos(this);
-            List<string> listaAutores = new List<string>();
-            listaAutores.Add("Nombre del autor");
+            
+
+            txtTituloArticulo.Text = artController.GetTitulo(idArticuloPK);
+            txtResumen.Text = artController.GetResumen(idArticuloPK);
+            string nombreAutor = artController.GetAutores(idArticuloPK);
+            List<string> listaAutores = new List<string>(nombreAutor.Split(','));
+
+
             ViewState["listaAutores"] = listaAutores;
+            listaAutores.Add("Nombre del autor");
             gvAutor.DataSource = listaAutores;
             gvAutor.DataBind();
         }
@@ -70,13 +82,13 @@ public partial class EditarArticuloLargo : System.Web.UI.Page, IView_SubirArticu
     protected void btnGuardar_Click(object sender, EventArgs e)
     {
         lblErrorArticulo.Visible = false;
-
+        int idArticuloPK = Convert.ToInt32(Request.QueryString["idArticuloPK"]);
         if (fuArticulo.HasFile)
         {
             if (Utilidades.EsTipoArchivo(fuArticulo.FileName, "docx") || Utilidades.EsTipoArchivo(fuArticulo.FileName, "DOCX"))
             {
                 ArticuloController artController = new ArticuloController();
-                artController.GuardarArticulo(this);
+                artController.ActualizarArticulo(this,idArticuloPK);
             }
             else
             {

@@ -24,10 +24,13 @@
 			    <asp:GridView ID="articles" AutoGenerateColumns="false" runat="server" AllowPAging="true"  OnPageIndexChanging="gvArticulos_PageIndexChanging" PageSize="20"  CssClass="grid"
                 PagerStyle-CssClass="pgr" HeaderStyle-CssClass="header">
 				<Columns>
+                    
                     <asp:BoundField DataField="titulo" HeaderText="titulo" />
                     <asp:BoundField DataField="fechaPublicacion" HeaderText="FechaPublicacion"/>   
-                    <asp:HyperLinkField Text="edit" DataNavigateUrlFields="idArticuloPK, titulo, resumen, tipo, nombreAutor, usernameFK" DataNavigateUrlFormatString="~/EditarArticuloCorto.aspx?idArticuloPK={0}&titulo={1}&resumen={2}&tipo={3}&nombreAutor={4}&usernameFK={5}" HeaderText="Editar"/>
-                    </Columns>
+                    <asp:HyperLinkField Text="edit" DataNavigateUrlFields="idArticuloPK, tipo, usernameFK" DataNavigateUrlFormatString="~/EditarArticuloCorto.aspx?idArticuloPK={0}&tipo={1}&usernameFK={2}&descarga=0" HeaderText="Editar"/>
+                     <asp:HyperLinkField Text="descarga" DataNavigateUrlFields="idArticuloPK, tipo, usernameFK" DataNavigateUrlFormatString="~/EditarArticuloCorto.aspx?idArticuloPK={0}&tipo={1}&usernameFK={2}&descarga=1" HeaderText="Descargar"/>
+
+                </Columns>
                 
 			</asp:GridView>
                
