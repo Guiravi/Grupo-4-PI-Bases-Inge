@@ -1,0 +1,1 @@
+﻿En esta carpeta van las clases de tipo Model para la arquitectura MVC
