@@ -10,7 +10,7 @@ using TheCoffeePlace.Utilities;
 
 
 
-public partial class SubirArticulo : System.Web.UI.Page, IView_SubirArticulo
+public partial class EditarArticuloLargo : System.Web.UI.Page, IView_SubirArticulo
 {
     public string titulo
     {
@@ -49,31 +49,46 @@ public partial class SubirArticulo : System.Web.UI.Page, IView_SubirArticulo
         set { chkblTopicos = value; }
     }
 
-	protected void Page_Load(object sender, EventArgs e)
-	{
-		if (!IsPostBack)
-		{
-			TopicoController topicoController = new TopicoController();
-			topicoController.SetTopicos(this);
-			List<string> listaAutores = new List<string>();
-			listaAutores.Add("Nombre del autor");
-			ViewState["listaAutores"] = listaAutores;
-			gvAutor.DataSource = listaAutores;
-			gvAutor.DataBind();
-		}
-	}
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        int idArticuloPK = Convert.ToInt32(Request.QueryString["idArticuloPK"]);
+        
+        
+        if (!IsPostBack)
+        {
+            ArticuloController artController = new ArticuloController();
+            if (Convert.ToInt32(Request.QueryString["descarga"]) == 1) {
+                artController.DescargarArticulo(this, idArticuloPK);
+            }
+            
+            TopicoController topicoController = new TopicoController();
+            topicoController.SetTopicos(this);
+            
+
+            txtTituloArticulo.Text = artController.GetTitulo(idArticuloPK);
+            txtResumen.Text = artController.GetResumen(idArticuloPK);
+            string nombreAutor = artController.GetAutores(idArticuloPK);
+            List<string> listaAutores = new List<string>(nombreAutor.Split(','));
+
+
+            ViewState["listaAutores"] = listaAutores;
+            listaAutores.Add("Nombre del autor");
+            gvAutor.DataSource = listaAutores;
+            gvAutor.DataBind();
+        }
+    }
 
 
     protected void btnGuardar_Click(object sender, EventArgs e)
     {
         lblErrorArticulo.Visible = false;
-
+        int idArticuloPK = Convert.ToInt32(Request.QueryString["idArticuloPK"]);
         if (fuArticulo.HasFile)
         {
             if (Utilidades.EsTipoArchivo(fuArticulo.FileName, "docx") || Utilidades.EsTipoArchivo(fuArticulo.FileName, "DOCX"))
-            {            
-               ArticuloController artController = new ArticuloController();
-               artController.GuardarArticulo(this);     
+            {
+                ArticuloController artController = new ArticuloController();
+                artController.ActualizarArticulo(this,idArticuloPK);
             }
             else
             {
@@ -87,7 +102,7 @@ public partial class SubirArticulo : System.Web.UI.Page, IView_SubirArticulo
             lblErrorArticulo.Text = "Error. Favor escoger un documento";
             lblErrorArticulo.Visible = true;
         }
-        
+
     }
 
     protected void gvAutor_PageIndexChanging(object sender, GridViewPageEventArgs e)

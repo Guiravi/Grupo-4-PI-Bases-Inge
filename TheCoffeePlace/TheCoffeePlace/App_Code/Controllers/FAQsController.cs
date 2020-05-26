@@ -7,14 +7,17 @@ using System.Web.UI.WebControls;
 using TheCoffeePlace.Models;
 
 /// <summary>
-/// Este es el controlador de MemberFaqs
+/// Este es el controlador de los FAQs
+/// 
 /// </summary>
 namespace TheCoffeePlace.Controllers
 {
-    public class MemberFaqController
+    public class FAQsController
     {
-        //La vista que interactúa con el controlador
-        private IViewMemberFaqs memberView;
+        private string category;
+        private string answer;
+        private string question;
+        private Label label;
         //Vector para guardar información de FAQs.txt
         private string[] linesFaqs;
         //Vector para guardar nueva información de FAQs.txt
@@ -25,25 +28,85 @@ namespace TheCoffeePlace.Controllers
         private int lineCategoryFound;
         //Indica el número de líneas que tiene el artículo
         private int allLines;
-        public MemberFaqController(IViewMemberFaqs view)
+        public FAQsController(string category, string answer, string question, Label label)
         {
-            memberView = view;
+            this.label = label;
+            this.category = category;
+            this.answer = answer;
+            this.question = question;
             lineCategoryFound = -1;
             allLines = 0;
         }
 
-        // Este método se encarga de manipular la información necesaria para realizar cambios en los archivos de FAQ
-        public void UploadFaqs()
+        public FAQsController(Label label) {
+            this.label = label;
+        }
+
+        public void SeeFAQs()
+        {
+
+            //Se crea el administrador de archivos para guardar la información de estos en vectores
+            //Se crean los administradores de archivos para guardar la información de estos en vectores
+            FAQsModel faqsModel = new FAQsModel();
+            FAQsHandler faqsHandler = new FAQsHandler();
+            linesFaqs = faqsHandler.FileInformation(1,faqsModel);
+            linesNumCat = faqsHandler.FileInformation(2,faqsModel);
+            //Se va a actualizar el label para poner el título de faqs
+            UpdateLabel(0, "<h1>FAQs</h1>");
+            // Se llama al método para mostrar los FAQs en la página web
+            ShowFAQsPage();
+        }
+
+        // Este método  muestra los FAQs en la página web
+        public void ShowFAQsPage()
+        {
+            //la posición actual en el vector de números de las posiciones de las categorías
+            int posNum = 0;
+            //contador la cantidad de lineas totales del archivo Faqs.txt
+            int totLines = 0;
+            foreach (string line in linesNumCat)
+            {   //indica que se va a poner una categoría en la vista 
+                int firstInLine = 1;
+                //Para asegurarse que almenos haya un número en NumCat.txt
+                if (linesNumCat[posNum] != "")
+                {   //Se revisa cual es la última línea de la categoría actual y se reproducen la categoría, preguntas y respuestas
+                    int finish = Int32.Parse(linesNumCat[posNum]);
+                    while (totLines < finish)
+                    {
+                        if (firstInLine == 1)
+                        {
+                            firstInLine = 0;
+                            //Se actauliza la nueva categoría, la nueva línea se actualiza en el vector de nuevas líneas
+                            UpdateLabel(1, "<h2>CATEGORY</h2>");
+                            UpdateLabel(1, "<h3>" + linesFaqs[totLines] + "</h3>");
+                            //Como ya se actualizó la línea, se incrementan las posiciones de las líneas
+                            totLines = totLines + 1;
+                        }
+                        else
+                        {
+                            UpdateLabel(1, "<h3>QUESTION</h3>");
+                            UpdateLabel(1, "<p>" + linesFaqs[totLines] + "</p>");
+                            totLines = totLines + 1;
+                            UpdateLabel(1, "<h3>ANSWER</h3>");
+                            UpdateLabel(1, "<p>" + linesFaqs[totLines] + "</p>");
+                            totLines = totLines + 1;
+                        }
+                    }
+                }//Se actualiza el número de línas por categoría en el vector respectivo y se guarda como string
+                posNum = posNum + 1;
+            }
+        }
+
+        // Este método se encarga de manipular la información necesaria para realizar cambios en los archivos de FAQs
+        public void UploadFAQs()
         {
             //Se crean los administradores de archivos para guardar la información de estos en vectores
-            FAQsFileModel faqsFileModel = new FAQsFileModel();
-            FAQsFileHandler faqsFileHandler = new FAQsFileHandler();
-            linesFaqs = faqsFileHandler.FileInformation(faqsFileModel);
-            NumCatFileModel numCatFileModel = new NumCatFileModel();
-            NumCatFileHandler numCatFileHandler = new NumCatFileHandler();
-            linesNumCat = numCatFileHandler.FileInformation(numCatFileModel);
+            FAQsModel faqsModel = new FAQsModel();
+            FAQsHandler faqsHandler = new FAQsHandler();
+            linesFaqs = faqsHandler.FileInformation(1, faqsModel);
+            linesNumCat = faqsHandler.FileInformation(2, faqsModel);
             //El miembro debe de haber llenado todos los campos para modificar FAQs
-            if (memberView.Category != "" && memberView.Question != "" && memberView.Answer != "")
+            if (category != "" && question != "" && answer != "")
             {
                 //Se busca si la categoria existía previamente(1)
                 int categoryFound = SearchCategory(linesFaqs);
@@ -55,11 +118,11 @@ namespace TheCoffeePlace.Controllers
                 int totNewLines = 0;
                 totNewLines = UpdateNewLines(categoryFound, totNewLines);
                 //Se actualiza NumCat.txt
-                numCatFileHandler.WriteAllLines(linesNumCat, numCatFileModel);
+                faqsHandler.WriteAllLines(2,linesNumCat, faqsModel);
                 //Se revisa si hay que agregar una nueva categoría junto con la pregunta y respuesta
-                AddNewCategory(totNewLines, categoryFound, numCatFileModel, numCatFileHandler);
+                AddNewCategory(totNewLines, categoryFound,faqsModel, faqsHandler);
                 //Se actualiza FAQs.txt
-                faqsFileHandler.WriteAllLines(newLinesFaqs, faqsFileModel);
+                faqsHandler.WriteAllLines(1,newLinesFaqs, faqsModel);
             }
             else
             {
@@ -68,24 +131,24 @@ namespace TheCoffeePlace.Controllers
         }
 
         // Este método revisa si hay que agregar una nueva categoría, y si es así se agrega con las nuevas preguntas y respuestas
-        public void AddNewCategory(int totNewLines, int categoryFound, NumCatFileModel numCatFileModel, NumCatFileHandler numCatFileHandler)
+        public void AddNewCategory(int totNewLines, int categoryFound, FAQsModel faqsModel, FAQsHandler faqsHandler)
         {
             if (categoryFound == 0)
             {
                 UpdateLabel(1, "<h2>CATEGORY</h2>");
-                UpdateLabel(1, "<h3>" + memberView.Category + "</h3>");
-                newLinesFaqs[totNewLines] = memberView.Category;
+                UpdateLabel(1, "<h3>" + category + "</h3>");
+                newLinesFaqs[totNewLines] = category;
                 totNewLines = totNewLines + 1;
                 UpdateLabel(1, "<h3>QUESTION</h3>");
-                UpdateLabel(1, "<p>" + memberView.Question + "</p>");
-                newLinesFaqs[totNewLines] = memberView.Question;
+                UpdateLabel(1, "<p>" + question + "</p>");
+                newLinesFaqs[totNewLines] = question;
                 totNewLines = totNewLines + 1;
                 UpdateLabel(1, "<h3>ANSWER</h3>");
-                UpdateLabel(1, "<p>" + memberView.Answer + "</p>");
-                newLinesFaqs[totNewLines] = memberView.Answer;
+                UpdateLabel(1, "<p>" + answer + "</p>");
+                newLinesFaqs[totNewLines] = answer;
                 totNewLines = totNewLines + 1;
                 //Se agrega un nuevo número de línea a NumCat.txt ya que hay una nueva categoria
-                numCatFileHandler.WriteLastLine(Convert.ToString(totNewLines), numCatFileModel);
+                faqsHandler.WriteLastLine(2,Convert.ToString(totNewLines), faqsModel);
             }
         }
 
@@ -120,12 +183,12 @@ namespace TheCoffeePlace.Controllers
                                 //se actaulizan las preguntas y respuestas, la nuevas líneas se actualizan
                                 //en el vector de nuevas líneas
                                 UpdateLabel(1, "<h3>QUESTION</h3>");
-                                UpdateLabel(1, "<p>" + memberView.Question + "</p>");
-                                newLinesFaqs[totNewLines] = memberView.Question;
+                                UpdateLabel(1, "<p>" + question + "</p>");
+                                newLinesFaqs[totNewLines] = question;
                                 totNewLines = totNewLines + 1;
                                 UpdateLabel(1, "<h3>ANSWER</h3>");
-                                UpdateLabel(1, "<p>" + memberView.Answer + "</p>");
-                                newLinesFaqs[totNewLines] = memberView.Answer;
+                                UpdateLabel(1, "<p>" + answer + "</p>");
+                                newLinesFaqs[totNewLines] = answer;
                                 totNewLines = totNewLines + 1;
                             }
                         }
@@ -157,7 +220,7 @@ namespace TheCoffeePlace.Controllers
             int categoryFound = 0;
             foreach (string line in linesFaqs)
             {
-                if (linesFaqs[allLines] == memberView.Category)
+                if (linesFaqs[allLines] == category)
                 {
                     //Se encuentra
                     categoryFound = 1;
@@ -174,12 +237,12 @@ namespace TheCoffeePlace.Controllers
             if (option < 1)
             {
                 //Se reinicia el contenido del label
-                memberView.Label.Text = text;
+                label.Text = text;
             }
             else
             {
                 //se agrega contenido al label
-                memberView.Label.Text += text;
+                label.Text += text;
             }
         }
     }

@@ -49,7 +49,7 @@ public partial class BuscarArticulos : System.Web.UI.Page, IView_BuscarArticulos
                 articuloController.BuscarArticuloPorTitulo(this);
                 break;
             case "3":
-
+                articuloController.BuscarArticuloPorAutor(this);
                 break;
             default:
                 break;
