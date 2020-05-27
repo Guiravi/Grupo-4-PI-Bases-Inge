@@ -1,0 +1,19 @@
+﻿@page
+@model LaCafeteria.Pages.VerResumenModel
+@{
+    ViewData["Title"] = "Resumen de Artículo";
+}
+
+<h2 class="text-center">@Model.articulo_titulo</h2>
+
+<p><b>Autor(es): </b></p>
+<p><b>Fecha de publicación: </b></p>
+<p><b>Tópicos: </b></p>
+<p><b>Resumen: </b></p>
+<p>Resumen del texto...</p>
+
+<div class="text-center">
+    <form method="post">
+        <button type="submit">Ver artículo completo</button>
+    </form>
+</div>
