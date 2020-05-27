@@ -9,12 +9,14 @@ let barra = document.getElementById('barra');
 let dropdown = document.getElementById('dropdown');
 let textoBusq = document.getElementById('textoResultBusq');
 let cantBusq = document.getElementById('cantResultBusq');
+let formBusqueda = document.getElementById('formBusqueda');
 
 
 topicosBtn.addEventListener('click', topicosBtnClick);
 titulosBtn.addEventListener('click', titulosBtnClick);
 autoresBtn.addEventListener('click', autoresBtnClick);
 aceptarBtn.addEventListener('click', aceptarBtnClick);
+window.addEventListener('load', cargarForm);
 
 setEnterSubmit();
 
@@ -73,7 +75,7 @@ function aceptarBtnClick() {
 
 function DoAjaxPostAndMore(btnClicked)
 {
-       var $form = $(btnClicked).parents('form');
+        var $form = $(btnClicked).parents('form');
 
         $.ajax({
             type: 'POST',
@@ -91,6 +93,20 @@ function DoAjaxPostAndMore(btnClicked)
   return false;// if it's a link to prevent post
 
 }
+
+
+function cargarForm() {
+    $.ajax({
+        type: 'GET',
+        url: 'Buscar?handler=CargarPagina',
+        success: function (data) {
+        },
+        error: function (error) {
+            alert("Error: No se pudieron cargar los tópicos");
+        }
+    })
+}
+
 
 
 
