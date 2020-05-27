@@ -18,6 +18,9 @@ namespace LaCafeteria.Pages
         [BindProperty]
         public string tipoBusqueda { get; set; }
 
+        [BindProperty]
+        public string textoBusqueda { get; set; }
+
         public void OnGet()
         {
 
@@ -27,6 +30,10 @@ namespace LaCafeteria.Pages
         {
             return Page();
         }
+
+
+
+
 
     }
 
