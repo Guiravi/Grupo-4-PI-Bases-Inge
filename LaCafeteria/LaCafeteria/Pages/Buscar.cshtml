@@ -9,92 +9,103 @@
 
 <br/>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-1">
-            <h4 class="text-nowrap" >Buscar por:</h4>
-        </div>
-        <div class="col-md-2">
-            <div class="btn-group">
-                <button type="button" class="btn btn-info">Tópicos</button>
-                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#" id="topics">Tópicos</a></li>
-                    <li><a href="#" id="titles">Títulos</a></li>
-                    <li><a href="#" id="authors">Autores</a></li>
-                </ul>
+<form method="post">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1">
+                <h4 class="text-nowrap" >Buscar por:</h4>
             </div>
-        </div>
-        <div class="col-md-8">
-            <div class="input-group" style="display: none">
-                <input type="text" class="form-control" placeholder="Buscar...">
-                <span class="input-group-btn">
-                    <button class="btn btn-default btn-info" type="button">Aceptar</button>
-                </span>
-            </div>
-            <div class="input-group">
+            <div class="col-md-4">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-info">Seleccionar tópico</button>
+                    <button type="button" class="btn btn-info" id="buscarPor" data-toggle="dropdown">Seleccione un tipo de búsqueda</button>
                     <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
+                        <span class="sr-only">Desplegar</span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Quimica</a></li>
-                        <li><a href="#">Biologia</a></li>
-                        <li><a href="#">Fisica</a></li>
+                        <li>
+                            <button type="button" class="btn btn-default" style="width: 100%;" id="topicos">Tópicos</button>
+                        </li>
+                    
+                        <li>
+                            <button type="button" class="btn btn-default" style="width: 100%;" id="titulos">Títulos</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-default" style="width: 100%;" id="autores">Autores</button>
+                        </li>
                     </ul>
                 </div>
             </div>
+            <div class="col-md-5">
+                <div class="input-group" style="display: none" id="barraBusqueda">
+                    <input type="text" class="form-control" placeholder="Buscar..." id="barra">
+                </div>
+                <div class="input-group" style="display: none" id="topicosDropdown">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info" data-toggle="dropdown" id="dropdown">Seleccionar tópico</button>
+                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Desplegar</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                        </ul>                 
+                    </div>
+                </div>
+            </div>
 
+            <div class="col-lg-2">
+                    <button class="btn btn-primary" type="button" style="display:none;" id="aceptar" onclick="DoAjaxPostAndMore(this)">Aceptar</button>
+            </div>
         </div>
+
     </div>
 
-</div>
-
-<br/>
+    <br/>
 
 
-<div class="container">
+    <div class="container">
 
-    <div class="row">
-        <div class="col-md-1" />
-        <div class="col-md-3">
-            <div class="btn-group" role="group" aria-label="...">
-                <span class="input-group-addon">
-                    <input type="radio" aria-label="..." name="type">
-                    Cortos
-                </span>
-                <span class="input-group-addon">
-                    <input type="radio" aria-label="..." name="type">
-                    Largos
-                </span>
-                <span class="input-group-addon">
-                    <input type="radio" aria-label="..." name="type" checked="checked">
-                    Ambos
-                </span>
+        <div class="row">
+            <div class="col-md-1" />
+            <div class="col-md-3">
+                <div class="btn-group" role="group" aria-label="...">
+                    <span class="input-group-addon">
+
+                        <input type="radio" aria-label="..." value=1 asp-for="tiposArticulo">
+                        Cortos
+
+                    </span>
+                    <span class="input-group-addon">
+                        <input type="radio" aria-label="..." value=2 asp-for="tiposArticulo">
+                        Largos
+                    </span>
+                    <span class="input-group-addon">
+                        <input type="radio" aria-label="..." value=3 checked="checked" asp-for="tiposArticulo">
+                        Ambos
+                    </span>
+                </div>
+            </div>
+        </div>
+
+     </div>
+
+    <hr>
+
+    <div class="container" id="searchResults">
+
+        <div class="row">
+
+            <div class="col-md-3">
+                <p class="text-primary" >Cantidad de resultados: </p>
+            </div>
+        
+            <div class="col-md-6">
+                <p class="text-primary">Resultados de la búsqueda: </p>
             </div>
         </div>
     </div>
 
- </div>
+</form>
 
-<hr>
-
-<div class="container" id="searchResults">
-
-    <div class="row">
-
-        <div class="col-md-3">
-            <p>Cantidad de resultados: </p>
-        </div>
-        
-        <div class="col-md-6">
-            <p>Resultados de la búsqueda: </p>
-        </div>
-    </div>
-</div>
+<script src="~/js/Buscar.js" defer></script>
     
