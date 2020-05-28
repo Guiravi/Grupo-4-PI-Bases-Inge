@@ -1,0 +1,68 @@
+﻿@page
+@model LaCafeteria.Pages.EscribirArticuloModel
+@{
+    ViewData["Title"] = "EscribirArticulo";
+}
+
+<h2>EscribirArticulo</h2>
+<form method="post">
+	<div class="form-group">
+		<label for="txtTitulo">Título del artículo</label>
+		<input id="txtTitulo" type="text" class="form-control" asp-for="articulo.titulo" />
+	</div>
+	<div class="form-group">
+		<label for="txtAutor">Autor(es)</label>
+		<input id="txtAutor" type="text" class="form-control"  asp-for="articulo.nombreAutor"/>
+	</div>
+	<div class="form-group">
+		<label for="txtResumen">Resumen del artículo</label>
+		<textarea id="txtResumen" rows="2" cols="20" class="form-control" asp-for="articulo.resumen"></textarea>
+	</div>
+	<div class="form-group">
+		<label for="txtFecha">Fecha de publicación</label>
+		<input id="txtFecha" type="date" class="form-control" asp-for="articulo.fechaPublicacion" />
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="form-group col-lg-8">
+				<label for="txtContenido">Artículo</label>
+				<textarea id="txtContenido" asp-for="articulo.contenido"></textarea>
+			</div>
+			<div class="col-lg-4">
+				<div class="btn-group" style="margin-top: 25px">
+					<button type="button" class="btn btn-info">Seleccione tópicos</button>
+					<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<span class="caret"></span>
+						<span class="sr-only">Toggle Dropdown</span>
+					</button>
+					<ul class="dropdown-menu">
+						@for(int topicoActual = 0; topicoActual < Model.listaTopicos.Count; ++topicoActual)
+						{	
+							<li><input type="checkbox" name="listaTopicosArticulo" value="@Model.listaTopicos[topicoActual].nombre"> @Model.listaTopicos[topicoActual].nombre</li>
+						}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input id="btnGuardar" name="btnGuardar" type="submit" value="Guardar" class="btn" />
+</form>
+<script src="~/lib/tinymce/tinymce.min.js"></script>
+<script>
+	tinymce.init({
+		selector: '#txtContenido',
+		paste_data_images: true,
+		automatic_uploads: false,
+		height: 500,
+		convert_urls: false,
+		plugins: [
+			"advlist autolink lists link image charmap print preview anchor",
+			"searchreplace visualblocks code fullscreen",
+			"insertdatetime media table paste preview imagetools wordcount"
+		],
+		toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | preview",
+		content_css: '//www.tiny.cloud/css/codepen.min.css'
+	});
+	tinymce.activeEditor.execCommand('mcePreview');
+</script>
