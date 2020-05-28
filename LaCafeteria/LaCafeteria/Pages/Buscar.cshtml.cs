@@ -5,15 +5,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using LaCafeteria.Models;
+using LaCafeteria.Controllers;
 
 namespace LaCafeteria.Pages
 {
     public class BuscarModel : PageModel
     {
-        public List<TopicoModel> Topicos { get; set; }
+        public List<TopicoModel> listaTopicos { set; get; }
+
+        public List<ArticuloModel> articulosResultado { set; get; }
 
         [BindProperty]
-        public string tiposArticulo { get; set; }
+        public int tiposArticulo { get; set; }
 
         [BindProperty]
         public string tipoBusqueda { get; set; }
@@ -21,31 +24,59 @@ namespace LaCafeteria.Pages
         [BindProperty]
         public string textoBusqueda { get; set; }
 
+        [BindProperty]
+        public List<string> listaTopicosSelec { set; get; }
+
+        public TopicoController topicoController;
+
+        public ArticuloController articuloController;
+
+        public int cantResultados { set; get; }
+
+        public BuscarModel()
+        {
+            topicoController = new TopicoController();
+            articuloController = new ArticuloController();
+            listaTopicos = topicoController.GetListaTopicos();
+
+            listaTopicosSelec = new List<string>();
+            articulosResultado = new List<ArticuloModel>();
+            textoBusqueda = "";
+            cantResultados = -1;
+        }
+
+
         public void OnGet()
         {
 
         }
 
-        public IActionResult OnPost()
+        public void OnPost()
         {
             SolicitudBusquedaModel solicitud;
             if (tipoBusqueda == "topicos")
             {
-                //string tops = script javascript
-                solicitud = new SolicitudBusquedaModel(tipoBusqueda, "tops", tiposArticulo, "");
+                string topicosSelec = "";
+
+                for (int i = 0; i < listaTopicosSelec.Count; i++)
+                {
+                    if (i != listaTopicosSelec.Count - 1)
+                        topicosSelec += listaTopicosSelec[i] + ",";
+                    else
+                        topicosSelec += listaTopicosSelec[i];
+                    
+                }
+                
+                solicitud = new SolicitudBusquedaModel(tipoBusqueda, topicosSelec, tiposArticulo, "");
             }
             else
             {
                 solicitud = new SolicitudBusquedaModel(tipoBusqueda, "", tiposArticulo, textoBusqueda);
             }
 
-            return Page();
-        }
+            cantResultados = articulosResultado.Count;
+            articulosResultado = articuloController.BuscarArticulo(solicitud);
 
-        
-        public void OnGetCargarPagina()
-        {
-            return;
         }
 
     }
@@ -56,11 +87,11 @@ namespace LaCafeteria.Pages
 
         public string topicos { get; set; }
 
-        public string tiposArticulo { get; set; }
+        public int tiposArticulo { get; set; }
 
         public string textoBusqueda { get; set; }
 
-        public SolicitudBusquedaModel(string tipoBus, string tops, string tiposArt, string textB)
+        public SolicitudBusquedaModel(string tipoBus, string tops, int tiposArt, string textB)
         {
             tipoBusqueda = tipoBus;
 

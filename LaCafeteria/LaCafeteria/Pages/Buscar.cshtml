@@ -7,7 +7,7 @@
 
 <h2 class="text-center">Buscar artículos</h2>
 
-<br/>
+<br />
 
 
 <div class="container">
@@ -52,7 +52,12 @@
                             <span class="caret"></span>
                             <span class="sr-only">Desplegar</span>
                         </button>
-                        <ul class="dropdown-menu"></ul>
+                        <ul class="dropdown-menu" id="topicosList">
+                            @for (int topicoActual = 0; topicoActual < Model.listaTopicos.Count; ++topicoActual)
+                            {
+                                <li style="margin: 5px 5px"><input type="checkbox" name="listaTopicosSelec" value="@Model.listaTopicos[topicoActual].nombre"><span class="text-primary checkbox-inline">@Model.listaTopicos[topicoActual].nombre</span></li>
+                            }
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -62,17 +67,17 @@
 
         <div class="row">
             <div class="col-md-3">
-                <div class="btn-group" role="group" aria-label="...">
+                <div class="btn-group" role="group" aria-label="..." style="display: none;" id="tiposArtRadio">
                     <span class="input-group-addon">
-                        <input type="radio" aria-label="..." value="corto" asp-for="tiposArticulo" id="cortos">
+                        <input type="radio" aria-label="..." value=1 asp-for="tiposArticulo" id="cortos">
                         Cortos
                     </span>
                     <span class="input-group-addon">
-                        <input type="radio" aria-label="..." value="largo" asp-for="tiposArticulo" id="largos">
+                        <input type="radio" aria-label="..." value=2 asp-for="tiposArticulo" id="largos">
                         Largos
                     </span>
                     <span class="input-group-addon">
-                        <input type="radio" aria-label="..." value=ambos checked="checked" asp-for="tiposArticulo" id="ambos">
+                        <input type="radio" aria-label="..." value=0 checked="checked" asp-for="tiposArticulo" id="ambos">
                         Ambos
                     </span>
                 </div>
@@ -80,14 +85,21 @@
             <div class="col-md-3"></div>
             <div class="col-md-3"></div>
             <div class="col-md-3">
-                <button class="btn btn-primary" type="button" style="display:none;" id="aceptar" onclick="DoAjaxPostAndMore(this)">Aceptar</button>
+                <button class="btn btn-primary" type="submit" style="display:none;" id="aceptar">Aceptar</button>
             </div>
         </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-3">
+                <a href="/Buscar" class="btn-sm btn-info" id="reiniciar" style="display: none;">Reiniciar búsqueda</a>
+            </div>
+        </div>
+
     </form>
 </div>
 
 
-<br/>
+<br />
 
 <hr>
 
@@ -96,14 +108,70 @@
     <div class="row">
 
         <div class="col-md-3">
-            <p class="text-primary" id="cantResultBusq" style="visibility: hidden; font-size:125%;">Cantidad de resultados: </p>
+            @if (Model.cantResultados != -1)
+            {
+                <p class="text-primary" id="cantResultBusq" style="font-size:125%;">Cantidad de resultados: @Model.articulosResultado.Count</p>
+            }
         </div>
 
         <div class="col-md-6">
-            <p class="text-primary" id="textoResultBusq" style="visibility: hidden; font-size:125%;">Resultados de la búsqueda: </p>
+            @if (Model.textoBusqueda != "" || Model.listaTopicosSelec.Count != 0)
+            {
+                if (Model.listaTopicosSelec.Count != 0)
+                {
+                    string topics = "";
+
+                    for (int i = 0; i < Model.listaTopicosSelec.Count; i++)
+                    {
+                        if (i != Model.listaTopicosSelec.Count - 1)
+                        {
+                            topics += Model.listaTopicosSelec[i] + ",";
+                        }
+
+                        else
+                        {
+                            topics += Model.listaTopicosSelec[i];
+                        }
+
+                    }
+
+                    <p class="text-primary" id="textoResultBusq" style="font-size:125%;">Resultados de la búsqueda: "@topics"</p>
+                }
+                else
+                {
+                    <p class="text-primary" id="textoResultBusq" style="font-size:125%;">Resultados de la búsqueda: "@Model.textoBusqueda"</p>
+                }
+            }
         </div>
     </div>
 </div>
 
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            @for (int articuloActual = 0 ; articuloActual < Model.articulosResultado.Count ; articuloActual++)
+            {
+            <div class="panel panel-info">
+                <div class="panel-heading"><h2 class="panel-title" style="font-size: 125%"><a href="/Index?idArticuloPK=@Model.articulosResultado[articuloActual].idArticuloPK">@Model.articulosResultado[articuloActual].titulo</a></h2></div>
+                                                                                           <!--Cambiar por ver resumen-->
+                <div class="panel-body">
+                    <ul>
+                        <li><strong>Autor:</strong> @Model.articulosResultado[articuloActual].nombreAutor</li>
+                        <li><strong>Fecha publicación:</strong> @Model.articulosResultado[articuloActual].fechaPublicacion</li>
+                        <li><strong>Tipo:</strong> @Model.articulosResultado[articuloActual].tipo</li>
+                    </ul>
+                </div>
+            </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>
+
 <script src="~/js/Buscar.js" defer></script>
-    
+

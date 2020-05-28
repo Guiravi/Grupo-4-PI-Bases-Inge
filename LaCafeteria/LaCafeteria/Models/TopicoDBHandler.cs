@@ -35,6 +35,8 @@ namespace LaCafeteria.Models
 
 						topicos.Add(topicoActual);
 					}
+
+                    reader.Close();
 				}
 			}
 			return topicos;

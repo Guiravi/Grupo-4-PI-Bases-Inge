@@ -1,27 +1,27 @@
-﻿let topicosBtn = document.getElementById('topicos');
-let titulosBtn = document.getElementById('titulos');
-let autoresBtn = document.getElementById('autores');
+﻿let topicosRad = document.getElementById('topicos');
+let titulosRad = document.getElementById('titulos');
+let autoresRad = document.getElementById('autores');
 let barraBusq = document.getElementById('barraBusqueda');
 let topicosDrop = document.getElementById('topicosDropdown');
 let buscarPorBtn = document.getElementById('buscarPor');
 let aceptarBtn = document.getElementById('aceptar');
 let barra = document.getElementById('barra');
 let dropdown = document.getElementById('dropdown');
-let textoBusq = document.getElementById('textoResultBusq');
-let cantBusq = document.getElementById('cantResultBusq');
-let formBusqueda = document.getElementById('formBusqueda');
+let tiposArtRad = document.getElementById('tiposArtRadio');
+let reiniciarBtn = document.getElementById('reiniciar');
 
+topicosRad.addEventListener('click', topicosRadClick);
+titulosRad.addEventListener('click', titulosRadClick);
+autoresRad.addEventListener('click', autoresRadClick);
+topicosRad.addEventListener('click', anyOptionClick);
+titulosRad.addEventListener('click', anyOptionClick);
+autoresRad.addEventListener('click', anyOptionClick);
 
-topicosBtn.addEventListener('click', topicosBtnClick);
-titulosBtn.addEventListener('click', titulosBtnClick);
-autoresBtn.addEventListener('click', autoresBtnClick);
-aceptarBtn.addEventListener('click', aceptarBtnClick);
-window.addEventListener('load', cargarForm);
 
 setEnterSubmit();
 
 
-function topicosBtnClick() {
+function topicosRadClick() {
     topicosDrop.style.display = 'initial';
     barraBusq.style.display = 'none';
     buscarPorBtn.textContent = 'Tópicos';
@@ -31,7 +31,7 @@ function topicosBtnClick() {
     dropdown.focus();
 } 
 
-function titulosBtnClick() {
+function titulosRadClick() {
     topicosDrop.style.display = 'none';
     barraBusq.style.display = 'initial';
     buscarPorBtn.textContent = 'Títulos';
@@ -40,14 +40,19 @@ function titulosBtnClick() {
     barra.focus();
 } 
 
-function autoresBtnClick() {
+function autoresRadClick() {
     topicosDrop.style.display = 'none';
     barraBusq.style.display = 'initial';
     buscarPorBtn.textContent = 'Autores';
     aceptarBtn.style.display = 'initial';
     aceptarBtn.style.position = 'initial';
     barra.focus();
-} 
+}
+
+function anyOptionClick() {
+    tiposArtRad.style.display = 'initial';
+    reiniciarBtn.style.display = 'initial';
+}
 
 function enterSubmit() {
     aceptarBtn.click();
@@ -60,53 +65,6 @@ function setEnterSubmit() {
         }
     }
 }
-
-function aceptarBtnClick() {
-    textoBusq.style.visibility = "visible"
-    cantBusq.style.visibility = "visible"
-
-    if (topicosBtn.checked) {
-        textoBusq.textContent = `Resultados de la búsqueda: "Tópicos"`;
-    } else {
-        textoBusq.textContent = `Resultados de la búsqueda: "${barra.value}"`;
-    }
-}
-
-
-function DoAjaxPostAndMore(btnClicked)
-{
-        var $form = $(btnClicked).parents('form');
-
-        $.ajax({
-            type: 'POST',
-            url: $form.attr('action'),
-            data: $form.serialize(),
-            error: function(xhr, status, error) {
-                  //do something about the error
-             },
-            success: function(response) {
-                 //do something with response
-
-            }
-        });
-
-  return false;// if it's a link to prevent post
-
-}
-
-
-function cargarForm() {
-    $.ajax({
-        type: 'GET',
-        url: 'Buscar?handler=CargarPagina',
-        success: function (data) {
-        },
-        error: function (error) {
-            alert("Error: No se pudieron cargar los tópicos");
-        }
-    })
-}
-
 
 
 
