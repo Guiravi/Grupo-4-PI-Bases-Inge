@@ -33,6 +33,15 @@ namespace LaCafeteria.Pages
 
         public int cantResultados { set; get; }
 
+        /*
+        [BindProperty(SupportsGet = true)]
+        public int indicePaginacion { set; get; } = 1;
+
+        public int articulosPorPagina { set; get; } = 0;
+
+        public int numPaginas = 0;
+        */
+
         public BuscarModel()
         {
             topicoController = new TopicoController();
@@ -48,7 +57,7 @@ namespace LaCafeteria.Pages
 
         public void OnGet()
         {
-
+            
         }
 
         public void OnPost()
@@ -73,12 +82,15 @@ namespace LaCafeteria.Pages
             {
                 solicitud = new SolicitudBusquedaModel(tipoBusqueda, "", tiposArticulo, textoBusqueda);
             }
-
-            cantResultados = articulosResultado.Count;
+            
             articulosResultado = articuloController.BuscarArticulo(solicitud);
 
-        }
+            cantResultados = articulosResultado.Count;
 
+            //numPaginas = (int)Math.Ceiling(cantResultados / (double)articulosPorPagina);
+
+        }
+        
     }
 
     public class SolicitudBusquedaModel

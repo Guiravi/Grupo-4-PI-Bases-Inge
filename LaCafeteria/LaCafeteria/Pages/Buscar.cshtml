@@ -152,24 +152,41 @@
 
         <div class="col-md-12">
 
-            @for (int articuloActual = 0 ; articuloActual < Model.articulosResultado.Count ; articuloActual++)
+            @for (int articuloActual = 0 ; articuloActual < Model.cantResultados; articuloActual++)
             {
-            <div class="panel panel-info">
-                <div class="panel-heading"><h2 class="panel-title" style="font-size: 125%"><a href="/Index?idArticuloPK=@Model.articulosResultado[articuloActual].idArticuloPK">@Model.articulosResultado[articuloActual].titulo</a></h2></div>
-                                                                                           <!--Cambiar por ver resumen-->
-                <div class="panel-body">
-                    <ul>
-                        <li><strong>Autor:</strong> @Model.articulosResultado[articuloActual].nombreAutor</li>
-                        <li><strong>Fecha publicación:</strong> @Model.articulosResultado[articuloActual].fechaPublicacion</li>
-                        <li><strong>Tipo:</strong> @Model.articulosResultado[articuloActual].tipo</li>
-                    </ul>
-                </div>
-            </div>
-            }
 
+                <div class="panel panel-info">
+                    <div class="panel-heading"><h2 class="panel-title" style="font-size: 125%"><a href="/Index?idArticuloPK=@Model.articulosResultado[articuloActual].idArticuloPK">@Model.articulosResultado[articuloActual].titulo</a></h2></div>                                                                                                
+                                                                                                <!--Cambiar por ver resumen-->
+                    <div class="panel-body">
+                        <ul>
+                            <li><strong>Autor:</strong> @Model.articulosResultado[articuloActual].nombreAutor</li>
+                            <li><strong>Fecha publicación:</strong> @Model.articulosResultado[articuloActual].fechaPublicacion</li>
+                            <li><strong>Tipo:</strong> @Model.articulosResultado[articuloActual].tipo</li>
+                        </ul>
+                    </div>
+                </div>
+
+            }
         </div>
 
     </div>
+    <!--div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <nav aria-label="Page navigation" class="text-center">
+                <ul class="pagination pagination-lg">
+                    //for (int i = 1; i <= Model.numPaginas; i++)
+                    {
+                        <li class="page-item //(i == Model.indicePaginacion ? "active" : "")">
+                            <a asp-page="/Buscar" asp-route-currentpage="//i" class="page-link">//i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+        <div class="col-md-3"></div>
+    </div-->
 
 </div>
 

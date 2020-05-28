@@ -27,6 +27,9 @@ namespace LaCafeteria.Controllers
                 {
                     articulos.AddRange(articuloDBHandler.GetArticulosPorTopico(topicosSep[i], solicitud.tiposArticulo));
                 }
+
+                articulos = articulos.Distinct(new ItemEqualityComparer()).ToList();
+
             }
             else if (solicitud.tipoBusqueda == "titulos")
             {
@@ -41,5 +44,27 @@ namespace LaCafeteria.Controllers
         }
 
 
+        /*
+        public List<ArticuloModel> GetArticulosPaginados(int indiceActual, SolicitudBusquedaModel solicitud, int tamanoPag = 8)
+        {
+            var data = BuscarArticulo(solicitud);
+            return data.OrderBy(d => d.fechaPublicacion).Skip((indiceActual - 1) * tamanoPag).Take(tamanoPag).ToList();
+        }
+        */
+
+    }
+
+    class ItemEqualityComparer : IEqualityComparer<ArticuloModel>
+    {
+        public bool Equals(ArticuloModel x, ArticuloModel y)
+        {
+            // Two items are equal if their keys are equal.
+            return x.idArticuloPK == y.idArticuloPK;
+        }
+
+        public int GetHashCode(ArticuloModel obj)
+        {
+            return obj.idArticuloPK.GetHashCode();
+        }
     }
 }
