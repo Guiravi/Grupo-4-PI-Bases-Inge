@@ -1,0 +1,109 @@
+﻿@page
+@model LaCafeteria.Pages.BuscarModel
+@{
+    ViewData["Title"] = "Buscar";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Buscar artículos</h2>
+
+<br/>
+
+
+<div class="container">
+    <form method="post">
+        <div class="row">
+            <div class="col-md-1">
+                <h4 class="text-nowrap">Buscar por:</h4>
+            </div>
+            <div class="col-md-4">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info" id="buscarPor" data-toggle="dropdown">Seleccione un tipo de búsqueda</button>
+                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Desplegar</span>
+                    </button>
+
+                    <ul class="dropdown-menu">
+                        <li>
+                            <input type="radio" class="radio-inline" id="topicos" style="margin: 5px 5px;" value="topicos" asp-for="tipoBusqueda">
+                            <label for="topicos" class="text-primary radio-inline" style="margin-bottom: 5px;">Tópicos</label>
+                        </li>
+                        <li>
+                            <input type="radio" class="radio-inline" id="titulos" style="margin: 5px 5px;" value="titulos" asp-for="tipoBusqueda">
+                            <label for="titulos" class="text-primary radio-inline" style="margin-bottom: 5px;">Títulos</label>
+                        </li>
+                        <li>
+                            <input type="radio" class="radio-inline" id="autores" style="margin: 5px 5px;" value="autores" asp-for="tipoBusqueda">
+                            <label for="autores" class="text-primary radio-inline" style="margin-bottom: 5px;">Autores</label>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="input-group" style="display: none" id="barraBusqueda">
+                    <input type="text" class="form-control" placeholder="Buscar..." id="barra" asp-for="textoBusqueda">
+                </div>
+                <div class="input-group" style="display: none" id="topicosDropdown">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info" data-toggle="dropdown" id="dropdown">Seleccionar tópico</button>
+                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Desplegar</span>
+                        </button>
+                        <ul class="dropdown-menu"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="btn-group" role="group" aria-label="...">
+                    <span class="input-group-addon">
+                        <input type="radio" aria-label="..." value="corto" asp-for="tiposArticulo" id="cortos">
+                        Cortos
+                    </span>
+                    <span class="input-group-addon">
+                        <input type="radio" aria-label="..." value="largo" asp-for="tiposArticulo" id="largos">
+                        Largos
+                    </span>
+                    <span class="input-group-addon">
+                        <input type="radio" aria-label="..." value=ambos checked="checked" asp-for="tiposArticulo" id="ambos">
+                        Ambos
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <button class="btn btn-primary" type="button" style="display:none;" id="aceptar" onclick="DoAjaxPostAndMore(this)">Aceptar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<br/>
+
+<hr>
+
+<div class="container" id="searchResults">
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <p class="text-primary" id="cantResultBusq" style="visibility: hidden; font-size:125%;">Cantidad de resultados: </p>
+        </div>
+
+        <div class="col-md-6">
+            <p class="text-primary" id="textoResultBusq" style="visibility: hidden; font-size:125%;">Resultados de la búsqueda: </p>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Buscar.js" defer></script>
+    
