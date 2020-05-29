@@ -8,6 +8,13 @@ namespace LaCafeteria.Controllers
 {
 	public class TopicoController
 	{
+        public TopicoDBHandler topicoDBHandler;
+
+        public TopicoController()
+        {
+            topicoDBHandler = new TopicoDBHandler();
+        }
+
   //      public void GetTopicosArticulo(IView_VerResumen view)
 		//{
   //          TopicoDBHandler topicoHandler = new TopicoDBHandler();
@@ -27,7 +34,6 @@ namespace LaCafeteria.Controllers
 
 		public List<TopicoModel> GetListaTopicos()
 		{
-			TopicoDBHandler topicoDBHandler = new TopicoDBHandler();
 			return topicoDBHandler.ObtenerAllTopicos();
 		}
 	}
