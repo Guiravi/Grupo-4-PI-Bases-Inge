@@ -45,7 +45,7 @@ namespace LaCafeteria.Models
         public List<TopicoModel> ObtenerTopicosArticulo(int id) {
             List<TopicoModel> topicos = new List<TopicoModel>();
 
-            String connectionString = AppSettings.getConnectionString();
+            String connectionString = AppSettings.GetConnectionString();
 
             String sqlString = "SELECT ArticuloTrataTopico.nombreTopicoFK FROM ArticuloTrataTopico WHERE ArticuloTrataTopico.idArticuloFK = @id";
 

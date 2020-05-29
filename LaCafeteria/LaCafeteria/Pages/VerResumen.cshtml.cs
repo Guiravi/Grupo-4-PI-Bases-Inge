@@ -29,10 +29,9 @@ namespace LaCafeteria.Pages
             articuloController = new ArticuloController();
             topicoController = new TopicoController();
 
-            topicos = topicoController.GetTopicosArticulo(idArticuloPK);
             articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
-
-
+            autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
+            topicos = topicoController.GetTopicosArticulo(idArticuloPK);
         }
 
         public void OnPost() {
