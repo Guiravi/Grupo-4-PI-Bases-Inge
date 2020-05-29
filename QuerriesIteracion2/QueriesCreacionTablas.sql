@@ -48,8 +48,8 @@ CREATE TABLE Miembro
 	idiomas NVARCHAR(MAX),
 	informacionLaboral NVARCHAR(MAX),
 	meritos INTEGER,
-	activo BIT CONSTRAINT DF_Miembro_activo DEFAULT 1,
-	nombreRolFK NVARCHAR(25) CONSTRAINT DF_Miembro_nombreRolFK DEFAULT 'Periferico'
+	activo BIT CONSTRAINT DF_Miembro_activo DEFAULT 1 CONSTRAINT NN_Miembro_activo NOT NULL,
+	nombreRolFK NVARCHAR(25) CONSTRAINT DF_Miembro_nombreRolFK DEFAULT 'Periférico' CONSTRAINT NN_Miembro_nombreRolFK NOT NULL,
 
 	CONSTRAINT PK_Autor PRIMARY KEY (usernamePK),
 	CONSTRAINT UQ_Autor_email UNIQUE (email),

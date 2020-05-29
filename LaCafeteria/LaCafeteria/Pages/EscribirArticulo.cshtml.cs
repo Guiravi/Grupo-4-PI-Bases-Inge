@@ -14,24 +14,30 @@ using LaCafeteria.Controllers;
 
 namespace LaCafeteria.Pages
 {
-    public class EscribirArticuloModel : PageModel
-    {
+	public class EscribirArticuloModel : PageModel
+	{
 		[BindProperty]
 		public ArticuloModel articulo { set; get; }
 
 		public List<TopicoModel> listaTopicos { set; get; }
 
+		public List<MiembroModel> listaMiembros { set; get; }
+
 		[BindProperty]
 		public List<string> listaTopicosArticulo { set; get; }
 
+		[BindProperty]
+		public List<string> listaMiembrosAutores { set; get; }
+
 		public TopicoController topicoController;
-		//public ArticuloController articuloController;
+		public MiembroController miembroController;
 
 		public EscribirArticuloModel()
 		{
 			topicoController = new TopicoController();
-			//aController = new TopicoController();
+			miembroController = new MiembroController();
 			listaTopicos = topicoController.GetListaTopicos();
+			listaMiembros = miembroController.GetListaMiembros();
 		}
 
 		public void OnGet()
@@ -40,11 +46,9 @@ namespace LaCafeteria.Pages
         }
 
 		public void OnPost()
-		{	
-			// TODO: Definir el usernameFK "Manuelito01" en alguna variable global para acceder desde cualquier razor page.
-			articulo.usernameFK = "Manuelito01";
-			// TODO: Manejar el tipo como string? Referirse a comentario de la profe de la iteracion 1
-			articulo.tipo = 0;
+		{
+			articulo.tipo = "corto";
+			// TODO: articuloController.SubirArticulo(articulo, listaUsernameAutores)
 			
 		}
 	}

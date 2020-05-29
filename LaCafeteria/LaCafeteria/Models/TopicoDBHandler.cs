@@ -11,31 +11,36 @@ using LaCafeteria.Utilidades;
 /// 
 namespace LaCafeteria.Models
 {
-    public class TopicoDBHandler
-    {
-        public List<TopicoModel> ObtenerAllTopicos() {
-            List<TopicoModel> topicos = new List<TopicoModel>();
+	public class TopicoDBHandler
+	{
+		public List<TopicoModel> GetListaTopicos()
+		{
+			List<TopicoModel> topicos = new List<TopicoModel>();
 
-            String connectionString = AppSettings.getConnectionString();
-            String sqlString = "SELECT Topico.nombreTopicoPK FROM Topico";
-            using ( SqlConnection connection = new SqlConnection(connectionString) ) {
-                using ( SqlCommand command = new SqlCommand(sqlString, connection) ) {
-                    connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
+			String connectionString = AppSettings.GetConnectionString();
+			String sqlString = "SELECT Topico.nombrePK FROM Topico";
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+				using (SqlCommand command = new SqlCommand(sqlString, connection))
+				{
+					connection.Open();
+					SqlDataReader reader = command.ExecuteReader();
 
-                    while ( reader.Read() ) {
-                        TopicoModel topicoActual = new TopicoModel() {
-                            nombre = (string) reader["nombreTopicoPK"]
-                        };
+					while (reader.Read())
+					{
+						TopicoModel topicoActual = new TopicoModel()
+						{
+							nombre = (string)reader["nombrePK"]
+						};
 
                         topicos.Add(topicoActual);
                     }
 
-                    reader.Close();
-                }
-            }
-            return topicos;
-        }
+					reader.Close();
+				}
+			}
+			return topicos;
+		}
 
         public List<TopicoModel> ObtenerTopicosArticulo(int id) {
             List<TopicoModel> topicos = new List<TopicoModel>();

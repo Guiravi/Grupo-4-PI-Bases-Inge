@@ -8,10 +8,10 @@ using LaCafeteria.Utilidades;
 
 namespace LaCafeteria.Models
 {
-    public class ArticuloDBHandler
-    {
+	public class ArticuloDBHandler
+	{
 
-        /*
+		/*
         public void SaveArticulo(ArticuloModel articulo, List<TopicoModel> topicos)
         {
             String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
@@ -118,212 +118,284 @@ namespace LaCafeteria.Models
 
             return current_id;
         }
+        */
 
-        public byte[] DescargarArticuloDocx(int idArticulo)
+		public List<ArticuloModel> GetArticulosPorAutor(String autores, int tipos)
+		{
+			String connectionString = AppSettings.GetConnectionString();
+
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+				connection.Open();
+
+				SqlCommand cmd;
+
+				switch (tipos)
+				{
+					case 1:
+						cmd = new SqlCommand("SELECT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+						" FROM  Articulo A JOIN MiembroAutorDeArticulo MAA " +
+                            " ON A.idArticuloPK = MAA.idArticuloFK " +
+                        " JOIN Miembro M " +
+                            " ON MAA.usernameMiemFK = M.usernamePK " +                                                                        
+                        " WHERE M.nombre +' '+ M.apellido1 +' '+ M.apellido2 LIKE @autor " +
+                            " AND tipo = 'Corto' " +
+                        " ORDER BY fechaPublicacion DESC;", connection);
+						break;
+					case 2:
+                        cmd = new SqlCommand("SELECT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        " FROM  Articulo A JOIN MiembroAutorDeArticulo MAA " +
+                            " ON A.idArticuloPK = MAA.idArticuloFK " +
+                        " JOIN Miembro M " +
+                            " ON MAA.usernameMiemFK = M.usernamePK " +
+                        " WHERE M.nombre + M.apellido1 + M.apellido2 LIKE @autor " +
+                            " AND tipo = 'Largo' " +
+                        " ORDER BY fechaPublicacion DESC;", connection);
+                        break;
+					default:
+                        cmd = new SqlCommand("SELECT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        " FROM  Articulo A JOIN MiembroAutorDeArticulo MAA " +
+                            " ON A.idArticuloPK = MAA.idArticuloFK " +
+                        " JOIN Miembro M " +
+                            " ON MAA.usernameMiemFK = M.usernamePK " +
+                        " WHERE M.nombre + M.apellido1 + M.apellido2 LIKE @autor " +
+                        " ORDER BY fechaPublicacion DESC;", connection);
+                        break;
+				}
+
+				cmd.Parameters.AddWithValue("@autor", "%" + autores + "%");
+
+				SqlDataReader reader = cmd.ExecuteReader();
+
+				List<ArticuloModel> artList = new List<ArticuloModel>();
+
+				while (reader.Read())
+				{
+					ArticuloModel articuloActual = new ArticuloModel()
+					{
+						idArticuloPK = (int)reader["idArticuloPK"],
+						titulo = (String)reader["titulo"],
+						tipo = (String)reader["tipo"],
+						fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
+						resumen = (String)reader["resumen"],
+						contenido = (String)reader["contenido"],
+						estado = (String)reader["estado"],
+						visitas = (int)reader["visitas"],
+						puntajeTotalRev = (float)reader["puntajeTotalRev"],
+						calificacionTotalMiem = (int)reader["calificacionTotalMiem"]
+					};
+
+					artList.Add(articuloActual);
+				}
+
+				reader.Close();
+
+				return artList;
+			}
+
+		}
+
+		public List<ArticuloModel> GetArticulosPorTitulo(String titulo, int tipos)
+		{
+			String connectionString = AppSettings.GetConnectionString();
+
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+				connection.Open();
+
+				SqlCommand cmd;
+
+				switch (tipos)
+				{
+					case 1:
+						cmd = new SqlCommand("SELECT  * " +
+						" FROM  Articulo " +
+                        " WHERE titulo LIKE @titulo " +
+                            " AND tipo = 'Corto' " + 
+                        " ORDER BY fechaPublicacion DESC;", connection);
+						break;
+					case 2:
+                        cmd = new SqlCommand("SELECT  * " +
+                        " FROM  Articulo " +
+                        " WHERE titulo LIKE @titulo " +
+                            " AND tipo = 'Largo' " +
+                        " ORDER BY fechaPublicacion DESC;", connection);
+                        break;
+					default:
+                        cmd = new SqlCommand("SELECT  * " +
+                        " FROM  Articulo " +
+                        " WHERE titulo LIKE @titulo " +
+                        " ORDER BY fechaPublicacion DESC;", connection);
+                        break;
+				}
+
+				cmd.Parameters.AddWithValue("@titulo", "%" + titulo + "%");
+
+				SqlDataReader reader = cmd.ExecuteReader();
+
+				List<ArticuloModel> artList = new List<ArticuloModel>();
+
+				while (reader.Read())
+				{
+					ArticuloModel articuloActual = new ArticuloModel()
+					{
+						idArticuloPK = (int)reader["idArticuloPK"],
+						titulo = (String)reader["titulo"],
+						tipo = (String)reader["tipo"],
+						fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
+						resumen = (String)reader["resumen"],
+						contenido = (String)reader["contenido"],
+						estado = (String)reader["estado"],
+						visitas = (int)reader["visitas"],
+						puntajeTotalRev = (float)reader["puntajeTotalRev"],
+						calificacionTotalMiem = (int)reader["calificacionTotalMiem"]
+					};
+
+					artList.Add(articuloActual);
+				}
+
+				reader.Close();
+
+				return artList;
+			}
+		}
+
+		public List<ArticuloModel> GetArticulosPorTopico(String topico, int tipos)
+		{
+			String connectionString = AppSettings.GetConnectionString();
+
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+				connection.Open();
+
+				SqlCommand cmd;
+
+				switch (tipos)
+				{
+					case 1:
+						cmd = new SqlCommand("SELECT  DISTINCT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        " FROM  Articulo A JOIN ArticuloTrataTopico ATT " +
+                            " ON A.idArticuloPK = ATT.idArticuloFK " +
+                        " JOIN Topico T " +
+                            " ON ATT.nombreTopicoFK = @topico " +
+                        " WHERE A.tipo = 'Corto' " +
+                        " ORDER BY A.fechaPublicacion DESC;", connection);
+						break;
+					case 2:
+                        cmd = new SqlCommand("SELECT  DISTINCT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        " FROM  Articulo A JOIN ArticuloTrataTopico ATT " +
+                            " ON A.idArticuloPK = ATT.idArticuloFK " +
+                        " JOIN Topico T " +
+                            " ON ATT.nombreTopicoFK = @topico " +
+                        " WHERE A.tipo = 'Largo' " +
+                        " ORDER BY A.fechaPublicacion DESC;", connection);
+                        break;
+					default:
+                        cmd = new SqlCommand("SELECT  DISTINCT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        " FROM  Articulo A JOIN ArticuloTrataTopico ATT " +
+                            " ON A.idArticuloPK = ATT.idArticuloFK " +
+                        " JOIN Topico T " +
+                            " ON ATT.nombreTopicoFK = @topico " +
+                        " ORDER BY A.fechaPublicacion DESC;", connection);
+                        break;
+				}
+
+				cmd.Parameters.AddWithValue("@topico", topico);
+
+				SqlDataReader reader = cmd.ExecuteReader();
+
+				List<ArticuloModel> artList = new List<ArticuloModel>();
+
+				while (reader.Read())
+				{
+					ArticuloModel articuloActual = new ArticuloModel()
+					{
+						idArticuloPK = (int)reader["idArticuloPK"],
+						titulo = (String)reader["titulo"],
+						tipo = (String)reader["tipo"],
+						fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
+						resumen = (String)reader["resumen"],
+						contenido = (String)reader["contenido"],
+						estado = (String)reader["estado"],
+						visitas = (int)reader["visitas"],
+						puntajeTotalRev = (float)reader["puntajeTotalRev"],
+						calificacionTotalMiem = (int)reader["calificacionTotalMiem"]
+					};
+
+					artList.Add(articuloActual);
+				}
+
+				reader.Close();
+
+				return artList;
+			}
+		}
+
+		public byte[] DescargarArticuloDocx(int idArticulo)
+		{
+			String connectionString = AppSettings.GetConnectionString();
+			SqlCommand cmd;
+			string contenido = "";
+
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+
+				connection.Open();
+
+				cmd = new SqlCommand("SELECT contenido " +
+                    " FROM [dbo].[Articulo] " +
+                    " WHERE idArticuloPK = @idArticulo;", connection);
+
+				cmd.Parameters.AddWithValue("@idArticulo", idArticulo);
+
+				SqlDataReader reader = cmd.ExecuteReader();
+
+				while (reader.Read())
+				{
+					contenido = Convert.ToString(reader.GetValue(0));
+				}
+
+				reader.Close();
+
+			}
+
+			return System.Convert.FromBase64String(contenido);
+		}
+
+        public List<MiembroAutorDeArticuloModel> GetMiembroAutorDeArticulo()
         {
-            String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
-            SqlCommand cmd;
-            string contenido = "";
+            String connectionString = AppSettings.GetConnectionString();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-
                 connection.Open();
 
-                cmd = new SqlCommand("SELECT contenido FROM [dbo].[Articulo] WHERE idArticuloPK = @idArticulo", connection);
-
-                cmd.Parameters.AddWithValue("@idArticulo", idArticulo);
-
-                SqlDataReader identReader = cmd.ExecuteReader();
-
-                while (identReader.Read())
-                {
-                    contenido = Convert.ToString(identReader.GetValue(0));
-                }
-
-                identReader.Close();
-
-            }
-
-            return System.Convert.FromBase64String(contenido);
-        }
-
-       */
-
-        public List<ArticuloModel> GetArticulosPorAutor(String autores, int tipos)
-        {
-            String connectionString = AppSettings.getConnectionString();
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                SqlCommand cmd;
-
-                switch (tipos)
-                {
-                    case 1:
-                        cmd = new SqlCommand("SELECT  idArticuloPK, titulo, resumen, tipo, contenido, fechaPublicacion, nombreAutor, usernameFK " +
-                        " FROM  Articulo  WHERE nombreAutor LIKE @autor AND tipo = 0 ORDER BY fechaPublicacion DESC", connection);
-                        break;
-                    case 2:
-                        cmd = new SqlCommand("SELECT  idArticuloPK, titulo, resumen, tipo, contenido, fechaPublicacion, nombreAutor, usernameFK " +
-                       " FROM  Articulo  WHERE nombreAutor LIKE @autor AND tipo = 1 ORDER BY fechaPublicacion DESC", connection);
-                        break;
-                    default:
-                        cmd = new SqlCommand("SELECT  idArticuloPK, titulo, resumen, tipo, contenido, fechaPublicacion, nombreAutor, usernameFK " +
-                       " FROM  Articulo  WHERE nombreAutor LIKE @autor ORDER BY fechaPublicacion DESC", connection);
-                        break;
-                }
-
-                cmd.Parameters.AddWithValue("@autor", "%" + autores + "%");
+                SqlCommand cmd = new SqlCommand("SELECT *" +
+                    " FROM MiembroAutorDeArticulo", connection);
 
                 SqlDataReader reader = cmd.ExecuteReader();
 
-                List<ArticuloModel> artList = new List<ArticuloModel>();
+                List<MiembroAutorDeArticuloModel> relacionList = new List<MiembroAutorDeArticuloModel>();
 
                 while (reader.Read())
                 {
-                    ArticuloModel articuloActual = new ArticuloModel()
+                    MiembroAutorDeArticuloModel relacionActual = new MiembroAutorDeArticuloModel()
                     {
                         idArticuloPK = (int)reader["idArticuloPK"],
-                        titulo = (String)reader["titulo"],
-                        resumen = (String)reader["resumen"],
-                        tipo = (int)reader["tipo"], //Cambiar por string en BD
-                        contenido = (String)reader["contenido"],
-                        fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
-                        nombreAutor = (String)reader["nombreAutor"], //Quitar
-                        usernameFK = (String)reader["usernameFK"]
+                        usernameMiemFK = (String)reader["usernameMiemFK"]
                     };
 
-                    artList.Add(articuloActual);
+                    relacionList.Add(relacionActual);
                 }
 
                 reader.Close();
 
-                return artList;
-            }
-
-        }
-
-        public List<ArticuloModel> GetArticulosPorTitulo(String titulo, int tipos)
-        {
-            String connectionString = AppSettings.getConnectionString();
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                SqlCommand cmd;
-
-                switch (tipos)
-                {
-                    case 1:
-                        cmd = new SqlCommand("SELECT  idArticuloPK, titulo, resumen, tipo, contenido, fechaPublicacion, nombreAutor, usernameFK " +
-                        " FROM  Articulo  WHERE titulo LIKE @titulo AND tipo = 0 ORDER BY fechaPublicacion DESC", connection);
-                        break;
-                    case 2:
-                        cmd = new SqlCommand("SELECT  idArticuloPK, titulo, resumen, tipo, contenido, fechaPublicacion, nombreAutor, usernameFK " +
-                       " FROM  Articulo  WHERE titulo LIKE @titulo AND tipo = 1 ORDER BY fechaPublicacion DESC", connection);
-                        break;
-                    default:
-                        cmd = new SqlCommand("SELECT  idArticuloPK, titulo, resumen, tipo, contenido, fechaPublicacion, nombreAutor, usernameFK " +
-                       " FROM  Articulo  WHERE titulo LIKE @titulo ORDER BY fechaPublicacion DESC", connection);
-                        break;
-                }
-
-                cmd.Parameters.AddWithValue("@titulo", "%" + titulo + "%");
-
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                List<ArticuloModel> artList = new List<ArticuloModel>();
-
-                while (reader.Read())
-                {
-                    ArticuloModel articuloActual = new ArticuloModel()
-                    {
-                        idArticuloPK = (int)reader["idArticuloPK"],
-                        titulo = (String)reader["titulo"],
-                        resumen = (String)reader["resumen"],
-                        tipo = (int)reader["tipo"], //Cambiar por string en BD
-                        contenido = (String)reader["contenido"],
-                        fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
-                        nombreAutor = (String)reader["nombreAutor"], //Quitar
-                        usernameFK = (String)reader["usernameFK"]
-                    };
-
-                    artList.Add(articuloActual);
-                }
-
-                reader.Close();
-
-                return artList;
+                return relacionList;
             }
         }
 
-        public List<ArticuloModel> GetArticulosPorTopico(String topico, int tipos)
-        {
-            String connectionString = AppSettings.getConnectionString();
+		/**
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                SqlCommand cmd;
-
-                switch (tipos)
-                {
-                    case 1:
-                        cmd = new SqlCommand("SELECT  DISTINCT Articulo.idArticuloPK, Articulo.titulo, Articulo.resumen, Articulo.tipo, Articulo.contenido, Articulo.fechaPublicacion, Articulo.nombreAutor, Articulo.usernameFK " +
-                        " FROM  Articulo JOIN TopicosArticulo ON " +
-                        " Articulo.idArticuloPK = TopicosArticulo.idArticuloFK JOIN Topico ON " +
-                        " TopicosArticulo.nombreTopicoFK = @topico AND Articulo.tipo = 0 ORDER BY fechaPublicacion DESC", connection);
-                        break;
-                    case 2:
-                        cmd = new SqlCommand("SELECT  DISTINCT Articulo.idArticuloPK, Articulo.titulo, Articulo.resumen, Articulo.tipo, Articulo.contenido, Articulo.fechaPublicacion, Articulo.nombreAutor, Articulo.usernameFK " +
-                        " FROM  Articulo JOIN TopicosArticulo ON " +
-                        " Articulo.idArticuloPK = TopicosArticulo.idArticuloFK JOIN Topico ON " +
-                        " TopicosArticulo.nombreTopicoFK = @topico AND Articulo.tipo = 1 ORDER BY fechaPublicacion DESC", connection);
-                        break;
-                    default:
-                        cmd = new SqlCommand("SELECT  DISTINCT Articulo.idArticuloPK, Articulo.titulo, Articulo.resumen, Articulo.tipo, Articulo.contenido, Articulo.fechaPublicacion, Articulo.nombreAutor, Articulo.usernameFK " +
-                        " FROM  Articulo JOIN TopicosArticulo ON " +
-                        " Articulo.idArticuloPK = TopicosArticulo.idArticuloFK JOIN Topico ON " +
-                        " TopicosArticulo.nombreTopicoFK = @topico ORDER BY fechaPublicacion DESC", connection);
-                        break;
-                }
-
-
-                cmd.Parameters.AddWithValue("@topico", topico);
-
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                List<ArticuloModel> artList = new List<ArticuloModel>();
-
-                while (reader.Read())
-                {
-                    ArticuloModel articuloActual = new ArticuloModel()
-                    {
-                        idArticuloPK = (int)reader["idArticuloPK"],
-                        titulo = (String)reader["titulo"],
-                        resumen = (String)reader["resumen"],
-                        tipo = (int)reader["tipo"], //Cambiar por string en BD
-                        contenido = (String)reader["contenido"],
-                        fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
-                        nombreAutor = (String)reader["nombreAutor"], //Quitar
-                        usernameFK = (String)reader["usernameFK"]
-                    };
-
-                    artList.Add(articuloActual);
-                }
-
-                reader.Close();
-
-                return artList;
-            }
-        }
-
-        /**
         public string GetResumenDB(int idArticuloPK)
         {
             String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
