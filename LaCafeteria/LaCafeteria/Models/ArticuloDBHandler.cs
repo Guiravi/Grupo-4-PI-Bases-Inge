@@ -118,37 +118,7 @@ namespace LaCafeteria.Models
 
             return current_id;
         }
-
-        public byte[] DescargarArticuloDocx(int idArticulo)
-        {
-            String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
-            SqlCommand cmd;
-            string contenido = "";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-
-                connection.Open();
-
-                cmd = new SqlCommand("SELECT contenido FROM [dbo].[Articulo] WHERE idArticuloPK = @idArticulo", connection);
-
-                cmd.Parameters.AddWithValue("@idArticulo", idArticulo);
-
-                SqlDataReader identReader = cmd.ExecuteReader();
-
-                while (identReader.Read())
-                {
-                    contenido = Convert.ToString(identReader.GetValue(0));
-                }
-
-                identReader.Close();
-
-            }
-
-            return System.Convert.FromBase64String(contenido);
-        }
-
-       */
+        */
 
         public List<ArticuloModel> GetArticulosPorAutor(String autores, int tipos)
         {
@@ -188,12 +158,14 @@ namespace LaCafeteria.Models
                     {
                         idArticuloPK = (int)reader["idArticuloPK"],
                         titulo = (String)reader["titulo"],
-                        resumen = (String)reader["resumen"],
-                        tipo = (int)reader["tipo"], //Cambiar por string en BD
-                        contenido = (String)reader["contenido"],
+                        tipo = (String)reader["tipo"],
                         fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
-                        nombreAutor = (String)reader["nombreAutor"], //Quitar
-                        usernameFK = (String)reader["usernameFK"]
+                        resumen = (String)reader["resumen"],
+                        contenido = (String)reader["contenido"],
+                        estado = (String)reader["estado"],
+                        visitas = (int)reader["visitas"],
+                        puntajeTotalRev = (float)reader["puntajeTotalRev"],
+                        calificacionTotalMiem = (int)reader["calificacionTotalMiem"]
                     };
 
                     artList.Add(articuloActual);
@@ -244,12 +216,14 @@ namespace LaCafeteria.Models
                     {
                         idArticuloPK = (int)reader["idArticuloPK"],
                         titulo = (String)reader["titulo"],
-                        resumen = (String)reader["resumen"],
-                        tipo = (int)reader["tipo"], //Cambiar por string en BD
-                        contenido = (String)reader["contenido"],
+                        tipo = (String)reader["tipo"],                        
                         fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
-                        nombreAutor = (String)reader["nombreAutor"], //Quitar
-                        usernameFK = (String)reader["usernameFK"]
+                        resumen = (String)reader["resumen"],
+                        contenido = (String)reader["contenido"],                        
+                        estado = (String)reader["estado"],
+                        visitas = (int)reader["visitas"],
+                        puntajeTotalRev = (float)reader["puntajeTotalRev"],
+                        calificacionTotalMiem = (int)reader["calificacionTotalMiem"]
                     };
 
                     artList.Add(articuloActual);
@@ -306,12 +280,14 @@ namespace LaCafeteria.Models
                     {
                         idArticuloPK = (int)reader["idArticuloPK"],
                         titulo = (String)reader["titulo"],
-                        resumen = (String)reader["resumen"],
-                        tipo = (int)reader["tipo"], //Cambiar por string en BD
-                        contenido = (String)reader["contenido"],
+                        tipo = (String)reader["tipo"],
                         fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
-                        nombreAutor = (String)reader["nombreAutor"], //Quitar
-                        usernameFK = (String)reader["usernameFK"]
+                        resumen = (String)reader["resumen"],
+                        contenido = (String)reader["contenido"],
+                        estado = (String)reader["estado"],
+                        visitas = (int)reader["visitas"],
+                        puntajeTotalRev = (float)reader["puntajeTotalRev"],
+                        calificacionTotalMiem = (int)reader["calificacionTotalMiem"]
                     };
 
                     artList.Add(articuloActual);
@@ -321,6 +297,35 @@ namespace LaCafeteria.Models
 
                 return artList;
             }
+        }
+
+        public byte[] DescargarArticuloDocx(int idArticulo)
+        {
+            String connectionString = AppSettings.getConnectionString();
+            SqlCommand cmd;
+            string contenido = "";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
+                connection.Open();
+
+                cmd = new SqlCommand("SELECT contenido FROM [dbo].[Articulo] WHERE idArticuloPK = @idArticulo", connection);
+
+                cmd.Parameters.AddWithValue("@idArticulo", idArticulo);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    contenido = Convert.ToString(reader.GetValue(0));
+                }
+
+                reader.Close();
+
+            }
+
+            return System.Convert.FromBase64String(contenido);
         }
 
         /**
