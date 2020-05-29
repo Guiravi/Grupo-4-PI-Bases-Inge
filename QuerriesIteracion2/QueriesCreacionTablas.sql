@@ -49,12 +49,12 @@ CREATE TABLE Miembro
 	informacionLaboral NVARCHAR(MAX),
 	meritos INTEGER,
 	activo BIT CONSTRAINT DF_Miembro_activo DEFAULT 1,
-	nombreRolFK NVARCHAR(25) CONSTRAINT DF_Miembro_nombreRolFK DEFAULT 'Periferico'
+	nombreRolFK NVARCHAR(25) CONSTRAINT DF_Miembro_nombreRolFK DEFAULT 'Perif√©rico'
 
 	CONSTRAINT PK_Autor PRIMARY KEY (usernamePK),
 	CONSTRAINT UQ_Autor_email UNIQUE (email),
 	CONSTRAINT FK_Miembro_Rol FOREIGN KEY (nombreRolFK) REFERENCES ROL(nombrePK)
-		ON DELETE NO ACTION --Se deberÌan eliminar todos los usuarios asociados a este rol antes de eliminar el rol.
+		ON DELETE NO ACTION --Se deber√≠an eliminar todos los usuarios asociados a este rol antes de eliminar el rol.
 		ON UPDATE CASCADE
 );
 
@@ -65,7 +65,7 @@ CREATE TABLE MiembroAutorDeArticulo
 
 	CONSTRAINT PK_MiembroAutorDeArticulo PRIMARY KEY (usernameMiemFK, idArticuloFK),
 	CONSTRAINT FK_MiembroAutorDeArticulo_Miembro FOREIGN KEY (usernameMiemFK) REFERENCES Miembro(usernamePK)
-		ON DELETE NO ACTION  --Se quiere mantener un historial de los autores de este artÌculo aunque ya sean activos.
+		ON DELETE NO ACTION  --Se quiere mantener un historial de los autores de este art√≠culo aunque ya sean activos.
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_MiembroAutorDeArticulo_Articulo FOREIGN KEY (idArticuloFK) REFERENCES Articulo(idArticuloPK)
 		ON DELETE CASCADE --Se eliminan las tuplas que asocian a los autores con el articulo borrado.
@@ -80,10 +80,10 @@ CREATE TABLE MiembroCalificaArticulo
 
 	CONSTRAINT PK_MiembroCalificaArticulo PRIMARY KEY (usernameMiemFK, idArticuloFK),
 	CONSTRAINT FK_MiembroCalificaArticulo_Miembro FOREIGN KEY (usernameMiemFK) REFERENCES Miembro(usernamePK)
-		ON DELETE NO ACTION --Se quiere mantener el registro de que este usuario calificÛ este artÌculo
+		ON DELETE NO ACTION --Se quiere mantener el registro de que este usuario calific√≥ este art√≠culo
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_MiembroCalificaArticulo_Articulo FOREIGN KEY (idArticuloFK) REFERENCES Articulo(idArticuloPK)
-		ON DELETE CASCADE --Se eliminan todas las calificaciones de este artÌculo.
+		ON DELETE CASCADE --Se eliminan todas las calificaciones de este art√≠culo.
 		ON UPDATE CASCADE
 );
 
@@ -94,10 +94,10 @@ CREATE TABLE NucleoInteresaRevisarArticulo
 
 	CONSTRAINT PK_NucleoInteresaRevisarArticulo PRIMARY KEY (usernameMiemFK, idArticuloFK),
 	CONSTRAINT FK_NucleoInteresaRevisarArticulo_Miembro FOREIGN KEY (usernameMiemFK) REFERENCES Miembro(usernamePK)
-		ON DELETE CASCADE --Ya el usuario no va a existir, por lo que ya no tiene interes en revisar el artÌculo
+		ON DELETE CASCADE --Ya el usuario no va a existir, por lo que ya no tiene interes en revisar el art√≠culo
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_NucleoInteresaRevisarArticulo_Articulo FOREIGN KEY (idArticuloFK) REFERENCES Articulo(idArticuloPK)
-		ON DELETE CASCADE --Se eliminan todos las tuplas relacionadas a querer revisar este artÌculo.
+		ON DELETE CASCADE --Se eliminan todos las tuplas relacionadas a querer revisar este art√≠culo.
 		ON UPDATE CASCADE
 );
 
@@ -111,10 +111,10 @@ CREATE TABLE NucleoRevisaArticulo
 
 	CONSTRAINT PK_NucleoRevisaArticulo PRIMARY KEY (usernameMiemFK, idArticuloFK),
 	CONSTRAINT FK_NucleoRevisaArticulo_Miembro FOREIGN KEY (usernameMiemFK) REFERENCES Miembro(usernamePK)
-		ON DELETE NO ACTION --Se quiere mantener el registro del puntaje y comentarios dados por este autor, adem·s que influye en el c·lculo de los mÈritos.
+		ON DELETE NO ACTION --Se quiere mantener el registro del puntaje y comentarios dados por este autor, adem√°s que influye en el c√°lculo de los m√©ritos.
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_NucleoRevisaArticulo_Articulo FOREIGN KEY (idArticuloFK) REFERENCES Articulo(idArticuloPK)
-		ON DELETE CASCADE --Se borran todas las revisiones asociadas al artÌculo borrado.
+		ON DELETE CASCADE --Se borran todas las revisiones asociadas al art√≠culo borrado.
 		ON UPDATE CASCADE
 );
 
@@ -125,9 +125,9 @@ CREATE TABLE ArticuloTrataTopico
 
 	CONSTRAINT PK_ArticuloTrataTopico PRIMARY KEY(idArticuloFK, nombreTopicoFK),
 	CONSTRAINT FK_ArticuloTrataTopico_Topico FOREIGN KEY (nombreTopicoFK) REFERENCES Topico(nombrePK)
-		ON DELETE NO ACTION --Se tienen que borrar todos los artÌculos asociados al tÛpico antes de borrar el tÛpico.
+		ON DELETE NO ACTION --Se tienen que borrar todos los art√≠culos asociados al t√≥pico antes de borrar el t√≥pico.
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_ArticuloTrataTopico_Articulo FOREIGN KEY (idArticuloFK) REFERENCES Articulo(idArticuloPK)
-		ON DELETE CASCADE --Se elimina la tupla que asociaba al artÌculo con el tÛpico.
+		ON DELETE CASCADE --Se elimina la tupla que asociaba al art√≠culo con el t√≥pico.
 		ON UPDATE CASCADE
 );
