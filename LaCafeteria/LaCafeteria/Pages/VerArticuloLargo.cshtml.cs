@@ -32,7 +32,7 @@ namespace LaCafeteria.Pages
 
         public void OnGet()
         {
-            articuloController.GetRutaArticuloPDF(idArticuloPK , rutaCarpeta);
+            articuloController.CargarArticuloPDF(idArticuloPK , rutaCarpeta);
             articuloPDF = Convert.ToString(idArticuloPK) + ".pdf";
         }
     }
