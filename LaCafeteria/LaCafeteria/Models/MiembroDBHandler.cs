@@ -48,22 +48,22 @@ namespace LaCafeteria.Models
 							MiembroModel miembroAutor = new MiembroModel()
 							{
 								usernamePK = (string)dataReader["usernamePK"],
-								email = (string)dataReader["usernamePK"],
-								nombre = (string)dataReader["usernamePK"],
-								apellido1 = (string)dataReader["usernamePK"],
-								apellido2 = (string)dataReader["usernamePK"],
-								fechaNacimiento = (string)dataReader["usernamePK"],
-								pais = (string)dataReader["usernamePK"],
-								estado = (string)dataReader["usernamePK"],
-								ciudad = (string)dataReader["usernamePK"],
-								rutaImagenPerfil = (string)dataReader["usernamePK"],
-								hobbies = (string)dataReader["usernamePK"],
-								habilidades = (string)dataReader["usernamePK"],
-								idiomas = (string)dataReader["usernamePK"],
-								informacionLaboral = (string)dataReader["usernamePK"],
-								meritos = (int)dataReader["usernamePK"],
-								activo = (bool)dataReader["usernamePK"],
-								nombreRolFK = (string)dataReader["usernamePK"]
+								email = (string)dataReader["email"],
+								nombre = (string)dataReader["nombre"],
+								apellido1 = (string)dataReader["apellido1"],
+								apellido2 = (string)dataReader["apellido2"],
+								fechaNacimiento = (string)dataReader["fechaNacimiento"].ToString().Remove(dataReader["fechaNacimiento"].ToString().Length - 12, 12),
+								pais = (string)dataReader["pais"],
+								estado = (string)dataReader["estado"],
+								ciudad = (string)dataReader["ciudad"],
+								rutaImagenPerfil = (string)dataReader["rutaImagenPerfil"],
+								hobbies = (!DBNull.Value.Equals(dataReader["hobbies"])) ? (string)dataReader["hobbies"] : null,
+								habilidades = (!DBNull.Value.Equals(dataReader["habilidades"])) ? (string)dataReader["habilidades"] : null,
+								idiomas = (!DBNull.Value.Equals(dataReader["idiomas"])) ? (string)dataReader["idiomas"] : null,
+								informacionLaboral = (!DBNull.Value.Equals(dataReader["informacionLaboral"])) ? (string)dataReader["informacionLaboral"] : null,
+								meritos = (!DBNull.Value.Equals(dataReader["meritos"])) ? (int)dataReader["meritos"] : -1,
+								activo = (!DBNull.Value.Equals(dataReader["activo"])) ? (bool)dataReader["activo"] : true,
+								nombreRolFK = (string)dataReader["nombreRolFK"]
 							};
 
 							listaMiembros.Add(miembroAutor);

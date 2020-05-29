@@ -18,7 +18,7 @@
     "LaCafeteria": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "Index",
+      "launchUrl": "EscribirArticulo",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

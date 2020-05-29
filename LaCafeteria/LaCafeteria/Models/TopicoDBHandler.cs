@@ -13,12 +13,12 @@ namespace LaCafeteria.Models
 {
 	public class TopicoDBHandler
 	{
-		public List<TopicoModel> ObtenerAllTopicos()
+		public List<TopicoModel> GetListaTopicos()
 		{
 			List<TopicoModel> topicos = new List<TopicoModel>();
 
 			String connectionString = AppSettings.GetConnectionString();
-			String sqlString = "SELECT Topico.nombreTopicoPK FROM Topico";
+			String sqlString = "SELECT Topico.nombrePK FROM Topico";
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				using (SqlCommand command = new SqlCommand(sqlString, connection))
@@ -30,42 +30,42 @@ namespace LaCafeteria.Models
 					{
 						TopicoModel topicoActual = new TopicoModel()
 						{
-							nombre = (string)reader["nombreTopicoPK"]
+							nombre = (string)reader["nombrePK"]
 						};
 
 						topicos.Add(topicoActual);
 					}
 
-                    reader.Close();
+					reader.Close();
 				}
 			}
 			return topicos;
 		}
 
-        //public List<TopicoModel> ObtenerTopicosArticulo(int id)
-        //{
-        //    List<TopicoModel> topicos = new List<TopicoModel>();
+		//public List<TopicoModel> ObtenerTopicosArticulo(int id)
+		//{
+		//    List<TopicoModel> topicos = new List<TopicoModel>();
 
-        //    String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
-        //    String sqlString = "SELECT Topico.nombreTopicoPK FROM Topico JOIN TopicosArticulo ON idArticuloFK = @id";
+		//    String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
+		//    String sqlString = "SELECT Topico.nombreTopicoPK FROM Topico JOIN TopicosArticulo ON idArticuloFK = @id";
 
-        //    using ( SqlConnection connection = new SqlConnection(connectionString) )
-        //    {
-        //        using ( SqlCommand command = new SqlCommand(sqlString, connection) )
-        //        {
-        //            connection.Open();
-        //            command.Parameters.AddWithValue("@id", id);
+		//    using ( SqlConnection connection = new SqlConnection(connectionString) )
+		//    {
+		//        using ( SqlCommand command = new SqlCommand(sqlString, connection) )
+		//        {
+		//            connection.Open();
+		//            command.Parameters.AddWithValue("@id", id);
 
-        //            SqlDataReader reader = command.ExecuteReader();
+		//            SqlDataReader reader = command.ExecuteReader();
 
-        //            while ( reader.Read() )
-        //            {
-        //                TopicoModel topicoActual = new TopicoModel((string) reader["nombreTopicoPK"]);
-        //                topicos.Add(topicoActual);
-        //            }
-        //        }
-        //    }
-        //    return topicos;
-        //}
-    }
+		//            while ( reader.Read() )
+		//            {
+		//                TopicoModel topicoActual = new TopicoModel((string) reader["nombreTopicoPK"]);
+		//                topicos.Add(topicoActual);
+		//            }
+		//        }
+		//    }
+		//    return topicos;
+		//}
+	}
 }
