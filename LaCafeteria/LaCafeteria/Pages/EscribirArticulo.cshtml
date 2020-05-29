@@ -13,7 +13,7 @@
 	<div class="form-group">
 		<label for="slctAutor">Autor(es)</label>
 		<select id="slctAutor" class="form-control">
-			@foreach (var autor in Model.listaAutores)
+			@foreach (var autor in Model.listaMiembros)
 			{
 				<option value="@autor.usernamePK">@autor.GetNombreCompleto()</option>
 			}
@@ -71,7 +71,7 @@
 		toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | preview",
 		content_css: '//www.tiny.cloud/css/codepen.min.css'
 	});
-	//tinymce.activeEditor.execCommand('mcePreview');
+	tinymce.activeEditor.execCommand('mcePreview');
 </script>
 <script>
 	function agregarAutor() {

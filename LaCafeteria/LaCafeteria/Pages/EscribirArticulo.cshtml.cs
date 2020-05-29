@@ -21,32 +21,23 @@ namespace LaCafeteria.Pages
 
 		public List<TopicoModel> listaTopicos { set; get; }
 
-		// TODO: Convertir a lista de MiembroModel
-		public List<AutorModel> listaAutores { set; get; }
+		public List<MiembroModel> listaMiembros { set; get; }
 
 		[BindProperty]
 		public List<string> listaTopicosArticulo { set; get; }
 
 		[BindProperty]
-		public List<string> listaUsernameAutores { set; get; }
+		public List<string> listaMiembrosAutores { set; get; }
 
 		public TopicoController topicoController;
-		//public ArticuloController articuloController;
+		public MiembroController miembroController;
 
 		public EscribirArticuloModel()
 		{
 			topicoController = new TopicoController();
-			//aController = new TopicoController();
+			miembroController = new MiembroController();
 			listaTopicos = topicoController.GetListaTopicos();
-
-			// TODO: Utilizar MiembroController para conseguir la lista de todos los miembros.
-			listaAutores = new List<AutorModel>()
-			{
-				new AutorModel() { usernamePK = "manuelito01", nombre = "Manuel" , apellido1 = "Ramirez", apellido2 = "Lopez"},
-				new AutorModel() { usernamePK = "-badbunny-", nombre = "Benito" , apellido1 = "Martinez", apellido2 = "Ocasio"},
-				new AutorModel() { usernamePK = "vivaBoshtro3000", nombre = "Hernan" , apellido1 = "Medford", apellido2 = "Soliz"},
-				new AutorModel() { usernamePK = "carlit0x", nombre = "Carlos" , apellido1 = "Alvarado", apellido2 = "Lopez"}
-			};
+			listaMiembros = miembroController.GetListaMiembros();
 		}
 
 		public void OnGet()
@@ -55,11 +46,9 @@ namespace LaCafeteria.Pages
         }
 
 		public void OnPost()
-		{	
-			// TODO: Definir el usernameFK "Manuelito01" en alguna variable global para acceder desde cualquier razor page.
-			articulo.usernameFK = "manuelito01";
-			// TODO: Manejar el tipo como string? Referirse a comentario de la profe de la iteracion 1
-			articulo.tipo = 0;
+		{
+			articulo.tipo = "corto";
+			// TODO: articuloController.SubirArticulo(articulo, listaUsernameAutores)
 			
 		}
 	}

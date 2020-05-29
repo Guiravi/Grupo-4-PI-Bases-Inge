@@ -17,7 +17,7 @@ namespace LaCafeteria.Models
 		{
 			List<TopicoModel> topicos = new List<TopicoModel>();
 
-			String connectionString = AppSettings.getConnectionString();
+			String connectionString = AppSettings.GetConnectionString();
 			String sqlString = "SELECT Topico.nombreTopicoPK FROM Topico";
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
