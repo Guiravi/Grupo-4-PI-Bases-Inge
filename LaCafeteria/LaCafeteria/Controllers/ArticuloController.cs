@@ -11,32 +11,24 @@ namespace LaCafeteria.Controllers
     {
         public ArticuloDBHandler articuloDBHandler;
 
-        public ArticuloController()
-        {
+        public ArticuloController() {
             articuloDBHandler = new ArticuloDBHandler();
         }
 
-        public List<ArticuloModel> BuscarArticulo(SolicitudBusquedaModel solicitud)
-        {
+        public List<ArticuloModel> BuscarArticulo(SolicitudBusquedaModel solicitud) {
             List<ArticuloModel> articulos = new List<ArticuloModel>();
 
-            if (solicitud.tipoBusqueda == "topicos")
-            {
+            if ( solicitud.tipoBusqueda == "topicos" ) {
                 string[] topicosSep = solicitud.topicos.Split(",");
-                for (int i = 0; i < topicosSep.Length; i++)
-                {
+                for ( int i = 0; i < topicosSep.Length; i++ ) {
                     articulos.AddRange(articuloDBHandler.GetArticulosPorTopico(topicosSep[i], solicitud.tiposArticulo));
                 }
 
                 articulos = articulos.Distinct(new ItemEqualityComparer()).ToList();
 
-            }
-            else if (solicitud.tipoBusqueda == "titulos")
-            {
+            } else if ( solicitud.tipoBusqueda == "titulos" ) {
                 articulos = articuloDBHandler.GetArticulosPorTitulo(solicitud.textoBusqueda, solicitud.tiposArticulo);
-            }
-            else
-            {
+            } else {
                 articulos = articuloDBHandler.GetArticulosPorAutor(solicitud.textoBusqueda, solicitud.tiposArticulo);
             }
 
@@ -52,18 +44,21 @@ namespace LaCafeteria.Controllers
         }
         */
 
+        public ArticuloModel GetArticuloModelResumen(int id) {
+            ArticuloModel articulo = articuloDBHandler.GetInfoPaginaResumen(id);
+            return articulo;
+        }
+
     }
 
     class ItemEqualityComparer : IEqualityComparer<ArticuloModel>
     {
-        public bool Equals(ArticuloModel x, ArticuloModel y)
-        {
+        public bool Equals(ArticuloModel x, ArticuloModel y) {
             // Two items are equal if their keys are equal.
             return x.idArticuloPK == y.idArticuloPK;
         }
 
-        public int GetHashCode(ArticuloModel obj)
-        {
+        public int GetHashCode(ArticuloModel obj) {
             return obj.idArticuloPK.GetHashCode();
         }
     }

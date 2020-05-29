@@ -26,11 +26,13 @@ namespace LaCafeteria.Pages
         public string autores { get; set; }
 
         public void OnGet() {
-            articulo = new ArticuloModel();
             articuloController = new ArticuloController();
             topicoController = new TopicoController();
 
-            
+            topicos = topicoController.GetTopicosArticulo(idArticuloPK);
+            articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
+
+
         }
 
         public void OnPost() {

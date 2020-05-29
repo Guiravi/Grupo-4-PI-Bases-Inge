@@ -15,24 +15,21 @@ namespace LaCafeteria.Controllers
             topicoDBHandler = new TopicoDBHandler();
         }
 
-  //      public void GetTopicosArticulo(IView_VerResumen view)
-		//{
-  //          TopicoDBHandler topicoHandler = new TopicoDBHandler();
-  //          List<TopicoModel> topicos = topicoHandler.ObtenerTopicosArticulo(view.idArticuloPK);
+        public string GetTopicosArticulo(int id) {
+            List<TopicoModel> topicos = topicoDBHandler.ObtenerTopicosArticulo(id);
 
-  //          string msjTopicos = "";
+            string msjTopicos = "";
 
-  //          for ( int i = 0; i < topicos.Count - 1; ++i )
-  //          {
-  //              msjTopicos = msjTopicos + topicos[i].nombre + ", ";
-  //          }
+            for ( int i = 0; i < topicos.Count - 1; ++i ) {
+                msjTopicos = msjTopicos + topicos[i].nombre + ", ";
+            }
 
-  //          msjTopicos = msjTopicos + topicos[topicos.Count - 1].nombre;
+            msjTopicos = msjTopicos + topicos[topicos.Count - 1].nombre;
 
-  //          view.topicos = msjTopicos;
-  //      }
+            return msjTopicos;
+        }
 
-		public List<TopicoModel> GetListaTopicos()
+        public List<TopicoModel> GetListaTopicos()
 		{
 			return topicoDBHandler.ObtenerAllTopicos();
 		}

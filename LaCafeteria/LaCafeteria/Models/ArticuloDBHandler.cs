@@ -324,7 +324,6 @@ namespace LaCafeteria.Models
         }
 
         /**
-
         public string GetResumenDB(int idArticuloPK)
         {
             String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
@@ -489,10 +488,10 @@ namespace LaCafeteria.Models
                 return art;
             }
         }
-
+        */
         public ArticuloModel GetInfoPaginaResumen(int id)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
+            string connectionString = AppSettings.getConnectionString();
 
             ArticuloModel articulo = null;
 
@@ -503,21 +502,27 @@ namespace LaCafeteria.Models
                 SqlCommand cmd = new SqlCommand("SELECT * FROM Articulo WHERE Articulo.idArticuloPK = @id", connection);
                 cmd.Parameters.AddWithValue("@id", id);
 
-                SqlDataReader identReader = cmd.ExecuteReader();
+                SqlDataReader reader = cmd.ExecuteReader();
 
-                while (identReader.Read())
+                while (reader.Read())
                 {
-                    articulo = new ArticuloModel((string)identReader["titulo"], (string)identReader["resumen"], (int)identReader["tipo"],
-                        (string)identReader["contenido"],
-                        identReader["fechaPublicacion"].ToString().Remove(identReader["fechaPublicacion"].ToString().Length - 12, 12),
-                        (string)identReader["nombreAutor"], (string)identReader["usernameFK"]);
+                    articulo = new ArticuloModel() {
+                        idArticuloPK = id,
+                        titulo = (string) reader["titulo"],
+                        tipo = (string) reader["tipo"],
+                        fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
+                        resumen = (string) reader["resumen"],
+                        contenido = (string) reader["contenido"],
+                        estado = (string) reader["estado"],
+                        visitas = (int) reader["visitas"],
+                        puntajeTotalRev = (int) reader["puntajeTotalRev"],
+                        calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
+                    };
                 }
 
-                identReader.Close();
+                reader.Close();
             }
             return articulo;
         }
-
-        */
     }
 }
