@@ -18,4 +18,11 @@ namespace LaCafeteria.Models
         public float puntajeTotalRev { get; set; }
 		public int calificacionTotalMiem { get; set; }
     }
+
+    public class MiembroAutorDeArticuloModel
+    {
+        public int idArticuloPK { get; set; }
+        public String usernameMiemFK { get; set; }
+    }
+
 }

@@ -15,6 +15,10 @@ namespace LaCafeteria.Pages
 
         public List<ArticuloModel> articulosResultado { set; get; }
 
+        public List<MiembroModel> listaMiembros { set; get; }
+
+        public List<MiembroAutorDeArticuloModel> listaAutores { set; get; }
+
         [BindProperty]
         public int tiposArticulo { get; set; }
 
@@ -31,6 +35,8 @@ namespace LaCafeteria.Pages
 
         public ArticuloController articuloController;
 
+        public MiembroController miembroController;
+
         public int cantResultados { set; get; }
 
         /*
@@ -46,7 +52,10 @@ namespace LaCafeteria.Pages
         {
             topicoController = new TopicoController();
             articuloController = new ArticuloController();
+            miembroController = new MiembroController();
             listaTopicos = topicoController.GetListaTopicos();
+            listaMiembros = miembroController.GetListaMiembros();
+            listaAutores = articuloController.GetMiembroAutorDeArticulo();
 
             listaTopicosSelec = new List<string>();
             articulosResultado = new List<ArticuloModel>();

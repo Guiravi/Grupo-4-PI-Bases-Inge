@@ -39,11 +39,16 @@ namespace LaCafeteria.Controllers
 			}
 			else
 			{
-				articulos = articuloDBHandler.GetArticulosPorAutor(solicitud.textoBusqueda, solicitud.tiposArticulo);
+                articulos = articuloDBHandler.GetArticulosPorAutor(solicitud.textoBusqueda, solicitud.tiposArticulo).Distinct(new ItemEqualityComparer()).ToList();
 			}
 
 			return articulos;
 		}
+
+        public List<MiembroAutorDeArticuloModel> GetMiembroAutorDeArticulo()
+        {
+            return articuloDBHandler.GetMiembroAutorDeArticulo();
+        }
 
 
 		/*
