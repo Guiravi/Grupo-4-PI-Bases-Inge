@@ -133,17 +133,34 @@ namespace LaCafeteria.Models
 				switch (tipos)
 				{
 					case 1:
-						cmd = new SqlCommand("SELECT  idArticuloPK, titulo, resumen, tipo, contenido, fechaPublicacion, nombreAutor, usernameFK " +
-						" FROM  Articulo  WHERE nombreAutor LIKE @autor AND tipo = 0 ORDER BY fechaPublicacion DESC", connection);
+						cmd = new SqlCommand("SELECT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+						" FROM  Articulo A JOIN MiembroAutorDeArticulo MAA " +
+                            " ON A.idArticuloPK = MAA.idArticuloFK " +
+                        " JOIN Miembro M " +
+                            " ON MAA.usernameMiemFK = M.usernamePK " +                                                                        
+                        " WHERE M.nombre +' '+ M.apellido1 +' '+ M.apellido2 LIKE @autor " +
+                            " AND tipo = 'Corto' " +
+                        " ORDER BY fechaPublicacion DESC;", connection);
 						break;
 					case 2:
-						cmd = new SqlCommand("SELECT  idArticuloPK, titulo, resumen, tipo, contenido, fechaPublicacion, nombreAutor, usernameFK " +
-					   " FROM  Articulo  WHERE nombreAutor LIKE @autor AND tipo = 1 ORDER BY fechaPublicacion DESC", connection);
-						break;
+                        cmd = new SqlCommand("SELECT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        " FROM  Articulo A JOIN MiembroAutorDeArticulo MAA " +
+                            " ON A.idArticuloPK = MAA.idArticuloFK " +
+                        " JOIN Miembro M " +
+                            " ON MAA.usernameMiemFK = M.usernamePK " +
+                        " WHERE M.nombre + M.apellido1 + M.apellido2 LIKE @autor " +
+                            " AND tipo = 'Largo' " +
+                        " ORDER BY fechaPublicacion DESC;", connection);
+                        break;
 					default:
-						cmd = new SqlCommand("SELECT  idArticuloPK, titulo, resumen, tipo, contenido, fechaPublicacion, nombreAutor, usernameFK " +
-					   " FROM  Articulo  WHERE nombreAutor LIKE @autor ORDER BY fechaPublicacion DESC", connection);
-						break;
+                        cmd = new SqlCommand("SELECT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        " FROM  Articulo A JOIN MiembroAutorDeArticulo MAA " +
+                            " ON A.idArticuloPK = MAA.idArticuloFK " +
+                        " JOIN Miembro M " +
+                            " ON MAA.usernameMiemFK = M.usernamePK " +
+                        " WHERE M.nombre + M.apellido1 + M.apellido2 LIKE @autor " +
+                        " ORDER BY fechaPublicacion DESC;", connection);
+                        break;
 				}
 
 				cmd.Parameters.AddWithValue("@autor", "%" + autores + "%");
@@ -191,17 +208,25 @@ namespace LaCafeteria.Models
 				switch (tipos)
 				{
 					case 1:
-						cmd = new SqlCommand("SELECT  idArticuloPK, titulo, resumen, tipo, contenido, fechaPublicacion, nombreAutor, usernameFK " +
-						" FROM  Articulo  WHERE titulo LIKE @titulo AND tipo = 0 ORDER BY fechaPublicacion DESC", connection);
+						cmd = new SqlCommand("SELECT  * " +
+						" FROM  Articulo " +
+                        " WHERE titulo LIKE @titulo " +
+                            " AND tipo = 'Corto' " + 
+                        " ORDER BY fechaPublicacion DESC;", connection);
 						break;
 					case 2:
-						cmd = new SqlCommand("SELECT  idArticuloPK, titulo, resumen, tipo, contenido, fechaPublicacion, nombreAutor, usernameFK " +
-					   " FROM  Articulo  WHERE titulo LIKE @titulo AND tipo = 1 ORDER BY fechaPublicacion DESC", connection);
-						break;
+                        cmd = new SqlCommand("SELECT  * " +
+                        " FROM  Articulo " +
+                        " WHERE titulo LIKE @titulo " +
+                            " AND tipo = 'Largo' " +
+                        " ORDER BY fechaPublicacion DESC;", connection);
+                        break;
 					default:
-						cmd = new SqlCommand("SELECT  idArticuloPK, titulo, resumen, tipo, contenido, fechaPublicacion, nombreAutor, usernameFK " +
-					   " FROM  Articulo  WHERE titulo LIKE @titulo ORDER BY fechaPublicacion DESC", connection);
-						break;
+                        cmd = new SqlCommand("SELECT  * " +
+                        " FROM  Articulo " +
+                        " WHERE titulo LIKE @titulo " +
+                        " ORDER BY fechaPublicacion DESC;", connection);
+                        break;
 				}
 
 				cmd.Parameters.AddWithValue("@titulo", "%" + titulo + "%");
@@ -248,25 +273,32 @@ namespace LaCafeteria.Models
 				switch (tipos)
 				{
 					case 1:
-						cmd = new SqlCommand("SELECT  DISTINCT Articulo.idArticuloPK, Articulo.titulo, Articulo.resumen, Articulo.tipo, Articulo.contenido, Articulo.fechaPublicacion, Articulo.nombreAutor, Articulo.usernameFK " +
-						" FROM  Articulo JOIN TopicosArticulo ON " +
-						" Articulo.idArticuloPK = TopicosArticulo.idArticuloFK JOIN Topico ON " +
-						" TopicosArticulo.nombreTopicoFK = @topico AND Articulo.tipo = 0 ORDER BY fechaPublicacion DESC", connection);
+						cmd = new SqlCommand("SELECT  DISTINCT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        " FROM  Articulo A JOIN ArticuloTrataTopico ATT " +
+                            " ON A.idArticuloPK = ATT.idArticuloFK " +
+                        " JOIN Topico T " +
+                            " ON ATT.nombreTopicoFK = @topico " +
+                        " WHERE A.tipo = 'Corto' " +
+                        " ORDER BY A.fechaPublicacion DESC;", connection);
 						break;
 					case 2:
-						cmd = new SqlCommand("SELECT  DISTINCT Articulo.idArticuloPK, Articulo.titulo, Articulo.resumen, Articulo.tipo, Articulo.contenido, Articulo.fechaPublicacion, Articulo.nombreAutor, Articulo.usernameFK " +
-						" FROM  Articulo JOIN TopicosArticulo ON " +
-						" Articulo.idArticuloPK = TopicosArticulo.idArticuloFK JOIN Topico ON " +
-						" TopicosArticulo.nombreTopicoFK = @topico AND Articulo.tipo = 1 ORDER BY fechaPublicacion DESC", connection);
-						break;
+                        cmd = new SqlCommand("SELECT  DISTINCT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        " FROM  Articulo A JOIN ArticuloTrataTopico ATT " +
+                            " ON A.idArticuloPK = ATT.idArticuloFK " +
+                        " JOIN Topico T " +
+                            " ON ATT.nombreTopicoFK = @topico " +
+                        " WHERE A.tipo = 'Largo' " +
+                        " ORDER BY A.fechaPublicacion DESC;", connection);
+                        break;
 					default:
-						cmd = new SqlCommand("SELECT  DISTINCT Articulo.idArticuloPK, Articulo.titulo, Articulo.resumen, Articulo.tipo, Articulo.contenido, Articulo.fechaPublicacion, Articulo.nombreAutor, Articulo.usernameFK " +
-						" FROM  Articulo JOIN TopicosArticulo ON " +
-						" Articulo.idArticuloPK = TopicosArticulo.idArticuloFK JOIN Topico ON " +
-						" TopicosArticulo.nombreTopicoFK = @topico ORDER BY fechaPublicacion DESC", connection);
-						break;
+                        cmd = new SqlCommand("SELECT  DISTINCT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        " FROM  Articulo A JOIN ArticuloTrataTopico ATT " +
+                            " ON A.idArticuloPK = ATT.idArticuloFK " +
+                        " JOIN Topico T " +
+                            " ON ATT.nombreTopicoFK = @topico " +
+                        " ORDER BY A.fechaPublicacion DESC;", connection);
+                        break;
 				}
-
 
 				cmd.Parameters.AddWithValue("@topico", topico);
 
@@ -310,7 +342,9 @@ namespace LaCafeteria.Models
 
 				connection.Open();
 
-				cmd = new SqlCommand("SELECT contenido FROM [dbo].[Articulo] WHERE idArticuloPK = @idArticulo", connection);
+				cmd = new SqlCommand("SELECT contenido " +
+                    " FROM [dbo].[Articulo] " +
+                    " WHERE idArticuloPK = @idArticulo;", connection);
 
 				cmd.Parameters.AddWithValue("@idArticulo", idArticulo);
 
@@ -327,6 +361,38 @@ namespace LaCafeteria.Models
 
 			return System.Convert.FromBase64String(contenido);
 		}
+
+        public List<MiembroAutorDeArticuloModel> GetMiembroAutorDeArticulo()
+        {
+            String connectionString = AppSettings.GetConnectionString();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand cmd = new SqlCommand("SELECT *" +
+                    " FROM MiembroAutorDeArticulo", connection);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                List<MiembroAutorDeArticuloModel> relacionList = new List<MiembroAutorDeArticuloModel>();
+
+                while (reader.Read())
+                {
+                    MiembroAutorDeArticuloModel relacionActual = new MiembroAutorDeArticuloModel()
+                    {
+                        idArticuloPK = (int)reader["idArticuloPK"],
+                        usernameMiemFK = (String)reader["usernameMiemFK"]
+                    };
+
+                    relacionList.Add(relacionActual);
+                }
+
+                reader.Close();
+
+                return relacionList;
+            }
+        }
 
 		/**
 
