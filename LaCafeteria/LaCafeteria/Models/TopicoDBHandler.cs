@@ -33,8 +33,8 @@ namespace LaCafeteria.Models
 							nombre = (string)reader["nombrePK"]
 						};
 
-						topicos.Add(topicoActual);
-					}
+                        topicos.Add(topicoActual);
+                    }
 
 					reader.Close();
 				}
@@ -42,30 +42,30 @@ namespace LaCafeteria.Models
 			return topicos;
 		}
 
-		//public List<TopicoModel> ObtenerTopicosArticulo(int id)
-		//{
-		//    List<TopicoModel> topicos = new List<TopicoModel>();
+        public List<TopicoModel> ObtenerTopicosArticulo(int id) {
+            List<TopicoModel> topicos = new List<TopicoModel>();
 
-		//    String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
-		//    String sqlString = "SELECT Topico.nombreTopicoPK FROM Topico JOIN TopicosArticulo ON idArticuloFK = @id";
+            String connectionString = AppSettings.GetConnectionString();
 
-		//    using ( SqlConnection connection = new SqlConnection(connectionString) )
-		//    {
-		//        using ( SqlCommand command = new SqlCommand(sqlString, connection) )
-		//        {
-		//            connection.Open();
-		//            command.Parameters.AddWithValue("@id", id);
+            String sqlString = "SELECT ArticuloTrataTopico.nombreTopicoFK FROM ArticuloTrataTopico WHERE ArticuloTrataTopico.idArticuloFK = @id";
 
-		//            SqlDataReader reader = command.ExecuteReader();
+            using ( SqlConnection connection = new SqlConnection(connectionString) ) {
+                using ( SqlCommand command = new SqlCommand(sqlString, connection) ) {
+                    connection.Open();
+                    command.Parameters.AddWithValue("@id", id);
 
-		//            while ( reader.Read() )
-		//            {
-		//                TopicoModel topicoActual = new TopicoModel((string) reader["nombreTopicoPK"]);
-		//                topicos.Add(topicoActual);
-		//            }
-		//        }
-		//    }
-		//    return topicos;
-		//}
-	}
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while ( reader.Read() ) {
+                        TopicoModel topicoActual = new TopicoModel() {
+                            nombre = (string) reader["nombreTopicoFK"]
+                        };
+                        topicos.Add(topicoActual);
+                    }
+                }
+            }
+            return topicos;
+        }
+    }
+
 }

@@ -77,6 +77,24 @@ namespace LaCafeteria.Controllers
 
         }
 
+        public ArticuloModel GetArticuloModelResumen(int id) {
+            ArticuloModel articulo = articuloDBHandler.GetInfoPaginaResumen(id);
+            return articulo;
+        }
+
+        public String GetAutoresDeArticulo (int id) {
+            String autores = "";
+            List<MiembroModel> listaAutores = articuloDBHandler.GetAutoresDeArticulo(id);
+
+            for (int i = 0; i<listaAutores.Count-1; ++i )
+            {
+                autores = autores + listaAutores[i] + ", ";
+            }
+            autores = autores + listaAutores[listaAutores.Count - 1];
+
+            return autores;
+        }
+
     }
 
 	class ItemEqualityComparer : IEqualityComparer<ArticuloModel>
