@@ -13,6 +13,7 @@ namespace TheCoffeePlace.Models {
     public class AutorDBHandler
     {
         private SqlConnection conn;
+
         private void Connection()
         {
             string conString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ToString();

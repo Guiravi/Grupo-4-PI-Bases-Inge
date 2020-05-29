@@ -17,12 +17,17 @@ namespace LaCafeteria.Models
         public string estado { get; set; }
         public string ciudad { get; set; }
         public string rutaImagenPerfil { get; set; }
-        public string hobiies { get; set; }
+        public string hobbies { get; set; }
         public string habilidades { get; set; }
         public string idiomas { get; set; }
         public string informacionLaboral { get; set; }
         public int meritos { get; set; }
         public bool activo { get; set; }
         public string nombreRolFK { get; set; }
-    }
+
+		public string GetNombreCompleto()
+		{
+			return nombre + " " + apellido1 + " " + apellido2;
+		}
+	}
 }

@@ -18,35 +18,35 @@ namespace LaCafeteria.Controllers
             articuloFSHandler = new ArticuloFSHandler();
         }
 
-        public List<ArticuloModel> BuscarArticulo(SolicitudBusquedaModel solicitud)
-        {
-            List<ArticuloModel> articulos = new List<ArticuloModel>();
+		public List<ArticuloModel> BuscarArticulo(SolicitudBusquedaModel solicitud)
+		{
+			List<ArticuloModel> articulos = new List<ArticuloModel>();
 
-            if (solicitud.tipoBusqueda == "topicos")
-            {
-                string[] topicosSep = solicitud.topicos.Split(",");
-                for (int i = 0; i < topicosSep.Length; i++)
-                {
-                    articulos.AddRange(articuloDBHandler.GetArticulosPorTopico(topicosSep[i], solicitud.tiposArticulo));
-                }
+			if (solicitud.tipoBusqueda == "topicos")
+			{
+				string[] topicosSep = solicitud.topicos.Split(",");
+				for (int i = 0; i < topicosSep.Length; i++)
+				{
+					articulos.AddRange(articuloDBHandler.GetArticulosPorTopico(topicosSep[i], solicitud.tiposArticulo));
+				}
 
-                articulos = articulos.Distinct(new ItemEqualityComparer()).ToList();
+				articulos = articulos.Distinct(new ItemEqualityComparer()).ToList();
 
-            }
-            else if (solicitud.tipoBusqueda == "titulos")
-            {
-                articulos = articuloDBHandler.GetArticulosPorTitulo(solicitud.textoBusqueda, solicitud.tiposArticulo);
-            }
-            else
-            {
-                articulos = articuloDBHandler.GetArticulosPorAutor(solicitud.textoBusqueda, solicitud.tiposArticulo);
-            }
+			}
+			else if (solicitud.tipoBusqueda == "titulos")
+			{
+				articulos = articuloDBHandler.GetArticulosPorTitulo(solicitud.textoBusqueda, solicitud.tiposArticulo);
+			}
+			else
+			{
+				articulos = articuloDBHandler.GetArticulosPorAutor(solicitud.textoBusqueda, solicitud.tiposArticulo);
+			}
 
-            return articulos;
-        }
+			return articulos;
+		}
 
 
-        /*
+		/*
         public List<ArticuloModel> GetArticulosPaginados(int indiceActual, SolicitudBusquedaModel solicitud, int tamanoPag = 8)
         {
             var data = BuscarArticulo(solicitud);
@@ -54,10 +54,9 @@ namespace LaCafeteria.Controllers
         }
         */
 
-        public string GetRutaArticuloPDF(int idArticulo , string rutaCarpeta)
+        public void CargarArticuloPDF(int idArticulo , string rutaCarpeta)
         {
-         
-            string rutaPdf = rutaCarpeta + "/ArticuloPDF/" + idArticulo + ".pdf";
+                    
 
             if (!articuloFSHandler.YaEstaEnCarpetaPDF(idArticulo , rutaCarpeta))
             {
@@ -71,22 +70,21 @@ namespace LaCafeteria.Controllers
                 articuloFSHandler.ConvertirDocxPDF(Convert.ToString(idArticulo), rutaCarpeta);
             }
 
-            return rutaPdf;
         }
 
     }
 
-    class ItemEqualityComparer : IEqualityComparer<ArticuloModel>
-    {
-        public bool Equals(ArticuloModel x, ArticuloModel y)
-        {
-            // Two items are equal if their keys are equal.
-            return x.idArticuloPK == y.idArticuloPK;
-        }
+	class ItemEqualityComparer : IEqualityComparer<ArticuloModel>
+	{
+		public bool Equals(ArticuloModel x, ArticuloModel y)
+		{
+			// Two items are equal if their keys are equal.
+			return x.idArticuloPK == y.idArticuloPK;
+		}
 
-        public int GetHashCode(ArticuloModel obj)
-        {
-            return obj.idArticuloPK.GetHashCode();
-        }
-    }
+		public int GetHashCode(ArticuloModel obj)
+		{
+			return obj.idArticuloPK.GetHashCode();
+		}
+	}
 }
