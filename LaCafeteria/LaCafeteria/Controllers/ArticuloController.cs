@@ -10,10 +10,12 @@ namespace LaCafeteria.Controllers
     public class ArticuloController
     {
         public ArticuloDBHandler articuloDBHandler;
+        public ArticuloFSHandler articuloFSHandler;
 
         public ArticuloController()
         {
             articuloDBHandler = new ArticuloDBHandler();
+            articuloFSHandler = new ArticuloFSHandler();
         }
 
         public List<ArticuloModel> BuscarArticulo(SolicitudBusquedaModel solicitud)
@@ -51,6 +53,26 @@ namespace LaCafeteria.Controllers
             return data.OrderBy(d => d.fechaPublicacion).Skip((indiceActual - 1) * tamanoPag).Take(tamanoPag).ToList();
         }
         */
+
+        public string GetRutaArticuloPDF(int idArticulo , string rutaCarpeta)
+        {
+         
+            string rutaPdf = rutaCarpeta + "/ArticuloPDF/" + idArticulo + ".pdf";
+
+            if (!articuloFSHandler.YaEstaEnCarpetaPDF(idArticulo , rutaCarpeta))
+            {
+                if (!articuloFSHandler.YaEstaEnCarpetaDOCX(idArticulo , rutaCarpeta))
+                {
+                    byte[] contenido = articuloDBHandler.DescargarArticuloDocx(idArticulo);
+                    articuloFSHandler.GuardarArticuloDOCX(idArticulo, contenido, rutaCarpeta);
+                    
+                }
+
+                articuloFSHandler.ConvertirDocxPDF(Convert.ToString(idArticulo), rutaCarpeta);
+            }
+
+            return rutaPdf;
+        }
 
     }
 

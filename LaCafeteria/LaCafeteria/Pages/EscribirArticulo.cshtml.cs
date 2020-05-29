@@ -42,9 +42,9 @@ namespace LaCafeteria.Pages
 		public void OnPost()
 		{	
 			// TODO: Definir el usernameFK "Manuelito01" en alguna variable global para acceder desde cualquier razor page.
-			articulo.usernameFK = "Manuelito01";
+			//articulo.usernameFK = "Manuelito01";
 			// TODO: Manejar el tipo como string? Referirse a comentario de la profe de la iteracion 1
-			articulo.tipo = 0;
+			//articulo.tipo = 0;
 			
 		}
 	}

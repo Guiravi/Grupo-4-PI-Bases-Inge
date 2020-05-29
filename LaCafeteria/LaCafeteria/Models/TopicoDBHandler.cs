@@ -13,12 +13,12 @@ namespace LaCafeteria.Models
 {
 	public class TopicoDBHandler
 	{
-		public List<TopicoModel> ObtenerAllTopicos()
+		public List<TopicoModel> GetListaTopicos()
 		{
 			List<TopicoModel> topicos = new List<TopicoModel>();
 
 			String connectionString = AppSettings.getConnectionString();
-			String sqlString = "SELECT Topico.nombreTopicoPK FROM Topico";
+			String sqlString = "SELECT Topico.nombrePK FROM Topico";
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				using (SqlCommand command = new SqlCommand(sqlString, connection))
@@ -30,7 +30,7 @@ namespace LaCafeteria.Models
 					{
 						TopicoModel topicoActual = new TopicoModel()
 						{
-							nombre = (string)reader["nombreTopicoPK"]
+							nombre = (string)reader["nombrePK"]
 						};
 
 						topicos.Add(topicoActual);

@@ -34,7 +34,7 @@ namespace LaCafeteria.Controllers
 
 		public List<TopicoModel> GetListaTopicos()
 		{
-			return topicoDBHandler.ObtenerAllTopicos();
+			return topicoDBHandler.GetListaTopicos();
 		}
 	}
 }
