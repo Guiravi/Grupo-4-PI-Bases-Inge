@@ -7,80 +7,99 @@
 
 <h2 class="text-center">Buscar artículos</h2>
 
-<br/>
+<br />
+
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-1">
-            <h4 class="text-nowrap" >Buscar por:</h4>
-        </div>
-        <div class="col-md-2">
-            <div class="btn-group">
-                <button type="button" class="btn btn-info">Tópicos</button>
-                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#" id="topics">Tópicos</a></li>
-                    <li><a href="#" id="titles">Títulos</a></li>
-                    <li><a href="#" id="authors">Autores</a></li>
-                </ul>
+    <form method="post">
+        <div class="row">
+            <div class="col-md-1">
+                <h4 class="text-nowrap">Buscar por:</h4>
             </div>
-        </div>
-        <div class="col-md-8">
-            <div class="input-group" style="display: none">
-                <input type="text" class="form-control" placeholder="Buscar...">
-                <span class="input-group-btn">
-                    <button class="btn btn-default btn-info" type="button">Aceptar</button>
-                </span>
-            </div>
-            <div class="input-group">
+            <div class="col-md-4">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-info">Seleccionar tópico</button>
+                    <button type="button" class="btn btn-info" id="buscarPor" data-toggle="dropdown">Seleccione un tipo de búsqueda</button>
                     <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
+                        <span class="sr-only">Desplegar</span>
                     </button>
+
                     <ul class="dropdown-menu">
-                        <li><a href="#">Quimica</a></li>
-                        <li><a href="#">Biologia</a></li>
-                        <li><a href="#">Fisica</a></li>
+                        <li>
+                            <input type="radio" class="radio-inline" id="topicos" style="margin: 5px 5px;" value="topicos" asp-for="tipoBusqueda">
+                            <label for="topicos" class="text-primary radio-inline" style="margin-bottom: 5px;">Tópicos</label>
+                        </li>
+                        <li>
+                            <input type="radio" class="radio-inline" id="titulos" style="margin: 5px 5px;" value="titulos" asp-for="tipoBusqueda">
+                            <label for="titulos" class="text-primary radio-inline" style="margin-bottom: 5px;">Títulos</label>
+                        </li>
+                        <li>
+                            <input type="radio" class="radio-inline" id="autores" style="margin: 5px 5px;" value="autores" asp-for="tipoBusqueda">
+                            <label for="autores" class="text-primary radio-inline" style="margin-bottom: 5px;">Autores</label>
+                        </li>
                     </ul>
+
                 </div>
             </div>
-
-        </div>
-    </div>
-
-</div>
-
-<br/>
-
-
-<div class="container">
-
-    <div class="row">
-        <div class="col-md-1" />
-        <div class="col-md-3">
-            <div class="btn-group" role="group" aria-label="...">
-                <span class="input-group-addon">
-                    <input type="radio" aria-label="..." name="type">
-                    Cortos
-                </span>
-                <span class="input-group-addon">
-                    <input type="radio" aria-label="..." name="type">
-                    Largos
-                </span>
-                <span class="input-group-addon">
-                    <input type="radio" aria-label="..." name="type" checked="checked">
-                    Ambos
-                </span>
+            <div class="col-md-5">
+                <div class="input-group" style="display: none" id="barraBusqueda">
+                    <input type="text" class="form-control" placeholder="Buscar..." id="barra" asp-for="textoBusqueda">
+                </div>
+                <div class="input-group" style="display: none" id="topicosDropdown">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info" data-toggle="dropdown" id="dropdown">Seleccionar tópico</button>
+                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Desplegar</span>
+                        </button>
+                        <ul class="dropdown-menu" id="topicosList">
+                            @for (int topicoActual = 0; topicoActual < Model.listaTopicos.Count; ++topicoActual)
+                            {
+                                <li style="margin: 5px 5px"><input type="checkbox" name="listaTopicosSelec" value="@Model.listaTopicos[topicoActual].nombre"><span class="text-primary checkbox-inline">@Model.listaTopicos[topicoActual].nombre</span></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
- </div>
+        <br />
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="btn-group" role="group" aria-label="..." style="display: none;" id="tiposArtRadio">
+                    <span class="input-group-addon">
+                        <input type="radio" aria-label="..." value=1 asp-for="tiposArticulo" id="cortos">
+                        Cortos
+                    </span>
+                    <span class="input-group-addon">
+                        <input type="radio" aria-label="..." value=2 asp-for="tiposArticulo" id="largos">
+                        Largos
+                    </span>
+                    <span class="input-group-addon">
+                        <input type="radio" aria-label="..." value=0 checked="checked" asp-for="tiposArticulo" id="ambos">
+                        Ambos
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <button class="btn btn-primary" type="submit" style="display:none;" id="aceptar">Aceptar</button>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-3">
+                <a href="/Buscar" class="btn-sm btn-info" id="reiniciar" style="display: none;">Reiniciar búsqueda</a>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+
+<br />
 
 <hr>
 
@@ -89,12 +108,87 @@
     <div class="row">
 
         <div class="col-md-3">
-            <p>Cantidad de resultados: </p>
+            @if (Model.cantResultados != -1)
+            {
+                <p class="text-primary" id="cantResultBusq" style="font-size:125%;">Cantidad de resultados: @Model.articulosResultado.Count</p>
+            }
         </div>
-        
+
         <div class="col-md-6">
-            <p>Resultados de la búsqueda: </p>
+            @if (Model.textoBusqueda != "" || Model.listaTopicosSelec.Count != 0)
+            {
+                if (Model.listaTopicosSelec.Count != 0)
+                {
+                    string topics = "";
+
+                    for (int i = 0; i < Model.listaTopicosSelec.Count; i++)
+                    {
+                        if (i != Model.listaTopicosSelec.Count - 1)
+                        {
+                            topics += Model.listaTopicosSelec[i] + ",";
+                        }
+
+                        else
+                        {
+                            topics += Model.listaTopicosSelec[i];
+                        }
+
+                    }
+
+                    <p class="text-primary" id="textoResultBusq" style="font-size:125%;">Resultados de la búsqueda: "@topics"</p>
+                }
+                else
+                {
+                    <p class="text-primary" id="textoResultBusq" style="font-size:125%;">Resultados de la búsqueda: "@Model.textoBusqueda"</p>
+                }
+            }
         </div>
     </div>
 </div>
-    
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            @for (int articuloActual = 0 ; articuloActual < Model.cantResultados; articuloActual++)
+            {
+
+                <div class="panel panel-info">
+                    <div class="panel-heading"><h2 class="panel-title" style="font-size: 125%"><a href="/Index?idArticuloPK=@Model.articulosResultado[articuloActual].idArticuloPK">@Model.articulosResultado[articuloActual].titulo</a></h2></div>                                                                                                
+                                                                                                <!--Cambiar por ver resumen-->
+                    <div class="panel-body">
+                        <ul>
+                            <li><strong>Autor:</strong> @Model.articulosResultado[articuloActual].nombreAutor</li>
+                            <li><strong>Fecha publicación:</strong> @Model.articulosResultado[articuloActual].fechaPublicacion</li>
+                            <li><strong>Tipo:</strong> @Model.articulosResultado[articuloActual].tipo</li>
+                        </ul>
+                    </div>
+                </div>
+
+            }
+        </div>
+
+    </div>
+    <!--div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <nav aria-label="Page navigation" class="text-center">
+                <ul class="pagination pagination-lg">
+                    //for (int i = 1; i <= Model.numPaginas; i++)
+                    {
+                        <li class="page-item //(i == Model.indicePaginacion ? "active" : "")">
+                            <a asp-page="/Buscar" asp-route-currentpage="//i" class="page-link">//i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+        <div class="col-md-3"></div>
+    </div-->
+
+</div>
+
+<script src="~/js/Buscar.js" defer></script>
+
