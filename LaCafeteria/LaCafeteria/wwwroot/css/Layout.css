@@ -1,0 +1,29 @@
+﻿/******************** NAV ********************/
+.img_Nav_bar {
+    height: 60px;
+}
+
+.navbar-right {
+    font-size: 20px;
+    padding-top: 5px;
+}
+
+.navbar-default .navbar-nav li a:hover {
+    background-color: #869E8F;
+    color: #004742;
+}
+
+.navbar-default .navbar-nav li a {
+    color: white;
+    border-radius: 5px;
+}
+
+.navbar {
+    background-color: #004742;
+}
+
+/******************** BODY ********************/
+
+.body-content {
+    background-color: #EBEBEB;
+}

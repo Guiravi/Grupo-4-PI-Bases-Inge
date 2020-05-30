@@ -17,40 +17,46 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+    <link href="~/css/Layout.css" rel="stylesheet" type="text/css" />
 </head>
-<body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+<body class="body-content">
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-2">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <img src="~/images/titleLogoLC.svg" style="height:75px; border-right: solid 1px black;" alt="The Coffe Place"/>
+
+                <a asp-page="/Index"><img class="img_Nav_bar" src="~/images/TCP.png" /></a>
+
             </div>
-            <div class="navbar-collapse collapse">
-                <ol class="nav navbar-nav" style="font-size: 150%; position: relative; top: 10px;">
-                    <li><a asp-page="/Index">Inicio</a></li>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbar-collapse-2">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a asp-page="/Index">Página Principal</a></li>
                     <li><a asp-page="/Buscar">Buscar</a></li>
-                    <li><a asp-page="/CategoriasPregFrec">Preguntas frecuentes</a></li>
-                </ol>
-            </div>
-        </div>
-    </nav>
+                    <li><a asp-page="/EscribirArticulo">Escribir Articulo</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container -->
+    </nav><!-- /.navbar -->
 
     <partial name="_CookieConsentPartial" />
 
     <div class="container body-content">
         @RenderBody()
-        
+
         <footer class="footer">
             <hr />
             <p>&copy; 2020 - La Cafeteria</p>
         </footer>
     </div>
-     
+
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
