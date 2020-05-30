@@ -19,5 +19,15 @@ namespace LaCafeteria.Controllers
 		{
 			return miembroDBHandler.GetListaMiembros();
 		}
+
+        public int GetCalificacionMiembro(string username, int idArticulo)
+        {
+            return miembroDBHandler.GetCalificacionMiembro(username, idArticulo);
+        }
+
+        public void CalificarArticulo(string username, int idArticulo, int valorCalif)
+        {
+            miembroDBHandler.CalificarArticulo(username, idArticulo, valorCalif);
+        }
 	}	
 }
