@@ -162,8 +162,8 @@
                         <ul style="list-style: none;">
                             <li><strong>Fecha publicación: </strong>@Model.articulosResultado[articuloActual].fechaPublicacion</li>
                             <li><strong>Tipo: </strong>@Model.articulosResultado[articuloActual].tipo</li>
-                            <li><strong>Autor(es): </strong>@{Model.articuloController.GetAutoresDeArticulo(Model.articulosResultado[articuloActual].idArticuloPK);}</li>
-                            <li><strong>Tópico(s): </strong>@{Model.topicoController.GetTopicosArticulo(Model.articulosResultado[articuloActual].idArticuloPK);}</li>
+                            <li><strong>Autor(es): </strong>@Model.articuloController.GetAutoresDeArticulo(Model.articulosResultado[articuloActual].idArticuloPK)</li>
+                            <li><strong>Tópico(s): </strong>@Model.topicoController.GetTopicosArticulo(Model.articulosResultado[articuloActual].idArticuloPK)</li>
                         </ul>
                     </div>
                 </div>
