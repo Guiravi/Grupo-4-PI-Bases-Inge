@@ -15,13 +15,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Pages\EditFaqs.cshtml">
+    <Content Update="Pages\EditarPregFrec.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Pages\ShowFaqs.cshtml">
+    <Content Update="Pages\PreguntasFrecuentes.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Pages\ShowCategoriesFaqs.cshtml">
+    <Content Update="Pages\CategoriasPregFrec.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>
