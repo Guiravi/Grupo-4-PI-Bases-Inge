@@ -9,6 +9,8 @@
 	<div class="form-group">
 		<label for="txtTitulo">Título del artículo</label>
 		<input id="txtTitulo" type="text" class="form-control" asp-for="articulo.titulo" />
+		<span asp-validation-for="articulo.titulo"></span>
+		<span asp-validation-for="listaMiembrosAutores"></span>
 	</div>
 	<div class="form-group">
 		<label for="slctAutor">Autor(es)</label>
@@ -19,22 +21,26 @@
 			}
 		</select>
 		<input type="button" class="btn" value="Agregar autor" onclick="agregarAutor()" />
+		<span asp-validation-summary="All"></span>
 		<div id="autores">
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="txtResumen">Resumen del artículo</label>
-		<textarea id="txtResumen" rows="2" cols="20" class="form-control" asp-for="articulo.resumen"></textarea>
+		<textarea id="txtResumen" rows="2" cols="20" class="form-control" asp-for="articulo.resumen" required></textarea>
 	</div>
 	<div class="form-group">
 		<label for="txtFecha">Fecha de publicación</label>
-		<input id="txtFecha" type="date" class="form-control" asp-for="articulo.fechaPublicacion" />
+		<input id="txtFecha" type="date" class="form-control" asp-for="articulo.fechaPublicacion" required/>
 	</div>
 
 	<div class="container">
 		<div class="row">
 			<div class="form-group col-lg-8">
 				<label for="txtContenido">Artículo</label>
+				<span asp-validation-for="articulo.contenido"></span>
+				<span asp-validation-for="listaMiembrosAutores" />
+				<span asp-validation-for="listaTopicosArticulo" />
 				<textarea id="txtContenido" asp-for="articulo.contenido"></textarea>
 			</div>
 			<div class="col-lg-4">
@@ -45,11 +51,12 @@
 						<span class="sr-only">Toggle Dropdown</span>
 					</button>
 					<ul class="dropdown-menu">
-						@for(int topicoActual = 0; topicoActual < Model.listaTopicos.Count; ++topicoActual)
-						{	
+						@for (int topicoActual = 0; topicoActual < Model.listaTopicos.Count; ++topicoActual)
+						{
 							<li><input type="checkbox" name="listaTopicosArticulo" value="@Model.listaTopicos[topicoActual].nombre"> @Model.listaTopicos[topicoActual].nombre</li>
 						}
 					</ul>
+					<span asp-validation-for="listaTopicosArticulo"></span>
 				</div>
 			</div>
 		</div>
@@ -74,17 +81,26 @@
 	tinymce.activeEditor.execCommand('mcePreview');
 </script>
 <script>
+	var miembrosAutores = new Array();
+
 	function agregarAutor() {
 		let select = document.getElementById('slctAutor');
 		let option = select[select.selectedIndex];
 
-		const div = document.createElement('div');
-		div.innerHTML = '<label>' + option.text + '</label><input type="hidden" name="listaUsernameAutores" value=\"' + option.value + '\"/> <input type="button" class="btn btn-sm" value="x" onclick="removeRow(this)" />';
-
-		document.getElementById('autores').appendChild(div);
-	}
-
-	function removeRow(input) {
-		document.getElementById('autores').removeChild(input.parentNode);
+		if (!miembrosAutores.includes(option.value)) {
+			const div = document.createElement('div');
+			const button = document.createElement('input');
+			button.type = "button";
+			button.value = "x";
+			button.toDelete = option.value;
+			button.onclick = function () {
+				miembrosAutores.splice(miembrosAutores.indexOf(this.toDelete), 1);
+				document.getElementById('autores').removeChild(this.parentNode);
+			};
+			miembrosAutores.push(option.value)
+			div.innerHTML = '<label>' + option.text + '</label><input type="hidden" name="listaMiembrosAutores" value=\"' + option.value + '\"/>';
+			document.getElementById('autores').appendChild(div);
+			div.appendChild(button);
+		}
 	}
 </script>

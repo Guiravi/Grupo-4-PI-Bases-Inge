@@ -12,7 +12,6 @@ namespace LaCafeteria.Models
 	{
 		public List<MiembroModel> GetListaMiembros()
 		{
-
 			List<MiembroModel> listaMiembros = new List<MiembroModel>();
 
 			string connectionString = AppSettings.GetConnectionString();
@@ -36,7 +35,7 @@ namespace LaCafeteria.Models
 										, meritos
 										, activo
 										, nombreRolFK
-								FROM Miembro";
+									FROM Miembro";
 
 				sqlConnection.Open();
 				using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
@@ -53,9 +52,9 @@ namespace LaCafeteria.Models
 								apellido1 = (string)dataReader["apellido1"],
 								apellido2 = (string)dataReader["apellido2"],
 								fechaNacimiento = (string)dataReader["fechaNacimiento"].ToString().Remove(dataReader["fechaNacimiento"].ToString().Length - 12, 12),
-								pais = (string)dataReader["pais"],
-								estado = (string)dataReader["estado"],
-								ciudad = (string)dataReader["ciudad"],
+								pais = (!DBNull.Value.Equals(dataReader["pais"])) ? (string)dataReader["pais"] : null,
+								estado = (!DBNull.Value.Equals(dataReader["estado"])) ? (string)dataReader["estado"] : null,
+								ciudad = (!DBNull.Value.Equals(dataReader["ciudad"])) ? (string)dataReader["ciudad"] : null,
 								rutaImagenPerfil = (string)dataReader["rutaImagenPerfil"],
 								hobbies = (!DBNull.Value.Equals(dataReader["hobbies"])) ? (string)dataReader["hobbies"] : null,
 								habilidades = (!DBNull.Value.Equals(dataReader["habilidades"])) ? (string)dataReader["habilidades"] : null,

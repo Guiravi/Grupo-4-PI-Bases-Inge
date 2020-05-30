@@ -15,7 +15,8 @@ namespace LaCafeteria.Controllers
             topicoDBHandler = new TopicoDBHandler();
         }
 
-        public string GetTopicosArticulo(int id) {
+        public string GetTopicosArticulo(int id)
+		{
             List<TopicoModel> topicos = topicoDBHandler.ObtenerTopicosArticulo(id);
 
             string msjTopicos = "";
