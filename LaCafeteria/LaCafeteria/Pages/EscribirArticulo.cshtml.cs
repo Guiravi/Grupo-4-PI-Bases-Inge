@@ -57,6 +57,7 @@ namespace LaCafeteria.Pages
 			{
 				articulo.tipo = "corto";
 				// TODO: articuloController.SubirArticulo(articulo, listaUsernameAutores)
+
 			}
 
 		}

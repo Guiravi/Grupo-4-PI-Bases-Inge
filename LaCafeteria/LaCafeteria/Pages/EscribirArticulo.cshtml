@@ -1,10 +1,13 @@
 ﻿@page
 @model LaCafeteria.Pages.EscribirArticuloModel
 @{
-    ViewData["Title"] = "EscribirArticulo";
+	ViewData["Title"] = "EscribirArticulo";
 }
 
 <h2>EscribirArticulo</h2>
+<div id="notification" class="notification">
+	Notificacion
+</div>
 <form method="post">
 	<div class="form-group">
 		<label for="txtTitulo">Título del artículo</label>
@@ -31,7 +34,7 @@
 	</div>
 	<div class="form-group">
 		<label for="txtFecha">Fecha de publicación</label>
-		<input id="txtFecha" type="date" class="form-control" asp-for="articulo.fechaPublicacion" required/>
+		<input id="txtFecha" type="date" class="form-control" asp-for="articulo.fechaPublicacion" required />
 	</div>
 
 	<div class="container">
@@ -103,4 +106,8 @@
 			div.appendChild(button);
 		}
 	}
+</script>
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<script>
+	$("#notification").fadeOut(5000);
 </script>
