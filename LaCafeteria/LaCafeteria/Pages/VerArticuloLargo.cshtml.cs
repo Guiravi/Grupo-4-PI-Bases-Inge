@@ -19,6 +19,10 @@ namespace LaCafeteria.Pages
 
         public ArticuloController articuloController;
 
+        public MiembroController miembroController;
+
+        public int calificacion;
+
         public string articuloPDF = "";
 
         public string rutaCarpeta = "";
@@ -26,6 +30,7 @@ namespace LaCafeteria.Pages
         public VerArticuloLargoModel(IHostingEnvironment env)
         {
             articuloController = new ArticuloController();
+            miembroController = new MiembroController();
 
             rutaCarpeta = env.WebRootPath;
         }
@@ -34,6 +39,40 @@ namespace LaCafeteria.Pages
         {
             articuloController.CargarArticuloPDF(idArticuloPK , rutaCarpeta);
             articuloPDF = Convert.ToString(idArticuloPK) + ".pdf";
+
+            calificacion = miembroController.GetCalificacionMiembro("BabBunny", idArticuloPK);
+            TempData["idArticuloPK"] = idArticuloPK;
+            TempData["rutaPDF"] = articuloPDF;
+        }
+
+        public IActionResult OnPostGustar()
+        {
+            idArticuloPK = (int)TempData["idArticuloPK"];
+            articuloPDF = (string)TempData["rutaPDF"];
+            calificacion = 1;
+            miembroController.CalificarArticulo("BabBunny", idArticuloPK, 1);
+
+            return Page();
+        }
+
+        public IActionResult OnPostIgual()
+        {
+            idArticuloPK = (int)TempData["idArticuloPK"];
+            articuloPDF = (string)TempData["rutaPDF"];
+            calificacion = 0;
+            miembroController.CalificarArticulo("BabBunny", idArticuloPK, 0);
+
+            return Page();
+        }
+
+        public IActionResult OnPostDisgustar()
+        {
+            idArticuloPK = (int)TempData["idArticuloPK"];
+            articuloPDF = (string)TempData["rutaPDF"];
+            calificacion = -1;
+            miembroController.CalificarArticulo("BabBunny", idArticuloPK, -1);
+
+            return Page();
         }
     }
 }
