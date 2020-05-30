@@ -152,31 +152,18 @@
 
         <div class="col-md-12">
 
-            @for (int articuloActual = 0 ; articuloActual < Model.cantResultados; articuloActual++)
+            @for (int articuloActual = 0; articuloActual < Model.cantResultados; articuloActual++)
             {
 
                 <div class="panel panel-info">
-                    <div class="panel-heading"><h2 class="panel-title" style="font-size: 125%"><a href="/VerResumen?idArticuloPK=@Model.articulosResultado[articuloActual].idArticuloPK">@Model.articulosResultado[articuloActual].titulo</a></h2></div>                                                                                                
-                                                                                                <!--Cambiar por ver resumen-->
+                    <div class="panel-heading"><h2 class="panel-title" style="font-size: 125%"><a href="/VerResumen/@Model.articulosResultado[articuloActual].idArticuloPK/@Model.articulosResultado[articuloActual].tipo">@Model.articulosResultado[articuloActual].titulo</a></h2></div>                                                                                                
+                    
                     <div class="panel-body">
-                        <ul style="list-style: none;">                            
+                        <ul style="list-style: none;">
                             <li><strong>Fecha publicación: </strong>@Model.articulosResultado[articuloActual].fechaPublicacion</li>
-                            <li><strong>Tipo: </strong> @Model.articulosResultado[articuloActual].tipo</li>
-                            <li>
-                                @for (int miembroActual = 0; miembroActual < Model.listaMiembros.Count; miembroActual++)
-                                {
-                                    <strong>Autor(es):</strong><ul>
-                                    @for (int autorActual = 0; autorActual < Model.listaAutores.Count; autorActual++)
-                                    {
-                                        if (Model.articulosResultado[articuloActual].idArticuloPK == Model.listaAutores[autorActual].idArticuloPK && Model.listaMiembros[miembroActual].usernamePK == Model.listaAutores[autorActual].usernameMiemFK)
-                                        {
-                                            <li>@Model.listaMiembros[miembroActual].nombre @Model.listaMiembros[miembroActual].apellido1 @Model.listaMiembros[miembroActual].apellido2</li>
-                                        }
-                                     }
-
-                                    </ul>
-                                 }
-                            </li>
+                            <li><strong>Tipo: </strong>@Model.articulosResultado[articuloActual].tipo</li>
+                            <li><strong>Autor(es): </strong>@{Model.articuloController.GetAutoresDeArticulo(Model.articulosResultado[articuloActual].idArticuloPK);}</li>
+                            <li><strong>Tópico(s): </strong>@{Model.topicoController.GetTopicosArticulo(Model.articulosResultado[articuloActual].idArticuloPK);}</li>
                         </ul>
                     </div>
                 </div>

@@ -14,6 +14,9 @@ namespace LaCafeteria.Pages
         [BindProperty(SupportsGet = true)]
         public int idArticuloPK { get; set; }
 
+        [BindProperty(SupportsGet =true)]
+        public string tipo { get; set; }
+
         [BindProperty]
         public ArticuloModel articulo { get; set; }
 

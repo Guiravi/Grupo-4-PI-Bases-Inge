@@ -45,12 +45,6 @@ namespace LaCafeteria.Controllers
 			return articulos;
 		}
 
-        public List<MiembroAutorDeArticuloModel> GetMiembroAutorDeArticulo()
-        {
-            return articuloDBHandler.GetMiembroAutorDeArticulo();
-        }
-
-
 		/*
         public List<ArticuloModel> GetArticulosPaginados(int indiceActual, SolicitudBusquedaModel solicitud, int tamanoPag = 8)
         {
@@ -88,9 +82,9 @@ namespace LaCafeteria.Controllers
 
             for (int i = 0; i<listaAutores.Count-1; ++i )
             {
-                autores = autores + listaAutores[i] + ", ";
+                autores = autores + listaAutores[i].nombre +" "+ listaAutores[i].apellido1 +" "+ listaAutores[i].apellido2 + ", ";
             }
-            autores = autores + listaAutores[listaAutores.Count - 1];
+            autores = autores + listaAutores[listaAutores.Count - 1].nombre + " " +listaAutores[listaAutores.Count - 1].apellido1 + " " + listaAutores[listaAutores.Count - 1].apellido2;
 
             return autores;
         }

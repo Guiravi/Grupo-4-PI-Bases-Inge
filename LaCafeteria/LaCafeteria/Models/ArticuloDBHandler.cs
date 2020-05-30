@@ -180,7 +180,7 @@ namespace LaCafeteria.Models
                         contenido = (String) reader["contenido"],
                         estado = (String) reader["estado"],
                         visitas = (int) reader["visitas"],
-                        puntajeTotalRev = (float) reader["puntajeTotalRev"],
+                        puntajeTotalRev = (double) reader["puntajeTotalRev"],
                         calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
                     };
 
@@ -245,7 +245,7 @@ namespace LaCafeteria.Models
                         contenido = (String) reader["contenido"],
                         estado = (String) reader["estado"],
                         visitas = (int) reader["visitas"],
-                        puntajeTotalRev = (float) reader["puntajeTotalRev"],
+                        puntajeTotalRev = (double) reader["puntajeTotalRev"],
                         calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
                     };
 
@@ -315,7 +315,7 @@ namespace LaCafeteria.Models
                         contenido = (String) reader["contenido"],
                         estado = (String) reader["estado"],
                         visitas = (int) reader["visitas"],
-                        puntajeTotalRev = (float) reader["puntajeTotalRev"],
+                        puntajeTotalRev = (double) reader["puntajeTotalRev"],
                         calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
                     };
 
@@ -356,37 +356,6 @@ namespace LaCafeteria.Models
             }
 
             return System.Convert.FromBase64String(contenido);
-        }
-
-        public List<MiembroAutorDeArticuloModel> GetMiembroAutorDeArticulo() {
-            String connectionString = AppSettings.GetConnectionString();
-
-            using ( SqlConnection connection = new SqlConnection(connectionString) )
-            {
-                connection.Open();
-
-                SqlCommand cmd = new SqlCommand("SELECT *" +
-                    " FROM MiembroAutorDeArticulo", connection);
-
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                List<MiembroAutorDeArticuloModel> relacionList = new List<MiembroAutorDeArticuloModel>();
-
-                while ( reader.Read() )
-                {
-                    MiembroAutorDeArticuloModel relacionActual = new MiembroAutorDeArticuloModel()
-                    {
-                        idArticuloPK = (int) reader["idArticuloPK"],
-                        usernameMiemFK = (String) reader["usernameMiemFK"]
-                    };
-
-                    relacionList.Add(relacionActual);
-                }
-
-                reader.Close();
-
-                return relacionList;
-            }
         }
 
         /**
@@ -582,7 +551,7 @@ namespace LaCafeteria.Models
                         contenido = (string) reader["contenido"],
                         estado = (string) reader["estado"],
                         visitas = (int) reader["visitas"],
-                        puntajeTotalRev = (int) reader["puntajeTotalRev"],
+                        puntajeTotalRev = (double) reader["puntajeTotalRev"],
                         calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
                     };
                 }
@@ -600,9 +569,9 @@ namespace LaCafeteria.Models
             {
                 connection.Open();
                 string cmdString = "SELECT M.nombre, M.apellido1, M.apellido2 " +
-                    "FROM Miembro M JOIN MiembroAutorDeArticulo MAA" +
-                    "ON M.usernamePK = MAA.usernameMiemFK" +
-                    "WHERE MAA.idArticuloFK = @id";
+                    " FROM Miembro M JOIN MiembroAutorDeArticulo MAA " +
+                    " ON M.usernamePK = MAA.usernameMiemFK " +
+                    " WHERE MAA.idArticuloFK = @id;";
                 SqlCommand command = new SqlCommand(cmdString, connection);
                 command.Parameters.AddWithValue("@id", id);
 
@@ -611,7 +580,7 @@ namespace LaCafeteria.Models
                 {
                     MiembroModel autor = new MiembroModel()
                     {
-                        nombre = (string) reader["titulo"],
+                        nombre = (string) reader["nombre"],
                         apellido1 = (string) reader["apellido1"],
                         apellido2 = (string) reader["apellido2"],
                     };

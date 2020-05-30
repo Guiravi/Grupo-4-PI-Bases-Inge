@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{idArticuloPK}/{tipo}"
 @model LaCafeteria.Pages.VerResumenModel
 @{
     ViewData["Title"] = "Resumen de Artículo";
@@ -12,8 +12,69 @@
 <p><b>Resumen: </b></p>
 <p>@Model.articulo.resumen</p>
 
-<div class="text-center">
-    <form method="post">
-        <button type="submit">Ver artículo completo</button>
-    </form>
+
+@if (Model.tipo == "Corto")
+{
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8"></div>
+        <div class="col-md-4">
+            <h3 class="text-center text-primary" style="display:none; position: relative; left: 135px;" id="txtCal">Calificar:</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            <button type="button" class="btn btn-info btn-lg" id="mostrarCorto">Ver artículo corto completo</button>
+        </div>
+        <div class="col-lg-6"></div>
+        <div class="col-md-3" style="display:none;" id="calificacion">
+            <button type="button" class="btn btn-info btn-lg" id="like">
+                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+            </button>
+
+            <button type="button" class="btn btn-info btn-lg" id="same">
+                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+            </button>
+
+            <button type="button" class="btn btn-info btn-lg" id="dislike">
+                <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+            </button>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8"></div>
+        <div class="col-md-4">
+            <p id="textLike" style="visibility: hidden; position: relative; top: 10px" class="text-center text-primary">Me gusta<p>
+            <p id="textSame" style="visibility: hidden; position: relative; bottom: 20px" class="text-center text-primary">Nulo<p>
+            <p id="textDislike" style="visibility: hidden; position: relative; bottom: 50px" class="text-center text-primary">No me gusta<p>
+        </div>
+    </div>
+
+    <div class="row" style="display: none;" id="contenidoCorto">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10" id="divContent"> @Model.articulo.contenido </div>
+        <div class="col-lg-1"></div>
+    </div>
 </div>
+
+
+<script src="~/js/VerResumen.js" defer></script>
+
+}
+else if (Model.tipo == "Largo")
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <a href="/VerArticuloLargo?idArticuloPK=@Model.idArticuloPK" class="btn btn-info btn-lg">Ver artículo largo completo</a>
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
+    </div>
+}
+
+

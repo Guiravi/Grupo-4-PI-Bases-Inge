@@ -15,14 +15,7 @@ namespace LaCafeteria.Models
 		public String contenido { get; set; }
 		public String estado { get; set; }
         public int visitas { get; set; }
-        public float puntajeTotalRev { get; set; }
+        public double puntajeTotalRev { get; set; }
 		public int calificacionTotalMiem { get; set; }
     }
-
-    public class MiembroAutorDeArticuloModel
-    {
-        public int idArticuloPK { get; set; }
-        public String usernameMiemFK { get; set; }
-    }
-
 }
