@@ -93,6 +93,15 @@ namespace LaCafeteria.Pages
             //numPaginas = (int)Math.Ceiling(cantResultados / (double)articulosPorPagina);
 
         }
+
+        public void OnPostTodos()
+        {
+            articulosResultado = articuloController.GetTodosArticulos();
+
+            cantResultados = articulosResultado.Count;
+
+            textoBusqueda = "Todos los artículos";
+        }
         
     }
 

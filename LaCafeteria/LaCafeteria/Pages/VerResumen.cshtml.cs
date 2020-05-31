@@ -54,13 +54,13 @@ namespace LaCafeteria.Pages
 
         public IActionResult OnPostGustar()
         {
-            idArticuloPK = (int)TempData["idArticuloPK"];
+            idArticuloPK = (int)TempData["idArticuloPK"]; 
+            calificacion = 1;          
+            miembroController.CalificarArticulo("BabBunny", idArticuloPK, 1);
             articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
             autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
             topicos = topicoController.GetTopicosArticulo(idArticuloPK);
-            calificacion = 1;
             contenido = articulo.contenido;
-            miembroController.CalificarArticulo("BabBunny", idArticuloPK, 1);
 
             return Page();
         }
@@ -68,12 +68,12 @@ namespace LaCafeteria.Pages
         public IActionResult OnPostIgual()
         {
             idArticuloPK = (int)TempData["idArticuloPK"];
+            calificacion = 0;            
+            miembroController.CalificarArticulo("BabBunny", idArticuloPK, 0);
             articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
             autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
             topicos = topicoController.GetTopicosArticulo(idArticuloPK);
-            calificacion = 0;
             contenido = articulo.contenido;
-            miembroController.CalificarArticulo("BabBunny", idArticuloPK, 0);
 
             return Page();
         }
@@ -81,12 +81,12 @@ namespace LaCafeteria.Pages
         public IActionResult OnPostDisgustar()
         {
             idArticuloPK = (int)TempData["idArticuloPK"];
+            calificacion = -1;          
+            miembroController.CalificarArticulo("BabBunny", idArticuloPK, -1);
             articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
             autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
             topicos = topicoController.GetTopicosArticulo(idArticuloPK);
-            calificacion = -1;
             contenido = articulo.contenido;
-            miembroController.CalificarArticulo("BabBunny", idArticuloPK, -1);
 
             return Page();
         }

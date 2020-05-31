@@ -64,7 +64,7 @@
 					<ul class="dropdown-menu">
 						@for (int topicoActual = 0; topicoActual < Model.listaTopicos.Count; ++topicoActual)
 						{
-							<li><input type="checkbox" name="listaTopicosArticulo" value="@Model.listaTopicos[topicoActual].nombre"> @Model.listaTopicos[topicoActual].nombre</li>
+							<li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaTopicosArticulo" value="@Model.listaTopicos[topicoActual].nombre"> @Model.listaTopicos[topicoActual].nombre</li>
 						}
 					</ul>
 				</div>

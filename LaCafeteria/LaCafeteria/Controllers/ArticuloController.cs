@@ -51,7 +51,12 @@ namespace LaCafeteria.Controllers
 			return articulos;
 		}
 
-		/*
+        public List<ArticuloModel> GetTodosArticulos()
+        {
+            return articuloDBHandler.GetTodosArticulos();
+        }
+
+        /*
         public List<ArticuloModel> GetArticulosPaginados(int indiceActual, SolicitudBusquedaModel solicitud, int tamanoPag = 8)
         {
             var data = BuscarArticulo(solicitud);

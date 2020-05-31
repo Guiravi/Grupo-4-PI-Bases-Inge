@@ -26,16 +26,19 @@
 
                     <ul class="dropdown-menu">
                         <li>
-                            <input type="radio" class="radio-inline" id="topicos" style="margin: 5px 5px;" value="topicos" asp-for="tipoBusqueda">
+                            <input type="radio" class="radio-inline" id="topicos" style="margin: 10px 5px;" value="topicos" asp-for="tipoBusqueda">
                             <label for="topicos" class="text-primary radio-inline" style="margin-bottom: 5px;">Tópicos</label>
                         </li>
                         <li>
-                            <input type="radio" class="radio-inline" id="titulos" style="margin: 5px 5px;" value="titulos" asp-for="tipoBusqueda">
+                            <input type="radio" class="radio-inline" id="titulos" style="margin: 10px 5px;" value="titulos" asp-for="tipoBusqueda">
                             <label for="titulos" class="text-primary radio-inline" style="margin-bottom: 5px;">Títulos</label>
                         </li>
                         <li>
-                            <input type="radio" class="radio-inline" id="autores" style="margin: 5px 5px;" value="autores" asp-for="tipoBusqueda">
+                            <input type="radio" class="radio-inline" id="autores" style="margin: 10px 5px;" value="autores" asp-for="tipoBusqueda">
                             <label for="autores" class="text-primary radio-inline" style="margin-bottom: 5px;">Autores</label>
+                        </li>
+                        <li>
+                            <button type="submit" class="btn" id="btnMostrarTodos" asp-page-handler="todos">Mostrar todos los artículos</button>
                         </li>
                     </ul>
 
@@ -57,7 +60,10 @@
                             {
                                 <li style="margin: 5px 5px"><input type="checkbox" name="listaTopicosSelec" value="@Model.listaTopicos[topicoActual].nombre"><span class="text-primary checkbox-inline">@Model.listaTopicos[topicoActual].nombre</span></li>
                             }
+
+                            <li style="margin: 10px 5px"><button type="button" id="selecTodos" class="btn">Seleccionar todos</button></li>
                         </ul>
+
                     </div>
                 </div>
             </div>
@@ -88,16 +94,14 @@
                 <button class="btn btn-primary" type="submit" style="display:none;" id="aceptar">Aceptar</button>
             </div>
         </div>
-        <br/>
+        <br />
         <div class="row">
             <div class="col-md-3">
                 <a href="/Buscar" class="btn-sm btn-info" id="reiniciar" style="display: none;">Reiniciar búsqueda</a>
             </div>
         </div>
-
     </form>
 </div>
-
 
 <br />
 
@@ -156,9 +160,9 @@
             {
 
                 <div class="panel panel-info">
-                    <div class="panel-heading"><h2 class="panel-title" style="font-size: 125%"><a href="/VerResumen/@Model.articulosResultado[articuloActual].idArticuloPK/@Model.articulosResultado[articuloActual].tipo">@Model.articulosResultado[articuloActual].titulo</a></h2></div>                                                                                                
-                    
-                    <div class="panel-body">
+                    <div class="panel-heading"><h2 class="panel-title" style="font-size: 125%"><a href="/VerResumen/@Model.articulosResultado[articuloActual].idArticuloPK/@Model.articulosResultado[articuloActual].tipo">@Model.articulosResultado[articuloActual].titulo</a></h2></div>
+
+                    <div class="panel-body" style="max-height: 110px">
                         <ul style="list-style: none;">
                             <li><strong>Fecha publicación: </strong>@Model.articulosResultado[articuloActual].fechaPublicacion</li>
                             <li><strong>Tipo: </strong>@Model.articulosResultado[articuloActual].tipo</li>
