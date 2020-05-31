@@ -1,8 +1,103 @@
 ﻿@page
+@using LaCafeteria.Utilidades
 @model LaCafeteria.Pages.SubirArticuloModel
 @{
-    ViewData["Title"] = "SubirArticulo";
+	ViewData["Title"] = "SubirArticulo";
 }
 
 <h2>SubirArticulo</h2>
+@if (Notificaciones.Existe(Model, "articuloGuardado"))
+{
+	@Html.Raw(Notificaciones.Get(Model, "articuloGuardado"));
+}
+<form method="post" enctype="multipart/form-data">
+	<div class="form-group">
+		<label for="txtTitulo">Título del artículo</label>
+		<input id="txtTitulo" type="text" class="form-control" asp-for="articulo.titulo" />
+		<span asp-validation-for="articulo.titulo"></span>
+	</div>
+	<div class="form-group">
+		<label for="slctAutor">Autor(es)</label>
+		<select id="slctAutor" class="form-control">
+			@foreach (var autor in Model.listaMiembros)
+			{
+				<option value="@autor.usernamePK">@autor.GetNombreCompleto()</option>
+			}
+		</select>
+		<input type="button" class="btn" value="Agregar autor" onclick="agregarAutor()" />
+		@if (Notificaciones.Existe(Model, "listaMiembrosAutores"))
+		{
+			@Html.Raw(Notificaciones.Get(Model, "listaMiembrosAutores"));
+		}
+		<div id="autores">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="txtResumen">Resumen del artículo</label>
+		<textarea id="txtResumen" rows="2" cols="20" class="form-control" asp-for="articulo.resumen"></textarea>
+		<span asp-validation-for="articulo.resumen"></span>
+	</div>
+	<div class="form-group">
+		<label for="txtFecha">Fecha de publicación</label>
+		<input id="txtFecha" type="date" class="form-control" asp-for="articulo.fechaPublicacion" />
+		<span asp-validation-for="articulo.fechaPublicacion"></span>
+	</div>
 
+	<div class="container">
+		<div class="row">
+			<div class="form-group col-lg-8">
+				<label for="txtContenido">Artículo</label>
+				<input type="file" asp-for="archivoArticulo" />
+				<span asp-validation-for="archivoArticulo"></span>
+				@if (Notificaciones.Existe(Model, "archivoArticulo"))
+				{
+					@Html.Raw(Notificaciones.Get(Model, "archivoArticulo"));
+				}
+			</div>
+			<div class="form-group col-lg-4">
+				<div class="btn-group" style="margin-top: 25px">
+					@if (Notificaciones.Existe(Model, "listaTopicosArticulo"))
+					{
+						@Html.Raw(Notificaciones.Get(Model, "listaTopicosArticulo"));
+					}
+					<button type="button" class="btn btn-info">Seleccione tópicos</button>
+					<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<span class="caret"></span>
+						<span class="sr-only">Toggle Dropdown</span>
+					</button>
+					<ul class="dropdown-menu">
+						@for (int topicoActual = 0; topicoActual < Model.listaTopicos.Count; ++topicoActual)
+						{
+							<li><input type="checkbox" name="listaTopicosArticulo" value="@Model.listaTopicos[topicoActual].nombre"> @Model.listaTopicos[topicoActual].nombre</li>
+						}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input id="btnGuardar" name="btnGuardar" type="submit" value="Guardar" class="btn-primary" />
+</form>
+<script>
+	var miembrosAutores = new Array();
+
+	function agregarAutor() {
+		let select = document.getElementById('slctAutor');
+		let option = select[select.selectedIndex];
+
+		if (!miembrosAutores.includes(option.value)) {
+			const div = document.createElement('div');
+			const button = document.createElement('input');
+			button.type = "button";
+			button.value = "x";
+			button.toDelete = option.value;
+			button.onclick = function () {
+				miembrosAutores.splice(miembrosAutores.indexOf(this.toDelete), 1);
+				document.getElementById('autores').removeChild(this.parentNode);
+			};
+			miembrosAutores.push(option.value)
+			div.innerHTML = '<label>' + option.text + '</label><input type="hidden" name="listaMiembrosAutores" value=\"' + option.value + '\"/>';
+			document.getElementById('autores').appendChild(div);
+			div.appendChild(button);
+		}
+	}
+</script>
