@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using LaCafeteria.Pages;
 using LaCafeteria.Models;
 
@@ -17,6 +18,11 @@ namespace LaCafeteria.Controllers
             articuloDBHandler = new ArticuloDBHandler();
             articuloFSHandler = new ArticuloFSHandler();
         }
+
+		public void GuardarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<string> nombreTopicoPKTopicos)
+		{
+			articuloDBHandler.GuardarArticulo(articulo, usernamePKMiembrosAutores, nombreTopicoPKTopicos);
+		}
 
 		public List<ArticuloModel> BuscarArticulo(SolicitudBusquedaModel solicitud)
 		{

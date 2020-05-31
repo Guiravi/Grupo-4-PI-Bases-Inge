@@ -60,8 +60,8 @@ namespace LaCafeteria.Models
 								habilidades = (!DBNull.Value.Equals(dataReader["habilidades"])) ? (string)dataReader["habilidades"] : null,
 								idiomas = (!DBNull.Value.Equals(dataReader["idiomas"])) ? (string)dataReader["idiomas"] : null,
 								informacionLaboral = (!DBNull.Value.Equals(dataReader["informacionLaboral"])) ? (string)dataReader["informacionLaboral"] : null,
-								meritos = (!DBNull.Value.Equals(dataReader["meritos"])) ? (int)dataReader["meritos"] : -1,
-								activo = (!DBNull.Value.Equals(dataReader["activo"])) ? (bool)dataReader["activo"] : true,
+								meritos = (!DBNull.Value.Equals(dataReader["meritos"])) ? (int?)dataReader["meritos"] : null,
+								activo = (bool)dataReader["activo"],
 								nombreRolFK = (string)dataReader["nombreRolFK"]
 							};
 

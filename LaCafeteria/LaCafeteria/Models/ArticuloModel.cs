@@ -8,7 +8,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LaCafeteria.Models
-{ 
+{	
+	
+	public static class EstadoArticulo
+	{
+		public const string EnProgreso = "En Progreso";
+		public const string RequiereRevision = "Requiere Revision";
+		public const string EnRevision = "En Revision";
+		public const string EnCorrecciones = "En Correciones";
+		public const string Publicado = "Publicado";
+	}
+
+	public static class TipoArticulo
+	{
+		public const string Corto = "Corto";
+		public const string Largo = "Largo";
+		public const string Link = "Link";
+		
+	}
+
 	public class ArticuloModel
 	{	
 		public int idArticuloPK { get; set; }
@@ -31,8 +49,9 @@ namespace LaCafeteria.Models
 
         public int visitas { get; set; }
 
-        public double puntajeTotalRev { get; set; }
+        public double? puntajeTotalRev { get; set; }
 
 		public int calificacionTotalMiem { get; set; }
+
     }
 }

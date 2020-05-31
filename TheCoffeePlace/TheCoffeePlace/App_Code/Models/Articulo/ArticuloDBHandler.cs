@@ -51,7 +51,6 @@ namespace TheCoffeePlace.Models
 						command.ExecuteNonQuery();
 					}
 				}
-				
 			}
 		}
 

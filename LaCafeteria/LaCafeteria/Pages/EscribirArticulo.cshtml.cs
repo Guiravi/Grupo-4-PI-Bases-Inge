@@ -17,7 +17,7 @@ using System.ComponentModel.DataAnnotations;
 namespace LaCafeteria.Pages
 {
 	public class EscribirArticuloModel : PageModel
-	{
+	{	
 		public List<TopicoModel> listaTopicos { set; get; }
 
 		public List<MiembroModel> listaMiembros { set; get; }
@@ -33,11 +33,13 @@ namespace LaCafeteria.Pages
 
 		public TopicoController topicoController;
 		public MiembroController miembroController;
+		public ArticuloController articuloController;
 
 		public EscribirArticuloModel()
 		{
 			topicoController = new TopicoController();
 			miembroController = new MiembroController();
+			articuloController = new ArticuloController();
 			listaTopicos = topicoController.GetListaTopicos();
 			listaMiembros = miembroController.GetListaMiembros();
 		}
@@ -51,11 +53,11 @@ namespace LaCafeteria.Pages
 		{	
 			if(EsValido())
 			{	
-				articulo.tipo = "corto";
-				// TODO: articuloController.SubirArticulo(articulo, listaUsernameAutores)
+				articulo.tipo = TipoArticulo.Corto;
+				articulo.estado = EstadoArticulo.EnProgreso;
+				articuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
 				Notificaciones.Set(this, "articuloGuardado", "Su articulo se guardó", Notificaciones.TipoNotificacion.Exito);
 			}
-
 		}
 
 		private bool EsValido()

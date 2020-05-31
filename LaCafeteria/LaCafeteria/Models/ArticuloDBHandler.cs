@@ -11,6 +11,91 @@ namespace LaCafeteria.Models
     public class ArticuloDBHandler
     {
 
+		public void GuardarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<string> nombreTopicoPKTopicos)
+		{
+			string connectionString = AppSettings.GetConnectionString();
+
+			using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+			{
+				//Guardar registro del articulo en Articulo
+				String sqlString = @"INSERT INTO Articulo(
+															titulo, 
+															tipo, 
+															fechaPublicacion, 
+															resumen, 
+															contenido, 
+															estado 
+														 )
+									VALUES(@titulo, @tipo, @fechaPublicacion, @resumen, @contenido, @estado)";
+
+				sqlConnection.Open();
+				using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+				{
+					sqlCommand.Parameters.AddWithValue("@titulo", articulo.titulo);
+					sqlCommand.Parameters.AddWithValue("@tipo", articulo.tipo);
+					sqlCommand.Parameters.AddWithValue("@fechaPublicacion", articulo.fechaPublicacion);
+					sqlCommand.Parameters.AddWithValue("@resumen", articulo.resumen);
+					sqlCommand.Parameters.AddWithValue("@contenido", articulo.contenido);
+					sqlCommand.Parameters.AddWithValue("@estado", articulo.estado);
+
+					sqlCommand.ExecuteNonQuery();
+
+					//Guardar registros de relacion de MiembrosAutores con su Articulo
+					articulo.idArticuloPK = ObtenerSiguienteId();
+					sqlCommand.CommandText = "INSERT INTO MiembroAutorDeArticulo VALUES(@usernameMiemFK, @idArticuloFK)";
+
+					foreach (string usernamePK in usernamePKMiembrosAutores)
+					{
+						sqlCommand.Parameters.Clear();
+						sqlCommand.Parameters.AddWithValue("@usernameMiemFK", usernamePK);
+						sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.idArticuloPK);
+						sqlCommand.ExecuteNonQuery();
+					}
+
+					//Guardar registro de relaciones de Articulo con sus Topicos
+
+					articulo.idArticuloPK = ObtenerSiguienteId();
+					sqlCommand.CommandText = "INSERT INTO ArticuloTrataTopico VALUES(@nombreTopicoFK, @idArticuloFK)";
+
+					foreach (string nombreTopicoPK in nombreTopicoPKTopicos)
+					{
+						sqlCommand.Parameters.Clear();
+						sqlCommand.Parameters.AddWithValue("@nombreTopicoFK", nombreTopicoPK);
+						sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.idArticuloPK);
+						sqlCommand.ExecuteNonQuery();
+					}
+				}
+			}
+		}
+
+		public int ObtenerSiguienteId()
+        {
+            String connectionString = AppSettings.GetConnectionString();
+			SqlCommand cmd;
+            int current_id;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
+                connection.Open();
+
+                cmd = new SqlCommand("SELECT IDENT_CURRENT ('Articulo')", connection);
+
+                SqlDataReader identReader = cmd.ExecuteReader();
+
+                current_id = 0;
+
+                while (identReader.Read())
+                {
+                    current_id = Convert.ToInt32(identReader.GetValue(0));
+                }
+
+                identReader.Close();
+
+            }
+
+            return current_id;
+        }
         /*
         public void SaveArticulo(ArticuloModel articulo, List<TopicoModel> topicos)
         {
@@ -180,8 +265,8 @@ namespace LaCafeteria.Models
                         contenido = (String) reader["contenido"],
                         estado = (String) reader["estado"],
                         visitas = (int) reader["visitas"],
-                        puntajeTotalRev = (double) reader["puntajeTotalRev"],
-                        calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
+                        puntajeTotalRev = (!DBNull.Value.Equals(reader["puntajeTotalRev"])) ? (double?)reader["puntajeTotalRev"] : null,
+						calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
                     };
 
                     artList.Add(articuloActual);
@@ -245,7 +330,7 @@ namespace LaCafeteria.Models
                         contenido = (String) reader["contenido"],
                         estado = (String) reader["estado"],
                         visitas = (int) reader["visitas"],
-                        puntajeTotalRev = (double) reader["puntajeTotalRev"],
+                        puntajeTotalRev = (!DBNull.Value.Equals(reader["puntajeTotalRev"])) ? (double?) reader["puntajeTotalRev"] : null,
                         calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
                     };
 
@@ -315,8 +400,8 @@ namespace LaCafeteria.Models
                         contenido = (String) reader["contenido"],
                         estado = (String) reader["estado"],
                         visitas = (int) reader["visitas"],
-                        puntajeTotalRev = (double) reader["puntajeTotalRev"],
-                        calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
+                        puntajeTotalRev = (!DBNull.Value.Equals(reader["puntajeTotalRev"])) ? (double?)reader["puntajeTotalRev"] : null,
+						calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
                     };
 
                     artList.Add(articuloActual);
@@ -551,7 +636,7 @@ namespace LaCafeteria.Models
                         contenido = (string) reader["contenido"],
                         estado = (string) reader["estado"],
                         visitas = (int) reader["visitas"],
-                        puntajeTotalRev = (double) reader["puntajeTotalRev"],
+                        puntajeTotalRev = (!DBNull.Value.Equals(reader["puntajeTotalRev"])) ? (double?)reader["puntajeTotalRev"] : null,
                         calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
                     };
                 }

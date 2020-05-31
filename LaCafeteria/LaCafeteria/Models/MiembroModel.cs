@@ -21,7 +21,7 @@ namespace LaCafeteria.Models
         public string habilidades { get; set; }
         public string idiomas { get; set; }
         public string informacionLaboral { get; set; }
-        public int meritos { get; set; }
+        public int? meritos { get; set; }
         public bool activo { get; set; }
         public string nombreRolFK { get; set; }
 
