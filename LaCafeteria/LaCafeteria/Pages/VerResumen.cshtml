@@ -74,7 +74,7 @@
                 <div class="col-md-3">
                     @if (Model.calificacion == 1)
                     {
-                        <button type="button" class="btn btn-success btn-lg" id="like" disabled>
+                        <button type="button" class="btn btn-success btn-lg" style="background-color: chartreuse;" id="like" disabled>
                             <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
                         </button>
                     }
@@ -87,7 +87,7 @@
 
                     @if (Model.calificacion == 0)
                     {
-                        <button type="button" class="btn btn-warning btn-lg" id="same" disabled>
+                        <button type="button" class="btn btn-warning btn-lg" style="background-color: orange;" id="same" disabled>
                             <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                         </button>
                     }
@@ -99,7 +99,7 @@
                     }
                     @if (Model.calificacion == -1)
                     {
-                        <button type="button" class="btn btn-danger btn-lg" id="dislike" disabled>
+                        <button type="button" class="btn btn-danger btn-lg" id="dislike" style="background-color: darkred;" disabled>
                             <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
                         </button>
                     }
