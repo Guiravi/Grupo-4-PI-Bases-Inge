@@ -12,18 +12,27 @@ namespace LaCafeteria.Models
 	public class ArticuloModel
 	{	
 		public int idArticuloPK { get; set; }
-		[Required(ErrorMessage ="Debe incluir un titulo para su articulo")]
+
+		[Required(ErrorMessage ="Debe incluir un título para su artículo")]
 		public String titulo { get; set; }
+
         public String tipo { get; set; }
-		[Required]
+
+		[Required(ErrorMessage = "Debe incluir una fecha de publicación para su artículo")]
 		public String fechaPublicacion { get; set; }
-		[Required]
+
+		[Required(ErrorMessage = "Debe incluir un resumen para su artículo")]
 		public String resumen { get; set; }
-		[Required]
+
+		[Required(ErrorMessage = "Su artículo debe tener contenido")]
 		public String contenido { get; set; }
+
 		public String estado { get; set; }
+
         public int visitas { get; set; }
+
         public double puntajeTotalRev { get; set; }
+
 		public int calificacionTotalMiem { get; set; }
     }
 }

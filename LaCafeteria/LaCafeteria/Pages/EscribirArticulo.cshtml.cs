@@ -11,6 +11,7 @@ using System.Web;
 using System.Configuration;
 using Microsoft.Extensions.Configuration;
 using LaCafeteria.Controllers;
+using LaCafeteria.Utilidades;
 using System.ComponentModel.DataAnnotations;
 
 namespace LaCafeteria.Pages
@@ -22,16 +23,12 @@ namespace LaCafeteria.Pages
 		public List<MiembroModel> listaMiembros { set; get; }
 
 		[BindProperty]
-		[Required]
 		public ArticuloModel articulo { set; get; }
 
 		[BindProperty]
-		[MinLength(1, ErrorMessage = "Hola")]
-		[Required(ErrorMessage = "Hola")]
-		public List<string> listaTopicosArticulo { set; get; }
+		public List<string> listaTopicosArticulo { get; set; }
 
 		[BindProperty]
-		[Required, MinLength(1, ErrorMessage = "At least one item required in work order")]
 		public List<string> listaMiembrosAutores { set; get; }
 
 		public TopicoController topicoController;
@@ -43,7 +40,6 @@ namespace LaCafeteria.Pages
 			miembroController = new MiembroController();
 			listaTopicos = topicoController.GetListaTopicos();
 			listaMiembros = miembroController.GetListaMiembros();
-			ModelState.AddModelError("listaMiembrosAutores", "Error 1");
 		}
 
 		public void OnGet()
@@ -52,15 +48,33 @@ namespace LaCafeteria.Pages
         }
 
 		public void OnPost()
-		{
-			if(ModelState.IsValid)
-			{
+		{	
+			if(EsValido())
+			{	
 				articulo.tipo = "corto";
 				// TODO: articuloController.SubirArticulo(articulo, listaUsernameAutores)
-
+				Notificaciones.Set(this, "articuloGuardado", "Su articulo se guardó", Notificaciones.TipoNotificacion.Exito);
 			}
 
 		}
 
+		private bool EsValido()
+		{
+			bool esValido = true;
+
+			if(listaTopicosArticulo.Count == 0)
+			{
+				Notificaciones.Set(this, "listaTopicosArticulo", "Debe seleccionar al menos un tópico para su artículo", Notificaciones.TipoNotificacion.Error);
+				esValido = false;
+			}
+
+			if (listaMiembrosAutores.Count == 0)
+			{
+				Notificaciones.Set(this, "listaMiembrosAutores", "Debe seleccionar al menos un autor para su artículo", Notificaciones.TipoNotificacion.Error);
+				esValido = false;
+			}
+
+			return esValido && ModelState.IsValid;
+		}
 	}
 }

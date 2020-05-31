@@ -74,24 +74,12 @@
 }
 
 .field-validation-error {
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    color: #a94442;
-    background-color: #f2dede;
-    border-color: #ebccd1;
-    display: block;
-}
-
-.notification {
 	padding: 15px;
 	margin-bottom: 20px;
 	border: 1px solid transparent;
 	border-radius: 4px;
-	color: #000;
-	color: #000;
-	background-color: #7CCAFF;
-	border-color: #104762;
+	color: #a94442;
+	background-color: #f2dede;
+	border-color: #ebccd1;
 	display: block;
 }

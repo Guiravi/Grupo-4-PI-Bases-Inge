@@ -1,19 +1,20 @@
 ﻿@page
 @model LaCafeteria.Pages.EscribirArticuloModel
+@using LaCafeteria.Utilidades
 @{
 	ViewData["Title"] = "EscribirArticulo";
 }
 
-<h2>Escribir Articulo</h2>
-<div id="notification" class="notification">
-	Notificacion
-</div>
+<h2>EscribirArticulo</h2>
+@if (Notificaciones.Existe(Model, "articuloGuardado"))
+{
+	@Html.Raw(Notificaciones.Get(Model, "articuloGuardado"));
+}
 <form method="post">
 	<div class="form-group">
 		<label for="txtTitulo">Título del artículo</label>
 		<input id="txtTitulo" type="text" class="form-control" asp-for="articulo.titulo" />
 		<span asp-validation-for="articulo.titulo"></span>
-		<span asp-validation-for="listaMiembrosAutores"></span>
 	</div>
 	<div class="form-group">
 		<label for="slctAutor">Autor(es)</label>
@@ -24,30 +25,37 @@
 			}
 		</select>
 		<input type="button" class="btn" value="Agregar autor" onclick="agregarAutor()" />
-		<span asp-validation-summary="All"></span>
+		@if (Notificaciones.Existe(Model, "listaMiembrosAutores"))
+		{
+			@Html.Raw(Notificaciones.Get(Model, "listaMiembrosAutores"));
+		}
 		<div id="autores">
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="txtResumen">Resumen del artículo</label>
-		<textarea id="txtResumen" rows="2" cols="20" class="form-control" asp-for="articulo.resumen" required></textarea>
+		<textarea id="txtResumen" rows="2" cols="20" class="form-control" asp-for="articulo.resumen"></textarea>
+		<span asp-validation-for="articulo.resumen"></span>
 	</div>
 	<div class="form-group">
 		<label for="txtFecha">Fecha de publicación</label>
-		<input id="txtFecha" type="date" class="form-control" asp-for="articulo.fechaPublicacion" required />
+		<input id="txtFecha" type="date" class="form-control" asp-for="articulo.fechaPublicacion" />
+		<span asp-validation-for="articulo.fechaPublicacion"></span>
 	</div>
 
 	<div class="container">
 		<div class="row">
 			<div class="form-group col-lg-8">
 				<label for="txtContenido">Artículo</label>
-				<span asp-validation-for="articulo.contenido"></span>
-				<span asp-validation-for="listaMiembrosAutores" />
-				<span asp-validation-for="listaTopicosArticulo" />
 				<textarea id="txtContenido" asp-for="articulo.contenido"></textarea>
+				<span asp-validation-for="articulo.contenido"></span>
 			</div>
-			<div class="col-lg-4">
+			<div class="form'group col-lg-4">
 				<div class="btn-group" style="margin-top: 25px">
+					@if (Notificaciones.Existe(Model, "listaTopicosArticulo"))
+					{
+						@Html.Raw(Notificaciones.Get(Model, "listaTopicosArticulo"));
+					}
 					<button type="button" class="btn btn-info">Seleccione tópicos</button>
 					<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<span class="caret"></span>
@@ -59,7 +67,6 @@
 							<li><input type="checkbox" name="listaTopicosArticulo" value="@Model.listaTopicos[topicoActual].nombre"> @Model.listaTopicos[topicoActual].nombre</li>
 						}
 					</ul>
-					<span asp-validation-for="listaTopicosArticulo"></span>
 				</div>
 			</div>
 		</div>
@@ -107,8 +114,4 @@
 			div.appendChild(button);
 		}
 	}
-</script>
-<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
-<script>
-	$("#notification").fadeOut(5000);
 </script>
