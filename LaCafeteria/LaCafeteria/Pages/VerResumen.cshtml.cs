@@ -48,7 +48,7 @@ namespace LaCafeteria.Pages
             topicos = topicoController.GetTopicosArticulo(idArticuloPK);
             contenido = articulo.contenido;
 
-            calificacion = miembroController.GetCalificacionMiembro("BabBunny", idArticuloPK);
+            calificacion = miembroController.GetCalificacionMiembro("BadBunny", idArticuloPK);
             TempData["idArticuloPK"] = idArticuloPK;
         }
 
@@ -56,7 +56,7 @@ namespace LaCafeteria.Pages
         {
             idArticuloPK = (int)TempData["idArticuloPK"]; 
             calificacion = 1;          
-            miembroController.CalificarArticulo("BabBunny", idArticuloPK, 1);
+            miembroController.CalificarArticulo("BadBunny", idArticuloPK, 1);
             articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
             autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
             topicos = topicoController.GetTopicosArticulo(idArticuloPK);
@@ -69,7 +69,7 @@ namespace LaCafeteria.Pages
         {
             idArticuloPK = (int)TempData["idArticuloPK"];
             calificacion = 0;            
-            miembroController.CalificarArticulo("BabBunny", idArticuloPK, 0);
+            miembroController.CalificarArticulo("BadBunny", idArticuloPK, 0);
             articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
             autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
             topicos = topicoController.GetTopicosArticulo(idArticuloPK);
@@ -82,7 +82,7 @@ namespace LaCafeteria.Pages
         {
             idArticuloPK = (int)TempData["idArticuloPK"];
             calificacion = -1;          
-            miembroController.CalificarArticulo("BabBunny", idArticuloPK, -1);
+            miembroController.CalificarArticulo("BadBunny", idArticuloPK, -1);
             articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
             autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
             topicos = topicoController.GetTopicosArticulo(idArticuloPK);

@@ -40,7 +40,7 @@ namespace LaCafeteria.Pages
             articuloController.CargarArticuloPDF(idArticuloPK , rutaCarpeta);
             articuloPDF = Convert.ToString(idArticuloPK) + ".pdf";
 
-            calificacion = miembroController.GetCalificacionMiembro("BabBunny", idArticuloPK);
+            calificacion = miembroController.GetCalificacionMiembro("BadBunny", idArticuloPK);
             TempData["idArticuloPK"] = idArticuloPK;
             TempData["rutaPDF"] = articuloPDF;
         }
@@ -50,7 +50,7 @@ namespace LaCafeteria.Pages
             idArticuloPK = (int)TempData["idArticuloPK"];
             articuloPDF = (string)TempData["rutaPDF"];
             calificacion = 1;
-            miembroController.CalificarArticulo("BabBunny", idArticuloPK, 1);
+            miembroController.CalificarArticulo("BadBunny", idArticuloPK, 1);
 
             return Page();
         }
@@ -60,7 +60,7 @@ namespace LaCafeteria.Pages
             idArticuloPK = (int)TempData["idArticuloPK"];
             articuloPDF = (string)TempData["rutaPDF"];
             calificacion = 0;
-            miembroController.CalificarArticulo("BabBunny", idArticuloPK, 0);
+            miembroController.CalificarArticulo("BadBunny", idArticuloPK, 0);
 
             return Page();
         }
@@ -70,7 +70,7 @@ namespace LaCafeteria.Pages
             idArticuloPK = (int)TempData["idArticuloPK"];
             articuloPDF = (string)TempData["rutaPDF"];
             calificacion = -1;
-            miembroController.CalificarArticulo("BabBunny", idArticuloPK, -1);
+            miembroController.CalificarArticulo("BadBunny", idArticuloPK, -1);
 
             return Page();
         }
