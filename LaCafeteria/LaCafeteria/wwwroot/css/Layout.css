@@ -28,15 +28,59 @@
     background-color: #EBEBEB;
 }
 
+#txtResumen {
+    width: 500px;
+    height: 250px;
+}
+
+#txtTitulo {
+    width: 700px;
+}
+
+#slctAutor {
+    width: 300px;
+}
+
+.btn {
+    background-color: #54887A;
+    color: white;
+}
+
+.btn-primary {
+    background-color: #51453BB3;
+    border: none;
+    box-shadow: 2px 2px 5px #999;
+    color: white;
+    border-radius: 5px;
+    width: 75px;
+    height: 40px;
+}
+
+#txtFecha {
+    width: 140px;
+    background-color: #54887A;
+    color: white;
+    padding-top: 0px;
+    padding-left: 10px;
+}
+
+.form-group {
+    padding-left: 5px;
+}
+
+.btn.btn-info {
+    background-color: #54887A;
+}
+
 .field-validation-error {
-	padding: 15px;
-	margin-bottom: 20px;
-	border: 1px solid transparent;
-	border-radius: 4px;
-	color: #a94442;
-	background-color: #f2dede;
-	border-color: #ebccd1;
-	display: block;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    display: block;
 }
 
 .notification {

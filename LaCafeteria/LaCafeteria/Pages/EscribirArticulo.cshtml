@@ -64,7 +64,7 @@
 			</div>
 		</div>
 	</div>
-	<input id="btnGuardar" name="btnGuardar" type="submit" value="Guardar" class="btn" />
+	<input id="btnGuardar" name="btnGuardar" type="submit" value="Guardar" class="btn-primary" />
 </form>
 <script src="~/lib/tinymce/tinymce.min.js"></script>
 <script>
@@ -72,7 +72,8 @@
 		selector: '#txtContenido',
 		paste_data_images: true,
 		automatic_uploads: false,
-		convert_urls: false,
+        convert_urls: false,
+        height: 500,
 		plugins: [
 			"advlist autolink lists link image charmap print preview anchor",
 			"searchreplace visualblocks code fullscreen",
