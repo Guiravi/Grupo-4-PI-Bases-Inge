@@ -35,7 +35,10 @@ namespace LaCafeteria.Pages
 		public MiembroController miembroController;
 		public ArticuloController articuloController;
 
-		public EscribirArticuloModel()
+        [BindProperty(SupportsGet = true)]
+        public int idArticuloPK { get; set; }
+
+        public EscribirArticuloModel()
 		{
 			topicoController = new TopicoController();
 			miembroController = new MiembroController();
@@ -46,7 +49,7 @@ namespace LaCafeteria.Pages
 
 		public void OnGet()
         {
-		
+            return;
         }
 
 		public void OnPost()

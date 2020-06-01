@@ -35,23 +35,43 @@ namespace LaCafeteria.Pages
 		public MiembroController miembroController;
 		public ArticuloController articuloController;
 
-		public SubirArticuloModel()
+        [BindProperty(SupportsGet = true)]
+        public int idArticuloPK { get; set; }
+
+        public string rutaCarpeta = "";
+        public string nombreArchivo = "";
+
+        public SubirArticuloModel(IHostingEnvironment env)
 		{
 			topicoController = new TopicoController();
 			miembroController = new MiembroController();
 			articuloController = new ArticuloController();
 			listaTopicos = topicoController.GetListaTopicos();
 			listaMiembros = miembroController.GetListaMiembros();
-		}
+
+            rutaCarpeta = env.WebRootPath;
+        }
 
 		public void OnGet()
         {
-	
+            if (idArticuloPK != null)
+            {
+                articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
+
+                articulo.fechaPublicacion = CambiarFormatoFecha(articulo.fechaPublicacion);
+
+                listaTopicosArticulo = topicoController.GetTopicosArticuloLista(idArticuloPK);
+
+                articuloController.CargarArticuloDOCX(idArticuloPK, rutaCarpeta);
+
+                nombreArchivo = idArticuloPK + ".docx";
+
+                TempData["idArticulo"] = idArticuloPK;
+            }
         }
 
-		public void OnPost()
+		public void OnPostGuardar()
 		{	
-
 			if (EsValido())
 			{
 				articulo.tipo = TipoArticulo.Largo;
@@ -61,7 +81,19 @@ namespace LaCafeteria.Pages
 			}
 		}
 
-		private bool EsValido()
+        public void OnPostEditar()
+        {
+            if (EsValido())
+            {
+                articulo.tipo = TipoArticulo.Largo;
+                articulo.estado = EstadoArticulo.EnProgreso;
+                articulo.idArticuloPK = (int)TempData["idArticulo"];
+                articuloController.EditarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
+                Notificaciones.Set(this, "articuloGuardado", "Su articulo se guardó", Notificaciones.TipoNotificacion.Exito);
+            }
+        }
+
+        private bool EsValido()
 		{
 			bool esValido = true;
 
@@ -93,5 +125,33 @@ namespace LaCafeteria.Pages
 
 			return esValido && ModelState.IsValid;
 		}
+
+        private string CambiarFormatoFecha(string fechaVieja)
+        {
+            string[] fechaElementos = fechaVieja.Split("/");
+            string fechaFormato = "";
+
+            fechaFormato += fechaElementos[2] + "-";
+            if (fechaElementos[1].Length == 1)
+            {
+                fechaFormato += "0" + fechaElementos[1] + "-";
+            }
+            else
+            {
+                fechaFormato += fechaElementos[1] + "-";
+            }
+
+            if (fechaElementos[0].Length == 1)
+            {
+                fechaFormato += "0" + fechaElementos[0];
+            }
+            else
+            {
+                fechaFormato += fechaElementos[0];
+            }
+
+            return fechaFormato;
+        }
+
     }
 }

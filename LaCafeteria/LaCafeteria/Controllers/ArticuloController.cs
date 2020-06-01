@@ -24,7 +24,12 @@ namespace LaCafeteria.Controllers
 			articuloDBHandler.GuardarArticulo(articulo, usernamePKMiembrosAutores, nombreTopicoPKTopicos);
 		}
 
-		public List<ArticuloModel> BuscarArticulo(SolicitudBusquedaModel solicitud)
+        public void EditarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<string> nombreTopicoPKTopicos)
+        {
+            articuloDBHandler.EditarArticulo(articulo, usernamePKMiembrosAutores, nombreTopicoPKTopicos);
+        }
+
+        public List<ArticuloModel> BuscarArticulo(SolicitudBusquedaModel solicitud)
 		{
 			List<ArticuloModel> articulos = new List<ArticuloModel>();
 
@@ -56,6 +61,11 @@ namespace LaCafeteria.Controllers
             return articuloDBHandler.GetTodosArticulos();
         }
 
+        public List<ArticuloModel> GetMisArticulos(string username)
+        {
+            return articuloDBHandler.GetMisArticulos(username);
+        }
+
         /*
         public List<ArticuloModel> GetArticulosPaginados(int indiceActual, SolicitudBusquedaModel solicitud, int tamanoPag = 8)
         {
@@ -80,6 +90,16 @@ namespace LaCafeteria.Controllers
                 articuloFSHandler.ConvertirDocxPDF(Convert.ToString(idArticulo), rutaCarpeta);
             }
 
+        }
+
+        public void CargarArticuloDOCX(int idArticulo, string rutaCarpeta)
+        {
+            if (!articuloFSHandler.YaEstaEnCarpetaDOCX(idArticulo, rutaCarpeta))
+            {
+                byte[] contenido = articuloDBHandler.DescargarArticuloDocx(idArticulo);
+                articuloFSHandler.GuardarArticuloDOCX(idArticulo, contenido, rutaCarpeta);
+
+            }
         }
 
         public ArticuloModel GetArticuloModelResumen(int id) {

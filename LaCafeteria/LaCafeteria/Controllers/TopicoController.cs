@@ -30,6 +30,15 @@ namespace LaCafeteria.Controllers
             return msjTopicos;
         }
 
+        public List<string> GetTopicosArticuloLista(int id)
+        {
+            string topicos = GetTopicosArticulo(id);
+
+            topicos = topicos.Replace(" ", "");
+
+            return topicos.Split(",").ToList();
+        }
+
         public List<TopicoModel> GetListaTopicos()
 		{
 			return topicoDBHandler.GetListaTopicos();
