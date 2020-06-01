@@ -12,7 +12,6 @@ namespace LaCafeteria.Models
 	{
 		public List<MiembroModel> GetListaMiembros()
 		{
-
 			List<MiembroModel> listaMiembros = new List<MiembroModel>();
 
 			string connectionString = AppSettings.GetConnectionString();
@@ -36,7 +35,7 @@ namespace LaCafeteria.Models
 										, meritos
 										, activo
 										, nombreRolFK
-								FROM Miembro";
+									FROM Miembro";
 
 				sqlConnection.Open();
 				using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
@@ -53,16 +52,16 @@ namespace LaCafeteria.Models
 								apellido1 = (string)dataReader["apellido1"],
 								apellido2 = (string)dataReader["apellido2"],
 								fechaNacimiento = (string)dataReader["fechaNacimiento"].ToString().Remove(dataReader["fechaNacimiento"].ToString().Length - 12, 12),
-								pais = (string)dataReader["pais"],
-								estado = (string)dataReader["estado"],
-								ciudad = (string)dataReader["ciudad"],
+								pais = (!DBNull.Value.Equals(dataReader["pais"])) ? (string)dataReader["pais"] : null,
+								estado = (!DBNull.Value.Equals(dataReader["estado"])) ? (string)dataReader["estado"] : null,
+								ciudad = (!DBNull.Value.Equals(dataReader["ciudad"])) ? (string)dataReader["ciudad"] : null,
 								rutaImagenPerfil = (string)dataReader["rutaImagenPerfil"],
 								hobbies = (!DBNull.Value.Equals(dataReader["hobbies"])) ? (string)dataReader["hobbies"] : null,
 								habilidades = (!DBNull.Value.Equals(dataReader["habilidades"])) ? (string)dataReader["habilidades"] : null,
 								idiomas = (!DBNull.Value.Equals(dataReader["idiomas"])) ? (string)dataReader["idiomas"] : null,
 								informacionLaboral = (!DBNull.Value.Equals(dataReader["informacionLaboral"])) ? (string)dataReader["informacionLaboral"] : null,
-								meritos = (!DBNull.Value.Equals(dataReader["meritos"])) ? (int)dataReader["meritos"] : -1,
-								activo = (!DBNull.Value.Equals(dataReader["activo"])) ? (bool)dataReader["activo"] : true,
+								meritos = (!DBNull.Value.Equals(dataReader["meritos"])) ? (int?)dataReader["meritos"] : null,
+								activo = (bool)dataReader["activo"],
 								nombreRolFK = (string)dataReader["nombreRolFK"]
 							};
 
@@ -74,5 +73,61 @@ namespace LaCafeteria.Models
 
 			return listaMiembros;
 		}
+
+        public int GetCalificacionMiembro(string username, int idArticulo)
+        {
+            int calificacion = 10;
+
+            string connectionString = AppSettings.GetConnectionString();
+
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {                
+                string consulta = "SELECT MCA.calificacion " +
+                    "FROM Miembro M " +
+                    "JOIN MiembroCalificaArticulo MCA " +
+                        "ON M.usernamePK = MCA.usernameMiemFK " +
+                    "JOIN Articulo A " +
+                        "ON MCA.idArticuloFK = A.idArticuloPK " +
+                    "WHERE MCA.usernameMiemFK = @user " +
+                        "AND MCA.idArticuloFK = @id;";
+
+                sqlConnection.Open();
+                using (SqlCommand cmd = new SqlCommand(consulta, sqlConnection))
+                {
+
+                    cmd.Parameters.AddWithValue("@user", username);
+                    cmd.Parameters.AddWithValue("@id", idArticulo);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            reader.Read();
+                            calificacion = reader.GetInt32(0);
+                        }
+                    }
+                }
+            }
+
+            return calificacion;
+        }
+
+        public void CalificarArticulo(string username, int idArticulo, int valorCalif)
+        {
+            string connectionString = AppSettings.GetConnectionString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                string consulta = "INSERT INTO MiembroCalificaArticulo (usernameMiemFK, idArticuloFK, calificacion) " +
+                    " VALUES (@user, @id, @calif);";
+
+                sqlConnection.Open();
+                using (SqlCommand cmd = new SqlCommand(consulta, sqlConnection))
+                {
+                    cmd.Parameters.AddWithValue("@user", username);
+                    cmd.Parameters.AddWithValue("@id", idArticulo);
+                    cmd.Parameters.AddWithValue("@calif", valorCalif);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
 	}
 }

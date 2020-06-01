@@ -1,0 +1,34 @@
+﻿@page
+@model LaCafeteria.Pages.ShowCategoriesFaqsModel
+
+
+
+
+
+@{
+    ViewData["Title"] = "CategoriasFAQs";
+
+}
+
+
+<h2 class="text-center">Preguntas frecuentes: Categorías</h2>
+
+
+
+<table class="table">
+
+    <tbody>
+        @for (int categoriaActual = 0; categoriaActual < Model.categorias.Count; ++categoriaActual)
+        {
+            <tr>
+                <td>
+                    
+                   
+                    <div class="panel-heading"><h6 class="panel-title" style="font-size: 125%"><a href="/PreguntasFrecuentes?categoria=@Model.categorias[categoriaActual]">@Model.categorias[categoriaActual]</a></h6></div>
+
+                </td>
+                
+            </tr>
+        }
+    </tbody>
+</table>

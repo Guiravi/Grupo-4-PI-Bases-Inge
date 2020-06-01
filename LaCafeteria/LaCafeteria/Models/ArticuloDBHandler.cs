@@ -11,44 +11,214 @@ namespace LaCafeteria.Models
     public class ArticuloDBHandler
     {
 
-        /*
-        public void SaveArticulo(ArticuloModel articulo, List<TopicoModel> topicos)
+		public void GuardarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<string> nombreTopicoPKTopicos)
+		{
+			string connectionString = AppSettings.GetConnectionString();
+
+			using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+			{
+				//Guardar registro del articulo en Articulo
+				String sqlString = @"INSERT INTO Articulo(
+															titulo, 
+															tipo, 
+															fechaPublicacion, 
+															resumen, 
+															contenido, 
+															estado 
+														 )
+									VALUES(@titulo, @tipo, @fechaPublicacion, @resumen, @contenido, @estado)";
+
+				sqlConnection.Open();
+				using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+				{
+					sqlCommand.Parameters.AddWithValue("@titulo", articulo.titulo);
+					sqlCommand.Parameters.AddWithValue("@tipo", articulo.tipo);
+					sqlCommand.Parameters.AddWithValue("@fechaPublicacion", articulo.fechaPublicacion);
+					sqlCommand.Parameters.AddWithValue("@resumen", articulo.resumen);
+					sqlCommand.Parameters.AddWithValue("@contenido", articulo.contenido);
+					sqlCommand.Parameters.AddWithValue("@estado", articulo.estado);
+
+					sqlCommand.ExecuteNonQuery();
+
+					//Guardar registros de relacion de MiembrosAutores con su Articulo
+					articulo.idArticuloPK = ObtenerSiguienteId();
+					sqlCommand.CommandText = "INSERT INTO MiembroAutorDeArticulo VALUES(@usernameMiemFK, @idArticuloFK)";
+
+					foreach (string usernamePK in usernamePKMiembrosAutores)
+					{
+						sqlCommand.Parameters.Clear();
+						sqlCommand.Parameters.AddWithValue("@usernameMiemFK", usernamePK);
+						sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.idArticuloPK);
+						sqlCommand.ExecuteNonQuery();
+					}
+
+					//Guardar registro de relaciones de Articulo con sus Topicos
+
+					articulo.idArticuloPK = ObtenerSiguienteId();
+					sqlCommand.CommandText = "INSERT INTO ArticuloTrataTopico VALUES(@nombreTopicoFK, @idArticuloFK)";
+
+					foreach (string nombreTopicoPK in nombreTopicoPKTopicos)
+					{
+						sqlCommand.Parameters.Clear();
+						sqlCommand.Parameters.AddWithValue("@nombreTopicoFK", nombreTopicoPK);
+						sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.idArticuloPK);
+						sqlCommand.ExecuteNonQuery();
+					}
+				}
+			}
+		}
+
+        public void EditarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<string> nombreTopicoPKTopicos)
+		{
+			string connectionString = AppSettings.GetConnectionString();
+
+			using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+			{
+				//Guardar registro del articulo en Articulo
+				String sqlString = @"UPDATE Articulo
+									SET	titulo = @titulo, 
+										tipo = @tipo, 
+										fechaPublicacion = @fechaPublicacion, 
+										resumen = @resumen, 
+										contenido = @contenido, 
+										estado = @estado
+                                    WHERE idArticuloPK = @idArticuloPK";
+
+				sqlConnection.Open();
+				using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+				{
+                    sqlCommand.Parameters.AddWithValue("@idArticuloPK", articulo.idArticuloPK);
+					sqlCommand.Parameters.AddWithValue("@titulo", articulo.titulo);
+					sqlCommand.Parameters.AddWithValue("@tipo", articulo.tipo);
+					sqlCommand.Parameters.AddWithValue("@fechaPublicacion", articulo.fechaPublicacion);
+					sqlCommand.Parameters.AddWithValue("@resumen", articulo.resumen);
+					sqlCommand.Parameters.AddWithValue("@contenido", articulo.contenido);
+					sqlCommand.Parameters.AddWithValue("@estado", articulo.estado);
+
+					sqlCommand.ExecuteNonQuery();
+
+
+                    //Borrar los registros de relacion de MiembrosAutores con su Articulo, ya que puedieron haber agregado nuevos autores o eliminado otros
+                    sqlCommand.CommandText = "DELETE FROM MiembroAutorDeArticulo WHERE idArticuloFK = @idArticuloFK";
+
+                    foreach (string usernamePK in usernamePKMiembrosAutores)
+                    {
+                        sqlCommand.Parameters.Clear();
+                        sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.idArticuloPK);
+                        sqlCommand.ExecuteNonQuery();
+                    }
+
+                    //Guardar registros de relacion de MiembrosAutores con su Articulo
+                    sqlCommand.CommandText = "INSERT INTO MiembroAutorDeArticulo VALUES(@usernameMiemFK, @idArticuloFK)";
+
+					foreach (string usernamePK in usernamePKMiembrosAutores)
+					{
+						sqlCommand.Parameters.Clear();
+						sqlCommand.Parameters.AddWithValue("@usernameMiemFK", usernamePK);
+						sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.idArticuloPK);
+						sqlCommand.ExecuteNonQuery();
+					}
+
+                    //Borrar los registros de relacion del Articulo con sus Tópicos, ya que puedieron haber agregado nuevos tópicos o eliminado otros
+                    sqlCommand.CommandText = "DELETE FROM ArticuloTrataTopico WHERE idArticuloFK = @idArticuloFK";
+
+                    foreach (string nombreTopicoPK in nombreTopicoPKTopicos)
+                    {
+                        sqlCommand.Parameters.Clear();
+                        sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.idArticuloPK);
+                        sqlCommand.ExecuteNonQuery();
+                    }
+
+                    //Guardar registro de relaciones de Articulo con sus Topicos
+					sqlCommand.CommandText = "INSERT INTO ArticuloTrataTopico VALUES(@nombreTopicoFK, @idArticuloFK)";
+
+					foreach (string nombreTopicoPK in nombreTopicoPKTopicos)
+					{
+						sqlCommand.Parameters.Clear();
+						sqlCommand.Parameters.AddWithValue("@nombreTopicoFK", nombreTopicoPK);
+						sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.idArticuloPK);
+						sqlCommand.ExecuteNonQuery();
+					}
+				}
+			}
+		}
+
+		public int ObtenerSiguienteId()
         {
-            String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
+            String connectionString = AppSettings.GetConnectionString();
+			SqlCommand cmd;
+            int current_id;
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                String sqlString = "INSERT INTO Articulo(titulo, resumen, tipo, contenido, fechaPublicacion, nombreAutor, usernameFK)";
-                sqlString += "VALUES(@titulo, @resumen, @tipo, @contenido, @fechaPublicacion, @nombreAutor, @usernameFK)";
 
-                using (SqlCommand command = new SqlCommand(sqlString, connection))
+                connection.Open();
+
+                cmd = new SqlCommand("SELECT IDENT_CURRENT ('Articulo')", connection);
+
+                SqlDataReader identReader = cmd.ExecuteReader();
+
+                current_id = 0;
+
+                while (identReader.Read())
                 {
-                    command.Parameters.AddWithValue("@titulo", articulo.titulo);
-                    command.Parameters.AddWithValue("@resumen", articulo.resumen);
-                    command.Parameters.AddWithValue("@tipo", articulo.tipo);
-                    command.Parameters.AddWithValue("@contenido", articulo.contenido);
-                    command.Parameters.AddWithValue("@fechaPublicacion", articulo.fechaPublicacion);
-                    command.Parameters.AddWithValue("@nombreAutor", articulo.nombreAutor);
-                    command.Parameters.AddWithValue("@usernameFK", articulo.usernameFK);
-
-                    connection.Open();
-                    command.ExecuteNonQuery();
-
-                    articulo.idArticuloPK = ObtenerSiguienteId();
-                    command.CommandText = "INSERT INTO TopicosArticulo VALUES(@idArticuloFK, @nombreTopicoFK)";
-
-                    foreach (TopicoModel topico in topicos)
-                    {
-                        command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@idArticuloFK", articulo.idArticuloPK);
-                        command.Parameters.AddWithValue("@nombreTopicoFK", topico.nombre);
-                        command.ExecuteNonQuery();
-                    }
+                    current_id = Convert.ToInt32(identReader.GetValue(0));
                 }
 
+                identReader.Close();
+
             }
+
+            return current_id;
         }
 
+        public List<ArticuloModel> GetMisArticulos(string username)
+        {
+            String connectionString = AppSettings.GetConnectionString();
 
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand cmd = new SqlCommand("SELECT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        " FROM  Articulo A " +
+                        " JOIN MiembroAutorDeArticulo MAA " +
+                            " ON A.idArticuloPK = MAA.idArticuloFK " +
+                        " WHERE usernameMiemFK = @username;", connection);
+
+                cmd.Parameters.AddWithValue("@username", username);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                List<ArticuloModel> artList = new List<ArticuloModel>();
+
+                while (reader.Read())
+                {
+                    ArticuloModel articuloActual = new ArticuloModel()
+                    {
+                        idArticuloPK = (int)reader["idArticuloPK"],
+                        titulo = (String)reader["titulo"],
+                        tipo = (String)reader["tipo"],
+                        fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
+                        resumen = (String)reader["resumen"],
+                        contenido = (String)reader["contenido"],
+                        estado = (String)reader["estado"],
+                        visitas = (int)reader["visitas"],
+                        puntajeTotalRev = (!DBNull.Value.Equals(reader["puntajeTotalRev"])) ? (double?)reader["puntajeTotalRev"] : null,
+                        calificacionTotalMiem = (int)reader["calificacionTotalMiem"]
+                    };
+
+                    artList.Add(articuloActual);
+                }
+
+                reader.Close();
+
+                return artList;
+            }
+        }
+        
+
+        /*
         public void UpdateArticulo(ArticuloModel articulo, List<TopicoModel> topicos)
         {
             String connectionString = ConfigurationManager.ConnectionStrings["Grupo4Conn"].ConnectionString;
@@ -180,8 +350,8 @@ namespace LaCafeteria.Models
                         contenido = (String) reader["contenido"],
                         estado = (String) reader["estado"],
                         visitas = (int) reader["visitas"],
-                        puntajeTotalRev = (double) reader["puntajeTotalRev"],
-                        calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
+                        puntajeTotalRev = (!DBNull.Value.Equals(reader["puntajeTotalRev"])) ? (double?)reader["puntajeTotalRev"] : null,
+						calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
                     };
 
                     artList.Add(articuloActual);
@@ -245,7 +415,7 @@ namespace LaCafeteria.Models
                         contenido = (String) reader["contenido"],
                         estado = (String) reader["estado"],
                         visitas = (int) reader["visitas"],
-                        puntajeTotalRev = (double) reader["puntajeTotalRev"],
+                        puntajeTotalRev = (!DBNull.Value.Equals(reader["puntajeTotalRev"])) ? (double?) reader["puntajeTotalRev"] : null,
                         calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
                     };
 
@@ -315,8 +485,48 @@ namespace LaCafeteria.Models
                         contenido = (String) reader["contenido"],
                         estado = (String) reader["estado"],
                         visitas = (int) reader["visitas"],
-                        puntajeTotalRev = (double) reader["puntajeTotalRev"],
-                        calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
+                        puntajeTotalRev = (!DBNull.Value.Equals(reader["puntajeTotalRev"])) ? (double?)reader["puntajeTotalRev"] : null,
+						calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
+                    };
+
+                    artList.Add(articuloActual);
+                }
+
+                reader.Close();
+
+                return artList;
+            }
+        }
+
+        public List<ArticuloModel> GetTodosArticulos()
+        {
+            String connectionString = AppSettings.GetConnectionString();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand cmd = new SqlCommand("SELECT idArticuloPK, titulo, tipo, fechaPublicacion, resumen, contenido, estado, visitas, puntajeTotalRev, calificacionTotalMiem " +
+                        " FROM  Articulo;",  connection);
+              
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                List<ArticuloModel> artList = new List<ArticuloModel>();
+
+                while (reader.Read())
+                {
+                    ArticuloModel articuloActual = new ArticuloModel()
+                    {
+                        idArticuloPK = (int)reader["idArticuloPK"],
+                        titulo = (String)reader["titulo"],
+                        tipo = (String)reader["tipo"],
+                        fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
+                        resumen = (String)reader["resumen"],
+                        contenido = (String)reader["contenido"],
+                        estado = (String)reader["estado"],
+                        visitas = (int)reader["visitas"],
+                        puntajeTotalRev = (!DBNull.Value.Equals(reader["puntajeTotalRev"])) ? (double?)reader["puntajeTotalRev"] : null,
+                        calificacionTotalMiem = (int)reader["calificacionTotalMiem"]
                     };
 
                     artList.Add(articuloActual);
@@ -551,7 +761,7 @@ namespace LaCafeteria.Models
                         contenido = (string) reader["contenido"],
                         estado = (string) reader["estado"],
                         visitas = (int) reader["visitas"],
-                        puntajeTotalRev = (double) reader["puntajeTotalRev"],
+                        puntajeTotalRev = (!DBNull.Value.Equals(reader["puntajeTotalRev"])) ? (double?)reader["puntajeTotalRev"] : null,
                         calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
                     };
                 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using LaCafeteria.Pages;
 using LaCafeteria.Models;
 
@@ -18,7 +19,17 @@ namespace LaCafeteria.Controllers
             articuloFSHandler = new ArticuloFSHandler();
         }
 
-		public List<ArticuloModel> BuscarArticulo(SolicitudBusquedaModel solicitud)
+		public void GuardarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<string> nombreTopicoPKTopicos)
+		{
+			articuloDBHandler.GuardarArticulo(articulo, usernamePKMiembrosAutores, nombreTopicoPKTopicos);
+		}
+
+        public void EditarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<string> nombreTopicoPKTopicos)
+        {
+            articuloDBHandler.EditarArticulo(articulo, usernamePKMiembrosAutores, nombreTopicoPKTopicos);
+        }
+
+        public List<ArticuloModel> BuscarArticulo(SolicitudBusquedaModel solicitud)
 		{
 			List<ArticuloModel> articulos = new List<ArticuloModel>();
 
@@ -45,7 +56,17 @@ namespace LaCafeteria.Controllers
 			return articulos;
 		}
 
-		/*
+        public List<ArticuloModel> GetTodosArticulos()
+        {
+            return articuloDBHandler.GetTodosArticulos();
+        }
+
+        public List<ArticuloModel> GetMisArticulos(string username)
+        {
+            return articuloDBHandler.GetMisArticulos(username);
+        }
+
+        /*
         public List<ArticuloModel> GetArticulosPaginados(int indiceActual, SolicitudBusquedaModel solicitud, int tamanoPag = 8)
         {
             var data = BuscarArticulo(solicitud);
@@ -69,6 +90,16 @@ namespace LaCafeteria.Controllers
                 articuloFSHandler.ConvertirDocxPDF(Convert.ToString(idArticulo), rutaCarpeta);
             }
 
+        }
+
+        public void CargarArticuloDOCX(int idArticulo, string rutaCarpeta)
+        {
+            if (!articuloFSHandler.YaEstaEnCarpetaDOCX(idArticulo, rutaCarpeta))
+            {
+                byte[] contenido = articuloDBHandler.DescargarArticuloDocx(idArticulo);
+                articuloFSHandler.GuardarArticuloDOCX(idArticulo, contenido, rutaCarpeta);
+
+            }
         }
 
         public ArticuloModel GetArticuloModelResumen(int id) {

@@ -15,7 +15,8 @@ namespace LaCafeteria.Controllers
             topicoDBHandler = new TopicoDBHandler();
         }
 
-        public string GetTopicosArticulo(int id) {
+        public string GetTopicosArticulo(int id)
+		{
             List<TopicoModel> topicos = topicoDBHandler.ObtenerTopicosArticulo(id);
 
             string msjTopicos = "";
@@ -27,6 +28,15 @@ namespace LaCafeteria.Controllers
             msjTopicos = msjTopicos + topicos[topicos.Count - 1].nombre;
 
             return msjTopicos;
+        }
+
+        public List<string> GetTopicosArticuloLista(int id)
+        {
+            string topicos = GetTopicosArticulo(id);
+
+            topicos = topicos.Replace(" ", "");
+
+            return topicos.Split(",").ToList();
         }
 
         public List<TopicoModel> GetListaTopicos()

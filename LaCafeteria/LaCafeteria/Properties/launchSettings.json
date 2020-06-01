@@ -9,9 +9,9 @@
   },
   "profiles": {
     "IIS Express": {
-      "commandName": "IISExpress",
+      "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "EnviarCorreo",
+      "launchUrl": "Index",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -19,7 +19,7 @@
     "LaCafeteria": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "EnviarCorreo",
+      "launchUrl": "MisArticulos",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

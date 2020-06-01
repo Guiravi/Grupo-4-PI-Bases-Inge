@@ -9,6 +9,8 @@ let barra = document.getElementById('barra');
 let dropdown = document.getElementById('dropdown');
 let tiposArtRad = document.getElementById('tiposArtRadio');
 let reiniciarBtn = document.getElementById('reiniciar');
+let btnTodos = document.getElementById('selecTodos');
+let listaTopicos = document.getElementById('topicosList').getElementsByTagName('li');
 
 topicosRad.addEventListener('click', topicosRadClick);
 titulosRad.addEventListener('click', titulosRadClick);
@@ -16,10 +18,9 @@ autoresRad.addEventListener('click', autoresRadClick);
 topicosRad.addEventListener('click', anyOptionClick);
 titulosRad.addEventListener('click', anyOptionClick);
 autoresRad.addEventListener('click', anyOptionClick);
-
+btnTodos.addEventListener('click', selecTodosTopicos);
 
 setEnterSubmit();
-
 
 function topicosRadClick() {
     topicosDrop.style.display = 'initial';
@@ -66,5 +67,10 @@ function setEnterSubmit() {
     }
 }
 
-
-
+function selecTodosTopicos()
+{
+    for (let i = 0; i < listaTopicos.length - 1; i++)
+    {
+        listaTopicos[i].firstElementChild.checked = 'true';
+    }
+}

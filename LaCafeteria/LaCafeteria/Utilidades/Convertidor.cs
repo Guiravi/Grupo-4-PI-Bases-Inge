@@ -17,7 +17,7 @@ namespace LaCafeteria.Utilidades
 
         static public void DocxConvertToPdf(string docxFilename, string rutaCarpeta)
         {
-            string libreOfficePath = "D:/LibreOffice/program/soffice.exe"; //Ruta local de la instalación de OpenOffice en su propia computadora.
+            string libreOfficePath = rutaCarpeta + "/LibreOfficePortable/App/libreoffice/program/soffice.exe";
             string docxFullPath = ( rutaCarpeta + "/ArticulosDOCX/" + docxFilename + ".docx");
             string pdfsFullPath = ( rutaCarpeta + "/ArticulosPDF");
             string stringArgs = "--convert-to pdf " + docxFullPath + " --outdir " + pdfsFullPath;

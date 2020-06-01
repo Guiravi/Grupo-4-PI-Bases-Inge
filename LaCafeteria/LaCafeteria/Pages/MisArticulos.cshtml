@@ -1,0 +1,58 @@
+﻿@page
+@model LaCafeteria.Pages.MisArticulosModel
+@{
+    ViewData["Title"] = "MisArticulos";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h2>Mis Artículos</h2>
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            @for (int articuloActual = 0; articuloActual < Model.cantResultados; articuloActual++)
+            {
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <h2 class="panel-title" style="font-size: 125%;">
+                                        <a href="/VerResumen/@Model.misArticulos[articuloActual].idArticuloPK/@Model.misArticulos[articuloActual].tipo">@Model.misArticulos[articuloActual].titulo</a>
+                                    </h2>
+                                </div>
+                                <div class="col-md-3">
+                                    <h3 class="panel-title" style="text-align: right;">
+                                        Estado: @Model.misArticulos[articuloActual].estado
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>                                 
+                    </div>
+                        <div class="panel-body">
+                            <ul style="list-style: none;">
+                                <li><strong>Fecha publicación: </strong>@Model.misArticulos[articuloActual].fechaPublicacion</li>
+                                <li><strong>Tipo: </strong>@Model.misArticulos[articuloActual].tipo</li>
+                                <li><strong>Autor(es): </strong>@Model.articuloController.GetAutoresDeArticulo(Model.misArticulos[articuloActual].idArticuloPK)</li>
+                                <li><strong>Tópico(s): </strong>@Model.topicoController.GetTopicosArticulo(Model.misArticulos[articuloActual].idArticuloPK)</li>
+                                @if (Model.misArticulos[articuloActual].tipo == "Corto")
+                                {
+                                    <li style="margin-top: 20px"><a href="/EscribirArticulo/@Model.misArticulos[articuloActual].idArticuloPK" class="btn">Editar</a></li>
+                                }
+                                else if (Model.misArticulos[articuloActual].tipo == "Largo")
+                                {
+                                    <li style="margin-top: 20px"><a href="/SubirArticulo/@Model.misArticulos[articuloActual].idArticuloPK" class="btn">Editar</a></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+            }
+        </div>
+
+    </div>
+
+</div>
