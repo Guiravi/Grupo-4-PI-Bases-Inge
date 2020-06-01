@@ -13,9 +13,10 @@ namespace LaCafeteria.Models
 	public static class EstadoArticulo
 	{
 		public const string EnProgreso = "En Progreso";
-		public const string RequiereRevision = "Requiere Revision";
-		public const string EnRevision = "En Revision";
-		public const string EnCorrecciones = "En Correciones";
+		public const string RequiereRevision = "Requiere Revisión";
+		public const string EnRevision = "En Revisión";
+        public const string Rechazado = "Rechazado";
+        public const string EnCorrecciones = "Aceptado con Correcciones";
 		public const string Publicado = "Publicado";
 	}
 

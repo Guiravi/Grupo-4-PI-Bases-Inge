@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using LaCafeteria.Models;
 using LaCafeteria.Controllers;
+using LaCafeteria.Utilidades;
 
 namespace LaCafeteria.Pages
 {
@@ -61,6 +62,7 @@ namespace LaCafeteria.Pages
             autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
             topicos = topicoController.GetTopicosArticulo(idArticuloPK);
             contenido = articulo.contenido;
+            Notificaciones.Set(this, "meGusta", "Su calificación \"Me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
 
             return Page();
         }
@@ -74,6 +76,7 @@ namespace LaCafeteria.Pages
             autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
             topicos = topicoController.GetTopicosArticulo(idArticuloPK);
             contenido = articulo.contenido;
+            Notificaciones.Set(this, "nulo", "Su calificación \"Nulo\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
 
             return Page();
         }
@@ -87,6 +90,7 @@ namespace LaCafeteria.Pages
             autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
             topicos = topicoController.GetTopicosArticulo(idArticuloPK);
             contenido = articulo.contenido;
+            Notificaciones.Set(this, "noMeGusta", "Su calificación \"No me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
 
             return Page();
         }

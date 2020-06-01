@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using LaCafeteria.Models;
 using LaCafeteria.Controllers;
 using Microsoft.AspNetCore.Hosting;
+using LaCafeteria.Utilidades;
 
 namespace LaCafeteria.Pages
 {
@@ -51,6 +52,7 @@ namespace LaCafeteria.Pages
             articuloPDF = (string)TempData["rutaPDF"];
             calificacion = 1;
             miembroController.CalificarArticulo("BadBunny", idArticuloPK, 1);
+            Notificaciones.Set(this, "meGusta", "Su calificación \"Me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
 
             return Page();
         }
@@ -61,6 +63,7 @@ namespace LaCafeteria.Pages
             articuloPDF = (string)TempData["rutaPDF"];
             calificacion = 0;
             miembroController.CalificarArticulo("BadBunny", idArticuloPK, 0);
+            Notificaciones.Set(this, "nulo", "Su calificación \"Nulo\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
 
             return Page();
         }
@@ -71,6 +74,7 @@ namespace LaCafeteria.Pages
             articuloPDF = (string)TempData["rutaPDF"];
             calificacion = -1;
             miembroController.CalificarArticulo("BadBunny", idArticuloPK, -1);
+            Notificaciones.Set(this, "noMeGusta", "Su calificación \"No me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
 
             return Page();
         }

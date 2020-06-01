@@ -1,8 +1,22 @@
-﻿@page 
+﻿@page
+@using LaCafeteria.Utilidades
 @model LaCafeteria.Pages.VerArticuloLargoModel
 @{
     ViewData["Title"] = "VerArticuloLargo";
     Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@if (Notificaciones.Existe(Model, "meGusta"))
+{
+    @Html.Raw(Notificaciones.Get(Model, "meGusta"));
+}
+@if (Notificaciones.Existe(Model, "nulo"))
+{
+    @Html.Raw(Notificaciones.Get(Model, "nulo"));
+}
+@if (Notificaciones.Existe(Model, "noMeGusta"))
+{
+    @Html.Raw(Notificaciones.Get(Model, "noMeGusta"));
 }
 
 <div class="container">
@@ -20,27 +34,27 @@
 
         @if (Model.calificacion == 10)
         {
-                <div class="col-md-1">
-                    <form method="post" class="form-inline">
-                        <button type="submit" class="btn btn-info btn-lg" id="like" asp-page-handler="gustar">
-                            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-                        </button>
-                    </form>
-                </div>
-                <div class="col-md-1">
-                    <form method="post" class="form-inline">
-                        <button type="submit" class="btn btn-info btn-lg" id="same" asp-page-handler="igual" style="position: relative; right: 40px;">
-                            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                        </button>
-                    </form>
-                </div>
-                <div class="col-md-1">
-                    <form method="post" class="form-inline">
-                        <button type="submit" class="btn btn-info btn-lg" id="dislike" asp-page-handler="disgustar" style="position: relative; right: 80px;">
-                            <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-                        </button>
-                    </form>
-                </div>
+            <div class="col-md-1">
+                <form method="post" class="form-inline">
+                    <button type="submit" class="btn btn-info btn-lg" id="like" asp-page-handler="gustar">
+                        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                    </button>
+                </form>
+            </div>
+            <div class="col-md-1">
+                <form method="post" class="form-inline">
+                    <button type="submit" class="btn btn-info btn-lg" id="same" asp-page-handler="igual" style="position: relative; right: 40px;">
+                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                    </button>
+                </form>
+            </div>
+            <div class="col-md-1">
+                <form method="post" class="form-inline">
+                    <button type="submit" class="btn btn-info btn-lg" id="dislike" asp-page-handler="disgustar" style="position: relative; right: 80px;">
+                        <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                    </button>
+                </form>
+            </div>
         }
         else
         {
