@@ -21,14 +21,15 @@ CREATE TABLE Articulo
 	fechaPublicacion DATE CONSTRAINT NN_Articulo_fechaPublicacion NOT NULL,
 	resumen NVARCHAR(MAX) CONSTRAINT NN_Articulo_resumen NOT NULL,
 	contenido NVARCHAR(MAX) CONSTRAINT NN_Articulo_contenido NOT NULL,
-	estado NVARCHAR(25) CONSTRAINT NN_Articulo_estado NOT NULL,
+	estado NVARCHAR(30) CONSTRAINT NN_Articulo_estado NOT NULL,
 	visitas INTEGER CONSTRAINT DF_Articulo_visitas DEFAULT 0 CONSTRAINT NN_Articulo_visitas NOT NULL,
-	puntajeTotalRev FLOAT CONSTRAINT NN_Articulo_puntajeTotalRev NOT NULL,
+	puntajeTotalRev FLOAT,
 	calificacionTotalMiem INTEGER CONSTRAINT DF_Articulo_calificacionTotalMiem DEFAULT 0 CONSTRAINT NN_Articulo_calificacionTotalMiem NOT NULL,
 
 	CONSTRAINT PK_Articulo PRIMARY KEY (idArticuloPK),
 	CONSTRAINT UQ_Articulo_titulo UNIQUE (titulo),
-	CONSTRAINT CK_Articulo_tipo CHECK (tipo in ('Corto','Largo','Link'))
+	CONSTRAINT CK_Articulo_tipo CHECK (tipo in ('Corto','Largo','Link')),
+	CONSTRAINT CK_Articulo_estado CHECK (estado in ('En Progreso','Requiere Revisión', 'En Revisión', 'Rechazado', 'Aceptado con Correcciones', 'Publicado'))
 );
 
 CREATE TABLE Miembro
@@ -47,7 +48,7 @@ CREATE TABLE Miembro
 	habilidades NVARCHAR(MAX),
 	idiomas NVARCHAR(MAX),
 	informacionLaboral NVARCHAR(MAX),
-	meritos INTEGER,
+	meritos INTEGER CONSTRAINT DF_Miembro_merito DEFAULT 0 CONSTRAINT NN_Miembro_merito NOT NULL,
 	activo BIT CONSTRAINT DF_Miembro_activo DEFAULT 1 CONSTRAINT NN_Miembro_activo NOT NULL,
 	nombreRolFK NVARCHAR(25) CONSTRAINT DF_Miembro_nombreRolFK DEFAULT 'Periférico' CONSTRAINT NN_Miembro_nombreRolFK NOT NULL,
 
@@ -106,7 +107,7 @@ CREATE TABLE NucleoRevisaArticulo
 	usernameMiemFK NVARCHAR(20) CONSTRAINT NN_NucleoRevisaArticulo_usernameMiemFK NOT NULL,
 	idArticuloFK INTEGER CONSTRAINT NN_NucleoRevisaArticulo_idArticuloFK NOT NULL,	
 	estadoRevision NVARCHAR(25)  CONSTRAINT DF_NucleoRevisaArticulo_estadoRevision DEFAULT 'En revision' CONSTRAINT NN_NucleoRevisaArticulo_estadoRevision NOT NULL,
-	puntaje INTEGER,
+	puntaje FLOAT,
 	comentarios NVARCHAR(MAX),
 
 	CONSTRAINT PK_NucleoRevisaArticulo PRIMARY KEY (usernameMiemFK, idArticuloFK),
