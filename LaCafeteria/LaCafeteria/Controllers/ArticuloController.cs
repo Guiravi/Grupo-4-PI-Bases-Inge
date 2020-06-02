@@ -66,14 +66,6 @@ namespace LaCafeteria.Controllers
             return articuloDBHandler.GetMisArticulos(username);
         }
 
-        /*
-        public List<ArticuloModel> GetArticulosPaginados(int indiceActual, SolicitudBusquedaModel solicitud, int tamanoPag = 8)
-        {
-            var data = BuscarArticulo(solicitud);
-            return data.OrderBy(d => d.fechaPublicacion).Skip((indiceActual - 1) * tamanoPag).Take(tamanoPag).ToList();
-        }
-        */
-
         public void CargarArticuloPDF(int idArticulo , string rutaCarpeta)
         {
                     

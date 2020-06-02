@@ -58,7 +58,7 @@ namespace LaCafeteria.Pages
             {
                 articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
 
-                articulo.fechaPublicacion = CambiarFormatoFecha(articulo.fechaPublicacion);
+                articulo.fechaPublicacion = Convertidor.CambiarFormatoFechaAMD(articulo.fechaPublicacion);
 
                 listaTopicosArticulo = topicoController.GetTopicosArticuloLista(idArticuloPK);
 
@@ -125,33 +125,6 @@ namespace LaCafeteria.Pages
 
 			return esValido && ModelState.IsValid;
 		}
-
-        private string CambiarFormatoFecha(string fechaVieja)
-        {
-            string[] fechaElementos = fechaVieja.Split("/");
-            string fechaFormato = "";
-
-            fechaFormato += fechaElementos[2] + "-";
-            if (fechaElementos[1].Length == 1)
-            {
-                fechaFormato += "0" + fechaElementos[1] + "-";
-            }
-            else
-            {
-                fechaFormato += fechaElementos[1] + "-";
-            }
-
-            if (fechaElementos[0].Length == 1)
-            {
-                fechaFormato += "0" + fechaElementos[0];
-            }
-            else
-            {
-                fechaFormato += fechaElementos[0];
-            }
-
-            return fechaFormato;
-        }
 
     }
 }

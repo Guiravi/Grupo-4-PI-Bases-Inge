@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using LaCafeteria.Models;
 using LaCafeteria.Controllers;
+using LaCafeteria.Utilidades;
 
 namespace LaCafeteria.Pages
 {
@@ -33,16 +34,17 @@ namespace LaCafeteria.Pages
 
         public MiembroController miembroController;
 
-        public int cantResultados { set; get; }
 
-        /*
+        public int cantResultados { set; get; }  
+
         [BindProperty(SupportsGet = true)]
-        public int indicePaginacion { set; get; } = 1;
+        public int indice { set; get; }
+        public int articulosPorPagina { set; get; } = 8;
+        public int totalPaginas;
 
-        public int articulosPorPagina { set; get; } = 0;
+        [BindProperty(SupportsGet = true)]
+        public int todos { set; get; } = 0;
 
-        public int numPaginas = 0;
-        */
 
         public BuscarModel()
         {
@@ -60,15 +62,60 @@ namespace LaCafeteria.Pages
 
         public void OnGet()
         {
-            
+            if (indice != 0)
+            {
+                if (todos != 0)
+                {
+                    articulosResultado = articuloController.GetTodosArticulos();
+                    cantResultados = articulosResultado.Count;
+                    articulosResultado = PaginarResultados(articulosResultado, indice, articulosPorPagina);
+                    totalPaginas = (int)Math.Ceiling(decimal.Divide(cantResultados, articulosPorPagina));                  
+                }
+                else
+                {
+                    tipoBusqueda = (string)TempData["tipoBusqueda"];
+                    string topicosSelec = (string)TempData["topicos"];
+                    tiposArticulo = (int)TempData["tiposArticulo"];
+
+                    if (tipoBusqueda == "topicos")
+                    {
+                        textoBusqueda = (string)TempData["topicos"];
+                    }
+                    else
+                    {
+                        textoBusqueda = (string)TempData["textoBusqueda"];
+                    }
+
+                    SolicitudBusquedaModel solicitud = new SolicitudBusquedaModel(tipoBusqueda, topicosSelec,
+                    tiposArticulo, textoBusqueda);
+
+                    articulosResultado = articuloController.BuscarArticulo(solicitud);
+                    cantResultados = articulosResultado.Count;
+                    articulosResultado = PaginarResultados(articulosResultado, indice, articulosPorPagina);
+                    totalPaginas = (int)Math.Ceiling(decimal.Divide(cantResultados, articulosPorPagina));
+
+                    TempData["tipoBusqueda"] = solicitud.tipoBusqueda;
+                    TempData["topicos"] = solicitud.topicos;
+                    TempData["tiposArticulo"] = solicitud.tiposArticulo;
+                    TempData["textoBusqueda"] = solicitud.textoBusqueda;
+                }                              
+            }
         }
 
-        public void OnPost()
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
+        public IActionResult OnPost()
         {
+            
             SolicitudBusquedaModel solicitud;
             if (tipoBusqueda == "topicos")
             {
                 string topicosSelec = "";
+
+                if (listaTopicosSelec.Count == 0)
+                {
+                    Notificaciones.Set(this, "ningunTopico", "Debe ingresar algún tópico de la lista", Notificaciones.TipoNotificacion.Error);
+                    return Page();
+                }
 
                 for (int i = 0; i < listaTopicosSelec.Count; i++)
                 {
@@ -83,26 +130,37 @@ namespace LaCafeteria.Pages
             }
             else
             {
-                solicitud = new SolicitudBusquedaModel(tipoBusqueda, "", tiposArticulo, textoBusqueda);
-            }
+                if (textoBusqueda == null)
+                {
+                    Notificaciones.Set(this, "busquedaVacio", "Debe ingresar texto en la barra de búsqueda", Notificaciones.TipoNotificacion.Error);
+                    return Page();
+                }
+                else
+                {
+                    solicitud = new SolicitudBusquedaModel(tipoBusqueda, "", tiposArticulo, textoBusqueda);
+                }               
+               
+            }      
             
-            articulosResultado = articuloController.BuscarArticulo(solicitud);
+            TempData["tipoBusqueda"] = solicitud.tipoBusqueda;
+            TempData["topicos"] = solicitud.topicos;
+            TempData["tiposArticulo"] = solicitud.tiposArticulo;
+            TempData["textoBusqueda"] = solicitud.textoBusqueda;
 
-            cantResultados = articulosResultado.Count;
-
-            //numPaginas = (int)Math.Ceiling(cantResultados / (double)articulosPorPagina);
-
+            return Redirect("/Buscar/1");
         }
 
-        public void OnPostTodos()
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
+        public IActionResult OnPostTodos()
         {
-            articulosResultado = articuloController.GetTodosArticulos();
-
-            cantResultados = articulosResultado.Count;
-
-            textoBusqueda = "Todos los artículos";
+            return Redirect("/Buscar/1/1");
         }
-        
+
+        private List<ArticuloModel> PaginarResultados(List<ArticuloModel> resultados, int currentPage, int pageSize = 8)
+        {
+            return resultados.OrderBy(d => d.fechaPublicacion).Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+        }
+
     }
 
     public class SolicitudBusquedaModel

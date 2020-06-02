@@ -22,7 +22,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <a href='/Buscar' class="btn btn-lg btn-info text-center" style="position: static">Volver a búsqueda</a>
+            <a href='javascript:history.go(-1)' class="btn btn-lg btn-info text-center">Volver a búsqueda</a>
         </div>
         <div class="col-md-6"><h2 class="text-center">@Model.articulo.titulo</h2></div>
         <div class="col-md-3"></div>
@@ -30,7 +30,7 @@
     <div class="row">
         <div class="col-md-12">
             <p><b>Autor(es): </b>@Model.autores</p>
-            <p><b>Fecha de publicación: </b>@Model.articulo.fechaPublicacion</p>
+            <p><b>Fecha de publicación: </b>@Convertidor.CambiarFormatoFechaDMA(Model.articulo.fechaPublicacion)</p>
             <p><b>Tópicos: </b>@Model.topicos</p>
             <p><b>Resumen: </b></p>
             <p>@Model.articulo.resumen</p>

@@ -42,5 +42,61 @@ namespace LaCafeteria.Utilidades
                 : base(string.Format("LibreOffice has failed with {0}", exitCode))
             { }
         }
+
+
+        public static string CambiarFormatoFechaAMD(string fechaVieja)
+        {
+            string[] fechaElementos = fechaVieja.Split("/");
+            string fechaFormato = "";
+
+            fechaFormato += fechaElementos[2] + "-";
+            if (fechaElementos[0].Length == 1)
+            {
+                fechaFormato += "0" + fechaElementos[1] + "-";
+            }
+            else
+            {
+                fechaFormato += fechaElementos[0] + "-";
+            }
+
+            if (fechaElementos[1].Length == 1)
+            {
+                fechaFormato += "0" + fechaElementos[1];
+            }
+            else
+            {
+                fechaFormato += fechaElementos[1];
+            }
+
+            return fechaFormato;
+        }
+
+        public static string CambiarFormatoFechaDMA(string fechaVieja)
+        {
+            string[] fechaElementos = fechaVieja.Split("/");
+            string fechaFormato = "";
+
+            if (fechaElementos[1].Length == 1)
+            {
+                fechaFormato += "0" + fechaElementos[1] + "/";
+            }
+            else
+            {
+                fechaFormato += fechaElementos[1] + "/";
+            }
+            
+            if (fechaElementos[0].Length == 1)
+            {
+                fechaFormato += "0" + fechaElementos[0] + "/";
+            }
+            else
+            {
+                fechaFormato += fechaElementos[0] + "/";
+            }
+
+            fechaFormato += fechaElementos[2];
+
+            return fechaFormato;
+        }
     }
 }

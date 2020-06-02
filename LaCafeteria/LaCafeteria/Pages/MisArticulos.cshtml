@@ -1,5 +1,6 @@
 ﻿@page
 @model LaCafeteria.Pages.MisArticulosModel
+@using LaCafeteria.Utilidades;
 @{
     ViewData["Title"] = "MisArticulos";
     Layout = "~/Pages/Shared/_Layout.cshtml";
@@ -35,7 +36,7 @@
                     </div>
                         <div class="panel-body">
                             <ul style="list-style: none;">
-                                <li><strong>Fecha publicación: </strong>@Model.misArticulos[articuloActual].fechaPublicacion</li>
+                                <li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.misArticulos[articuloActual].fechaPublicacion)</li>
                                 <li><strong>Tipo: </strong>@Model.misArticulos[articuloActual].tipo</li>
                                 <li><strong>Autor(es): </strong>@Model.articuloController.GetAutoresDeArticulo(Model.misArticulos[articuloActual].idArticuloPK)</li>
                                 <li><strong>Tópico(s): </strong>@Model.topicoController.GetTopicosArticulo(Model.misArticulos[articuloActual].idArticuloPK)</li>

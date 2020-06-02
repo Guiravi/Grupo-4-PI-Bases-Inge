@@ -1,5 +1,6 @@
-﻿@page
+﻿@page "{indice:int?}/{todos:int?}"
 @model LaCafeteria.Pages.BuscarModel
+@using LaCafeteria.Utilidades;
 @{
     ViewData["Title"] = "Buscar";
     Layout = "~/Pages/Shared/_Layout.cshtml";
@@ -9,9 +10,18 @@
 
 <br />
 
+@if (Notificaciones.Existe(Model, "busquedaVacio"))
+{
+    @Html.Raw(Notificaciones.Get(Model, "busquedaVacio"));
+}
+
+@if (Notificaciones.Existe(Model, "ningunTopico"))
+{
+    @Html.Raw(Notificaciones.Get(Model, "ningunTopico"));
+}
 
 <div class="container">
-    <form method="post">
+    <form method="post" onkeydown="return event.key != 'Enter';">
         <div class="row">
             <div class="col-md-1">
                 <h4 class="text-nowrap">Buscar por:</h4>
@@ -114,37 +124,23 @@
         <div class="col-md-3">
             @if (Model.cantResultados != -1)
             {
-                <p class="text-primary" id="cantResultBusq" style="font-size:125%;">Cantidad de resultados: @Model.articulosResultado.Count</p>
+                <p class="text-primary" id="cantResultBusq" style="font-size:125%;">Cantidad de resultados: @Model.cantResultados</p>
             }
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-9">
             @if (Model.textoBusqueda != "" || Model.listaTopicosSelec.Count != 0)
             {
-                if (Model.listaTopicosSelec.Count != 0)
+                if (Model.todos != 0)
                 {
-                    string topics = "";
-
-                    for (int i = 0; i < Model.listaTopicosSelec.Count; i++)
-                    {
-                        if (i != Model.listaTopicosSelec.Count - 1)
-                        {
-                            topics += Model.listaTopicosSelec[i] + ",";
-                        }
-
-                        else
-                        {
-                            topics += Model.listaTopicosSelec[i];
-                        }
-
-                    }
-
-                    <p class="text-primary" id="textoResultBusq" style="font-size:125%;">Resultados de la búsqueda: "@topics"</p>
+                    <p class="text-primary" id="textoResultBusq" style="font-size:125%;">Resultados de la búsqueda: "Todos los artículos"</p>
                 }
                 else
                 {
                     <p class="text-primary" id="textoResultBusq" style="font-size:125%;">Resultados de la búsqueda: "@Model.textoBusqueda"</p>
                 }
+
+
             }
         </div>
     </div>
@@ -156,7 +152,7 @@
 
         <div class="col-md-12">
 
-            @for (int articuloActual = 0; articuloActual < Model.cantResultados; articuloActual++)
+            @for (int articuloActual = 0; articuloActual < Model.articulosResultado.Count; articuloActual++)
             {
 
                 <div class="panel panel-info">
@@ -164,7 +160,7 @@
 
                     <div class="panel-body" style="max-height: 110px">
                         <ul style="list-style: none;">
-                            <li><strong>Fecha publicación: </strong>@Model.articulosResultado[articuloActual].fechaPublicacion</li>
+                            <li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.articulosResultado[articuloActual].fechaPublicacion)</li>
                             <li><strong>Tipo: </strong>@Model.articulosResultado[articuloActual].tipo</li>
                             <li><strong>Autor(es): </strong>@Model.articuloController.GetAutoresDeArticulo(Model.articulosResultado[articuloActual].idArticuloPK)</li>
                             <li><strong>Tópico(s): </strong>@Model.topicoController.GetTopicosArticulo(Model.articulosResultado[articuloActual].idArticuloPK)</li>
@@ -175,22 +171,36 @@
         </div>
 
     </div>
-    <!--div class="row">
+    <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6">
             <nav aria-label="Page navigation" class="text-center">
                 <ul class="pagination pagination-lg">
-                    //for (int i = 1; i <= Model.numPaginas; i++)
+                    @for (int i = 1; i <= Model.totalPaginas; i++)
                     {
-                        <li class="page-item //(i == Model.indicePaginacion ? "active" : "")">
-                            <a asp-page="/Buscar" asp-route-currentpage="//i" class="page-link">//i</a>
+                        <li class="page-item @(i == Model.indice ? "active" : "")">
+                            @if (i == Model.indice)
+                            {
+                                <a class="page-link btn">@i</a>
+                            }
+                            else
+                            {
+                                if (Model.todos != 0)
+                                {
+                                    <a href="/Buscar/@i/1" class="page-link">@i</a>
+                                }
+                                else
+                                {
+                                    <a href="/Buscar/@i" class="page-link">@i</a>
+                                }
+                            }
                         </li>
                     }
                 </ul>
             </nav>
         </div>
         <div class="col-md-3"></div>
-    </div-->
+    </div>
 
 </div>
 

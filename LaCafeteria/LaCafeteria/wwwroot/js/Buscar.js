@@ -20,7 +20,6 @@ titulosRad.addEventListener('click', anyOptionClick);
 autoresRad.addEventListener('click', anyOptionClick);
 btnTodos.addEventListener('click', selecTodosTopicos);
 
-setEnterSubmit();
 
 function topicosRadClick() {
     topicosDrop.style.display = 'initial';
@@ -53,10 +52,6 @@ function autoresRadClick() {
 function anyOptionClick() {
     tiposArtRad.style.display = 'initial';
     reiniciarBtn.style.display = 'initial';
-}
-
-function enterSubmit() {
-    aceptarBtn.click();
 }
 
 function setEnterSubmit() {
