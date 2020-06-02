@@ -37,7 +37,7 @@
             {
                 @Html.Raw(Notificaciones.Get(Model, "listaMiembrosAutores"));
             }
-            <div id="autores">
+            <div id="autores">           
             </div>
         </div>
         <div class="form-group">
@@ -142,15 +142,22 @@
             button.type = "button";
             button.value = "x";
             button.toDelete = option.value;
-            button.onclick = function borrar() {
-                miembrosAutores.splice(miembrosAutores.indexOf(this.toDelete), 1);
-                document.getElementById('autores').removeChild(this.parentNode);
-            };
+            button.onclick = borrar;
             miembrosAutores.push(option.value)
             div.innerHTML = '<label>' + option.text + '</label><input type="hidden" name="listaMiembrosAutores" value=\"' + option.value + '\"/>';
             document.getElementById('autores').appendChild(div);
             div.appendChild(button);
         }
+    }
+
+    @if (Model.idArticuloPK != null)
+    {
+        @Html.Raw(Model.inyeccion);
+    }
+
+    function borrar() {
+        miembrosAutores.splice(miembrosAutores.indexOf(this.toDelete), 1);
+        document.getElementById('autores').removeChild(this.parentNode);
     }
 
 </script>
