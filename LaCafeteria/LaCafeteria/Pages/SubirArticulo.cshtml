@@ -11,7 +11,7 @@
     @Html.Raw(Notificaciones.Get(Model, "articuloGuardado"));
 }
 
-@if (Model.idArticuloPK != null)
+@if (Model.idArticuloPK != -1)
 {
     <a href="~/ArticulosDOCX/@Model.nombreArchivo" download class="btn">Descargar archivo editable</a>
     <br/>
@@ -47,7 +47,7 @@
         </div>
         <div class="form-group">
             <label for="txtFecha">Fecha de publicación</label>
-            @if (Model.idArticuloPK != null)
+            @if (Model.idArticuloPK != -1)
             {
                 <input id="txtFecha" type="date" class="form-control" asp-for="articulo.fechaPublicacion" style="width: 150px;" />
                 <span asp-validation-for="articulo.fechaPublicacion"></span>
@@ -82,7 +82,7 @@
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <ul class="dropdown-menu">
-                            @if (Model.idArticuloPK != null)
+                            @if (Model.idArticuloPK != -1)
                             {
                                 for (int topicoActual = 0; topicoActual < Model.listaTopicos.Count; ++topicoActual)
                                 {
@@ -123,7 +123,7 @@
             <div class="row">
                 <div class="col-md-3">
 
-                    @if (Model.idArticuloPK != null)
+                    @if (Model.idArticuloPK != -1)
                     {
                         <input id="btnGuardar"  type="submit" class="btn-primary" asp-page-handler="editar" value="Guardar progreso" style="width: 150px"/>
                     }
@@ -161,7 +161,7 @@
         }
     }
 
-    @if (Model.idArticuloPK != null)
+    @if (Model.idArticuloPK != -1)
     {
         @Html.Raw(Model.inyeccion);
     }

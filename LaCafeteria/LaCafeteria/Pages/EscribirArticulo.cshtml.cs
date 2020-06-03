@@ -47,12 +47,15 @@ namespace LaCafeteria.Pages
 			listaTopicos = topicoController.GetListaTopicos();
 			listaMiembros = miembroController.GetListaMiembros();
             listaMiembrosAutores = new List<string>();
+            listaTopicosArticulo = new List<string>();
             autoresViejos = new List<string[]>();
+
+            idArticuloPK = -1;
         }
 
 		public void OnGet()
         {
-             if (idArticuloPK != null)
+             if (idArticuloPK != -1)
             {
                 articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
 
@@ -71,8 +74,8 @@ namespace LaCafeteria.Pages
                 for (int i = 0; i < autoresViejos.Count; i++)
                 {
                     inyeccion += "var select = document.getElementById('slctAutor');" + "\n" +
-                        "var option = select[select.selectedIndex];" + "\n"+
-                        "if (!miembrosAutores.includes('"+ autoresViejos[i][0] + "')) {" + "\n" +
+                        "var option = select[select.selectedIndex];" + "\n" +
+                        "if (!miembrosAutores.includes('" + autoresViejos[i][0] + "')) {" + "\n" +
                         "const div = document.createElement('div');" +
                         "const button = document.createElement('input');" + "\n" +
                         "button.type = \"button\";" + "\n" +
@@ -126,7 +129,7 @@ namespace LaCafeteria.Pages
                 articulo.tipo = TipoArticulo.Corto;
                 articulo.estado = EstadoArticulo.RequiereRevision;
                 articulo.idArticuloPK = (int)TempData["idArticulo"];
-                if (articulo.idArticuloPK == null)
+                if (articulo.idArticuloPK == -1)
                 {
                     articuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
                 }
