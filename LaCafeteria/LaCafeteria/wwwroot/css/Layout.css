@@ -87,3 +87,7 @@
 #articulosPorRevisar > tbody > tr:hover {
     background-color: black;
 }
+
+.clickable-row {
+    cursor:pointer;
+}
