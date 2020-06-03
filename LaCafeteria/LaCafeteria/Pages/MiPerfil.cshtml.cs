@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LaCafeteria.Pages
 {
-    public class PruebaModel : PageModel
+    public class MiPerfilModel : PageModel
     {
         public void OnGet()
         {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Http;
 using LaCafeteria.Controllers;
 using LaCafeteria.Models;
 
@@ -29,8 +30,9 @@ namespace LaCafeteria.Pages
         }
 
         public void OnGet()
-        {
-            misArticulos = articuloController.GetMisArticulos("nleate8"); //Cambiar por username de sesión
+        {	
+			string usernamePK = Request.Cookies["usernamePK"];
+			misArticulos = articuloController.GetMisArticulos(usernamePK);
             cantResultados = misArticulos.Count;
         }
     }
