@@ -18,11 +18,11 @@ namespace LaCafeteria.Pages
 
 		public int cantResultados { set; get; }
 
-		public TopicoController topicoController;
-
 		public ArticuloController articuloController;
 
 		public MiembroController miembroController;
+
+		public TopicoController topicoController;
 
 		public MiPerfilModel()
 		{

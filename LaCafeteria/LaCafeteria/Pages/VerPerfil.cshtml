@@ -1,8 +1,196 @@
-﻿@page
+﻿@page "{usernamePK}"
+@using LaCafeteria.Utilidades;
 @model LaCafeteria.Pages.VerPerfilModel
 @{
-    ViewData["Title"] = "VerPerfil";
+	ViewData["Title"] = "VerPerfil";
 }
 
-<h2>VerPerfil</h2>
+<h2>@Model.usernamePK</h2>
 
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<div class="container">
+
+	<ul class="nav nav-tabs">
+		<li class="active"><a data-toggle="tab" href="#informacionPersonal">Información personal</a></li>
+		<li><a data-toggle="tab" href="#articulosResultado">Mi articulos</a></li>
+		<li><a data-toggle="tab" href="#funcionesCoordinador">Funciones coordinador</a></li>
+
+	</ul>
+
+	<div class="tab-content">
+		<div id="informacionPersonal" class="tab-pane fade in active">
+			<div class="container">
+				<br/>
+				<br/>
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="panel panel-warning">
+							<div class="panel-heading">
+								<h3 class="panel-title">@Model.miembro.usernamePK</h3>
+							</div>
+							<div class="panel-body text-center">
+								<img class="img-rounded" style="width: 150px; height:150px" src="@Model.miembro.rutaImagenPerfil"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="panel panel-warning">
+							<div class="panel-heading">
+								<h3 class="panel-title">Rol</h3>
+							</div>
+							<div class="panel-body text-center">
+								@Model.miembro.nombreRolFK
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="panel panel-warning">
+							<div class="panel-heading">
+								<h3 class="panel-title">Meritos</h3>
+							</div>
+							<div class="panel-body text-center">
+								@Model.miembro.meritos
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Nombre de usuario</h3>
+					</div>
+					<div class="panel-body">
+						@Model.miembro.usernamePK
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Nombre</h3>
+					</div>
+					<div class="panel-body">
+						@Model.miembro.GetNombreCompleto()
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Email </h3>
+					</div>
+					<div class="panel-body">
+						@Model.miembro.email
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Fecha de nacimiento</h3>
+					</div>
+					<div class="panel-body">
+						@Model.miembro.fechaNacimiento
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">País, estado y ciudad</h3>
+					</div>
+					<div class="panel-body">
+						@Model.miembro.pais , @Model.miembro.estado , @Model.miembro.ciudad
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Habilidades</h3>
+					</div>
+					<div class="panel-body">
+						@Model.miembro.habilidades
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Hobbies</h3>
+					</div>
+					<div class="panel-body">
+						@Model.miembro.hobbies
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Idiomas</h3>
+					</div>
+					<div class="panel-body">
+						@Model.miembro.idiomas
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Informacion laboral</h3>
+					</div>
+					<div class="panel-body">
+						@Model.miembro.informacionLaboral
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="articulosResultado" class="tab-pane fade">
+			<br />
+			<br />
+			<div class="container">
+				<div class="row">
+
+					<div class="col-md-12">
+
+						@for (int articuloActual = 0; articuloActual < Model.cantResultados; articuloActual++)
+						{
+
+							<div class="panel panel-info">
+								<div class="panel-heading">
+									<div class="container">
+										<div class="row">
+											<div class="col-md-7">
+												<h2 class="panel-title" style="font-size: 125%;"> @Model.articulosResultado[articuloActual].titulo</h2>
+											</div>
+											<div class="col-md-3">
+												<h3 class="panel-title" style="text-align: right;">
+													Estado: @Model.articulosResultado[articuloActual].estado
+												</h3>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="panel-body">
+									<ul style="list-style: none;">
+										<li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.articulosResultado[articuloActual].fechaPublicacion)</li>
+										<li><strong>Tipo: </strong>@Model.articulosResultado[articuloActual].tipo</li>
+										<li><strong>Autor(es): </strong>@Model.articuloController.GetAutoresDeArticulo(Model.articulosResultado[articuloActual].idArticuloPK)</li>
+										<li><strong>Tópico(s): </strong>@Model.topicoController.GetTopicosArticulo(Model.articulosResultado[articuloActual].idArticuloPK)</li>
+										@if (Model.articulosResultado[articuloActual].tipo == "Corto")
+										{
+											<li style="margin-top: 20px"><a href="/EscribirArticulo/@Model.articulosResultado[articuloActual].idArticuloPK" class="btn">Editar</a></li>
+										}
+										else if (Model.articulosResultado[articuloActual].tipo == "Largo")
+										{
+											<li style="margin-top: 20px"><a href="/SubirArticulo/@Model.articulosResultado[articuloActual].idArticuloPK" class="btn">Editar</a></li>
+										}
+									</ul>
+								</div>
+							</div>
+						}
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
