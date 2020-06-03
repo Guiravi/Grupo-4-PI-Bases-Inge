@@ -10,6 +10,7 @@ using System.IO;
 using LaCafeteria.Models;
 using LaCafeteria.Controllers;
 using LaCafeteria.Utilidades;
+using Microsoft.AspNetCore.Hosting;
 
 namespace LaCafeteria.Pages
 {
@@ -36,6 +37,7 @@ namespace LaCafeteria.Pages
 		public TopicoController topicoController;
 		public MiembroController miembroController;
 		public ArticuloController articuloController;
+        public CorreoController correoController;
 
         [BindProperty(SupportsGet = true)]
         public int idArticuloPK { get; set; }
@@ -50,6 +52,7 @@ namespace LaCafeteria.Pages
 			topicoController = new TopicoController();
 			miembroController = new MiembroController();
 			articuloController = new ArticuloController();
+            correoController = new CorreoController(env);
 			listaTopicos = topicoController.GetListaTopicos();
 			listaMiembros = miembroController.GetListaMiembros();
             listaMiembrosAutores = new List<string>();
@@ -159,7 +162,9 @@ namespace LaCafeteria.Pages
                 {
                     articuloController.EditarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo, rutaCarpeta);
                 }
-            
+
+                correoController.sendNecesitaRevision(articulo.titulo);
+
                 Notificaciones.Set(this, "articuloEnviadoRev", "Su artículo fue enviado a revisión", Notificaciones.TipoNotificacion.Exito);
 
                 return Redirect("/MiPerfil");

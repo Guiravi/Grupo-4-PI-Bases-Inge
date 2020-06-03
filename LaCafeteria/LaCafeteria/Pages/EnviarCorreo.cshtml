@@ -36,7 +36,7 @@
     </div>
     <div class="form-group">
         <label for="adjuntarArchivo"><b>Adjuntar archivo(s)</b></label>
-        <input type="file" multiple="multiple" id="adjuntarArchivo" onchange="SizeValidation()" />
+        <input type="file" id="adjuntarArchivo" asp-for="archivoAdjunto" onchange="SizeValidation()" />
         <p class="help-block" id="tamanoArchivos">Tamaño: 0 MB</p>
     </div>
 
