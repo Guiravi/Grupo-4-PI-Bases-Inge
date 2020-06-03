@@ -108,7 +108,7 @@ namespace LaCafeteria.Pages
 				articulo.tipo = TipoArticulo.Largo;
 				articulo.estado = EstadoArticulo.EnProgreso;
 				articuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
-				Notificaciones.Set(this, "articuloGuardado", "Su articulo se guardó correctamente", Notificaciones.TipoNotificacion.Exito);
+				Notificaciones.Set(this, "articuloGuardado", "Su artículo se guardó correctamente", Notificaciones.TipoNotificacion.Exito);
 
                 return Redirect("/MiPerfil");
 			}
@@ -124,7 +124,31 @@ namespace LaCafeteria.Pages
                 articulo.estado = EstadoArticulo.EnProgreso;
                 articulo.idArticuloPK = (int)TempData["idArticulo"];
                 articuloController.EditarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo, rutaCarpeta);
-                Notificaciones.Set(this, "articuloEditado", "Su articulo se editó correctamente", Notificaciones.TipoNotificacion.Exito);
+                Notificaciones.Set(this, "articuloEditado", "Su artículo se editó correctamente", Notificaciones.TipoNotificacion.Exito);
+
+                return Redirect("/MiPerfil");
+            }
+
+            return Page();
+        }
+
+        public IActionResult OnPostEnviarRevision()
+        {
+            if (EsValido())
+            {               
+                articulo.tipo = TipoArticulo.Largo;
+                articulo.estado = EstadoArticulo.RequiereRevision;
+                articulo.idArticuloPK = (int)TempData["idArticulo"];
+                if (articulo.idArticuloPK == null)
+                {
+                    articuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
+                }
+                else
+                {
+                    articuloController.EditarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo, rutaCarpeta);
+                }
+            
+                Notificaciones.Set(this, "articuloEnviadoRev", "Su artículo fue enviado a revisión", Notificaciones.TipoNotificacion.Exito);
 
                 return Redirect("/MiPerfil");
             }
