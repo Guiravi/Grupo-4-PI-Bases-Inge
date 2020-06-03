@@ -52,7 +52,7 @@ namespace LaCafeteria.Utilidades
             fechaFormato += fechaElementos[2] + "-";
             if (fechaElementos[0].Length == 1)
             {
-                fechaFormato += "0" + fechaElementos[1] + "-";
+                fechaFormato += "0" + fechaElementos[0] + "-";
             }
             else
             {
