@@ -2,47 +2,52 @@
 @using LaCafeteria.Utilidades;
 @model LaCafeteria.Pages.LoginModel
 @{
-    ViewData["Title"] = "Iniciar sesión";
+	ViewData["Title"] = "Iniciar sesión";
 }
 
 <h2>Inicio de sesión</h2>
 @if (Notificaciones.Existe(Model, "cerrarSesion"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "cerrarSesion"))
+	@Html.Raw(Notificaciones.Get(Model, "cerrarSesion"))
 }
 @if (Notificaciones.Existe(Model, "init_session_error"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "init_session_error"))
+	@Html.Raw(Notificaciones.Get(Model, "init_session_error"))
+}
+
+@if (Notificaciones.Existe(Model, "usernameNoExiste"))
+{
+	@Html.Raw(Notificaciones.Get(Model, "usernameNoExiste"))
 }
 <div class="container">
-    <div class="row">
-        <div class="col-lg-6">
-            <form class="form-horizontal" method="post">
-                <div class="form-group" style="padding-right:200px">
-                    <label for="txtUsername" class="control-label">Nombre de usuario</label>
-                    <input asp-for="usernamePK" type="text" class="form-control" id="txtUsername" placeholder="Nombre de usuario">
-                    <span asp-validation-for="usernamePK"></span>
-                </div>
-                <div class="form-group" style="padding-right:200px">
-                    <label for="txtContrasena" class="control-label">Contraseña</label>
-                    <input type="password" class="form-control" id="txtContrasena" name="txtContrasena" placeholder="Contraseña" disabled>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-default">Iniciar sesión</button>
-                </div>
-            </form>
-        </div>
-        <div class="col-lg-6">
-            <div class="jumbotron" style="background-color:lightgray">
-                <h1 class="display-4">La Cafetería</h1>
-                <p class="lead">¡Crea una sesión para que puedas compartir conocimientos con los demás miembros de la comunidad!</p>
-                <hr style="border:none; height: 1px; background-color: lightslategray;" />
-                <p class="lead" style="font-size: 120%">Además de muchas otras funciones como poder calificar tus artículos favoritos, sistema de méritos para que destaques en la comunidad, y ¡la probabilidad de ser parte de nuestros miembros núcleo!</p>
-                <p class="lead" style="text-align: center; margin-top: 20px">
-                    <a class="btn btn-primary btn-lg" style="width:200px" href="/CrearPerfil" role="button">Crear perfil</a>
-                </p>
-            </div>
-        </div>
-    </div>
+	<div class="row">
+		<div class="col-lg-6">
+			<form class="form-horizontal" method="post">
+				<div class="form-group" style="padding-right:200px">
+					<label for="txtUsername" class="control-label">Nombre de usuario</label>
+					<input asp-for="usernamePK" type="text" class="form-control" id="txtUsername" placeholder="Nombre de usuario">
+					<span asp-validation-for="usernamePK"></span>
+				</div>
+				<div class="form-group" style="padding-right:200px">
+					<label for="txtContrasena" class="control-label">Contraseña</label>
+					<input type="password" class="form-control" id="txtContrasena" name="txtContrasena" placeholder="Contraseña" disabled>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-default">Iniciar sesión</button>
+				</div>
+			</form>
+		</div>
+		<div class="col-lg-6">
+			<div class="jumbotron" style="background-color:lightgray">
+				<h1 class="display-4">La Cafeteria</h1>
+				<p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+				<hr class="my-4">
+				<p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+				<p class="lead">
+					<a class="btn btn-primary btn-lg" style="width:200px" href="/CrearPerfil" role="button">Crear perfil</a>
+				</p>
+			</div>
+		</div>
+	</div>
 </div>
 
