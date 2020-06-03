@@ -10,6 +10,11 @@
 <h3 class="text-center">@Model.categoria</h3>
 
 <div class="container">
+    <div class="row">
+        <div class="col-md-1">
+            <a href='javascript:history.go(-1)' class="btn btn-info text-center">Volver</a>
+        </div>
+    </div>
 
     <div class="row">
 
@@ -18,17 +23,17 @@
             @for (int numPreguntaActual = 0; numPreguntaActual < Model.questions.Count; ++numPreguntaActual)
             {
 
-            <div class="panel panel-info">
-                <div class="panel-heading"><h2 class="panel-title" style="font-size: 125%">@Model.questions[numPreguntaActual]</h2></div>
+                <div class="panel panel-info">
+                    <div class="panel-heading"><h2 class="panel-title" style="font-size: 125%">@Model.questions[numPreguntaActual]</h2></div>
 
-                <div class="panel-body">
-                    
-                     <strong></strong> @Model.answers[numPreguntaActual]
+                    <div class="panel-body">
 
-                    
+                        <strong></strong> @Model.answers[numPreguntaActual]
+
+
+                    </div>
+
                 </div>
-
-            </div>
 
 
             }
