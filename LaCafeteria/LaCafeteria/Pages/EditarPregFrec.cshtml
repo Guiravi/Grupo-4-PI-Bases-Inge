@@ -1,5 +1,5 @@
 ﻿@page
-
+@using LaCafeteria.Utilidades
 @model LaCafeteria.Pages.EditFaqsModel
 
 
@@ -28,10 +28,27 @@
     </div>
     <input type="submit" value="Agregar" asp-page-handler="add" />
     <input type="submit" value="Borrar" asp-page-handler="delete" />
-
+    @if (Notificaciones.Existe(Model, "exitoEliminar"))
+    {
+        @Html.Raw(Notificaciones.Get(Model, "exitoEliminar"));
+    }
+    @if (Notificaciones.Existe(Model, "camposIncompletos"))
+    {
+        @Html.Raw(Notificaciones.Get(Model, "camposIncompletos"));
+    }
+    @if (Notificaciones.Existe(Model, "noEncontrados"))
+    {
+        @Html.Raw(Notificaciones.Get(Model, "noEncontrados"));
+    }
+    @if (Notificaciones.Existe(Model, "exitoAgregar"))
+    {
+        @Html.Raw(Notificaciones.Get(Model, "exitoAgregar"));
+    }
+    @if (Notificaciones.Existe(Model, "camposRepetidos"))
+    {
+        @Html.Raw(Notificaciones.Get(Model, "camposRepetidos"));
+    }
+   
 </form>
 
 
-<h3>
-    <strong>@TempData["Message"]</strong>
-</h3>
