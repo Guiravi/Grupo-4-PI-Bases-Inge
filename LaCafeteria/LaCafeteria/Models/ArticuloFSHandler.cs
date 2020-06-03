@@ -10,9 +10,9 @@ namespace LaCafeteria.Models
 {
     public class ArticuloFSHandler
     {
-        public void GuardarArticuloDOCX(int idArticulo, byte[] contenido , string rutaCarpeta)
+        public void GuardarArticuloDOCX(int idArticulo, byte[] contenido, string rutaCarpeta)
         {
-            File.WriteAllBytes( rutaCarpeta + "/ArticulosDOCX/" + idArticulo + ".docx", contenido);
+            File.WriteAllBytes(rutaCarpeta + "/ArticulosDOCX/" + idArticulo + ".docx", contenido);
         }
 
         public void ConvertirDocxPDF(string nombreDocx, string rutaCarpeta)
@@ -30,6 +30,15 @@ namespace LaCafeteria.Models
         {
             string rutaArchivo = rutaCarpeta + "/ArticulosPDF/" + idArticulo + ".pdf";
             return File.Exists(rutaArchivo);
+        }
+
+        public void BorrarViejoArchivo(int idArticulo, string rutaCarpeta)
+        {
+            string rutaDocx = rutaCarpeta + "/ArticulosDOCX/" + idArticulo + ".docx";
+            string rutaPdf = rutaCarpeta + "/ArticulosPDF/" + idArticulo + ".pdf";
+
+            File.Delete(rutaDocx);
+            File.Delete(rutaPdf);
         }
     }
 }
