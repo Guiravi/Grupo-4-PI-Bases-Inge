@@ -42,5 +42,10 @@ namespace LaCafeteria.Pages
 			misArticulos = articuloController.GetMisArticulos(usernamePK);
 			cantResultados = misArticulos.Count;
 		}
+
+        public IActionResult OnPostModificar()
+        {
+            return Redirect("/ModificarPerfil");
+        }
 	}
 }
