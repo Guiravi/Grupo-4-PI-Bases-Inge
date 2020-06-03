@@ -138,23 +138,22 @@ namespace LaCafeteria.Pages
         {
             if (EsValido())
             {
-                articulo.tipo = TipoArticulo.Corto;
-                articulo.estado = EstadoArticulo.RequiereRevision;
-                articulo.idArticuloPK = (int)TempData["idArticulo"];
-                if (articulo.idArticuloPK == -1)
-                {
-                    articuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
-                }
-                else
-                {
-                    articuloController.EditarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo, "");
-                }
+                    articulo.tipo = TipoArticulo.Corto;
+                    articulo.estado = EstadoArticulo.RequiereRevision;
+                    articulo.idArticuloPK = (int) TempData["idArticulo"];
+                    if ( articulo.idArticuloPK == -1 )
+                    {
+                        articuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
+                    } else
+                    {
+                        articuloController.EditarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo, "");
+                    }
 
-                correoController.sendNecesitaRevision(articulo.titulo);
+                    correoController.sendNecesitaRevision(articulo.titulo);
 
-                Notificaciones.Set(this, "articuloEnviadoRev", "Su artículo fue enviado a revisión", Notificaciones.TipoNotificacion.Exito);
+                    Notificaciones.Set(this, "articuloEnviadoRev", "Su artículo fue enviado a revisión", Notificaciones.TipoNotificacion.Exito);
 
-                return Redirect("/MiPerfil");
+                    return Redirect("/MiPerfil");
             }
 
             return Page();
