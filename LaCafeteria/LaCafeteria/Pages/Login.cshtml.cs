@@ -42,7 +42,6 @@ namespace LaCafeteria.Pages
 
 		public IActionResult OnPost()
 		{
-			// TODO: Logica de validacion para el username y password
 			if(EsValido())
 			{
 				Response.Cookies.Append("usernamePK", usernamePK);

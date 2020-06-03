@@ -23,6 +23,9 @@ namespace LaCafeteria.Pages
 		[Required(ErrorMessage = "Debe subir una imagen de perfil")]
 		public IFormFile imagenDePerfil { set; get; }
 
+		[BindProperty]
+		public List<string> listaIdiomas { set; get; }
+
 		public MiembroController miembroController{ set; get; }
 
 		public string rutaCarpeta;
@@ -30,6 +33,7 @@ namespace LaCafeteria.Pages
 		public CrearPerfilModel(IHostingEnvironment env)
 		{
 			miembroController = new MiembroController();
+			listaIdiomas = new List<string>();
 			rutaCarpeta = env.WebRootPath;
 		}
 
@@ -37,14 +41,16 @@ namespace LaCafeteria.Pages
         {
 			if(EsValido())
 			{
-				var filePath = rutaCarpeta + "/ImagenesPerfil/" + miembro.usernamePK + "." + imagenDePerfil.ContentType.Split('/')[1];
+				var filePath = rutaCarpeta + "/images/ImagenesPerfil/" + miembro.usernamePK + "." + imagenDePerfil.ContentType.Split('/')[1];
 
 				using (var stream = System.IO.File.Create(filePath))
 				{
 					imagenDePerfil.CopyTo(stream);
 				}
 
-				miembro.rutaImagenPerfil = "/ImagenesPerfil/" + miembro.usernamePK + ".jpg";
+				miembro.rutaImagenPerfil = "images/ImagenesPerfil/" + miembro.usernamePK + "." + imagenDePerfil.ContentType.Split('/')[1];
+
+				miembro.idiomas = ObtenerIdiomasCSV();
 				miembroController.CrearMiembro(miembro);
 				Response.Cookies.Append("usernamePK", miembro.usernamePK);
 				Notificaciones.Set(this, "sesionIniciada", "Sesión iniciada", Notificaciones.TipoNotificacion.Exito);
@@ -53,6 +59,23 @@ namespace LaCafeteria.Pages
 
 			return Page();
         }
+
+		public string ObtenerIdiomasCSV()
+		{
+			string idiomas = null;
+
+			if (listaIdiomas.Count > 0)
+			{
+				idiomas = "";
+				foreach (string idioma in listaIdiomas)
+				{
+					idiomas += idioma +",";
+				}
+				idiomas = idiomas.TrimEnd(',');
+			}
+
+			return idiomas;
+		}
 
 		public bool EsValido()
 		{
