@@ -143,7 +143,11 @@ namespace LaCafeteria.Pages
                 articulo.tipo = TipoArticulo.Link;
                 articulo.estado = EstadoArticulo.RequiereRevision;
                 articulo.contenido = url;
-                articulo.idArticuloPK = (int)TempData["idArticulo"];
+                if (TempData["idArticulo"] != null)
+                {
+                    articulo.idArticuloPK = (int)TempData["idArticulo"];
+                }
+
                 if (articulo.idArticuloPK == -1)
                 {
                     articuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);

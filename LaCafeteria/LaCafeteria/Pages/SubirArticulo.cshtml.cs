@@ -150,7 +150,10 @@ namespace LaCafeteria.Pages
             {               
                 articulo.tipo = TipoArticulo.Largo;
                 articulo.estado = EstadoArticulo.RequiereRevision;
-                articulo.idArticuloPK = (int)TempData["idArticulo"];
+                if (TempData["idArticulo"] != null)
+                {
+                    articulo.idArticuloPK = (int)TempData["idArticulo"];
+                }
                 if (articulo.idArticuloPK ==  -1)
                 {
                     articuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
