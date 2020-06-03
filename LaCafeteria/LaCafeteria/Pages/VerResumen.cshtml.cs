@@ -94,5 +94,9 @@ namespace LaCafeteria.Pages
 
             return Page();
         }
+
+        public void OnPostSumar() {
+            articuloController.AgregarVisita(idArticuloPK);
+        }
     }
 }
