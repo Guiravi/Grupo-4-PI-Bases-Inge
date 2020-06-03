@@ -53,43 +53,51 @@ namespace LaCafeteria.Pages
             idArticuloPK = -1;
         }
 
-		public void OnGet()
+		public IActionResult OnGet()
         {
-             if (idArticuloPK != -1)
+            if (Request.Cookies["usernamePK"] != null)
             {
-                articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
-
-                articulo.fechaPublicacion = Convertidor.CambiarFormatoFechaAMD(articulo.fechaPublicacion);
-
-                autoresViejos = miembroController.GetAutoresArticuloLista(idArticuloPK);
-                foreach (string[] item in autoresViejos)
+                if (idArticuloPK != -1)
                 {
-                    listaMiembrosAutores.Add(item[0]);
-                } 
+                    articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
 
-                listaTopicosArticulo = topicoController.GetTopicosArticuloLista(idArticuloPK);
+                    articulo.fechaPublicacion = Convertidor.CambiarFormatoFechaAMD(articulo.fechaPublicacion);
 
-                TempData["idArticulo"] = idArticuloPK;
-             
-                for (int i = 0; i < autoresViejos.Count; i++)
-                {
-                    inyeccion += "var select = document.getElementById('slctAutor');" + "\n" +
-                        "var option = select[select.selectedIndex];" + "\n" +
-                        "if (!miembrosAutores.includes('" + autoresViejos[i][0] + "')) {" + "\n" +
-                        "const div = document.createElement('div');" +
-                        "const button = document.createElement('input');" + "\n" +
-                        "button.type = \"button\";" + "\n" +
-                        "button.value = \"x\";" + "\n" +
-                        "button.toDelete = '" + autoresViejos[i][0] + "';" + "\n" +
-                        "button.onclick = borrar;" + "\n" +
-                        "miembrosAutores.push('" + autoresViejos[i][0] +"')" + "\n" +
-                        "div.innerHTML = '<label>' + \'" + autoresViejos[i][1] +"\' + '</label><input type=\"hidden\" name=\"listaMiembrosAutores\" value=\"' + \'"+ autoresViejos[i][0] + "\' + '\"/>';" + "\n" +
-                        "document.getElementById('autores').appendChild(div);" + "\n" +
-                        "div.appendChild(button);" + "\n" +
-                        "}\n";
+                    autoresViejos = miembroController.GetAutoresArticuloLista(idArticuloPK);
+                    foreach (string[] item in autoresViejos)
+                    {
+                        listaMiembrosAutores.Add(item[0]);
+                    }
+
+                    listaTopicosArticulo = topicoController.GetTopicosArticuloLista(idArticuloPK);
+
+                    TempData["idArticulo"] = idArticuloPK;
+
+                    for (int i = 0; i < autoresViejos.Count; i++)
+                    {
+                        inyeccion += "var select = document.getElementById('slctAutor');" + "\n" +
+                            "var option = select[select.selectedIndex];" + "\n" +
+                            "if (!miembrosAutores.includes('" + autoresViejos[i][0] + "')) {" + "\n" +
+                            "const div = document.createElement('div');" +
+                            "const button = document.createElement('input');" + "\n" +
+                            "button.type = \"button\";" + "\n" +
+                            "button.value = \"x\";" + "\n" +
+                            "button.toDelete = '" + autoresViejos[i][0] + "';" + "\n" +
+                            "button.onclick = borrar;" + "\n" +
+                            "miembrosAutores.push('" + autoresViejos[i][0] + "')" + "\n" +
+                            "div.innerHTML = '<label>' + \'" + autoresViejos[i][1] + "\' + '</label><input type=\"hidden\" name=\"listaMiembrosAutores\" value=\"' + \'" + autoresViejos[i][0] + "\' + '\"/>';" + "\n" +
+                            "document.getElementById('autores').appendChild(div);" + "\n" +
+                            "div.appendChild(button);" + "\n" +
+                            "}\n";
+                    }
                 }
-             }
-            return;
+            }
+            else
+            {
+                Notificaciones.Set(this, "init_session_error","Por favor inicie sesión para poder escribir el artículo", Notificaciones.TipoNotificacion.Error);
+                return Redirect("/Login");
+            }
+            return Page();
         }
 
 		public IActionResult OnPostGuardar()
