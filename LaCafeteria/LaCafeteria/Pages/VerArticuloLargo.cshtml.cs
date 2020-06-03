@@ -44,7 +44,7 @@ namespace LaCafeteria.Pages
                 articuloController.CargarArticuloPDF(idArticuloPK , rutaCarpeta);
                 articuloPDF = Convert.ToString(idArticuloPK) + ".pdf";
 
-                calificacion = miembroController.GetCalificacionMiembro("BadBunny", idArticuloPK);
+                calificacion = miembroController.GetCalificacionMiembro(Request.Cookies["usernamePK"], idArticuloPK);
                 TempData["idArticuloPK"] = idArticuloPK;
                 TempData["rutaPDF"] = articuloPDF;
             }
