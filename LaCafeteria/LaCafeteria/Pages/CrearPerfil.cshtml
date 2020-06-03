@@ -1,4 +1,5 @@
 ﻿@page
+@using LaCafeteria.Utilidades;
 @model LaCafeteria.Pages.CrearPerfilModel
 @{
     ViewData["Title"] = "Crear Perfil";
@@ -13,6 +14,10 @@
 					<label for="txtUsername">Nombre de usuario</label>
 					<input id="txtUsername" type="text" class="form-control" asp-for="miembro.usernamePK" />
 					<span asp-validation-for="miembro.usernamePK"></span>
+					@if(Notificaciones.Existe(Model, "usernamePKInvalido"))
+					{
+						@Html.Raw(Notificaciones.Get(Model, "usernamePKInvalido"))
+					}
 				</div>
 
 				<div class="form-group">
@@ -67,8 +72,13 @@
 		<div class="col-lg-6">
 			<div class="form-group">
 				<label for="imgPerfil">Imagen de perfil</label>
-				<input id="imgPerfil" type="file" class="form-control" asp-for="imagenDePerfil" />
+				<input id="imgPerfil" accept=".png,.jpg" type="file" class="form-control" asp-for="imagenDePerfil" />
 				<span asp-validation-for="imagenDePerfil"></span>
+				@if(Notificaciones.Existe(Model, "formatoInvalido"))
+				{
+					@Html.Raw(Notificaciones.Get(Model, "formatoInvalido"));
+				}
+
 			</div>
 
 			<div class="form-group">
