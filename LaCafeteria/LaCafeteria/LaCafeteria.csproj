@@ -26,4 +26,12 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\ImagenesPerfil\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Correos\" />
+  </ItemGroup>
+
 </Project>

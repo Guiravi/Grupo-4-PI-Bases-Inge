@@ -9,7 +9,31 @@ using LaCafeteria.Utilidades;
 namespace LaCafeteria.Models
 {
 	public class MiembroDBHandler
-	{	
+	{
+		public bool ExisteMiembro(string usernamePK)
+		{
+			bool existe = false;
+
+			string connectionString = AppSettings.GetConnectionString();
+			using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+			{
+
+				string sqlString = "SELECT 1 FROM Miembro WHERE @usernamePK = usernamePK";
+
+				sqlConnection.Open();
+				using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+				{
+					sqlCommand.Parameters.AddWithValue("@usernamePK", usernamePK);
+					SqlDataReader dataReader = sqlCommand.ExecuteReader();
+					if(dataReader.HasRows)
+					{
+						existe = true;
+					}
+				}
+			}
+			return existe;
+		}
+
 		public void CrearMiembro(MiembroModel miembro)
 		{
 			string connectionString = AppSettings.GetConnectionString();
