@@ -398,8 +398,6 @@ namespace LaCafeteria.Models
                     newLinesNumCat = new String[linesNumCat.Count()];
                     newLinesNumCat[0] = "";
         // contador de la catidad de nuevas líneas que va a tener el archivo Faqs.txt actualizado
-                    //int totNewLines = 0;
-                    // totNewLines = UpdateNewLines(categoryFound, totNewLines);
                     BorrarQYA(faqsModel, faqsHandler, categoria, pregunta, respuesta);
                     //Se actualiza NumCat.txt
                     faqsHandler.WriteAllLines(2, newLinesNumCat, faqsModel);
@@ -457,90 +455,6 @@ namespace LaCafeteria.Models
             }
             return error;
         }
-
-        public void SeeFAQs()
-        {
-
-            //Se crea el administrador de archivos para guardar la información de estos en vectores
-            //Se crean los administradores de archivos para guardar la información de estos en vectores
-            FAQsModel faqsModel = new FAQsModel();
-            FAQsHandler faqsHandler = new FAQsHandler();
-            linesFaqs = faqsHandler.FileInformation(1, faqsModel);
-            linesNumCat = faqsHandler.FileInformation(2, faqsModel);
-            //Se va a actualizar el label para poner el título de faqs
-            // Se llama al método para mostrar los FAQs en la página web
-            ShowFAQsPage();
-        }
-
-        // Este método  muestra los FAQs en la página web
-        public void ShowFAQsPage()
-        {
-            //la posición actual en el vector de números de las posiciones de las categorías
-            int posNum = 0;
-            //contador la cantidad de lineas totales del archivo Faqs.txt
-            int totLines = 0;
-            foreach (string line in linesNumCat)
-            {   //indica que se va a poner una categoría en la vista 
-                int firstInLine = 1;
-                //Para asegurarse que almenos haya un número en NumCat.txt
-                if (linesNumCat[posNum] != "")
-                {   //Se revisa cual es la última línea de la categoría actual y se reproducen la categoría, preguntas y respuestas
-                    int finish = Int32.Parse(linesNumCat[posNum]);
-                    while (totLines < finish)
-                    {
-                        if (firstInLine == 1)
-                        {
-                            firstInLine = 0;
-                            //Se actauliza la nueva categoría, la nueva línea se actualiza en el vector de nuevas líneas
-
-                            //Como ya se actualizó la línea, se incrementan las posiciones de las líneas
-                            totLines = totLines + 1;
-                        }
-                        else
-                        {
-
-                            totLines = totLines + 1;
-
-                            totLines = totLines + 1;
-                        }
-                    }
-                }//Se actualiza el número de línas por categoría en el vector respectivo y se guarda como string
-                posNum = posNum + 1;
-            }
-        }
-
-        // Este método se encarga de manipular la información necesaria para realizar cambios en los archivos de FAQs
-        //public void UploadFAQs()
-        //{
-            //Se crean los administradores de archivos para guardar la información de estos en vectores
-           // FAQsModel faqsModel = new FAQsModel();
-           // FAQsHandler faqsHandler = new FAQsHandler();
-            //linesFaqs = faqsHandler.FileInformation(1, faqsModel);
-            //linesNumCat = faqsHandler.FileInformation(2, faqsModel);
-            //El miembro debe de haber llenado todos los campos para modificar FAQs
-            //if (category != "" && question != "" && answer != "")
-            //{
-                //Se busca si la categoria existía previamente(1)
-               // int categoryFound = SearchCategory(linesFaqs);
-                //Se va a actualizar el label para poner el título de faqs
-
-                //Se le da a newLinesFaqs un tamaño adecuado para poder aguantar la introducción de las nuevas líneas
-                //newLinesFaqs = new String[allLines + 3];
-                // contador de la catidad de nuevas líneas que va a tener el archivo Faqs.txt actualizado
-                //int totNewLines = 0;
-                //totNewLines = UpdateNewLines(categoryFound, totNewLines);
-                //Se actualiza NumCat.txt
-                //faqsHandler.WriteAllLines(2, linesNumCat, faqsModel);
-                //Se revisa si hay que agregar una nueva categoría junto con la pregunta y respuesta
-                //AddNewCategory(totNewLines, categoryFound, faqsModel, faqsHandler);
-                //Se actualiza FAQs.txt
-                //faqsHandler.WriteAllLines(1, newLinesFaqs, faqsModel);
-            //}
-           // else
-           // {
-
-           // }
-        //}
 
         // Este método revisa si hay que agregar una nueva categoría, y si es así se agrega con las nuevas preguntas y respuestas
         public void AddNewCategory(int totNewLines, int categoryFound, FAQsModel faqsModel, FAQsHandler faqsHandler, string categoria, string pregunta, string respuesta )

@@ -1,9 +1,3 @@
-hola1
-soy3
-juan3
-hola2
-soy2
-juan2
-Como?
-Como se hace eso?
-Eso se hace así.
+Méritos
+¿Cuáles son los méritos asociados a cada nivel en la comunidad?
+Dependiendo del nivel que el miembro tenga en la comunidad, tendrá distintos méritos asignados por nivel. La distribución de los méritos asignados por nivel es la siguiente: periférico (0), activo (3), núcleo (5).
