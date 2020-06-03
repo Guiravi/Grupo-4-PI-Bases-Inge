@@ -83,3 +83,7 @@
 	border-color: #ebccd1;
 	display: block;
 }
+
+#articulosPorRevisar > tbody > tr:hover {
+    background-color: black;
+}
