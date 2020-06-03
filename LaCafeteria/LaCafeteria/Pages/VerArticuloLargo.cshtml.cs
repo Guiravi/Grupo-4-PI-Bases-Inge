@@ -38,6 +38,7 @@ namespace LaCafeteria.Pages
 
         public void OnGet()
         {
+            articuloController.AgregarVisita(idArticuloPK);
             articuloController.CargarArticuloPDF(idArticuloPK , rutaCarpeta);
             articuloPDF = Convert.ToString(idArticuloPK) + ".pdf";
 

@@ -108,14 +108,25 @@
             </div>
         </div>
     </div>
-    @if (Model.idArticuloPK != null)
-    {
-        <input id="btnGuardar" name="btnGuardar" type="submit" value="Guardar" class="btn-primary" asp-page-handler="editar" />
-    }
-    else
-    {
-        <input id="btnGuardar" name="btnGuardar" type="submit" value="Guardar" class="btn-primary" asp-page-handler="guardar" />
-    }
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+
+                @if (Model.idArticuloPK != null)
+                {
+                    <input id="btnGuardar" type="submit" class="btn-primary" asp-page-handler="editar" value="Guardar progreso" style="width: 150px" />
+                }
+                else
+                {
+                    <input id="btnEditar" type="submit" class="btn-primary" asp-page-handler="guardar" value="Guardar progreso" style="width: 150px" />
+                }
+
+            </div>
+            <div class="col-md-3">
+                <input id="btnEnviarRev" type="submit" class="btn-primary" asp-page-handler="enviarRevision" value="Enviar a revisión" style="width: 150px" />
+            </div>
+        </div>
+    </div>
 </form>
 <script src="~/lib/tinymce/tinymce.min.js"></script>
 <script>

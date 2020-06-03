@@ -24,7 +24,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <a href='javascript:history.go(-1)' class="btn btn-lg btn-info text-center">Volver a búsqueda</a>
+            <a href='/Buscar' class="btn btn-lg btn-info text-center">Volver a búsqueda</a>
         </div>
         <div class="col-md-6"><h2 class="text-center">@Model.articulo.titulo</h2></div>
         <div class="col-md-3"></div>
@@ -45,25 +45,30 @@
 @if ( Model.tipo == "Corto" )
 {
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8"></div>
-            <div class="col-md-4">
-                <h3 class="text-center text-primary" style="display:none; position: relative; left: 135px;" id="txtCal">Calificar:</h3>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8"></div>
+        <div class="col-md-4">
+            <h3 class="text-center text-primary" style="display:none; position: relative; left: 135px;" id="txtCal">Calificar:</h3>
         </div>
-        <div class="row">
-            <div class="col-lg-3">
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            @if (TempData["visto"] == null)
+            {
                 <form method="post">
                     <button type="submit" class="btn btn-info btn-lg" id="mostrarCorto" asp-page-handler="sumar">Ver artículo corto completo</button>
                 </form>
-            </div>
-            <div class="col-lg-1"></div>
-            <div class="col-lg-2 text-primary" style="font-size: 150%;">Visitas: @Model.articulo.visitas</div>
-            <div class="col-lg-3 text-primary" style="font-size: 150%;">Calificación total: @Model.articulo.calificacionTotalMiem</div>
+            }
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 text-primary" style="font-size: 150%;">Visitas: @Model.articulo.visitas</div>
+        <div class="col-lg-3 text-primary" style="font-size: 150%;">Calificación total: @Model.articulo.calificacionTotalMiem</div>
 
-            <div style="display:none;" id="calificacion">
-                @if ( Model.calificacion == 10 )
+        @if (TempData["visto"] != null)
+        {
+            <div id="calificacion">
+                @if (Model.calificacion == 10)
                 {
                     <div class="col-md-1">
                         <form method="post">
@@ -86,38 +91,42 @@
                             </button>
                         </form>
                     </div>
-                } else
+                }
+                else
                 {
                     <div class="col-md-3">
-                        @if ( Model.calificacion == 1 )
+                        @if (Model.calificacion == 1)
                         {
                             <button type="button" class="btn btn-success btn-lg" style="background-color: chartreuse;" id="like" disabled>
                                 <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
                             </button>
-                        } else
+                        }
+                        else
                         {
                             <button type="button" class="btn btn-info btn-lg" id="like" disabled>
                                 <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
                             </button>
                         }
 
-                        @if ( Model.calificacion == 0 )
+                        @if (Model.calificacion == 0)
                         {
                             <button type="button" class="btn btn-warning btn-lg" style="background-color: orange;" id="same" disabled>
                                 <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                             </button>
-                        } else
+                        }
+                        else
                         {
                             <button type="button" class="btn btn-info btn-lg" id="same" disabled>
                                 <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                             </button>
                         }
-                        @if ( Model.calificacion == -1 )
+                        @if (Model.calificacion == -1)
                         {
                             <button type="button" class="btn btn-danger btn-lg" id="dislike" style="background-color: darkred;" disabled>
                                 <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
                             </button>
-                        } else
+                        }
+                        else
                         {
                             <button type="button" class="btn btn-info btn-lg" id="dislike" disabled>
                                 <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
@@ -126,24 +135,37 @@
                     </div>
                 }
             </div>
+        }
 
+    </div>
+
+    <div class="row">
+        <div class="col-md-8"></div>
+        <div class="col-md-4">
+            <p id="textLike" style="visibility: hidden; position: relative; top: 10px" class="text-center text-primary">Me gusta<p>
+            <p id="textSame" style="visibility: hidden; position: relative; bottom: 20px" class="text-center text-primary">Nulo<p>
+            <p id="textDislike" style="visibility: hidden; position: relative; bottom: 50px" class="text-center text-primary">No me gusta<p>
         </div>
+    </div>
 
-        <div class="row">
-            <div class="col-md-8"></div>
-            <div class="col-md-4">
-                <p id="textLike" style="visibility: hidden; position: relative; top: 10px" class="text-center text-primary">Me gusta<p>
-                <p id="textSame" style="visibility: hidden; position: relative; bottom: 20px" class="text-center text-primary">Nulo<p>
-                <p id="textDislike" style="visibility: hidden; position: relative; bottom: 50px" class="text-center text-primary">No me gusta<p>
-            </div>
+    @if (TempData["visto"] != null)
+    {
+        <div class="row" id="contenidoCorto">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10" id="divContent" style="background-color: white;"> @Html.Raw(Model.contenido) </div>
+            <div class="col-lg-1"></div>
         </div>
-
+    }
+    else
+    {
         <div class="row" style="display: none;" id="contenidoCorto">
             <div class="col-lg-1"></div>
             <div class="col-lg-10" id="divContent" style="background-color: white;"> @Html.Raw(Model.contenido) </div>
             <div class="col-lg-1"></div>
         </div>
-    </div>
+    }
+
+</div>
 
 
     <script src="~/js/VerResumen.js" defer></script>
@@ -161,17 +183,3 @@
         </div>
     </div>
 }
-
-
-@*<script>
-    $('#mostrarCorto').click(function () {
-        $(this).prop('disabled', true);
-    });
-
-    function disable(link) {
-        // disable subsequent clicks
-        link.onclick = function (event) {
-            event.preventDefault();
-        }
-    }
-</script>*@
