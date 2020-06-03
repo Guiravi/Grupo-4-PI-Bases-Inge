@@ -125,7 +125,7 @@ namespace LaCafeteria.Models
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string sqlString = @"UPDATE Miembro SET 
+                string sqlString = @"UPDATE Miembro SET idiomas = @idiomas,
                                                         hobbies = @hobbies, 
                                                         habilidades = @habilidades
 									WHERE usernamePK = @usernamePK ";
