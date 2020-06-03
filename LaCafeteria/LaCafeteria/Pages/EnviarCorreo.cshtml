@@ -15,18 +15,18 @@
     <div class="form-group">
         <label for="destinoMensaje"><b>Usuario o Correo Electrónico Destino: </b></label>
         <div id="scrollable-dropdown-menu">
-            <input class="form-control twitter-typeahead" type="text" id="destinoMensaje" name="destinoMensaje" placeholder="Escriba el destinatario de su mensaje" required data-error="Campo requerido" autocomplete="off" />
+            <input asp-for="destino" class="form-control twitter-typeahead" type="text" id="destinoMensaje" name="destinoMensaje" placeholder="Escriba el destinatario de su mensaje" required data-error="Campo requerido" autocomplete="off" />
         </div>
         <div class="help-block with-errors"></div>
     </div>
     <div class="form-group">
         <label for="asuntoMensaje"><b>Asunto: </b></label>
-        <input class="form-control" type="text" id="asuntoMensaje" name="asuntoMensaje" placeholder="Escriba el asunto de su mensaje" required data-error="Campo requerido" />
+        <input asp-for="asunto" class="form-control" type="text" id="asuntoMensaje" name="asuntoMensaje" placeholder="Escriba el asunto de su mensaje" required data-error="Campo requerido" />
         <div class="help-block with-errors"></div>
     </div>
     <div class="form-group">
         <label for="mensaje"><b>Mensaje: </b></label>
-        <textarea class="form-control" placeholder="Escriba su mensaje" id="mensaje" rows="5" required data-error="Campo requerido"></textarea>
+        <textarea asp-for="mensaje" class="form-control" placeholder="Escriba su mensaje" id="mensaje" rows="5" required data-error="Campo requerido"></textarea>
         <div class="help-block with-errors"></div>
     </div>
     <div class="form-group">
@@ -85,24 +85,20 @@
         };
     };
 
-    var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-        'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-        'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-        'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-        'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-        'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-        'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-        'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-        'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-    ];
+    var users = [];
+
+    @foreach (string miembro in Model.listaMiembros)
+    {
+        @:users.push("@miembro")
+    }
 
     $('#scrollable-dropdown-menu .twitter-typeahead').typeahead({
-        hint: true,
+hint: true,
         highlight: true,
-        minLength: 1
+        minLength: 3
     },
         {
-            name: 'states',
-            source: substringMatcher(states)
+name: 'users',
+            source: substringMatcher(users)
         });
 </script>
