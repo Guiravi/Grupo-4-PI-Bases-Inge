@@ -1,0 +1,113 @@
+﻿@page
+@model LaCafeteria.Pages.CrearPerfilModel
+@{
+    ViewData["Title"] = "Crear Perfil";
+}
+
+<h2>Crear perfil</h2>
+<div class="container">
+	<form method="post" enctype="multipart/form-data">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="form-group">
+					<label for="txtUsername">Nombre de usuario</label>
+					<input id="txtUsername" type="text" class="form-control" asp-for="miembro.usernamePK" />
+					<span asp-validation-for="miembro.usernamePK"></span>
+				</div>
+
+				<div class="form-group">
+					<label for="txtEmail">Email</label>
+					<input id="txtEmail" type="text" class="form-control" asp-for="miembro.email" />
+					<span asp-validation-for="miembro.email"></span>
+				</div>
+
+				<div class="form-group">
+					<label for="txtNombre">Nombre</label>
+					<input id="txtNombre" type="text" class="form-control" asp-for="miembro.nombre" />
+					<span asp-validation-for="miembro.nombre"></span>
+				</div>
+
+				<div class="form-group">
+					<label for="txtApellido1">Primer apellido</label>
+					<input id="txtApellido1" type="text" class="form-control" asp-for="miembro.apellido1" />
+					<span asp-validation-for="miembro.apellido1"></span>
+				</div>
+
+				<div class="form-group">
+					<label for="txtApellido2">Segundo apellido</label>
+					<input id="txtApellido2" type="text" class="form-control" asp-for="miembro.apellido2" />
+					<span asp-validation-for="miembro.apellido2"></span>
+				</div>
+
+				<div class="form-group">
+					<label for="txtFechaNacimiento">Fecha de nacimiento</label>
+					<input id="txtFechaNacimiento" type="date" class="form-control" asp-for="miembro.fechaNacimiento" />
+					<span asp-validation-for="miembro.fechaNacimiento"></span>
+				</div>
+
+				<div class="form-group">
+					<label for="txtFechaNacimiento">Pais</label>
+					<input id="txtFechaNacimiento" type="text" class="form-control" asp-for="miembro.pais" />
+					<span asp-validation-for="miembro.pais"></span>
+				</div>
+
+				<div class="form-group">
+					<label for="txtFechaNacimiento">Estado</label>
+					<input id="txtFechaNacimiento" type="text" class="form-control" asp-for="miembro.estado" />
+					<span asp-validation-for="miembro.estado"></span>
+				</div>
+
+				<div class="form-group">
+					<label for="txtFechaNacimiento">Ciudad</label>
+					<input id="txtFechaNacimiento" type="text" class="form-control" asp-for="miembro.ciudad" />
+					<span asp-validation-for="miembro.ciudad"></span>
+				</div>
+
+			</div>
+		<div class="col-lg-6">
+			<div class="form-group">
+				<label for="imgPerfil">Imagen de perfil</label>
+				<input id="imgPerfil" type="file" class="form-control" asp-for="imagenDePerfil" />
+				<span asp-validation-for="imagenDePerfil"></span>
+			</div>
+
+			<div class="form-group">
+				<label for="txtHobbies">Hobbies</label>
+				<textarea id="txtHobbies" class="form-control" asp-for="miembro.hobbies"></textarea>
+				<span asp-validation-for="miembro.hobbies"></span>
+			</div>
+
+			<div class="form-group">
+				<label for="txtHobbies">Habilidades</label>
+				<textarea id="txtHabilidades" class="form-control" asp-for="miembro.habilidades"></textarea>
+				<span asp-validation-for="miembro.habilidades"></span>
+			</div>
+
+			<div class="form-group">
+				<label for="txtInfoLaboral">Información laboral</label>
+				<textarea id="txtInfoLaboral" class="form-control" asp-for="miembro.informacionLaboral"></textarea>
+				<span asp-validation-for="miembro.informacionLaboral"></span>
+			</div>
+
+			<div class="btn-group form-group col-lg-offset-4">
+				<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Idiomas que maneja <span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" style="background-color:transparent">
+					<li style="margin: 5px 5px" class="form-control"><input type="checkbox" style="margin:5px 5px" name="listaTopicosArticulo" value="Español">Español</li>
+					<li style="margin: 5px 5px" class="form-control"><input type="checkbox" style="margin:5px 5px" name="listaTopicosArticulo" value="Inglés">Inglés</li>
+					<li style="margin: 5px 5px" class="form-control"><input type="checkbox" style="margin:5px 5px" name="listaTopicosArticulo" value="Hindi">Hindi</li>
+					<li style="margin: 5px 5px" class="form-control"><input type="checkbox" style="margin:5px 5px" name="listaTopicosArticulo" value="Árabe">Árabe</li>
+					<li style="margin: 5px 5px" class="form-control"><input type="checkbox" style="margin:5px 5px" name="listaTopicosArticulo" value="Chino">Chino</li>
+					<li style="margin: 5px 5px" class="form-control"><input type="checkbox" style="margin:5px 5px" name="listaTopicosArticulo" value="Ruso">Ruso</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+		<div class="row">
+			<div class="form-group col-lg-offset-5">
+				<input id="btnSubmit" type="submit" class="form-control btn" style="width:200px" value="Crear perfil" />
+			</div>
+		</div>
+	</form>
+</div>

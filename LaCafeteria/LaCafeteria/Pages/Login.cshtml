@@ -2,32 +2,43 @@
 @using LaCafeteria.Utilidades;
 @model LaCafeteria.Pages.LoginModel
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Iniciar sesión";
 }
 
-<h2>Login</h2>
+<h2>Inicio de sesión</h2>
 @if(Notificaciones.Existe(Model,"cerrarSesion"))
 {
 	@Html.Raw(Notificaciones.Get(Model, "cerrarSesion"))
 }
-<form class="form-horizontal" method="post">
-	<div class="form-group">
-		<label for="inputEmail3" class="col-sm-2 control-label">Nombre de usuario</label>
-		<div class="col-sm-4">
-			<input asp-for="usernamePK" type="text" class="form-control" id="txtUsername" placeholder="Nombre de usuario">
-			<span asp-validation-for="usernamePK"></span>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-6">
+			<form class="form-horizontal" method="post">
+				<div class="form-group" style="padding-right:200px">
+					<label for="txtUsername" class="control-label">Nombre de usuario</label>
+					<input asp-for="usernamePK" type="text" class="form-control" id="txtUsername" placeholder="Nombre de usuario">
+					<span asp-validation-for="usernamePK"></span>
+				</div>
+				<div class="form-group" style="padding-right:200px">
+					<label for="txtContrasena" class="control-label">Contraseña</label>
+					<input type="password" class="form-control" id="txtContrasena" name="txtContrasena" placeholder="Contraseña" disabled>
+				</div>
+				<div class="form-group" >
+					<button type="submit" class="btn btn-default">Iniciar sesión</button>
+				</div>
+			</form>
+		</div>
+		<div class="col-lg-6">
+			<div class="jumbotron" style="background-color:lightgray">
+				<h1 class="display-4">La Cafeteria</h1>
+				<p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+				<hr class="my-4">
+				<p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+				<p class="lead">
+					<a class="btn btn-primary btn-lg" style="width:200px"href="/CrearPerfil" role="button">Crear perfil</a>
+				</p>
+			</div>
 		</div>
 	</div>
-	<div class="form-group">
-		<label for="txtContrasena" class="col-sm-2 control-label">Contraseña</label>
-		<div class="col-sm-4">
-			<input type="password" class="form-control" id="txtContrasena" name="txtContrasena" placeholder="Contraseña" disabled>
-		</div>
-	</div>
-	<div class="form-group">
-		<div class="col-sm-offset-2 col-sm-4">
-			<button type="submit" class="btn btn-default">Iniciar sesión</button>
-		</div>
-	</div>
-</form>
+</div>
 

@@ -37,6 +37,7 @@ namespace LaCafeteria.Pages
 			if(ModelState.IsValid)
 			{
 				Response.Cookies.Append("usernamePK", usernamePK);
+				Notificaciones.Set(this, "sesionIniciada", "Sesión iniciada", Notificaciones.TipoNotificacion.Exito);
 				return Redirect("/Index");
 			}
 
