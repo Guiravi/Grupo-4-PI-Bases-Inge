@@ -11,7 +11,7 @@
     "IIS Express": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "ArticulosPorRevisar",
+      "launchUrl": "ArticulosRevisados",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

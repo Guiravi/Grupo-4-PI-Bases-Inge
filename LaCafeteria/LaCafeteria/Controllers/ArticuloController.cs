@@ -124,6 +124,22 @@ namespace LaCafeteria.Controllers
             List<ArticuloModel> artList = articuloDBHandler.GetArticulosPorEstado(estadoArticulo);
             return artList;
         }
+
+        public List<ArticuloModel> GetArticulosRevisionFinalizada() {
+            return articuloDBHandler.GetArticulosRevisionFinalizada();
+        }
+
+        public string GetRevisoresDeArticulo(int id) {
+            string revisores = "";
+            List<string> listaRevisores = articuloDBHandler.GetRevisoresDeArticulo(id);
+
+            for ( int i = 0; i < listaRevisores.Count() - 1; i++ )
+            {
+                revisores = revisores + listaRevisores[i] + ", "; 
+            }
+            revisores = revisores + listaRevisores[listaRevisores.Count() - 1];
+            return revisores;
+        }
     }
 
 	class ItemEqualityComparer : IEqualityComparer<ArticuloModel>
