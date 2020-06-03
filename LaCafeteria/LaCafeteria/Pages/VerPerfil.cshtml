@@ -13,14 +13,10 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <div class="container">
-
 	<ul class="nav nav-tabs">
 		<li class="active"><a data-toggle="tab" href="#informacionPersonal">Información personal</a></li>
-		<li><a data-toggle="tab" href="#articulosResultado">Mi articulos</a></li>
-		<li><a data-toggle="tab" href="#funcionesCoordinador">Funciones coordinador</a></li>
-
+		<li><a data-toggle="tab" href="#articulosResultado">Articulos</a></li>
 	</ul>
-
 	<div class="tab-content">
 		<div id="informacionPersonal" class="tab-pane fade in active">
 			<div class="container">
@@ -97,10 +93,30 @@
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">País, estado y ciudad</h3>
+						<h3 class="panel-title">País</h3>
 					</div>
 					<div class="panel-body">
-						@Model.miembro.pais , @Model.miembro.estado , @Model.miembro.ciudad
+						@Model.miembro.pais
+					</div>
+				</div>
+
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Estado</h3>
+					</div>
+					<div class="panel-body">
+						@Model.miembro.estado
+					</div>
+				</div>
+
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Ciudad</h3>
+					</div>
+					<div class="panel-body">
+						@Model.miembro.ciudad
 					</div>
 				</div>
 
@@ -158,7 +174,7 @@
 									<div class="container">
 										<div class="row">
 											<div class="col-md-7">
-												<h2 class="panel-title" style="font-size: 125%;"> @Model.articulosResultado[articuloActual].titulo</h2>
+												<h2 class="panel-title" style="font-size: 125%;"><a href="/VerResumen/@Model.articulosResultado[articuloActual].idArticuloPK/@Model.articulosResultado[articuloActual].tipo">@Model.articulosResultado[articuloActual].titulo</a></h2>
 											</div>
 											<div class="col-md-3">
 												<h3 class="panel-title" style="text-align: right;">
@@ -174,14 +190,6 @@
 										<li><strong>Tipo: </strong>@Model.articulosResultado[articuloActual].tipo</li>
 										<li><strong>Autor(es): </strong>@Model.articuloController.GetAutoresDeArticulo(Model.articulosResultado[articuloActual].idArticuloPK)</li>
 										<li><strong>Tópico(s): </strong>@Model.topicoController.GetTopicosArticulo(Model.articulosResultado[articuloActual].idArticuloPK)</li>
-										@if (Model.articulosResultado[articuloActual].tipo == "Corto")
-										{
-											<li style="margin-top: 20px"><a href="/EscribirArticulo/@Model.articulosResultado[articuloActual].idArticuloPK" class="btn">Editar</a></li>
-										}
-										else if (Model.articulosResultado[articuloActual].tipo == "Largo")
-										{
-											<li style="margin-top: 20px"><a href="/SubirArticulo/@Model.articulosResultado[articuloActual].idArticuloPK" class="btn">Editar</a></li>
-										}
 									</ul>
 								</div>
 							</div>
