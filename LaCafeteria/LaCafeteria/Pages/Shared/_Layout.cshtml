@@ -37,13 +37,29 @@
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="navbar-collapse-2">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a asp-page="/Index">Página principal</a></li>
-                    <li><a asp-page="/Buscar">Buscar artículos</a></li>
-                    <li><a asp-page="/MiPerfil">Mi perfil</a></li>
-                </ul>
-			</div><!-- /.navbar-collapse -->
-		</div><!-- /.container -->
+				<ul class="nav navbar-nav navbar-right">
+					<li><a asp-page="/Index">Página principal</a></li>
+					<li><a asp-page="/Buscar">Buscar artículos</a></li>
+					@if (Context.Request.Cookies["usernamePK"] != null)
+					{
+
+						<li class="dropdown" role="presentation">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Context.Request.Cookies["usernamePK"]<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a style="color:darkslategrey;" asp-page="/MiPerfil">Mi perfil</a></li>
+								<li><a style="color:darkslategrey;" asp-page="/MisArticulos">Mis Articulos</a></li>
+								<li><a style="color:darkslategrey;" href="/Login/cerrarSesion">Cerrar sesión</a></li>
+							</ul>
+						</li>
+					}
+					else
+					{
+						<li><a asp-page="/Login">Iniciar sesión</a></li>
+					}
+					<!-- <li><a asp-page="/MiPerfil"></a></li> -->
+				</ul>
+	</div><!-- /.navbar-collapse -->
+</div><!-- /.container -->
 	</nav><!-- /.navbar -->
 
 	<partial name="_CookieConsentPartial" />
