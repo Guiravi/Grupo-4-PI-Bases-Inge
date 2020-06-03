@@ -49,7 +49,11 @@ namespace LaCafeteria.Pages
             topicos = topicoController.GetTopicosArticulo(idArticuloPK);
             contenido = articulo.contenido;
 
-            calificacion = miembroController.GetCalificacionMiembro(Request.Cookies["usernamePK"], idArticuloPK);
+            if (Request.Cookies["usernamePK"] != null)
+            {
+                calificacion = miembroController.GetCalificacionMiembro(Request.Cookies["usernamePK"], idArticuloPK);
+            }
+           
             TempData["idArticuloPK"] = idArticuloPK;
         }
 
@@ -106,6 +110,7 @@ namespace LaCafeteria.Pages
                 articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
                 autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
                 topicos = topicoController.GetTopicosArticulo(idArticuloPK);
+                calificacion = miembroController.GetCalificacionMiembro(Request.Cookies["usernamePK"], idArticuloPK);
                 contenido = articulo.contenido;
                 TempData["visto"] = 1;
             }
