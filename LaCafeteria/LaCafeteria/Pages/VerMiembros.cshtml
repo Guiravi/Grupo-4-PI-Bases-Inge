@@ -1,8 +1,40 @@
 ﻿@page
 @model LaCafeteria.Pages.VerMiembrosModel
 @{
-    ViewData["Title"] = "VerMiembros";
+	ViewData["Title"] = "VerMiembros";
 }
 
 <h2>Lista de miembros</h2>
+<input class="form-control" id="inputBusqueda" type="text" placeholder="Buscar miembro..">
+<table class="table-hover table-striped table ">
+	<thead>
+		<tr>
+			<th class="text-center">Nombre</th>
+			<th class="text-center">Nombre de usuario</th>
+			<th class="text-center">Ver perfil</th>
+		</tr>
+	</thead>
+	<tbody id="tablaMiembros" class="text-center">
+		@foreach (var miembro in Model.miembros)
+		{	
+		<tr>
+			<td>@miembro.GetNombreCompleto()</td>
+			<td>@miembro.usernamePK</td>
+			<td class="text-center"><a href="/VerPerfil"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></td>
+		</tr>
+		}
+	</tbody>
+</table>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script>
+	$(document).ready(function () {
+		$("#inputBusqueda").on("keyup", function () {
+			var value = $(this).val().toLowerCase();
+			$("#tablaMiembros tr").filter(function () {
+				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			});
+		});
+	});
+</script>
