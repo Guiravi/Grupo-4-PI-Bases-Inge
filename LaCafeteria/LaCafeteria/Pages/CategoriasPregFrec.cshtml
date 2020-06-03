@@ -13,21 +13,24 @@
 
 <h2 class="text-center">Preguntas frecuentes: Categorías</h2>
 
-
+<div class="row">
+    <div class="col-md-1">
+        <a href='javascript:history.go(-1)' class="btn btn-info text-center">Volver</a>
+    </div>
+</div>
 
 <table class="table">
-
     <tbody>
         @for (int categoriaActual = 0; categoriaActual < Model.categorias.Count; ++categoriaActual)
         {
             <tr>
                 <td>
-                    
-                   
+
+
                     <div class="panel-heading"><h6 class="panel-title" style="font-size: 125%"><a href="/PreguntasFrecuentes?categoria=@Model.categorias[categoriaActual]">@Model.categorias[categoriaActual]</a></h6></div>
 
                 </td>
-                
+
             </tr>
         }
     </tbody>
