@@ -29,5 +29,20 @@ namespace LaCafeteria.Controllers
         {
             miembroDBHandler.CalificarArticulo(username, idArticulo, valorCalif);
         }
-	}	
+
+        public List<string[]> GetAutoresArticuloLista(int idArticulo)
+        {
+            List<MiembroModel> listaModelo = miembroDBHandler.GetAutoresArticulo(idArticulo);
+            List<string[]> listaAutores = new List<string[]>();
+
+            foreach (MiembroModel miembro in listaModelo)
+            {
+                string[] tupla = { miembro.usernamePK, miembro.GetNombreCompleto() };
+                listaAutores.Add(tupla);
+            }
+
+            return listaAutores;
+        }
+
+    }	
 }

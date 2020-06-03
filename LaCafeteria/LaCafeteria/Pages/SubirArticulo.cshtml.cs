@@ -31,6 +31,8 @@ namespace LaCafeteria.Pages
 		[BindProperty]
 		public List<string> listaMiembrosAutores { set; get; }
 
+        public List<string[]> autoresViejos { get; set; }
+
 		public TopicoController topicoController;
 		public MiembroController miembroController;
 		public ArticuloController articuloController;
@@ -41,6 +43,8 @@ namespace LaCafeteria.Pages
         public string rutaCarpeta = "";
         public string nombreArchivo = "";
 
+        public string inyeccion = "";
+
         public SubirArticuloModel(IHostingEnvironment env)
 		{
 			topicoController = new TopicoController();
@@ -48,6 +52,8 @@ namespace LaCafeteria.Pages
 			articuloController = new ArticuloController();
 			listaTopicos = topicoController.GetListaTopicos();
 			listaMiembros = miembroController.GetListaMiembros();
+            listaMiembrosAutores = new List<string>();
+            autoresViejos = new List<string[]>();
 
             rutaCarpeta = env.WebRootPath;
         }
@@ -62,11 +68,36 @@ namespace LaCafeteria.Pages
 
                 listaTopicosArticulo = topicoController.GetTopicosArticuloLista(idArticuloPK);
 
+                autoresViejos = miembroController.GetAutoresArticuloLista(idArticuloPK);
+                foreach (string[] item in autoresViejos)
+                {
+                    listaMiembrosAutores.Add(item[0]);
+                }               
+
                 articuloController.CargarArticuloDOCX(idArticuloPK, rutaCarpeta);
 
                 nombreArchivo = idArticuloPK + ".docx";
 
                 TempData["idArticulo"] = idArticuloPK;
+
+                for (int i = 0; i < autoresViejos.Count; i++)
+                {
+                    inyeccion += "var select = document.getElementById('slctAutor');" + "\n" +
+                        "var option = select[select.selectedIndex];" + "\n"+
+                        "if (!miembrosAutores.includes('"+ autoresViejos[i][0] + "')) {" + "\n" +
+                        "const div = document.createElement('div');" +
+                        "const button = document.createElement('input');" + "\n" +
+                        "button.type = \"button\";" + "\n" +
+                        "button.value = \"x\";" + "\n" +
+                        "button.toDelete = '" + autoresViejos[i][0] + "';" + "\n" +
+                        "button.onclick = borrar;" + "\n" +
+                        "miembrosAutores.push('" + autoresViejos[i][0] +"')" + "\n" +
+                        "div.innerHTML = '<label>' + \'" + autoresViejos[i][1] +"\' + '</label><input type=\"hidden\" name=\"listaMiembrosAutores\" value=\"' + \'"+ autoresViejos[i][0] + "\' + '\"/>;'" + "\n" +
+                        "document.getElementById('autores').appendChild(div);" + "\n" +
+                        "div.appendChild(button);" + "\n" +
+                        "}\n";
+                }
+
             }
         }
 
