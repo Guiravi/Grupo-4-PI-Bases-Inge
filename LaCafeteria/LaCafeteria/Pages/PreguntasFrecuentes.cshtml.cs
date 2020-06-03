@@ -25,11 +25,8 @@ namespace LaCafeteria.Pages
         public void OnGet()
         {
             FAQsController fAQsController = new FAQsController();
-            //categoria = Request.Query["categoria"];
             questions = fAQsController.GetQuestions(this.categoria);
-            //questions.Add("hola");
             answers = fAQsController.GetAnswers(this.categoria);
-            //answers.Add("hola");
             return;
         }
 

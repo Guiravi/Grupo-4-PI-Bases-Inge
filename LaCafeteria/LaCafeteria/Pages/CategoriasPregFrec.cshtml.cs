@@ -19,7 +19,6 @@ namespace LaCafeteria.Pages
         public void OnGet()
         {
            
-            //return Page();
         }
 
 
