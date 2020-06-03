@@ -16,16 +16,16 @@
 
 	<ul class="nav nav-tabs">
 		<li class="active"><a data-toggle="tab" href="#informacionPersonal">Información personal</a></li>
-		<li><a data-toggle="tab" href="#misArticulos">Mi articulos</a></li>
-		<li><a data-toggle="tab" href="#funcionesCoordinador">Funciones coordinador</a></li>
+		<li><a data-toggle="tab" href="#misArticulos">Mis articulos</a></li>
+		<li><a data-toggle="tab" href="#funcionesCoordinador">Funciones de coordinador</a></li>
 
 	</ul>
 
 	<div class="tab-content">
 		<div id="informacionPersonal" class="tab-pane fade in active">
 			<div class="container">
-				<br/>
-				<br/>
+				<br />
+				<br />
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="panel panel-warning">
@@ -33,7 +33,7 @@
 								<h3 class="panel-title">@Model.miembro.usernamePK</h3>
 							</div>
 							<div class="panel-body text-center">
-								<img class="img-rounded" style="width: 150px; height:150px" src="@Model.miembro.rutaImagenPerfil"/>
+								<img class="img-rounded" style="width: 150px; height:150px" src="@Model.miembro.rutaImagenPerfil" />
 							</div>
 						</div>
 					</div>
@@ -97,10 +97,30 @@
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">País, estado y ciudad</h3>
+						<h3 class="panel-title">País</h3>
 					</div>
 					<div class="panel-body">
-						@Model.miembro.pais , @Model.miembro.estado , @Model.miembro.ciudad
+						@Model.miembro.pais
+					</div>
+				</div>
+
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Estado</h3>
+					</div>
+					<div class="panel-body">
+						@Model.miembro.estado
+					</div>
+				</div>
+
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Ciudad</h3>
+					</div>
+					<div class="panel-body">
+						@Model.miembro.ciudad
 					</div>
 				</div>
 
@@ -158,7 +178,7 @@
 									<div class="container">
 										<div class="row">
 											<div class="col-md-7">
-												<h2 class="panel-title" style="font-size: 125%;">@Model.misArticulos[articuloActual].titulo</h2>
+												<h2 class="panel-title" style="font-size: 125%;"><a href="/VerResumen/@Model.misArticulos[articuloActual].idArticuloPK/@Model.misArticulos[articuloActual].tipo">@Model.misArticulos[articuloActual].titulo</a> </h2>
 											</div>
 											<div class="col-md-3">
 												<h3 class="panel-title" style="text-align: right;">
