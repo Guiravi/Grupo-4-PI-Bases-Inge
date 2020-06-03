@@ -49,6 +49,8 @@ namespace LaCafeteria.Pages
 				}
 
 				miembro.rutaImagenPerfil = "images/ImagenesPerfil/" + miembro.usernamePK + "." + imagenDePerfil.ContentType.Split('/')[1];
+
+				miembro.idiomas = ObtenerIdiomasCSV();
 				miembroController.CrearMiembro(miembro);
 				Response.Cookies.Append("usernamePK", miembro.usernamePK);
 				Notificaciones.Set(this, "sesionIniciada", "Sesión iniciada", Notificaciones.TipoNotificacion.Exito);
@@ -57,6 +59,23 @@ namespace LaCafeteria.Pages
 
 			return Page();
         }
+
+		public string ObtenerIdiomasCSV()
+		{
+			string idiomas = null;
+
+			if (listaIdiomas.Count > 0)
+			{
+				idiomas = "";
+				foreach (string idioma in listaIdiomas)
+				{
+					idiomas += idioma +",";
+				}
+				idiomas = idiomas.TrimEnd(',');
+			}
+
+			return idiomas;
+		}
 
 		public bool EsValido()
 		{

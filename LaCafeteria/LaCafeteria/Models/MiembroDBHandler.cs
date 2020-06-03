@@ -112,14 +112,7 @@ namespace LaCafeteria.Models
 					{
 						sqlCommand.Parameters.AddWithValue("@informacionLaboral", DBNull.Value);
 					}
-                    if (miembro.idiomas != null)
-                    {
-                        sqlCommand.Parameters.AddWithValue("@idiomas", miembro.idiomas);
-                    }
-                    else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@idiomas", DBNull.Value);
-                    }
+
                     sqlCommand.ExecuteNonQuery();
 				}
 			}
