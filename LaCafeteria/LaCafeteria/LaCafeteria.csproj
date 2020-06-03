@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\ImagenesPerfil\" />
+    <Folder Include="wwwroot\images\ImagenesPerfil\" />
   </ItemGroup>
 
   <ItemGroup>
