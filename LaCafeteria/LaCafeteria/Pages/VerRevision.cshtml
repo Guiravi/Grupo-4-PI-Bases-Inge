@@ -1,0 +1,109 @@
+﻿@page  "{idArticuloPK}/{tipoArticulo}"
+@model LaCafeteria.Pages.VerRevisionModel
+@{
+    ViewData["Title"] = "VerRevision";
+}
+
+<style>
+    .btn {
+        display: inline-block;
+        margin-bottom: 0;
+        font-weight: normal;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        background-image: none;
+        border: 1px solid transparent;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        border-radius: 4px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .btn-success {
+        color: #fff;
+        background-color: #5cb85c;
+        border-color: #4cae4c;
+    }
+
+    .btn-warning {
+        color: #fff;
+        background-color: #f0ad4e;
+        border-color: #eea236;
+    }
+
+    .btn-danger {
+        color: #fff;
+        background-color: #d9534f;
+        border-color: #d43f3a;
+    }
+</style>
+
+<h2 class="text-center">Revisión: @Model.articulo.titulo</h2>
+
+<div class="container">
+    @if ( Model.tipoArticulo == "Corto" )
+    {
+        <div class="row" id="contenidoCorto">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10" id="divContent" style="background-color: white;"> @Html.Raw(Model.articulo.contenido) </div>
+            <div class="col-lg-1"></div>
+        </div>
+    } else
+    {
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10"><embed src="~/ArticulosPDF/@Model.articuloPDF" type="application/pdf" style="width:100%; height: 800px" /></div>
+            <div class="col-md-1"></div>
+        </div>
+    }
+</div>
+
+<div class="container">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Revisor</th>
+                <th>Calificación</th>
+                <th>Comentarios</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for ( int i = 0; i < Model.revisiones.Count; ++i )
+            {
+                <tr>
+                    <td>
+                        @Model.revisiones[i].Item2
+                    </td>
+                    <td>
+                        @Model.revisiones[i].Item3
+                    </td>
+                    <td>
+                        @Model.revisiones[i].Item4
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="container text-center">
+    <form method="post" style="display:inline-block">
+        <button type="submit" class="btn btn-danger" id="rechazarArticulo">Rechazar</button>
+    </form>
+
+    <form method="post" style="display:inline-block">
+        <button type="submit" class="btn btn-warning" id="aceptarArticuloModif">Aceptar con Modificaciones</button>
+    </form>
+
+    <form method="post" style="display:inline-block">
+        <button type="submit" class="btn btn-success" id="aceptarArticulo">Aceptar Artículo</button>
+    </form>
+</div>
