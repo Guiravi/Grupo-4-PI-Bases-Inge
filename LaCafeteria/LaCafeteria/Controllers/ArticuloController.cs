@@ -120,6 +120,10 @@ namespace LaCafeteria.Controllers
             articuloDBHandler.AgregarVisita(id);
         }
 
+        public List<ArticuloModel> GetArticulosPorEstado(string estadoArticulo) {
+            List<ArticuloModel> artList = articuloDBHandler.GetArticulosPorEstado(estadoArticulo);
+            return artList;
+        }
     }
 
 	class ItemEqualityComparer : IEqualityComparer<ArticuloModel>
