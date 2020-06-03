@@ -97,7 +97,6 @@ namespace LaCafeteria.Pages
                         "div.appendChild(button);" + "\n" +
                         "}\n";
                 }
-
             }
         }
 
