@@ -82,7 +82,7 @@ namespace LaCafeteria.Pages
                         "button.value = \"x\";" + "\n" +
                         "button.toDelete = '" + autoresViejos[i][0] + "';" + "\n" +
                         "button.onclick = borrar;" + "\n" +
-                        "miembrosAutores.push('" + autoresViejos[i][0] + "')" + "\n" +
+                        "miembrosAutores.push('" + autoresViejos[i][0] +"')" + "\n" +
                         "div.innerHTML = '<label>' + \'" + autoresViejos[i][1] +"\' + '</label><input type=\"hidden\" name=\"listaMiembrosAutores\" value=\"' + \'"+ autoresViejos[i][0] + "\' + '\"/>';" + "\n" +
                         "document.getElementById('autores').appendChild(div);" + "\n" +
                         "div.appendChild(button);" + "\n" +
