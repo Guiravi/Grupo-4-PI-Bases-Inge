@@ -30,7 +30,7 @@ namespace LaCafeteria.Pages
 
         public void OnGet()
         {
-            misArticulos = articuloController.GetMisArticulos("BadBunny"); //Cambiar por username de sesión
+            misArticulos = articuloController.GetMisArticulos("nleate8"); //Cambiar por username de sesión
             cantResultados = misArticulos.Count;
         }
     }

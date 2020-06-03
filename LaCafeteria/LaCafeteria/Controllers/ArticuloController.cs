@@ -24,9 +24,10 @@ namespace LaCafeteria.Controllers
 			articuloDBHandler.GuardarArticulo(articulo, usernamePKMiembrosAutores, nombreTopicoPKTopicos);
 		}
 
-        public void EditarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<string> nombreTopicoPKTopicos)
-        {
+        public void EditarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<string> nombreTopicoPKTopicos, string rutaCarpeta)
+        {           
             articuloDBHandler.EditarArticulo(articulo, usernamePKMiembrosAutores, nombreTopicoPKTopicos);
+            articuloFSHandler.BorrarViejoArchivo(articulo.idArticuloPK, rutaCarpeta);
         }
 
         public List<ArticuloModel> BuscarArticulo(SolicitudBusquedaModel solicitud)

@@ -119,7 +119,7 @@ namespace LaCafeteria.Pages
                 articulo.tipo = TipoArticulo.Largo;
                 articulo.estado = EstadoArticulo.EnProgreso;
                 articulo.idArticuloPK = (int)TempData["idArticulo"];
-                articuloController.EditarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
+                articuloController.EditarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo, rutaCarpeta);
                 Notificaciones.Set(this, "articuloGuardado", "Su articulo se guardó", Notificaciones.TipoNotificacion.Exito);
             }
         }
