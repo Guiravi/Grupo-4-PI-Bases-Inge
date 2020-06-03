@@ -11,7 +11,6 @@
     @Html.Raw(Notificaciones.Get(Model, "articuloGuardado"));
 }
 <form method="post">
-    enctype="multipart/form-data">
     <div class="form-group">
         <label for="txtTitulo">Título del artículo</label>
         <input id="txtTitulo" type="text" class="form-control" asp-for="articulo.titulo" />
