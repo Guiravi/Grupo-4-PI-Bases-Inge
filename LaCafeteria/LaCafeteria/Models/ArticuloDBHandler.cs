@@ -266,6 +266,17 @@ namespace LaCafeteria.Models
                             " AND A.estado = 'Publicado' " +
                         " ORDER BY fechaPublicacion DESC;", connection);
                         break;
+                    case 3:
+                        cmd = new SqlCommand("SELECT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        " FROM  Articulo A JOIN MiembroAutorDeArticulo MAA " +
+                            " ON A.idArticuloPK = MAA.idArticuloFK " +
+                        " JOIN Miembro M " +
+                            " ON MAA.usernameMiemFK = M.usernamePK " +
+                        " WHERE M.nombre + M.apellido1 + M.apellido2 LIKE @autor " +
+                            " AND tipo = 'Link' " +
+                            " AND A.estado = 'Publicado' " +
+                        " ORDER BY fechaPublicacion DESC;", connection);
+                        break;
                     default:
                         cmd = new SqlCommand("SELECT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
                         " FROM  Articulo A JOIN MiembroAutorDeArticulo MAA " +
@@ -337,6 +348,14 @@ namespace LaCafeteria.Models
                             " AND A.estado = 'Publicado' " +
                         " ORDER BY fechaPublicacion DESC;", connection);
                         break;
+                    case 3:
+                        cmd = new SqlCommand("SELECT  * " +
+                        " FROM  Articulo " +
+                        " WHERE titulo LIKE @titulo " +
+                            " AND tipo = 'Link' " +
+                            " AND A.estado = 'Publicado' " +
+                        " ORDER BY fechaPublicacion DESC;", connection);
+                        break;
                     default:
                         cmd = new SqlCommand("SELECT  * " +
                         " FROM  Articulo " +
@@ -405,6 +424,16 @@ namespace LaCafeteria.Models
                         " JOIN Topico T " +
                             " ON ATT.nombreTopicoFK = @topico " +
                         " WHERE A.tipo = 'Largo' " +
+                            " AND A.estado = 'Publicado' " +
+                        " ORDER BY A.fechaPublicacion DESC;", connection);
+                        break;
+                    case 3:
+                        cmd = new SqlCommand("SELECT  DISTINCT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        " FROM  Articulo A JOIN ArticuloTrataTopico ATT " +
+                            " ON A.idArticuloPK = ATT.idArticuloFK " +
+                        " JOIN Topico T " +
+                            " ON ATT.nombreTopicoFK = @topico " +
+                        " WHERE A.tipo = 'Link' " +
                             " AND A.estado = 'Publicado' " +
                         " ORDER BY A.fechaPublicacion DESC;", connection);
                         break;

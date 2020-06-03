@@ -7,15 +7,15 @@
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-@if ( Notificaciones.Existe(Model, "meGusta") )
+@if (Notificaciones.Existe(Model, "meGusta"))
 {
     @Html.Raw(Notificaciones.Get(Model, "meGusta"));
 }
-@if ( Notificaciones.Existe(Model, "nulo") )
+@if (Notificaciones.Existe(Model, "nulo"))
 {
     @Html.Raw(Notificaciones.Get(Model, "nulo"));
 }
-@if ( Notificaciones.Existe(Model, "noMeGusta") )
+@if (Notificaciones.Existe(Model, "noMeGusta"))
 {
     @Html.Raw(Notificaciones.Get(Model, "noMeGusta"));
 }
@@ -23,9 +23,24 @@
 <br />
 <div class="container">
     <div class="row">
-		<div class="col-md-3">
-			<a href='javascript:history.go(-1)' class="btn btn-link btn-lg btn-info text-center">Volver</a>
-		</div>
+        <div class="col-md-3">
+            @if (TempData["visto"] != null)
+            {
+                if ((int)TempData["visto"] == 1)
+                {
+                    <a href='javascript:history.go(-2)' class="btn btn-link btn-lg btn-info text-center">Volver</a>
+                }
+                else
+                {
+                    <a href='javascript:history.go(-3)' class="btn btn-link btn-lg btn-info text-center">Volver</a>
+                }
+
+            }
+            else
+            {
+                <a href='javascript:history.go(-1)' class="btn btn-link btn-lg btn-info text-center">Volver</a>
+            }
+        </div>
         <div class="col-md-6"><h2 class="text-center">@Model.articulo.titulo</h2></div>
         <div class="col-md-3"></div>
     </div>
@@ -42,7 +57,7 @@
 
 <br />
 
-@if ( Model.tipo == "Corto" )
+@if ( Model.tipo == "Corto" || Model.tipo == "Link")
 {
 
 <div class="container">
@@ -56,9 +71,18 @@
         <div class="col-lg-3">
             @if (TempData["visto"] == null)
             {
-                <form method="post">
-                    <button type="submit" class="btn btn-info btn-lg" id="mostrarCorto" asp-page-handler="sumar">Ver artículo corto completo</button>
-                </form>
+                if (Model.tipo == "Corto")
+                {
+                    <form method="post">
+                        <button type="submit" class="btn btn-info btn-lg" id="mostrarCorto" asp-page-handler="sumar">Ver artículo corto completo</button>
+                    </form>
+                }
+                else
+                {
+                    <form method="post">
+                        <button type="submit" class="btn btn-info btn-lg" id="mostrarCorto" asp-page-handler="sumar">Ver link del artículo</button>
+                    </form>
+                }
             }
         </div>
         <div class="col-lg-1"></div>
@@ -150,19 +174,43 @@
 
     @if (TempData["visto"] != null)
     {
-        <div class="row" id="contenidoCorto">
-            <div class="col-lg-1"></div>
-            <div class="col-lg-10" id="divContent" style="background-color: white;"> @Html.Raw(Model.contenido) </div>
-            <div class="col-lg-1"></div>
-        </div>
+        if (Model.articulo.tipo == "Corto")
+        {
+            <div class="row" id="contenidoCorto">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10" id="divContent" style="background-color: white;"> @Html.Raw(Model.contenido) </div>
+                <div class="col-lg-1"></div>
+            </div>
+        }
+        else
+        {
+            <div class="row" id="contenidoCorto">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10" id="divContent" style="background-color: white;"> <a href="@Model.contenido" target="_blank" class="text-center" style="font-size: 150%">@Model.contenido</a> </div>
+                <div class="col-lg-1"></div>
+            </div>
+        }
+
     }
     else
     {
-        <div class="row" style="display: none;" id="contenidoCorto">
-            <div class="col-lg-1"></div>
-            <div class="col-lg-10" id="divContent" style="background-color: white;"> @Html.Raw(Model.contenido) </div>
-            <div class="col-lg-1"></div>
-        </div>
+        if (Model.articulo.tipo == "Corto")
+        {
+            <div class="row" style="display: none;" id="contenidoCorto">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10" id="divContent" style="background-color: white;"> @Html.Raw(Model.contenido) </div>
+                <div class="col-lg-1"></div>
+            </div>
+        }
+        else
+        {
+            <div class="row" style="display: none;" id="contenidoCorto">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10 text-center" id="divContent" style="background-color: white;"> <a href="@Model.contenido" target="_blank" style="font-size: 200%">@Model.contenido</a> </div>
+                <div class="col-lg-1"></div>
+            </div>
+        }
+
     }
 
 </div>
