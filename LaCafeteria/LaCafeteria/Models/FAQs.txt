@@ -1,3 +1,11 @@
 Méritos
 ¿Cuáles son los méritos asociados a cada nivel en la comunidad?
 Dependiendo del nivel que el miembro tenga en la comunidad, tendrá distintos méritos asignados por nivel. La distribución de los méritos asignados por nivel es la siguiente: periférico (0), activo (3), núcleo (5).
+Artículo
+¿Cuáles son las diferentes formas en las que se puede postear un artículo?
+Las formas en las que se puede postear un artículo son: Escribirlo (en esta opción se despliega un procesador de texto en el cual se puede modificar el artículo), Subirlo (en esta opción el usuario selecciona un archivo y lo carga a la página) y Enlazarlo (en esta opción el usuario ingresa un link por el cual se ingresa al artículo).
+¿Qué se necesita para poder postear un artículo en la página?
+Es necesario abrir una cuenta y tener la sesión iniciada.
+Preguntas Frecuentes
+¿Qué se necesita para poder postear una pregunta y respuesta frecuente en la página?
+Se necesita tener una cuenta, tener la sesión iniciada y además ser un miembro con el rol núcleo.

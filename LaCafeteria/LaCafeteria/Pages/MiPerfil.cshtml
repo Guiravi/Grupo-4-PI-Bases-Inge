@@ -9,17 +9,14 @@
 @if (Notificaciones.Existe(Model, "articuloGuardado"))
 {
     @Html.Raw(Notificaciones.Get(Model, "articuloGuardado"));
-    Model.TempData["verArticulos"] = 1;
 }
 @if (Notificaciones.Existe(Model, "articuloEditado"))
 {
     @Html.Raw(Notificaciones.Get(Model, "articuloEditado"));
-    Model.TempData["verArticulos"] = 1;
 }
 @if (Notificaciones.Existe(Model, "articuloEnviadoRev"))
 {
     @Html.Raw(Notificaciones.Get(Model, "articuloEnviadoRev"));
-    Model.TempData["verArticulos"] = 1;
 }
 
 <head>
@@ -31,20 +28,26 @@
 <div class="container">
 
     <ul class="nav nav-tabs">
-        @if ((int)Model.TempData["verArticulos"] == 1)
+        <!--if ((int)Model.TempData["verArticulos"] == 1)
         {
-            <li><a data-toggle="tab" href="#informacionPersonal">Información personal</a></li>
-            <li class="active"><a data-toggle="tab" href="#misArticulos">Mi articulos</a></li>
-            <li><a data-toggle="tab" href="#funcionesCoordinador">Funciones coordinador</a></li>
+        <li><a data-toggle="tab" href="#informacionPersonal">Información personal</a></li>
+        <li class="active"><a data-toggle="tab" href="#misArticulos">Mi articulos</a></li>
+        <li><a data-toggle="tab" href="#funcionesCoordinador">Funciones coordinador</a></li>
         }
         else
         {
-            <li class="active"><a data-toggle="tab" href="#informacionPersonal">Información personal</a></li>
-            <li><a data-toggle="tab" href="#misArticulos">Mi articulos</a></li>
-            <li><a data-toggle="tab" href="#funcionesCoordinador">Funciones coordinador</a></li>
+        <li class="active"><a data-toggle="tab" href="#informacionPersonal">Información personal</a></li>
+        <li><a data-toggle="tab" href="#misArticulos">Mi articulos</a></li>
+        <li><a data-toggle="tab" href="#funcionesCoordinador">Funciones coordinador</a></li>
         }
+    -->
+        <li class="active"><a data-toggle="tab" href="#informacionPersonal">Información personal</a></li>
+        <li><a data-toggle="tab" href="#misArticulos">Mi articulos</a></li>
+        <li><a data-toggle="tab" href="#funcionesCoordinador">Funciones de coordinador</a></li>
+        <li><a data-toggle="tab" href="#funcionesNucleo">Funciones de núcleo</a></li>
     </ul>
 
+      
     <div class="tab-content">
         <div id="informacionPersonal" class="tab-pane fade in active">
             <div class="container">
@@ -82,43 +85,6 @@
                         </div>
                     </div>
                 </div>
-	<div class="tab-content">
-		<div id="informacionPersonal" class="tab-pane fade in active">
-			<div class="container">
-				<br />
-				<br />
-				<div class="row">
-					<div class="col-sm-4">
-						<div class="panel panel-warning">
-							<div class="panel-heading">
-								<h3 class="panel-title">@Model.miembro.usernamePK</h3>
-							</div>
-							<div class="panel-body text-center">
-								<img class="img-rounded" style="width: 150px; height:150px" src="@Model.miembro.rutaImagenPerfil" />
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-4">
-						<div class="panel panel-warning">
-							<div class="panel-heading">
-								<h3 class="panel-title">Rol</h3>
-							</div>
-							<div class="panel-body text-center">
-								@Model.miembro.nombreRolFK
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-4">
-						<div class="panel panel-warning">
-							<div class="panel-heading">
-								<h3 class="panel-title">Meritos</h3>
-							</div>
-							<div class="panel-body text-center">
-								@Model.miembro.meritos
-							</div>
-						</div>
-					</div>
-				</div>
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -156,34 +122,34 @@
                     </div>
                 </div>
 
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">País</h3>
-					</div>
-					<div class="panel-body">
-						@Model.miembro.pais
-					</div>
-				</div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">País</h3>
+                    </div>
+                    <div class="panel-body">
+                        @Model.miembro.pais
+                    </div>
+                </div>
 
 
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">Estado</h3>
-					</div>
-					<div class="panel-body">
-						@Model.miembro.estado
-					</div>
-				</div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Estado</h3>
+                    </div>
+                    <div class="panel-body">
+                        @Model.miembro.estado
+                    </div>
+                </div>
 
 
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">Ciudad</h3>
-					</div>
-					<div class="panel-body">
-						@Model.miembro.ciudad
-					</div>
-				</div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Ciudad</h3>
+                    </div>
+                    <div class="panel-body">
+                        @Model.miembro.ciudad
+                    </div>
+                </div>
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -234,40 +200,40 @@
                         @for (int articuloActual = 0; articuloActual < Model.cantResultados; articuloActual++)
                         {
 
-							<div class="panel panel-info">
-								<div class="panel-heading">
-									<div class="container">
-										<div class="row">
-											<div class="col-md-7">
-												<h2 class="panel-title" style="font-size: 125%;"><a href="/VerResumen/@Model.misArticulos[articuloActual].idArticuloPK/@Model.misArticulos[articuloActual].tipo">@Model.misArticulos[articuloActual].titulo</a> </h2>
-											</div>
-											<div class="col-md-3">
-												<h3 class="panel-title" style="text-align: right;">
-													Estado: @Model.misArticulos[articuloActual].estado
-												</h3>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="panel-body">
-									<ul style="list-style: none;">
-										<li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.misArticulos[articuloActual].fechaPublicacion)</li>
-										<li><strong>Tipo: </strong>@Model.misArticulos[articuloActual].tipo</li>
-										<li><strong>Autor(es): </strong>@Model.articuloController.GetAutoresDeArticulo(Model.misArticulos[articuloActual].idArticuloPK)</li>
-										<li><strong>Tópico(s): </strong>@Model.topicoController.GetTopicosArticulo(Model.misArticulos[articuloActual].idArticuloPK)</li>
-										@if (Model.misArticulos[articuloActual].tipo == "Corto")
-										{
-											<li style="margin-top: 20px"><a href="/EscribirArticulo/@Model.misArticulos[articuloActual].idArticuloPK" class="btn">Editar</a></li>
-										}
-										else if (Model.misArticulos[articuloActual].tipo == "Largo")
-										{
-											<li style="margin-top: 20px"><a href="/SubirArticulo/@Model.misArticulos[articuloActual].idArticuloPK" class="btn">Editar</a></li>
-										}
-									</ul>
-								</div>
-							</div>
-						}
-					</div>
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <h2 class="panel-title" style="font-size: 125%;"><a href="/VerResumen/@Model.misArticulos[articuloActual].idArticuloPK/@Model.misArticulos[articuloActual].tipo">@Model.misArticulos[articuloActual].titulo</a> </h2>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <h3 class="panel-title" style="text-align: right;">
+                                                    Estado: @Model.misArticulos[articuloActual].estado
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <ul style="list-style: none;">
+                                        <li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.misArticulos[articuloActual].fechaPublicacion)</li>
+                                        <li><strong>Tipo: </strong>@Model.misArticulos[articuloActual].tipo</li>
+                                        <li><strong>Autor(es): </strong>@Model.articuloController.GetAutoresDeArticulo(Model.misArticulos[articuloActual].idArticuloPK)</li>
+                                        <li><strong>Tópico(s): </strong>@Model.topicoController.GetTopicosArticulo(Model.misArticulos[articuloActual].idArticuloPK)</li>
+                                        @if (Model.misArticulos[articuloActual].tipo == "Corto")
+                                        {
+                                            <li style="margin-top: 20px"><a href="/EscribirArticulo/@Model.misArticulos[articuloActual].idArticuloPK" class="btn">Editar</a></li>
+                                        }
+                                        else if (Model.misArticulos[articuloActual].tipo == "Largo")
+                                        {
+                                            <li style="margin-top: 20px"><a href="/SubirArticulo/@Model.misArticulos[articuloActual].idArticuloPK" class="btn">Editar</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+                    </div>
 
                 </div>
 
@@ -285,5 +251,15 @@
                 </div>
             </div>
         </div>
+        <div id="funcionesNucleo" class="tab-pane fade">
+            <br />
+            <br />
+            <div class="container">
+                <div class="list-group row col-md-offset-4 col-sm-4 text-center">
+                    
+                    <a href="/EditarPregFrec" class="list-group-item">Editar preguntas frecuentes</a>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+    </div>

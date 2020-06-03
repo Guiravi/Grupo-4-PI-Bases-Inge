@@ -36,23 +36,32 @@ namespace LaCafeteria.Pages
             rutaCarpeta = env.WebRootPath;
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
-            articuloController.AgregarVisita(idArticuloPK);
-            articuloController.CargarArticuloPDF(idArticuloPK , rutaCarpeta);
-            articuloPDF = Convert.ToString(idArticuloPK) + ".pdf";
+            if (Request.Cookies["usernamePK"] != null)
+            {
+                articuloController.AgregarVisita(idArticuloPK);
+                articuloController.CargarArticuloPDF(idArticuloPK , rutaCarpeta);
+                articuloPDF = Convert.ToString(idArticuloPK) + ".pdf";
 
-            calificacion = miembroController.GetCalificacionMiembro("BadBunny", idArticuloPK);
-            TempData["idArticuloPK"] = idArticuloPK;
-            TempData["rutaPDF"] = articuloPDF;
-        }
+                calificacion = miembroController.GetCalificacionMiembro("BadBunny", idArticuloPK);
+                TempData["idArticuloPK"] = idArticuloPK;
+                TempData["rutaPDF"] = articuloPDF;
+            }
+            else
+            {
+                Notificaciones.Set(this, "init_session_error", "Por favor inicie sesión para poder ver el artículo", Notificaciones.TipoNotificacion.Error);
+                return Redirect("/Login");
+            }
+            return Page();
+}
 
         public IActionResult OnPostGustar()
         {
             idArticuloPK = (int)TempData["idArticuloPK"];
             articuloPDF = (string)TempData["rutaPDF"];
             calificacion = 1;
-            miembroController.CalificarArticulo("BadBunny", idArticuloPK, 1);
+            miembroController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, 1);
             Notificaciones.Set(this, "meGusta", "Su calificación \"Me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
 
             return Page();
@@ -63,7 +72,7 @@ namespace LaCafeteria.Pages
             idArticuloPK = (int)TempData["idArticuloPK"];
             articuloPDF = (string)TempData["rutaPDF"];
             calificacion = 0;
-            miembroController.CalificarArticulo("BadBunny", idArticuloPK, 0);
+            miembroController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, 0);
             Notificaciones.Set(this, "nulo", "Su calificación \"Nulo\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
 
             return Page();
@@ -74,7 +83,7 @@ namespace LaCafeteria.Pages
             idArticuloPK = (int)TempData["idArticuloPK"];
             articuloPDF = (string)TempData["rutaPDF"];
             calificacion = -1;
-            miembroController.CalificarArticulo("BadBunny", idArticuloPK, -1);
+            miembroController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, -1);
             Notificaciones.Set(this, "noMeGusta", "Su calificación \"No me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
 
             return Page();

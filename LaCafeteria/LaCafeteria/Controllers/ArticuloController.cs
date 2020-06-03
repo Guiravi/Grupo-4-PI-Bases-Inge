@@ -24,6 +24,8 @@ namespace LaCafeteria.Controllers
 			articuloDBHandler.GuardarArticulo(articulo, usernamePKMiembrosAutores, nombreTopicoPKTopicos);
 		}
 
+
+
         public void EditarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<string> nombreTopicoPKTopicos, string rutaCarpeta)
         {                 
             articuloDBHandler.EditarArticulo(articulo, usernamePKMiembrosAutores, nombreTopicoPKTopicos);
@@ -115,6 +117,10 @@ namespace LaCafeteria.Controllers
 
             return autores;
         }
+
+        public void ActualizarEstadoArticulo(int id, string estadoArticulo){
+            articuloDBHandler.ActualizarEstadoArticulo(id,estadoArticulo);
+        }                                                                           
 
         public void AgregarVisita(int id) {
             articuloDBHandler.AgregarVisita(id);

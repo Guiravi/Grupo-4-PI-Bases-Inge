@@ -1,9 +1,21 @@
 ﻿@page  "{idArticuloPK}/{tipoArticulo}"
 @model LaCafeteria.Pages.VerRevisionModel
+@using LaCafeteria.Utilidades
 @{
     ViewData["Title"] = "VerRevision";
 }
-
+@if (Notificaciones.Existe(Model, "Aceptar"))
+{
+    @Html.Raw(Notificaciones.Get(Model, "Aceptar"));
+}
+@if (Notificaciones.Existe(Model, "AceptarConModificaciones"))
+{
+    @Html.Raw(Notificaciones.Get(Model, "AceptarConModificaciones"));
+}
+@if (Notificaciones.Existe(Model, "Rechazar"))
+{
+    @Html.Raw(Notificaciones.Get(Model, "Rechazar"));
+}
 <style>
     .btn {
         display: inline-block;
@@ -49,14 +61,15 @@
 <h2 class="text-center">Revisión: @Model.articulo.titulo</h2>
 
 <div class="container">
-    @if ( Model.tipoArticulo == "Corto" )
+    @if (Model.tipoArticulo == "Corto")
     {
         <div class="row" id="contenidoCorto">
             <div class="col-lg-1"></div>
             <div class="col-lg-10" id="divContent" style="background-color: white;"> @Html.Raw(Model.articulo.contenido) </div>
             <div class="col-lg-1"></div>
         </div>
-    } else
+    }
+    else
     {
         <div class="row">
             <div class="col-md-1"></div>
@@ -76,7 +89,7 @@
             </tr>
         </thead>
         <tbody>
-            @for ( int i = 0; i < Model.revisiones.Count; ++i )
+            @for (int i = 0; i < Model.revisiones.Count; ++i)
             {
                 <tr>
                     <td>
@@ -95,15 +108,16 @@
 </div>
 
 <div class="container text-center">
-    <form method="post" style="display:inline-block">
-        <button type="submit" class="btn btn-danger" id="rechazarArticulo">Rechazar</button>
+    <form method="post" style="display:inline-block ">
+        <button type="submit" class="btn btn-danger" id="rechazarArticulo" asp-page-handler="Rechazar" disabled="disabled">Rechazar</button>
+
     </form>
 
     <form method="post" style="display:inline-block">
-        <button type="submit" class="btn btn-warning" id="aceptarArticuloModif">Aceptar con Modificaciones</button>
+        <button type="submit" class="btn btn-warning" id="aceptarArticuloModif" asp-page-handler="AceptarConModificaciones" disabled="disabled" >Aceptar con Modificaciones</button>
     </form>
 
     <form method="post" style="display:inline-block">
-        <button type="submit" class="btn btn-success" id="aceptarArticulo">Aceptar Artículo</button>
+        <button type="submit" class="btn btn-success" id="aceptarArticulo" asp-page-handler="Aceptar" >Aceptar Artículo</button>
     </form>
 </div>
