@@ -50,7 +50,9 @@ namespace LaCafeteria.Pages
         {
             miembro.idiomas = ObtenerIdiomasCSV();
             miembroController.ActualizarMiembro(Request.Cookies["usernamePK"], miembro);
+            Notificaciones.Set(this, "Actualizado", "Su perfil se ha actualizado satifactoriamente", Notificaciones.TipoNotificacion.Exito);
             return Redirect("/MiPerfil");
+
         }
 
         public string ObtenerIdiomasCSV()

@@ -18,7 +18,10 @@
 {
     @Html.Raw(Notificaciones.Get(Model, "articuloEnviadoRev"));
 }
-
+@if (Notificaciones.Existe(Model, "Actualizado"))
+{
+    @Html.Raw(Notificaciones.Get(Model, "Actualizado"))
+}
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,7 +37,7 @@
         <li><a data-toggle="tab" href="#funcionesNucleo">Funciones de núcleo</a></li>
     </ul>
 
-      
+
     <div class="tab-content">
         <div id="informacionPersonal" class="tab-pane fade in active">
             <div class="container">
@@ -42,11 +45,7 @@
                 <br />
                 <div class="row">
 
-                    <form method="post">
-                        <button class="btn" asp-page-handler="modificar" style="margin-bottom:10px; padding-bottom: 10px;">
-                            Modficar Perfil
-                        </button>
-                    </form>
+                   
                     <div class="col-sm-4">
                         <div class="panel panel-warning">
                             <div class="panel-heading">
@@ -254,10 +253,10 @@
             <br />
             <div class="container">
                 <div class="list-group row col-md-offset-4 col-sm-4 text-center">
-                    
+
                     <a href="/EditarPregFrec" class="list-group-item">Editar preguntas frecuentes</a>
                 </div>
             </div>
         </div>
     </div>
-    </div>
+</div>
