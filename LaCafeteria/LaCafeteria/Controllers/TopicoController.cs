@@ -34,9 +34,14 @@ namespace LaCafeteria.Controllers
         {
             string topicos = GetTopicosArticulo(id);
 
-            topicos = topicos.Replace(" ", "");
+            List<string> lista = topicos.Split(",").ToList();
 
-            return topicos.Split(",").ToList();
+            for (int i = 1; i < lista.Count; i++)
+            {
+                lista[i] = lista[i].Remove(0, 1);
+            }
+
+            return lista;
         }
 
         public List<TopicoModel> GetListaTopicos()
