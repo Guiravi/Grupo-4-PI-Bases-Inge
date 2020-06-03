@@ -1,0 +1,158 @@
+﻿@page  "{idArticuloPK:int?}"
+@model LaCafeteria.Pages.EnlazarArticuloModel
+@using LaCafeteria.Utilidades
+@{
+    ViewData["Title"] = "Enlazar Artículo";
+}
+
+<h2>Enlazar Artículo</h2>
+@if (Notificaciones.Existe(Model, "articuloGuardado"))
+{
+    @Html.Raw(Notificaciones.Get(Model, "articuloGuardado"));
+}
+<form method="post">
+    <div class="form-group">
+        <label for="txtTitulo">Título del artículo</label>
+        <input id="txtTitulo" type="text" class="form-control" asp-for="articulo.titulo" />
+        <span asp-validation-for="articulo.titulo"></span>
+    </div>
+    <div class="form-group">
+        <label for="slctAutor">Autor(es)</label>
+        <select id="slctAutor" class="form-control">
+            @foreach (var autor in Model.listaMiembros)
+            {
+                <option value="@autor.usernamePK">@autor.GetNombreCompleto()</option>
+            }
+        </select>
+        <input type="button" class="btn" value="Agregar autor" onclick="agregarAutor()" />
+        @if (Notificaciones.Existe(Model, "listaMiembrosAutores"))
+        {
+            @Html.Raw(Notificaciones.Get(Model, "listaMiembrosAutores"));
+        }
+        <div id="autores">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="txtResumen">Resumen del artículo</label>
+        <textarea id="txtResumen" rows="2" cols="20" class="form-control" asp-for="articulo.resumen"></textarea>
+        <span asp-validation-for="articulo.resumen"></span>
+    </div>
+    <div class="form-group">
+        <label for="txtFecha">Fecha de publicación</label>
+        <label for="txtFecha">Fecha de publicación</label>
+        @if (Model.idArticuloPK != null)
+        {
+            <input id="txtFecha" type="date" class="form-control" asp-for="articulo.fechaPublicacion" style="width: 150px;" />
+            <span asp-validation-for="articulo.fechaPublicacion"></span>
+        }
+        else
+        {
+            <input id="txtFecha" type="date" class="form-control" asp-for="articulo.fechaPublicacion" value="@Model.articulo.fechaPublicacion" />
+            <span asp-validation-for="articulo.fechaPublicacion"></span>
+        }
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="form-group col-lg-8">
+                <label for="txtContenido">Link del artículo</label>
+                <input id="txtContenido" type="text" class="form-control" asp-for="url"/>
+                <span asp-validation-for="url"></span>
+            </div>
+            <div class="form-group col-lg-4">
+                <div class="btn-group" style="position: relative; bottom: 350px;">
+                    @if (Notificaciones.Existe(Model, "listaTopicosArticulo"))
+                    {
+                        @Html.Raw(Notificaciones.Get(Model, "listaTopicosArticulo"));
+                    }
+                    <button type="button" class="btn btn-info">Seleccione tópicos</button>
+                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        @if (Model.idArticuloPK != null)
+                        {
+                            for (int topicoActual = 0; topicoActual < Model.listaTopicos.Count; ++topicoActual)
+                            {
+                                int contador = 0;
+                                bool encontrado = false;
+                                while (!encontrado && contador < Model.listaTopicosArticulo.Count)
+                                {
+                                    if (Model.listaTopicos[topicoActual].nombre.Equals( Model.listaTopicosArticulo[contador]))
+                                    {
+                                        encontrado = true;
+
+                                        <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaTopicosArticulo" value="@Model.listaTopicos[topicoActual].nombre" checked="checked"> @Model.listaTopicos[topicoActual].nombre</li>
+                                    }
+
+                                    contador++;
+                                }
+
+                                if (!encontrado)
+                                {
+                                    <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaTopicosArticulo" value="@Model.listaTopicos[topicoActual].nombre"> @Model.listaTopicos[topicoActual].nombre</li>
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            for (int topicoActual = 0; topicoActual < Model.listaTopicos.Count; ++topicoActual)
+                            {
+                                <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaTopicosArticulo" value="@Model.listaTopicos[topicoActual].nombre"> @Model.listaTopicos[topicoActual].nombre</li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+
+                @if (Model.idArticuloPK != null)
+                {
+                    <input id="btnGuardar" type="submit" class="btn-primary" asp-page-handler="editar" value="Guardar progreso" style="width: 150px" />
+                }
+                else
+                {
+                    <input id="btnEditar" type="submit" class="btn-primary" asp-page-handler="guardar" value="Guardar progreso" style="width: 150px" />
+                }
+
+            </div>
+            <div class="col-md-3">
+                <input id="btnEnviarRev" type="submit" class="btn-primary" asp-page-handler="enviarRevision" value="Enviar a revisión" style="width: 150px" />
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    var miembrosAutores = new Array();
+    function agregarAutor() {
+        let select = document.getElementById('slctAutor');
+        let option = select[select.selectedIndex];
+
+        if (!miembrosAutores.includes(option.value)) {
+            const div = document.createElement('div');
+            const button = document.createElement('input');
+            button.type = "button";
+            button.value = "x";
+            button.toDelete = option.value;
+            button.onclick = borrar;
+            miembrosAutores.push(option.value)
+            div.innerHTML = '<label>' + option.text + '</label><input type="hidden" name="listaMiembrosAutores" value=\"' + option.value + '\"/>';
+            document.getElementById('autores').appendChild(div);
+            div.appendChild(button);
+        }
+    }
+     @if (Model.idArticuloPK != null)
+    {
+        @Html.Raw(Model.inyeccion);
+    }
+    function borrar() {
+        miembrosAutores.splice(miembrosAutores.indexOf(this.toDelete), 1);
+        document.getElementById('autores').removeChild(this.parentNode);
+    }
+</script>
