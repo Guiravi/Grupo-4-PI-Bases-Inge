@@ -99,15 +99,22 @@ namespace LaCafeteria.Pages
         }
 
         public IActionResult OnPostSumar() {
-            idArticuloPK = (int)TempData["idArticuloPK"];
-            articuloController.AgregarVisita(idArticuloPK);
-            articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
-            autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
-            topicos = topicoController.GetTopicosArticulo(idArticuloPK);
-            contenido = articulo.contenido;
-            TempData["visto"] = 1;
-
+            if (Request.Cookies["usernamePK"] != null)
+            {
+                idArticuloPK = (int)TempData["idArticuloPK"];
+                articuloController.AgregarVisita(idArticuloPK);
+                articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
+                autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
+                topicos = topicoController.GetTopicosArticulo(idArticuloPK);
+                contenido = articulo.contenido;
+                TempData["visto"] = 1;
+            }
+            else
+            {
+                Notificaciones.Set(this, "init_session_error", "Por favor inicie sesión para poder ver el artículo", Notificaciones.TipoNotificacion.Error);
+                return Redirect("/Login");
+            }
             return Page();
-        }
+}
     }
 }
