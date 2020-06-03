@@ -32,15 +32,15 @@ namespace LaCafeteria.Pages
         public VerRevisionModel(IHostingEnvironment env) {
             articuloController = new ArticuloController();
             rutaCarpeta = env.WebRootPath;
-            articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
-            revisiones = articuloController.GetRevisiones(idArticuloPK);
-         
+            
+            
         }
 
         public void OnGet()
         {
-            
 
+            articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
+            revisiones = articuloController.GetRevisiones(idArticuloPK);
             if (tipoArticulo == "Largo")
             {
             articuloController.CargarArticuloPDF(idArticuloPK, rutaCarpeta);
