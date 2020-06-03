@@ -5,15 +5,17 @@
     ViewData["Title"] = "Resumen de Artículo";
 }
 
-@if (Notificaciones.Existe(Model, "meGusta"))
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+@if ( Notificaciones.Existe(Model, "meGusta") )
 {
     @Html.Raw(Notificaciones.Get(Model, "meGusta"));
 }
-@if (Notificaciones.Existe(Model, "nulo"))
+@if ( Notificaciones.Existe(Model, "nulo") )
 {
     @Html.Raw(Notificaciones.Get(Model, "nulo"));
 }
-@if (Notificaciones.Existe(Model, "noMeGusta"))
+@if ( Notificaciones.Existe(Model, "noMeGusta") )
 {
     @Html.Raw(Notificaciones.Get(Model, "noMeGusta"));
 }
@@ -40,7 +42,7 @@
 
 <br />
 
-@if (Model.tipo == "Corto")
+@if ( Model.tipo == "Corto" )
 {
 
     <div class="container">
@@ -52,14 +54,16 @@
         </div>
         <div class="row">
             <div class="col-lg-3">
-                <button type="button" class="btn btn-info btn-lg" id="mostrarCorto">Ver artículo corto completo</button>
+                <form method="post">
+                    <button type="submit" class="btn btn-info btn-lg" id="mostrarCorto" asp-page-handler="sumar">Ver artículo corto completo</button>
+                </form>
             </div>
             <div class="col-lg-1"></div>
             <div class="col-lg-2 text-primary" style="font-size: 150%;">Visitas: @Model.articulo.visitas</div>
             <div class="col-lg-3 text-primary" style="font-size: 150%;">Calificación total: @Model.articulo.calificacionTotalMiem</div>
 
             <div style="display:none;" id="calificacion">
-                @if (Model.calificacion == 10)
+                @if ( Model.calificacion == 10 )
                 {
                     <div class="col-md-1">
                         <form method="post">
@@ -82,42 +86,38 @@
                             </button>
                         </form>
                     </div>
-                }
-                else
+                } else
                 {
                     <div class="col-md-3">
-                        @if (Model.calificacion == 1)
+                        @if ( Model.calificacion == 1 )
                         {
                             <button type="button" class="btn btn-success btn-lg" style="background-color: chartreuse;" id="like" disabled>
                                 <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
                             </button>
-                        }
-                        else
+                        } else
                         {
                             <button type="button" class="btn btn-info btn-lg" id="like" disabled>
                                 <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
                             </button>
                         }
 
-                        @if (Model.calificacion == 0)
+                        @if ( Model.calificacion == 0 )
                         {
                             <button type="button" class="btn btn-warning btn-lg" style="background-color: orange;" id="same" disabled>
                                 <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                             </button>
-                        }
-                        else
+                        } else
                         {
                             <button type="button" class="btn btn-info btn-lg" id="same" disabled>
                                 <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                             </button>
                         }
-                        @if (Model.calificacion == -1)
+                        @if ( Model.calificacion == -1 )
                         {
                             <button type="button" class="btn btn-danger btn-lg" id="dislike" style="background-color: darkred;" disabled>
                                 <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
                             </button>
-                        }
-                        else
+                        } else
                         {
                             <button type="button" class="btn btn-info btn-lg" id="dislike" disabled>
                                 <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
@@ -148,13 +148,12 @@
 
     <script src="~/js/VerResumen.js" defer></script>
 
-}
-else if (Model.tipo == "Largo")
+} else if ( Model.tipo == "Largo" )
 {
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
-                <a href="/VerArticuloLargo?idArticuloPK=@Model.idArticuloPK" class="btn btn-info btn-lg">Ver artículo largo completo</a>
+                <a href="/VerArticuloLargo?idArticuloPK=@Model.idArticuloPK" class="btn btn-info btn-lg" onclick="disable(this)">Ver artículo largo completo</a>
             </div>
             <div class="col-lg-1"></div>
             <div class="col-lg-2 text-primary" style="font-size: 150%;">Visitas: @Model.articulo.visitas</div>
@@ -164,3 +163,15 @@ else if (Model.tipo == "Largo")
 }
 
 
+@*<script>
+    $('#mostrarCorto').click(function () {
+        $(this).prop('disabled', true);
+    });
+
+    function disable(link) {
+        // disable subsequent clicks
+        link.onclick = function (event) {
+            event.preventDefault();
+        }
+    }
+</script>*@
