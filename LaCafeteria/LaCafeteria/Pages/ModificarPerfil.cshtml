@@ -6,6 +6,7 @@
 }
 
 <h2>Modificar el Perfil</h2>
+
 <div class="container">
     <form method="post" enctype="multipart/form-data">
         <div class="row">
@@ -29,13 +30,31 @@
                     <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Idiomas que maneja <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu" style="background-color:transparent">
-                        <li style="margin: 5px 5px" class="form-control"><input type="checkbox" style="margin:5px 5px" name="listaTopicosArticulo" value="Español">Español</li>
-                        <li style="margin: 5px 5px" class="form-control"><input type="checkbox" style="margin:5px 5px" name="listaTopicosArticulo" value="Inglés">Inglés</li>
-                        <li style="margin: 5px 5px" class="form-control"><input type="checkbox" style="margin:5px 5px" name="listaTopicosArticulo" value="Hindi">Hindi</li>
-                        <li style="margin: 5px 5px" class="form-control"><input type="checkbox" style="margin:5px 5px" name="listaTopicosArticulo" value="Árabe">Árabe</li>
-                        <li style="margin: 5px 5px" class="form-control"><input type="checkbox" style="margin:5px 5px" name="listaTopicosArticulo" value="Chino">Chino</li>
-                        <li style="margin: 5px 5px" class="form-control"><input type="checkbox" style="margin:5px 5px" name="listaTopicosArticulo" value="Ruso">Ruso</li>
+                    <ul class="dropdown-menu" style="background-color:lightgray;color:black">
+                        @for (int idiomaActual = 0; idiomaActual < Model.listaIdiomasElegidos.Count; ++idiomaActual)
+                        {
+                            int contador = 0;
+                            bool encontrado = false;
+                            while (!encontrado && contador < Model.listaIdiomasDisponibles.Count)
+                            {
+                                if (Model.listaIdiomasDisponibles[idiomaActual] == Model.listaIdiomasElegidos[contador])
+                                {
+                                    encontrado = true;
+
+                                    <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaIdiomas" value="@Model.listaIdiomasDisponibles[idiomaActual]" checked="checked"> @Model.listaIdiomasDisponibles[idiomaActual]</li>
+                                }
+
+                                contador++;
+                            }
+
+                            if (!encontrado)
+                            {
+                                <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaIdiomas" value="@Model.listaIdiomasDisponibles[idiomaActual]"> @Model.listaIdiomasDisponibles[idiomaActual]</li>
+                            }
+
+                        }
+
+
                     </ul>
                 </div>
             </div>

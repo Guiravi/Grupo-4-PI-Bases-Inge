@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Enviar Correos";
 }
+@using LaCafeteria.Utilidades;
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
@@ -11,17 +12,21 @@
 
 <h2 class="text-center">Enviar un Correo Electróncio</h2>
 
+@if (Notificaciones.Existe(Model, "Correo Enviado")){
+    @Html.Raw(Notificaciones.Get(Model,"Correo Enviado"))
+} 
+
 <form method="post" enctype="multipart/form-data" data-toggle="validator" data-disable="false">
     <div class="form-group">
         <label for="destinoMensaje"><b>Usuario o Correo Electrónico Destino: </b></label>
         <div id="scrollable-dropdown-menu">
-            <input asp-for="destino" class="form-control twitter-typeahead" type="text" id="destinoMensaje" name="destinoMensaje" placeholder="Escriba el destinatario de su mensaje" required data-error="Campo requerido" autocomplete="off" />
+            <input asp-for="destino" class="form-control twitter-typeahead" type="text" id="destinoMensaje" placeholder="Escriba el destinatario de su mensaje" required data-error="Campo requerido" autocomplete="off" />
         </div>
         <div class="help-block with-errors"></div>
     </div>
     <div class="form-group">
         <label for="asuntoMensaje"><b>Asunto: </b></label>
-        <input asp-for="asunto" class="form-control" type="text" id="asuntoMensaje" name="asuntoMensaje" placeholder="Escriba el asunto de su mensaje" required data-error="Campo requerido" />
+        <input asp-for="asunto" class="form-control" type="text" id="asuntoMensaje" placeholder="Escriba el asunto de su mensaje" required data-error="Campo requerido" />
         <div class="help-block with-errors"></div>
     </div>
     <div class="form-group">
@@ -31,7 +36,7 @@
     </div>
     <div class="form-group">
         <label for="adjuntarArchivo"><b>Adjuntar archivo(s)</b></label>
-        <input type="file" multiple="multiple" id="adjuntarArchivo" onchange="SizeValidation()" />
+        <input type="file" id="adjuntarArchivo" asp-for="archivoAdjunto" onchange="SizeValidation()" />
         <p class="help-block" id="tamanoArchivos">Tamaño: 0 MB</p>
     </div>
 
@@ -64,31 +69,31 @@
     }
 
     var substringMatcher = function (strs) {
-        return function findMatches(q, cb) {
-            var matches, substringRegex;
+    return function findMatches(q, cb) {
+        var matches, substringRegex;
 
-            // an array that will be populated with substring matches
-            matches = [];
+        // an array that will be populated with substring matches
+        matches = [];
 
-            // regex used to determine if a string contains the substring `q`
-            substrRegex = new RegExp(q, 'i');
+        // regex used to determine if a string contains the substring `q`
+        substrRegex = new RegExp(q, 'i');
 
             // iterate through the pool of strings and for any string that
             // contains the substring `q`, add it to the `matches` array
             $.each(strs, function (i, str) {
-                if (substrRegex.test(str)) {
-                    matches.push(str);
-                }
-            });
+            if (substrRegex.test(str)) {
+                matches.push(str);
+            }
+        });
 
-            cb(matches);
-        };
+        cb(matches);
     };
+};
 
-    var users = [];
+var users = [];
 
-    @foreach (string miembro in Model.listaMiembros)
-    {
+@foreach (string miembro in Model.listaMiembros)
+{
         @:users.push("@miembro")
     }
 
