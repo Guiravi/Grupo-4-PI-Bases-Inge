@@ -36,16 +36,25 @@ namespace LaCafeteria.Pages
             rutaCarpeta = env.WebRootPath;
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
-            articuloController.AgregarVisita(idArticuloPK);
-            articuloController.CargarArticuloPDF(idArticuloPK , rutaCarpeta);
-            articuloPDF = Convert.ToString(idArticuloPK) + ".pdf";
+            if (Request.Cookies["usernamePK"] != null)
+            {
+                articuloController.AgregarVisita(idArticuloPK);
+                articuloController.CargarArticuloPDF(idArticuloPK , rutaCarpeta);
+                articuloPDF = Convert.ToString(idArticuloPK) + ".pdf";
 
-            calificacion = miembroController.GetCalificacionMiembro("BadBunny", idArticuloPK);
-            TempData["idArticuloPK"] = idArticuloPK;
-            TempData["rutaPDF"] = articuloPDF;
-        }
+                calificacion = miembroController.GetCalificacionMiembro("BadBunny", idArticuloPK);
+                TempData["idArticuloPK"] = idArticuloPK;
+                TempData["rutaPDF"] = articuloPDF;
+            }
+            else
+            {
+                Notificaciones.Set(this, "init_session_error", "Por favor inicie sesión para poder ver el artículo", Notificaciones.TipoNotificacion.Error);
+                return Redirect("/Login");
+            }
+            return Page();
+}
 
         public IActionResult OnPostGustar()
         {
