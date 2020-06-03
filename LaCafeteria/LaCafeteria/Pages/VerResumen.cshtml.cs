@@ -66,7 +66,7 @@ namespace LaCafeteria.Pages
             autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
             topicos = topicoController.GetTopicosArticulo(idArticuloPK);
             contenido = articulo.contenido;
-            TempData["visto"] = 1;
+            TempData["visto"] = 2;
             Notificaciones.Set(this, "meGusta", "Su calificación \"Me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
 
             return Page();
@@ -81,7 +81,7 @@ namespace LaCafeteria.Pages
             autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
             topicos = topicoController.GetTopicosArticulo(idArticuloPK);
             contenido = articulo.contenido;
-            TempData["visto"] = 1;
+            TempData["visto"] = 2;
             Notificaciones.Set(this, "nulo", "Su calificación \"Nulo\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
 
             return Page();
@@ -96,7 +96,7 @@ namespace LaCafeteria.Pages
             autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
             topicos = topicoController.GetTopicosArticulo(idArticuloPK);
             contenido = articulo.contenido;
-            TempData["visto"] = 1;
+            TempData["visto"] = 2;
             Notificaciones.Set(this, "noMeGusta", "Su calificación \"No me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
 
             return Page();
@@ -113,6 +113,7 @@ namespace LaCafeteria.Pages
                 calificacion = miembroController.GetCalificacionMiembro(Request.Cookies["usernamePK"], idArticuloPK);
                 contenido = articulo.contenido;
                 TempData["visto"] = 1;
+                TempData["idArticuloPK"] = idArticuloPK;
             }
             else
             {
