@@ -49,7 +49,7 @@ namespace LaCafeteria.Pages
             topicos = topicoController.GetTopicosArticulo(idArticuloPK);
             contenido = articulo.contenido;
 
-            calificacion = miembroController.GetCalificacionMiembro("BadBunny", idArticuloPK);
+            calificacion = miembroController.GetCalificacionMiembro(Request.Cookies["usernamePK"], idArticuloPK);
             TempData["idArticuloPK"] = idArticuloPK;
         }
 
@@ -57,7 +57,7 @@ namespace LaCafeteria.Pages
         {
             idArticuloPK = (int)TempData["idArticuloPK"]; 
             calificacion = 1;          
-            miembroController.CalificarArticulo("BadBunny", idArticuloPK, 1);
+            miembroController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, 1);
             articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
             autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
             topicos = topicoController.GetTopicosArticulo(idArticuloPK);
@@ -72,7 +72,7 @@ namespace LaCafeteria.Pages
         {
             idArticuloPK = (int)TempData["idArticuloPK"];
             calificacion = 0;            
-            miembroController.CalificarArticulo("BadBunny", idArticuloPK, 0);
+            miembroController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, 0);
             articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
             autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
             topicos = topicoController.GetTopicosArticulo(idArticuloPK);
@@ -87,7 +87,7 @@ namespace LaCafeteria.Pages
         {
             idArticuloPK = (int)TempData["idArticuloPK"];
             calificacion = -1;          
-            miembroController.CalificarArticulo("BadBunny", idArticuloPK, -1);
+            miembroController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, -1);
             articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
             autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
             topicos = topicoController.GetTopicosArticulo(idArticuloPK);

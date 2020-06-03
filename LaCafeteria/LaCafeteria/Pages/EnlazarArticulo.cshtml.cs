@@ -53,6 +53,7 @@ namespace LaCafeteria.Pages
             listaMiembrosAutores = new List<string>();
             listaTopicosArticulo = new List<string>();
             autoresViejos = new List<string[]>();
+            articulo = new ArticuloModel();
             idArticuloPK = -1;
         }
 
