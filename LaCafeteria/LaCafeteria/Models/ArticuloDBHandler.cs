@@ -618,5 +618,72 @@ namespace LaCafeteria.Models
                 return artList;
             }
         }
+
+        public List<ArticuloModel> GetArticulosRevisionFinalizada() {
+            String connectionString = AppSettings.GetConnectionString();
+
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+                connection.Open();
+
+                SqlCommand cmd = new SqlCommand("SELECT DISTINCT idArticuloPK, titulo " +
+                    "FROM Articulo A JOIN NucleoRevisaArticulo NRA " +
+                    "ON A.idArticuloPK = NRA.idArticuloFK " +
+                    "WHERE (SELECT COUNT(*) FROM NucleoRevisaArticulo NRA WHERE NRA.estadoRevision = 'Finalizado'  " +
+                    "AND A.idArticuloPK = NRA.idArticuloFK) = " +
+                    "(SELECT COUNT(*) FROM NucleoRevisaArticulo NRA " +
+                    "WHERE A.idArticuloPK = NRA.idArticuloFK)", connection);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                List<ArticuloModel> artList = new List<ArticuloModel>();
+
+                while ( reader.Read() )
+                {
+                    ArticuloModel articuloActual = new ArticuloModel()
+                    {
+                        idArticuloPK = (int) reader["idArticuloPK"],
+                        titulo = (String) reader["titulo"],
+                    };
+                    artList.Add(articuloActual);
+                }
+
+                reader.Close();
+
+                return artList;
+            }
+        }
+
+        public List<string> GetRevisoresDeArticulo(int id) {
+            List<string> listaRevisores = new List<string>();
+
+            String connectionString = AppSettings.GetConnectionString();
+
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+                connection.Open();
+
+                SqlCommand cmd = new SqlCommand("SELECT nombre, apellido1, apellido2 FROM Miembro M " +
+                    "JOIN NucleoRevisaArticulo NRA " +
+                    "ON M.usernamePK = NRA.usernameMiemFK " +
+                    "JOIN Articulo A " +
+                    "ON NRA.idArticuloFK = A.idArticuloPK " +
+                    "WHERE A.idArticuloPK = @id", connection);
+
+                cmd.Parameters.AddWithValue("@id", id);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while ( reader.Read() )
+                {
+                    string nombreRevisor = reader["nombre"].ToString() + " " + reader["apellido1"].ToString() + " " + reader["apellido2"].ToString();
+                    listaRevisores.Add(nombreRevisor);
+                }
+
+                reader.Close();
+
+                return listaRevisores;
+            }
+        }
     }
 }
