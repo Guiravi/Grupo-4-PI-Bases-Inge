@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using LaCafeteria.Controllers;
+using LaCafeteria.Utilidades;
 
 namespace LaCafeteria.Pages
 {
@@ -14,6 +15,7 @@ namespace LaCafeteria.Pages
     {
         public CorreoController correoController { get; set; }
         public List<string> listaMiembros { get; set; }
+
         public string remitente { get; set; }
 
         [BindProperty]
@@ -28,12 +30,17 @@ namespace LaCafeteria.Pages
         public EnviarCorreoModel(IHostingEnvironment env) {
             correoController = new CorreoController(env);
             listaMiembros = correoController.getListaMiembrosString();
-            remitente = Request.Cookies["usernamePK"];
         }
 
         public void OnGet()
         {
+        }
 
+        public IActionResult OnPost() {
+            remitente = Request.Cookies["usernamePK"];
+            correoController.sendMail(destino, remitente, asunto, mensaje);
+            Notificaciones.Set(this, "Correo Enviado", "Su correo ha sido enviado exitosamente", Notificaciones.TipoNotificacion.Exito);
+            return Redirect("/EnviarCorreo");
         }
     }
 }

@@ -39,17 +39,33 @@ namespace LaCafeteria.Controllers
         }
 
         public void sendMail(string destino, string remitente, string asunto, string mensaje) {
-            string usernameDestino = destino.Split('(', ')')[1];
+            string usernameDestino = "";
+            MiembroModel miembroDestino;
+            MiembroModel miembroRemitente;
+            string nombreCompletoDestino = "";
+            string nombreCompletoRemitente = "";
+            string emailAddress = "";
 
-            MiembroModel miembroDestino = listaMiembros.Find(x => x.usernamePK == usernameDestino);
-            MiembroModel miembroRemitente = listaMiembros.Find(x => x.usernamePK == remitente);
-            string nombreCompletoDestino = miembroDestino.nombre + " " + miembroDestino.apellido1 + " " + miembroDestino.apellido2;
-            string nombreCompletoRemitente = miembroRemitente.nombre + " " + miembroRemitente.apellido1 + " " + miembroRemitente.apellido2;
-            string emailAddress = miembroDestino.email;
+            miembroRemitente = listaMiembros.Find(x => x.usernamePK == remitente);
+            nombreCompletoRemitente = miembroRemitente.nombre + " " + miembroRemitente.apellido1 + " " + miembroRemitente.apellido2;
+
+            if ( !destino.Contains("@") )
+            {
+                usernameDestino = destino.Split('(', ')')[1];
+
+                miembroDestino = listaMiembros.Find(x => x.usernamePK == usernameDestino);
+                
+                nombreCompletoDestino = miembroDestino.nombre + " " + miembroDestino.apellido1 + " " + miembroDestino.apellido2;
+                emailAddress = miembroDestino.email;
+            } else
+            {
+                emailAddress = destino;
+                nombreCompletoDestino = destino;
+            }
 
             asunto = "[LaCafeteria] " + asunto;
             string mensajeHtml = "<h3>Estimado " + nombreCompletoDestino + ",</h3>" +
-                "<p><i>Has recibido un mensaje de la comunidad La Cafeteria del miembro " + nombreCompletoRemitente + ": </i><br/><br/>" + mensaje +
+                "<p><i>Has recibido un mensaje de la comunidad La Cafeteria del miembro " + nombreCompletoRemitente + " (" + remitente + ") : </i><br/><br/>" + mensaje +
                 "<br/><br/><i> Para responder, por favor hacerlo desde nuestro sitio web. </i><br/><br/></p>";
 
             MailAddress fromAddress = new MailAddress("thecoffeeplace2020@gmail.com", "La Cafeteria");
