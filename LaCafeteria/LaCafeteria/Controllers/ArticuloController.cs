@@ -116,6 +116,14 @@ namespace LaCafeteria.Controllers
             return autores;
         }
 
+        public void AgregarVisita(int id) {
+            articuloDBHandler.AgregarVisita(id);
+        }
+
+        public List<ArticuloModel> GetArticulosPorEstado(string estadoArticulo) {
+            List<ArticuloModel> artList = articuloDBHandler.GetArticulosPorEstado(estadoArticulo);
+            return artList;
+        }
     }
 
 	class ItemEqualityComparer : IEqualityComparer<ArticuloModel>

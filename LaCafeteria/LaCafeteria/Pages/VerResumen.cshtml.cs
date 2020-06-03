@@ -62,6 +62,7 @@ namespace LaCafeteria.Pages
             autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
             topicos = topicoController.GetTopicosArticulo(idArticuloPK);
             contenido = articulo.contenido;
+            TempData["visto"] = 1;
             Notificaciones.Set(this, "meGusta", "Su calificación \"Me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
 
             return Page();
@@ -76,6 +77,7 @@ namespace LaCafeteria.Pages
             autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
             topicos = topicoController.GetTopicosArticulo(idArticuloPK);
             contenido = articulo.contenido;
+            TempData["visto"] = 1;
             Notificaciones.Set(this, "nulo", "Su calificación \"Nulo\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
 
             return Page();
@@ -90,7 +92,20 @@ namespace LaCafeteria.Pages
             autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
             topicos = topicoController.GetTopicosArticulo(idArticuloPK);
             contenido = articulo.contenido;
+            TempData["visto"] = 1;
             Notificaciones.Set(this, "noMeGusta", "Su calificación \"No me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
+
+            return Page();
+        }
+
+        public IActionResult OnPostSumar() {
+            idArticuloPK = (int)TempData["idArticuloPK"];
+            articuloController.AgregarVisita(idArticuloPK);
+            articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
+            autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
+            topicos = topicoController.GetTopicosArticulo(idArticuloPK);
+            contenido = articulo.contenido;
+            TempData["visto"] = 1;
 
             return Page();
         }

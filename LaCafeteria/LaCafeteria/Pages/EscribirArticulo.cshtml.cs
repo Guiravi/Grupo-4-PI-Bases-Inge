@@ -118,6 +118,31 @@ namespace LaCafeteria.Pages
 
             return Page();
 		}
+
+        public IActionResult OnPostEnviarRevision()
+        {
+            if (EsValido())
+            {
+                articulo.tipo = TipoArticulo.Corto;
+                articulo.estado = EstadoArticulo.RequiereRevision;
+                articulo.idArticuloPK = (int)TempData["idArticulo"];
+                if (articulo.idArticuloPK == null)
+                {
+                    articuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
+                }
+                else
+                {
+                    articuloController.EditarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo, "");
+                }
+
+                Notificaciones.Set(this, "articuloEnviadoRev", "Su artículo fue enviado a revisión", Notificaciones.TipoNotificacion.Exito);
+
+                return Redirect("/MiPerfil");
+            }
+
+            return Page();
+        }
+
         private bool EsValido()
 		{
 			bool esValido = true;

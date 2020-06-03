@@ -5,15 +5,17 @@
     ViewData["Title"] = "Resumen de Artículo";
 }
 
-@if (Notificaciones.Existe(Model, "meGusta"))
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+@if ( Notificaciones.Existe(Model, "meGusta") )
 {
     @Html.Raw(Notificaciones.Get(Model, "meGusta"));
 }
-@if (Notificaciones.Existe(Model, "nulo"))
+@if ( Notificaciones.Existe(Model, "nulo") )
 {
     @Html.Raw(Notificaciones.Get(Model, "nulo"));
 }
-@if (Notificaciones.Existe(Model, "noMeGusta"))
+@if ( Notificaciones.Existe(Model, "noMeGusta") )
 {
     @Html.Raw(Notificaciones.Get(Model, "noMeGusta"));
 }
@@ -22,7 +24,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <a href='javascript:history.go(-1)' class="btn btn-lg btn-info text-center">Volver a búsqueda</a>
+            <a href='/Buscar' class="btn btn-lg btn-info text-center">Volver a búsqueda</a>
         </div>
         <div class="col-md-6"><h2 class="text-center">@Model.articulo.titulo</h2></div>
         <div class="col-md-3"></div>
@@ -40,25 +42,32 @@
 
 <br />
 
-@if (Model.tipo == "Corto")
+@if ( Model.tipo == "Corto" )
 {
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8"></div>
-            <div class="col-md-4">
-                <h3 class="text-center text-primary" style="display:none; position: relative; left: 135px;" id="txtCal">Calificar:</h3>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8"></div>
+        <div class="col-md-4">
+            <h3 class="text-center text-primary" style="display:none; position: relative; left: 135px;" id="txtCal">Calificar:</h3>
         </div>
-        <div class="row">
-            <div class="col-lg-3">
-                <button type="button" class="btn btn-info btn-lg" id="mostrarCorto">Ver artículo corto completo</button>
-            </div>
-            <div class="col-lg-1"></div>
-            <div class="col-lg-2 text-primary" style="font-size: 150%;">Visitas: @Model.articulo.visitas</div>
-            <div class="col-lg-3 text-primary" style="font-size: 150%;">Calificación total: @Model.articulo.calificacionTotalMiem</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            @if (TempData["visto"] == null)
+            {
+                <form method="post">
+                    <button type="submit" class="btn btn-info btn-lg" id="mostrarCorto" asp-page-handler="sumar">Ver artículo corto completo</button>
+                </form>
+            }
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 text-primary" style="font-size: 150%;">Visitas: @Model.articulo.visitas</div>
+        <div class="col-lg-3 text-primary" style="font-size: 150%;">Calificación total: @Model.articulo.calificacionTotalMiem</div>
 
-            <div style="display:none;" id="calificacion">
+        @if (TempData["visto"] != null)
+        {
+            <div id="calificacion">
                 @if (Model.calificacion == 10)
                 {
                     <div class="col-md-1">
@@ -126,35 +135,47 @@
                     </div>
                 }
             </div>
+        }
 
+    </div>
+
+    <div class="row">
+        <div class="col-md-8"></div>
+        <div class="col-md-4">
+            <p id="textLike" style="visibility: hidden; position: relative; top: 10px" class="text-center text-primary">Me gusta<p>
+            <p id="textSame" style="visibility: hidden; position: relative; bottom: 20px" class="text-center text-primary">Nulo<p>
+            <p id="textDislike" style="visibility: hidden; position: relative; bottom: 50px" class="text-center text-primary">No me gusta<p>
         </div>
+    </div>
 
-        <div class="row">
-            <div class="col-md-8"></div>
-            <div class="col-md-4">
-                <p id="textLike" style="visibility: hidden; position: relative; top: 10px" class="text-center text-primary">Me gusta<p>
-                <p id="textSame" style="visibility: hidden; position: relative; bottom: 20px" class="text-center text-primary">Nulo<p>
-                <p id="textDislike" style="visibility: hidden; position: relative; bottom: 50px" class="text-center text-primary">No me gusta<p>
-            </div>
+    @if (TempData["visto"] != null)
+    {
+        <div class="row" id="contenidoCorto">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10" id="divContent" style="background-color: white;"> @Html.Raw(Model.contenido) </div>
+            <div class="col-lg-1"></div>
         </div>
-
+    }
+    else
+    {
         <div class="row" style="display: none;" id="contenidoCorto">
             <div class="col-lg-1"></div>
             <div class="col-lg-10" id="divContent" style="background-color: white;"> @Html.Raw(Model.contenido) </div>
             <div class="col-lg-1"></div>
         </div>
-    </div>
+    }
+
+</div>
 
 
     <script src="~/js/VerResumen.js" defer></script>
 
-}
-else if (Model.tipo == "Largo")
+} else if ( Model.tipo == "Largo" )
 {
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
-                <a href="/VerArticuloLargo?idArticuloPK=@Model.idArticuloPK" class="btn btn-info btn-lg">Ver artículo largo completo</a>
+                <a href="/VerArticuloLargo?idArticuloPK=@Model.idArticuloPK" class="btn btn-info btn-lg" onclick="disable(this)">Ver artículo largo completo</a>
             </div>
             <div class="col-lg-1"></div>
             <div class="col-lg-2 text-primary" style="font-size: 150%;">Visitas: @Model.articulo.visitas</div>
@@ -162,5 +183,3 @@ else if (Model.tipo == "Largo")
         </div>
     </div>
 }
-
-
