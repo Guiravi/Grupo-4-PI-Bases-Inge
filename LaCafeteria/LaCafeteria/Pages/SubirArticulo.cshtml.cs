@@ -63,6 +63,7 @@ namespace LaCafeteria.Pages
 
 		public void OnGet()
         {
+
             if (idArticuloPK != -1)
             {
                 articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
