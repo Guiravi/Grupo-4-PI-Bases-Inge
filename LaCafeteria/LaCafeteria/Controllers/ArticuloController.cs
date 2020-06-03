@@ -140,6 +140,10 @@ namespace LaCafeteria.Controllers
             revisores = revisores + listaRevisores[listaRevisores.Count() - 1];
             return revisores;
         }
+
+        public List<Tuple<string, string, double, string>> GetRevisiones (int id) {
+            return articuloDBHandler.GetRevisiones(id);
+        }
     }
 
 	class ItemEqualityComparer : IEqualityComparer<ArticuloModel>
