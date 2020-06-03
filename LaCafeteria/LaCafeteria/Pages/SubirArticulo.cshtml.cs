@@ -53,14 +53,17 @@ namespace LaCafeteria.Pages
 			listaTopicos = topicoController.GetListaTopicos();
 			listaMiembros = miembroController.GetListaMiembros();
             listaMiembrosAutores = new List<string>();
+            listaTopicosArticulo = new List<string>();
             autoresViejos = new List<string[]>();
 
+
+            idArticuloPK = -1;
             rutaCarpeta = env.WebRootPath;
         }
 
 		public void OnGet()
         {
-            if (idArticuloPK != null)
+            if (idArticuloPK != -1)
             {
                 articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
 
@@ -92,7 +95,7 @@ namespace LaCafeteria.Pages
                         "button.toDelete = '" + autoresViejos[i][0] + "';" + "\n" +
                         "button.onclick = borrar;" + "\n" +
                         "miembrosAutores.push('" + autoresViejos[i][0] +"')" + "\n" +
-                        "div.innerHTML = '<label>' + \'" + autoresViejos[i][1] +"\' + '</label><input type=\"hidden\" name=\"listaMiembrosAutores\" value=\"' + \'"+ autoresViejos[i][0] + "\' + '\"/>;'" + "\n" +
+                        "div.innerHTML = '<label>' + \'" + autoresViejos[i][1] +"\' + '</label><input type=\"hidden\" name=\"listaMiembrosAutores\" value=\"' + \'"+ autoresViejos[i][0] + "\' + '\"/>';" + "\n" +
                         "document.getElementById('autores').appendChild(div);" + "\n" +
                         "div.appendChild(button);" + "\n" +
                         "}\n";
@@ -138,7 +141,7 @@ namespace LaCafeteria.Pages
                 articulo.tipo = TipoArticulo.Largo;
                 articulo.estado = EstadoArticulo.RequiereRevision;
                 articulo.idArticuloPK = (int)TempData["idArticulo"];
-                if (articulo.idArticuloPK == null)
+                if (articulo.idArticuloPK ==  -1)
                 {
                     articuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
                 }
