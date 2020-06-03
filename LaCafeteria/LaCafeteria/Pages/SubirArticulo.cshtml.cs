@@ -101,27 +101,35 @@ namespace LaCafeteria.Pages
             }
         }
 
-		public void OnPostGuardar()
+		public IActionResult OnPostGuardar()
 		{	
 			if (EsValido())
 			{
 				articulo.tipo = TipoArticulo.Largo;
 				articulo.estado = EstadoArticulo.EnProgreso;
 				articuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
-				Notificaciones.Set(this, "articuloGuardado", "Su articulo se guardó", Notificaciones.TipoNotificacion.Exito);
+				Notificaciones.Set(this, "articuloGuardado", "Su articulo se guardó correctamente", Notificaciones.TipoNotificacion.Exito);
+
+                return Redirect("/MiPerfil");
 			}
+
+            return Page();
 		}
 
-        public void OnPostEditar()
+        public IActionResult OnPostEditar()
         {
             if (EsValido())
             {
                 articulo.tipo = TipoArticulo.Largo;
                 articulo.estado = EstadoArticulo.EnProgreso;
                 articulo.idArticuloPK = (int)TempData["idArticulo"];
-                articuloController.EditarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
-                Notificaciones.Set(this, "articuloGuardado", "Su articulo se guardó", Notificaciones.TipoNotificacion.Exito);
+                articuloController.EditarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo, rutaCarpeta);
+                Notificaciones.Set(this, "articuloEditado", "Su articulo se editó correctamente", Notificaciones.TipoNotificacion.Exito);
+
+                return Redirect("/MiPerfil");
             }
+
+            return Page();
         }
 
         private bool EsValido()

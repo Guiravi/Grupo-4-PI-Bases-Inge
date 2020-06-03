@@ -1,4 +1,4 @@
-CREATE TRIGGER [dbo].[TR_AI_Meritos_Publicacion]
+CREATE TRIGGER [dbo].[TR_AI_MeritosPublicacion]
 ON [dbo].[Articulo]
 AFTER UPDATE
 AS
@@ -17,5 +17,12 @@ BEGIN
 		WHERE usernamePK IN (SELECT usernameMiemFK 
 							FROM [dbo].[MiembroAutorDeArticulo]
 							WHERE idArticuloFK = @idArticuloPK)
+
+		UPDATE Miembro
+		SET nombreRolFK = 'Activo'
+		WHERE usernamePK IN (SELECT usernameMiemFK 
+							FROM [dbo].[MiembroAutorDeArticulo]
+							WHERE idArticuloFK = @idArticuloPK)
+		AND nombreRolFK = 'Periférico'
 	END
-END	
+END
