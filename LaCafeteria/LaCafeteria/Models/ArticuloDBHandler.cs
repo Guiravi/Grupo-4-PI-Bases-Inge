@@ -337,7 +337,7 @@ namespace LaCafeteria.Models
                         " FROM  Articulo " +
                         " WHERE titulo LIKE @titulo " +
                             " AND tipo = 'Corto' " +
-                            " AND A.estado = 'Publicado' " +
+                            " AND estado = 'Publicado' " +
                         " ORDER BY fechaPublicacion DESC;", connection);
                         break;
                     case 2:
@@ -345,7 +345,7 @@ namespace LaCafeteria.Models
                         " FROM  Articulo " +
                         " WHERE titulo LIKE @titulo " +
                             " AND tipo = 'Largo' " +
-                            " AND A.estado = 'Publicado' " +
+                            " AND estado = 'Publicado' " +
                         " ORDER BY fechaPublicacion DESC;", connection);
                         break;
                     case 3:
@@ -353,14 +353,14 @@ namespace LaCafeteria.Models
                         " FROM  Articulo " +
                         " WHERE titulo LIKE @titulo " +
                             " AND tipo = 'Link' " +
-                            " AND A.estado = 'Publicado' " +
+                            " AND estado = 'Publicado' " +
                         " ORDER BY fechaPublicacion DESC;", connection);
                         break;
                     default:
                         cmd = new SqlCommand("SELECT  * " +
                         " FROM  Articulo " +
                         " WHERE titulo LIKE @titulo " +
-                            " AND A.estado = 'Publicado' " +
+                            " AND estado = 'Publicado' " +
                         " ORDER BY fechaPublicacion DESC;", connection);
                         break;
                 }
