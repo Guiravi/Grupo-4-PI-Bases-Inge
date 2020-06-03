@@ -14,8 +14,8 @@
 @if (Model.idArticuloPK != null)
 {
     <a href="~/ArticulosDOCX/@Model.nombreArchivo" download class="btn">Descargar archivo editable</a>
-    <br />
-    <br />
+    <br/>
+    <br/>
 }
 
     <form method="post" enctype="multipart/form-data">
@@ -54,7 +54,7 @@
             }
             else
             {
-                <input id="txtFecha" type="date" class="form-control" asp-for="articulo.fechaPublicacion" value="@Model.articulo.fechaPublicacion" />
+                <input id="txtFecha" type="date" class="form-control" asp-for="articulo.fechaPublicacion" value=""Model.articulo.fechaPublicacion" />
                 <span asp-validation-for="articulo.fechaPublicacion"></span>
             }
         </div>
@@ -84,7 +84,7 @@
                         <ul class="dropdown-menu">
                             @if (Model.idArticuloPK != null)
                             {
-                                @for (int topicoActual = 0; topicoActual < Model.listaTopicos.Count; ++topicoActual)
+                                for (int topicoActual = 0; topicoActual < Model.listaTopicos.Count; ++topicoActual)
                                 {
                                     int contador = 0;
                                     bool encontrado = false;
@@ -109,7 +109,7 @@
                             }
                             else
                             {
-                                @for (int topicoActual = 0; topicoActual < Model.listaTopicos.Count; ++topicoActual)
+                                for (int topicoActual = 0; topicoActual < Model.listaTopicos.Count; ++topicoActual)
                                 {
                                     <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaTopicosArticulo" value="@Model.listaTopicos[topicoActual].nombre"> @Model.listaTopicos[topicoActual].nombre</li>
                                 }
