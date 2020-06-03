@@ -9,17 +9,14 @@
 @if (Notificaciones.Existe(Model, "articuloGuardado"))
 {
     @Html.Raw(Notificaciones.Get(Model, "articuloGuardado"));
-    Model.TempData["verArticulos"] = 1;
 }
 @if (Notificaciones.Existe(Model, "articuloEditado"))
 {
     @Html.Raw(Notificaciones.Get(Model, "articuloEditado"));
-    Model.TempData["verArticulos"] = 1;
 }
 @if (Notificaciones.Existe(Model, "articuloEnviadoRev"))
 {
     @Html.Raw(Notificaciones.Get(Model, "articuloEnviadoRev"));
-    Model.TempData["verArticulos"] = 1;
 }
 
 <head>
@@ -44,10 +41,10 @@
         <li><a data-toggle="tab" href="#funcionesCoordinador">Funciones coordinador</a></li>
         }
     -->
-        <li><a data-toggle="tab" href="#informacionPersonal">Información personal</a></li>
-        <li class="active"><a data-toggle="tab" href="#misArticulos">Mi articulos</a></li>
+        <li class="active"><a data-toggle="tab" href="#informacionPersonal">Información personal</a></li>
+        <li><a data-toggle="tab" href="#misArticulos">Mi articulos</a></li>
         <li><a data-toggle="tab" href="#funcionesCoordinador">Funciones de coordinador</a></li>
-        <li><a data-toggle="tab" href="#funcionesNucleo">Funciones de nucleo</a></li>
+        <li><a data-toggle="tab" href="#funcionesNucleo">Funciones de núcleo</a></li>
     </ul>
 
       
