@@ -13,6 +13,7 @@ BEGIN
 		SET puntajeTotalRev = (SELECT AVG([dbo].NucleoRevisaArticulo.puntaje) 
 									FROM [dbo].NucleoRevisaArticulo 
 									WHERE @idArticuloPK = [dbo].NucleoRevisaArticulo.idArticuloFK)
+		WHERE idArticuloPK = @idArticuloPK
 
 		UPDATE Miembro
 		SET meritos = meritos + (SELECT [dbo].Articulo.puntajeTotalRev
