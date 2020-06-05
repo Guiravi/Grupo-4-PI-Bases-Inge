@@ -81,21 +81,28 @@ namespace LaCafeteria.Pages
 		{
 			bool esValido = true;
 
-			if(imagenDePerfil != null)
-			{	
-				if(!imagenDePerfil.ContentType.Equals("image/png") && !imagenDePerfil.ContentType.Equals("image/jpg") && !imagenDePerfil.ContentType.Equals("image/jpeg"))
-				{
-					esValido = false;
-					Notificaciones.Set(this, "formatoInvalido", "Debe subir una imagen en formato .png o .jpg", Notificaciones.TipoNotificacion.Error);
-				}
-			}
-			if (miembroController.ExisteMiembro(miembro.usernamePK))
+			if (!ModelState.IsValid)
 			{
 				esValido = false;
-				Notificaciones.Set(this, "usernamePKInvalido", "Nombre de usuario ya existe. Seleccione otro nombre de usuario", Notificaciones.TipoNotificacion.Error);
+			}
+			else
+			{
+				if (imagenDePerfil != null && esValido)
+				{
+					if (!imagenDePerfil.ContentType.Equals("image/png") && !imagenDePerfil.ContentType.Equals("image/jpg") && !imagenDePerfil.ContentType.Equals("image/jpeg"))
+					{
+						esValido = false;
+						Notificaciones.Set(this, "formatoInvalido", "Debe subir una imagen en formato .png o .jpg", Notificaciones.TipoNotificacion.Error);
+					}
+				}
+				if (miembroController.ExisteMiembro(miembro.usernamePK) && esValido)
+				{
+					esValido = false;
+					Notificaciones.Set(this, "usernamePKInvalido", "Nombre de usuario ya existe. Seleccione otro nombre de usuario", Notificaciones.TipoNotificacion.Error);
+				}
 			}
 
-			return esValido && ModelState.IsValid;
+			return esValido;
 		}
     }
 }
