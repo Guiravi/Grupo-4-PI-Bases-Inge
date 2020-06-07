@@ -29,7 +29,7 @@ CREATE TABLE Articulo
 	CONSTRAINT PK_Articulo PRIMARY KEY (idArticuloPK),
 	CONSTRAINT UQ_Articulo_titulo UNIQUE (titulo),
 	CONSTRAINT CK_Articulo_tipo CHECK (tipo in ('Corto','Largo','Link')),
-	CONSTRAINT CK_Articulo_estado CHECK (estado in ('En Progreso','Requiere RevisiÛn', 'En RevisiÛn', 'Rechazado', 'Aceptado con Correcciones', 'Publicado'))
+	CONSTRAINT CK_Articulo_estado CHECK (estado in ('En Progreso','Requiere Revisi√≥n', 'En Revisi√≥n', 'Rechazado', 'Aceptado con Correcciones', 'Publicado'))
 );
 
 CREATE TABLE Miembro
@@ -50,12 +50,13 @@ CREATE TABLE Miembro
 	informacionLaboral NVARCHAR(MAX),
 	meritos INTEGER CONSTRAINT DF_Miembro_merito DEFAULT 0 CONSTRAINT NN_Miembro_merito NOT NULL,
 	activo BIT CONSTRAINT DF_Miembro_activo DEFAULT 1 CONSTRAINT NN_Miembro_activo NOT NULL,
-	nombreRolFK NVARCHAR(25) CONSTRAINT DF_Miembro_nombreRolFK DEFAULT 'PerifÈrico' CONSTRAINT NN_Miembro_nombreRolFK NOT NULL,
+	nombreRolFK NVARCHAR(25) CONSTRAINT DF_Miembro_nombreRolFK DEFAULT 'Perif√©rico' CONSTRAINT NN_Miembro_nombreRolFK NOT NULL,
 
 	CONSTRAINT PK_Autor PRIMARY KEY (usernamePK),
 	CONSTRAINT UQ_Autor_email UNIQUE (email),
 	CONSTRAINT FK_Miembro_Rol FOREIGN KEY (nombreRolFK) REFERENCES ROL(nombrePK)
-		ON DELETE NO ACTION --Se deberÌan eliminar todos los usuarios asociados a este rol antes de eliminar el rol.
+		ON DELETE NO ACTION --No se quieren tener en la base de datos usuarios asignados a un rol que no existe, y si se quiere 
+					--eliminar un rol se deber√≠an eliminar o cambiar todos los usuarios asignados a ese rol primero.
 		ON UPDATE CASCADE
 );
 
@@ -66,10 +67,12 @@ CREATE TABLE MiembroAutorDeArticulo
 
 	CONSTRAINT PK_MiembroAutorDeArticulo PRIMARY KEY (usernameMiemFK, idArticuloFK),
 	CONSTRAINT FK_MiembroAutorDeArticulo_Miembro FOREIGN KEY (usernameMiemFK) REFERENCES Miembro(usernamePK)
-		ON DELETE NO ACTION  --Se quiere mantener un historial de los autores de este artÌculo aunque ya sean activos.
+		ON DELETE NO ACTION  --Se quiere mantener un historial de los autores de este art√≠culo aunque ya estos no sean 
+					-- miembros activos de la comunidad.
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_MiembroAutorDeArticulo_Articulo FOREIGN KEY (idArticuloFK) REFERENCES Articulo(idArticuloPK)
-		ON DELETE CASCADE --Se eliminan las tuplas que asocian a los autores con el articulo borrado.
+		ON DELETE CASCADE --Si un autor elimina el art√≠culo se quiere eliminar la relaci√≥n que conecta al autor con este art√≠culo
+					--para que este ya no est√© asociado a un art√≠culo inexistente.
 		ON UPDATE CASCADE
 );
 
@@ -81,10 +84,11 @@ CREATE TABLE MiembroCalificaArticulo
 
 	CONSTRAINT PK_MiembroCalificaArticulo PRIMARY KEY (usernameMiemFK, idArticuloFK),
 	CONSTRAINT FK_MiembroCalificaArticulo_Miembro FOREIGN KEY (usernameMiemFK) REFERENCES Miembro(usernamePK)
-		ON DELETE NO ACTION --Se quiere mantener el registro de que este usuario calificÛ este artÌculo
+		ON DELETE NO ACTION --Se quiere mantener el registro de que este usuario calific√≥ este art√≠culo para evitar de que si el
+					--usuario vuelve a la comunidad que este no pueda volver a calificar estos art√≠culos.
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_MiembroCalificaArticulo_Articulo FOREIGN KEY (idArticuloFK) REFERENCES Articulo(idArticuloPK)
-		ON DELETE CASCADE --Se eliminan todas las calificaciones de este artÌculo.
+		ON DELETE CASCADE --Si eliminan el art√≠culo no se quiere mantener un registro de calificaciones para un art√≠culo que no existe.
 		ON UPDATE CASCADE
 );
 
@@ -95,10 +99,11 @@ CREATE TABLE NucleoInteresaRevisarArticulo
 
 	CONSTRAINT PK_NucleoInteresaRevisarArticulo PRIMARY KEY (usernameMiemFK, idArticuloFK),
 	CONSTRAINT FK_NucleoInteresaRevisarArticulo_Miembro FOREIGN KEY (usernameMiemFK) REFERENCES Miembro(usernamePK)
-		ON DELETE CASCADE --Ya el usuario no va a existir, por lo que ya no tiene interes en revisar el artÌculo
+		ON DELETE CASCADE --Si el usuario revisor se va ya no se desea mantener un registro de que este usuario quer√≠a calificar
+					--este art√≠culo.
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_NucleoInteresaRevisarArticulo_Articulo FOREIGN KEY (idArticuloFK) REFERENCES Articulo(idArticuloPK)
-		ON DELETE CASCADE --Se eliminan todos las tuplas relacionadas a querer revisar este artÌculo.
+		ON DELETE CASCADE --Si eliminan el art√≠culo se quieren eliminar todos los registros de interesados a este art√≠culo inexistente.
 		ON UPDATE CASCADE
 );
 
@@ -112,10 +117,11 @@ CREATE TABLE NucleoRevisaArticulo
 
 	CONSTRAINT PK_NucleoRevisaArticulo PRIMARY KEY (usernameMiemFK, idArticuloFK),
 	CONSTRAINT FK_NucleoRevisaArticulo_Miembro FOREIGN KEY (usernameMiemFK) REFERENCES Miembro(usernamePK)
-		ON DELETE NO ACTION --Se quiere mantener el registro del puntaje y comentarios dados por este autor, adem·s que influye en el c·lculo de los mÈritos.
+		ON DELETE NO ACTION --Se quiere mantener el registro del puntaje y comentarios dados por este revisor, adem√°s que esto 
+					--influye en el c√°lculo de los m√©ritos del autor.
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_NucleoRevisaArticulo_Articulo FOREIGN KEY (idArticuloFK) REFERENCES Articulo(idArticuloPK)
-		ON DELETE CASCADE --Se borran todas las revisiones asociadas al artÌculo borrado.
+		ON DELETE CASCADE --Se quieren borrar todos los registros de revisiones para los art√≠culos que son borrados de la base de datos.
 		ON UPDATE CASCADE
 );
 
@@ -126,9 +132,11 @@ CREATE TABLE ArticuloTrataTopico
 
 	CONSTRAINT PK_ArticuloTrataTopico PRIMARY KEY(idArticuloFK, nombreTopicoFK),
 	CONSTRAINT FK_ArticuloTrataTopico_Topico FOREIGN KEY (nombreTopicoFK) REFERENCES Topico(nombrePK)
-		ON DELETE NO ACTION --Se tienen que borrar todos los artÌculos asociados al tÛpico antes de borrar el tÛpico.
+		ON DELETE NO ACTION --Se tienen que borrar todos los art√≠culos asociados al t√≥pico antes de borrar el t√≥pico,
+					--para que en algunos casos no exista un art√≠culo que no est√© asociado a alg√∫n t√≥pico.
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_ArticuloTrataTopico_Articulo FOREIGN KEY (idArticuloFK) REFERENCES Articulo(idArticuloPK)
-		ON DELETE CASCADE --Se elimina la tupla que asociaba al artÌculo con el tÛpico.
+		ON DELETE CASCADE --Si se elimina el art√≠culo se desea borrar todos los registros de que este art√≠culo estaba asociado
+					--a sus distintos t√≥picos.
 		ON UPDATE CASCADE
 );
