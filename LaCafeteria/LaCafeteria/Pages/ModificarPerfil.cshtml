@@ -31,13 +31,13 @@
                         Idiomas que maneja <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" style="background-color:lightgray;color:black">
-                        @for (int idiomaActual = 0; idiomaActual < Model.listaIdiomasElegidos.Count; ++idiomaActual)
+                        @for (int idiomaActual = 0; idiomaActual < Model.listaIdiomasDisponibles.Count; ++idiomaActual)
                         {
                             int contador = 0;
                             bool encontrado = false;
                             while (!encontrado && contador < Model.listaIdiomasDisponibles.Count)
                             {
-                                if (Model.listaIdiomasDisponibles[idiomaActual] == Model.listaIdiomasElegidos[contador])
+                                if (Model.listaIdiomasElegidos.Count != 0 && Model.listaIdiomasDisponibles[idiomaActual] == Model.listaIdiomasElegidos[contador])
                                 {
                                     encontrado = true;
 

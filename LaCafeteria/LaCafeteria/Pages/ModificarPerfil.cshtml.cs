@@ -26,7 +26,7 @@ namespace LaCafeteria.Pages
         public ModificarPerfilModel()
         {
             miembroController = new MiembroController();
-            
+            listaIdiomasElegidos = new List<string>();
             listaIdiomasDisponibles = new List<string>();
         }
 
@@ -40,10 +40,15 @@ namespace LaCafeteria.Pages
             listaIdiomasDisponibles.Add("Ruso");
             string idiomas = miembro.idiomas;
             //string idiomas = "Español,Chino,Inglés";
-            listaIdiomasElegidos = idiomas.Split(',').ToList();
-            while (listaIdiomasElegidos.Count() < listaIdiomasDisponibles.Count()) {
-                listaIdiomasElegidos.Add("");
+            if (idiomas != null)
+            {
+                listaIdiomasElegidos = idiomas.Split(',').ToList();
+                while (listaIdiomasElegidos.Count() < listaIdiomasDisponibles.Count())
+                {
+                    listaIdiomasElegidos.Add("");
+                }
             }
+            
         }
         
         public IActionResult OnPostActualizar()
