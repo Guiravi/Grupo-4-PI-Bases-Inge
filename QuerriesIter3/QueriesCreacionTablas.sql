@@ -37,22 +37,12 @@ CREATE TABLE Rol
 	CONSTRAINT PK_Rol PRIMARY KEY(nombrePK)
 );
 
-CREATE TABLE Categoria
+CREATE TABLE CategoriaTopico
 (
-	nombrePK NVARCHAR(50) CONSTRAINT NN_Categoria_nombrePK NOT NULL,
-
-	CONSTRAINT PK_Categoria PRIMARY KEY (nombrePK),
-);
-
-CREATE TABLE Topico
-(
-	nombre NVARCHAR(50) CONSTRAINT NN_Topico_nombrePK NOT NULL,
-	nombreCategoriaFK	NVARCHAR(50) CONSTRAINT NN_Topico_nombreCategoriaFK NOT NULL,
-
-	CONSTRAINT PK_Topico PRIMARY KEY (nombre, nombreCategoriaFK),
-	CONSTRAINT FK_Topico_Categoria FOREIGN KEY (nombreCategoriaFK) REFERENCES  Categoria (nombrePK)
-		ON DELETE CASCADE --Si se elimina la categoría se quieren eliminar todos sus topicos asociados
-		ON UPDATE CASCADE,
+	nombreCategoriaPK NVARCHAR(50) CONSTRAINT NN_CategoriaTopico_nombreCategoriaPK NOT NULL,
+	nombreTopicoPK NVARCHAR(50) CONSTRAINT NN_CategoriaTopico_nombreTopicoPK NOT NULL,
+	
+	CONSTRAINT PK_CategoriaTopico PRIMARY KEY (nombreCategoriaPK, nombreTopicoPK),
 );
 
 CREATE TABLE Articulo
@@ -174,7 +164,7 @@ CREATE TABLE ArticuloTrataTopico
 	idArticuloFK INTEGER CONSTRAINT NN_ArticuloTrataTopico_idArticuloFK NOT NULL,
 
 	CONSTRAINT PK_ArticuloTrataTopico PRIMARY KEY(nombreCategoriaFK, nombreTopicoFK, idArticuloFK),
-	CONSTRAINT FK_ArticuloTrataTopico_Topico FOREIGN KEY (nombreTopicoFK, nombreCategoriaFK) REFERENCES Topico(nombre, nombreCategoriaFK)
+	CONSTRAINT FK_ArticuloTrataTopico_CategoriaTopico FOREIGN KEY (nombreCategoriaFK, nombreTopicoFK) REFERENCES CategoriaTopico(nombreCategoriaPK, nombreTopicoPK)
 		ON DELETE NO ACTION --Se tienen que borrar todos los artículos asociados al tópico antes de borrar el tópico.
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_ArticuloTrataTopico_Articulo FOREIGN KEY (idArticuloFK) REFERENCES Articulo(articuloAID)
