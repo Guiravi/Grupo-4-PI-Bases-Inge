@@ -1,0 +1,145 @@
+﻿@page
+@model LaCafeteria.Pages.RevisarArticuloModel
+@{
+    ViewData["Title"] = "RevisarArticulo";
+}
+
+<style>
+    .btn {
+        display: inline-block;
+        margin-bottom: 0;
+        font-weight: normal;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        background-image: none;
+        border: 1px solid transparent;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        border-radius: 4px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .btn-success {
+        color: #fff;
+        background-color: #259959;
+        border-color: #259959;
+    }
+
+    .btn-danger {
+        color: #fff;
+        background-color: #992525;
+        border-color: #992525;
+    }
+</style>
+
+<h2 class="text-center">Revisar: Título de Artículo</h2>
+
+<p>Autores:</p>
+<p>Tópicos:</p>
+<p>Resumen:</p>
+<p>Contenido:</p>
+
+@*<div class="container">
+        @if ( Model.tipoArticulo == "Corto" )
+        {
+            <div class="row" id="contenidoCorto">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10" id="divContent" style="background-color: white;"> @Html.Raw(Model.articulo.contenido) </div>
+                <div class="col-lg-1"></div>
+            </div>
+        } else
+        {
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10"><embed src="~/ArticulosPDF/@Model.articuloPDF" type="application/pdf" style="width:100%; height: 800px" /></div>
+                <div class="col-md-1"></div>
+            </div>
+        }
+    </div>*@
+
+
+<div class="panel">
+    <div class="panel-heading panel-default">
+        <h3 class="panel-title text-center">Formulario de Revisión de Artículo</h3>
+    </div>
+
+    <div class="panel-body">
+        <form method="post">
+            <div class="text-center">
+                <label>Opinión General del artículo</label>
+            </div>
+            <div class="text-center">
+                <div class="btn-group" id="opinionGeneral" role="group" aria-label="Opinion General">
+                    <button type="button" class="btn btn-default">0</button>
+                    <button type="button" class="btn btn-default">1</button>
+                    <button type="button" class="btn btn-default">2</button>
+                    <button type="button" class="btn btn-default">3</button>
+                    <button type="button" class="btn btn-default">4</button>
+                    <button type="button" class="btn btn-default">5</button>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <label>Contribución del artículo</label>
+            </div>
+            <div class="text-center">
+                <div class="btn-group" id="contribucion" role="group" aria-label="Contribución del artículo">
+                    <button type="button" class="btn btn-default">0</button>
+                    <button type="button" class="btn btn-default">1</button>
+                    <button type="button" class="btn btn-default">2</button>
+                    <button type="button" class="btn btn-default">3</button>
+                    <button type="button" class="btn btn-default">4</button>
+                    <button type="button" class="btn btn-default">5</button>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <label>Forma del artículo</label>
+            </div>
+            <div class="text-center">
+                <div class="btn-group" id="forma" role="group" aria-label="Forma del Artículo">
+                    <button type="button" class="btn btn-default">0</button>
+                    <button type="button" class="btn btn-default">1</button>
+                    <button type="button" class="btn btn-default">2</button>
+                    <button type="button" class="btn btn-default">3</button>
+                    <button type="button" class="btn btn-default">4</button>
+                    <button type="button" class="btn btn-default">5</button>
+                </div>
+            </div>
+
+            <div>
+                <p>Recomendación:</p>
+                <p>Aceptar</p>
+                <p>Rechazar</p>
+                <p>Aceptar con Modificaciones</p>
+            </div>
+
+
+            <label>Comentarios</label>
+            <div class="text-center">
+                <textarea placeholder="Escriba sus comentarios sobre el artículo" rows="5" cols="100"></textarea>
+            </div>
+
+
+        </form>
+
+        <div class="container text-center">
+            <form method="post" style="display:inline-block">
+                <input type="button" class="btn btn-danger" value="Cancelar" />
+            </form>
+
+            <form method="post" style="display:inline-block">
+
+                <input type="button" class="btn btn-success" value="Enviar Revisión" />
+            </form>
+        </div>
+    </div>
+</div>
