@@ -11,6 +11,10 @@ namespace LaCafeteria.Models.Handlers
     {
         private EditorMiembroDBHandler editorMiembroDBHandler;
 
+        public EditorMiembroController() {
+            editorMiembroDBHandler = new EditorMiembroDBHandler();
+        }
+
         public void ActualizarMiembro(string usernamePK, MiembroModel miembro) {
             editorMiembroDBHandler.ActualizarMiembro(usernamePK, miembro);
         }
