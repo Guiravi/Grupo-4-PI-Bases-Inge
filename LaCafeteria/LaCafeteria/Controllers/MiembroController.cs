@@ -20,10 +20,6 @@ namespace LaCafeteria.Controllers
 			return miembroDBHandler.ExisteMiembro(usernamePK);
 		}
 
-		public void CrearMiembro(MiembroModel model)
-		{
-			miembroDBHandler.CrearMiembro(model);
-		}
 
         public void ActualizarMiembro(string usernamePK, MiembroModel miembro)
         {
