@@ -39,10 +39,7 @@ namespace LaCafeteria.Controllers
 
 
 
-        public List<ArticuloModel> GetMisArticulos(string username)
-        {
-            return articuloDBHandler.GetMisArticulos(username);
-        }
+
 
         public void CargarArticuloPDF(int idArticulo , string rutaCarpeta)
         {

@@ -50,5 +50,9 @@ namespace LaCafeteria.Controllers
         public List<ArticuloModel> GetTodosArticulos() {
             return buscadorArticuloDBHandler.GetTodosArticulos();
         }
+
+        public List<ArticuloModel> GetArticulosPorMiembro(string username) {
+            return buscadorArticuloDBHandler.GetArticulosPorMiembro(username);
+        }
     }
 }
