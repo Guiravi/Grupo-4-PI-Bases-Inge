@@ -36,5 +36,12 @@ namespace LaCafeteria.Controllers
             return articulos;
         }
 
+
+        public List<ArticuloModel> GetArticulosPorEstado(string estadoArticulo) {
+            List<ArticuloModel> artList = buscadorArticuloDBHandler.GetArticulosPorEstado(estadoArticulo);
+            return artList;
+        }
+
+
     }
 }

@@ -75,7 +75,10 @@ namespace LaCafeteria.Controllers
             }
         }
 
-
+        public ArticuloModel GetArticuloModelResumen(int id) {
+            ArticuloModel articulo = articuloDBHandler.GetInfoPaginaResumen(id);
+            return articulo;
+        }
 
         public String GetAutoresDeArticulo (int id) {
             String autores = "";
@@ -98,10 +101,7 @@ namespace LaCafeteria.Controllers
             articuloDBHandler.AgregarVisita(id);
         }
 
-        public List<ArticuloModel> GetArticulosPorEstado(string estadoArticulo) {
-            List<ArticuloModel> artList = articuloDBHandler.GetArticulosPorEstado(estadoArticulo);
-            return artList;
-        }
+
 
         public List<ArticuloModel> GetArticulosRevisionFinalizada() {
             return articuloDBHandler.GetArticulosRevisionFinalizada();
