@@ -11,6 +11,10 @@ namespace LaCafeteria.Controllers
     {
         private BuscadorMiembroDBHandler buscadorMiembroDBHandler;
 
+        public BuscadorMiembrosController() {
+            buscadorMiembroDBHandler = new BuscadorMiembroDBHandler();
+        }
+
         public List<MiembroModel> GetListaMiembrosModel() {
             return buscadorMiembroDBHandler.GetListaMiembros();
         }
