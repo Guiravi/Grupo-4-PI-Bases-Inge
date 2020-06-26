@@ -12,21 +12,7 @@ namespace LaCafeteria.Models
     {
 
 
-        public void ActualizarEstadoArticulo(int id, string estadoArticulo)
-        {
-            string connectionString = AppSettings.GetConnectionString();
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                string cmdString = "UPDATE Articulo SET Articulo.estado = @estadoArticulo WHERE Articulo.idArticuloPK = @id";
-                SqlCommand command = new SqlCommand(cmdString, connection);
-                command.Parameters.AddWithValue("@id", id);
-                command.Parameters.AddWithValue("@estadoArticulo", estadoArticulo);
-                command.ExecuteNonQuery();
-            }
-
-        }
+       
 
         public void EditarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<string> nombreTopicoPKTopicos)
 		{
