@@ -26,11 +26,7 @@ namespace LaCafeteria.Models
             return File.Exists(rutaArchivo);
         }
 
-        public bool YaEstaEnCarpetaPDF(int idArticulo, string rutaCarpeta)
-        {
-            string rutaArchivo = rutaCarpeta + "/ArticulosPDF/" + idArticulo + ".pdf";
-            return File.Exists(rutaArchivo);
-        }
+
 
         public void BorrarViejoArchivo(int idArticulo, string rutaCarpeta)
         {
