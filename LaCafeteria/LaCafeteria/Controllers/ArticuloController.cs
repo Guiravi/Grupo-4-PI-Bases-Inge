@@ -69,10 +69,6 @@ namespace LaCafeteria.Controllers
             }
         }
 
-        public ArticuloModel GetArticuloModelResumen(int id) {
-            ArticuloModel articulo = articuloDBHandler.GetInfoPaginaResumen(id);
-            return articulo;
-        }
 
 
         public void ActualizarEstadoArticulo(int id, string estadoArticulo){

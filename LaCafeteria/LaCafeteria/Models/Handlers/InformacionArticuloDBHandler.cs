@@ -40,7 +40,7 @@ namespace LaCafeteria.Models.Handlers
             return autores;
         }
 
-        public ArticuloModel GetInformacionArticulo(int id) {
+        public ArticuloModel GetInformacionArticuloModel(int id) {
             string connectionString = AppSettings.GetConnectionString();
 
             ArticuloModel articulo = null;

@@ -76,5 +76,11 @@ namespace LaCafeteria.Controllers
         public int GetCalificacionMiembro(string username, int idArticulo) {
             return informacionArticuloDBHandler.GetCalificacionMiembro(username, idArticulo);
         }
+
+
+        public ArticuloModel GetInformacionArticuloModel(int id) {
+            ArticuloModel articulo = informacionArticuloDBHandler.GetInformacionArticuloModel(id);
+            return articulo;
+        }
     }
 }
