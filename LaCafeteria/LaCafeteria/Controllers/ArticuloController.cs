@@ -19,10 +19,7 @@ namespace LaCafeteria.Controllers
             articuloFSHandler = new ArticuloFSHandler();
         }
 
-		public void GuardarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<string> nombreTopicoPKTopicos)
-		{
-			articuloDBHandler.GuardarArticulo(articulo, usernamePKMiembrosAutores, nombreTopicoPKTopicos);
-		}
+
 
 
 
