@@ -237,41 +237,6 @@ namespace LaCafeteria.Models
             }
         }
 
-        
-
-        
-
-        public List<string> GetRevisoresDeArticulo(int id) {
-            List<string> listaRevisores = new List<string>();
-
-            String connectionString = AppSettings.GetConnectionString();
-
-            using ( SqlConnection connection = new SqlConnection(connectionString) )
-            {
-                connection.Open();
-
-                SqlCommand cmd = new SqlCommand("SELECT nombre, apellido1, apellido2 FROM Miembro M " +
-                    "JOIN NucleoRevisaArticulo NRA " +
-                    "ON M.usernamePK = NRA.usernameMiemFK " +
-                    "JOIN Articulo A " +
-                    "ON NRA.idArticuloFK = A.idArticuloPK " +
-                    "WHERE A.idArticuloPK = @id", connection);
-
-                cmd.Parameters.AddWithValue("@id", id);
-
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                while ( reader.Read() )
-                {
-                    string nombreRevisor = reader["nombre"].ToString() + " " + reader["apellido1"].ToString() + " " + reader["apellido2"].ToString();
-                    listaRevisores.Add(nombreRevisor);
-                }
-
-                reader.Close();
-
-                return listaRevisores;
-            }
-        }
 
 
     }
