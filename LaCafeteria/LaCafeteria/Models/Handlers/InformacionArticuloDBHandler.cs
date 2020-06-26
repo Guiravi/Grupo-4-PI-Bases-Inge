@@ -172,5 +172,34 @@ namespace LaCafeteria.Models.Handlers
 
             return System.Convert.FromBase64String(contenido);
         }
+
+        public List<TopicoModel> GetTopicosArticulo(int id) {
+            List<TopicoModel> topicos = new List<TopicoModel>();
+
+            String connectionString = AppSettings.GetConnectionString();
+
+            String sqlString = "SELECT ArticuloTrataTopico.nombreTopicoFK FROM ArticuloTrataTopico WHERE ArticuloTrataTopico.idArticuloFK = @id";
+
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+                using ( SqlCommand command = new SqlCommand(sqlString, connection) )
+                {
+                    connection.Open();
+                    command.Parameters.AddWithValue("@id", id);
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while ( reader.Read() )
+                    {
+                        TopicoModel topicoActual = new TopicoModel()
+                        {
+                            nombre = (string) reader["nombreTopicoFK"]
+                        };
+                        topicos.Add(topicoActual);
+                    }
+                }
+            }
+            return topicos;
+        }
     }
 }
