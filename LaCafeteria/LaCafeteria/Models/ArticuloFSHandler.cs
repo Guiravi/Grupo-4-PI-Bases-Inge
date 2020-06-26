@@ -12,10 +12,6 @@ namespace LaCafeteria.Models
     {
         
 
-        public void ConvertirDocxPDF(string nombreDocx, string rutaCarpeta)
-        {
-            Convertidor.DocxConvertToPdf(nombreDocx, rutaCarpeta);
-        }
 
 
 
