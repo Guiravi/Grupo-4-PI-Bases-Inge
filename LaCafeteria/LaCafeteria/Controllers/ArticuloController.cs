@@ -103,9 +103,6 @@ namespace LaCafeteria.Controllers
 
 
 
-        public List<ArticuloModel> GetArticulosRevisionFinalizada() {
-            return articuloDBHandler.GetArticulosRevisionFinalizada();
-        }
 
         public string GetRevisoresDeArticulo(int id) {
             string revisores = "";

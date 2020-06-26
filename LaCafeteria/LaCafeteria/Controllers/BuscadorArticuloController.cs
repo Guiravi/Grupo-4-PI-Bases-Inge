@@ -43,5 +43,9 @@ namespace LaCafeteria.Controllers
         }
 
 
+        public List<ArticuloModel> GetArticulosRevisionFinalizada() {
+            return buscadorArticuloDBHandler.GetArticulosRevisionFinalizada();
+        }
+
     }
 }
