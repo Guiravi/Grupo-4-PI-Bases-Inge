@@ -10,6 +10,10 @@ namespace LaCafeteria.Controllers
     {
         private CalificadorDeArticulosDBHandler calificadorDeArticulosDBHandler;
 
+        public CalificadorDeArticuloController() {
+            calificadorDeArticulosDBHandler = new CalificadorDeArticulosDBHandler();
+        }
+
         public void CalificarArticulo(string username, int idArticulo, int valorCalif) {
             calificadorDeArticulosDBHandler.CalificarArticulo(username, idArticulo, valorCalif);
         }
