@@ -21,13 +21,6 @@ namespace LaCafeteria.Models
 
 
 
-        public void BorrarViejoArchivo(int idArticulo, string rutaCarpeta)
-        {
-            string rutaDocx = rutaCarpeta + "/ArticulosDOCX/" + idArticulo + ".docx";
-            string rutaPdf = rutaCarpeta + "/ArticulosPDF/" + idArticulo + ".pdf";
 
-            File.Delete(rutaDocx);
-            File.Delete(rutaPdf);
-        }
     }
 }

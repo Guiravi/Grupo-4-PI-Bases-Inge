@@ -22,5 +22,13 @@ namespace LaCafeteria.Models.Handlers
         public void GuardarArticuloDOCX(int idArticulo, byte[] contenido, string rutaCarpeta) {
             File.WriteAllBytes(rutaCarpeta + "/ArticulosDOCX/" + idArticulo + ".docx", contenido);
         }
+
+        public void BorrarViejoArchivo(int idArticulo, string rutaCarpeta) {
+            string rutaDocx = rutaCarpeta + "/ArticulosDOCX/" + idArticulo + ".docx";
+            string rutaPdf = rutaCarpeta + "/ArticulosPDF/" + idArticulo + ".pdf";
+
+            File.Delete(rutaDocx);
+            File.Delete(rutaPdf);
+        }
     }
 }
