@@ -64,5 +64,33 @@ namespace LaCafeteria.Models.Handlers
                 }
             }
         }
+
+        private int ObtenerSiguienteId() {
+            String connectionString = AppSettings.GetConnectionString();
+            SqlCommand cmd;
+            int current_id;
+
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+
+                connection.Open();
+
+                cmd = new SqlCommand("SELECT IDENT_CURRENT ('Articulo')", connection);
+
+                SqlDataReader identReader = cmd.ExecuteReader();
+
+                current_id = 0;
+
+                while ( identReader.Read() )
+                {
+                    current_id = Convert.ToInt32(identReader.GetValue(0));
+                }
+
+                identReader.Close();
+
+            }
+
+            return current_id;
+        }
     }
 }
