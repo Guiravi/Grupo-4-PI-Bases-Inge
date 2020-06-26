@@ -311,43 +311,6 @@ namespace LaCafeteria.Models
             return listaMiembros;
         }
 
-        public int GetCalificacionMiembro(string username, int idArticulo)
-        {
-            int calificacion = 10;
-
-            string connectionString = AppSettings.GetConnectionString();
-
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {                
-                string consulta = "SELECT MCA.calificacion " +
-                    "FROM Miembro M " +
-                    "JOIN MiembroCalificaArticulo MCA " +
-                        "ON M.usernamePK = MCA.usernameMiemFK " +
-                    "JOIN Articulo A " +
-                        "ON MCA.idArticuloFK = A.idArticuloPK " +
-                    "WHERE MCA.usernameMiemFK = @user " +
-                        "AND MCA.idArticuloFK = @id;";
-
-                sqlConnection.Open();
-                using (SqlCommand cmd = new SqlCommand(consulta, sqlConnection))
-                {
-
-                    cmd.Parameters.AddWithValue("@user", username);
-                    cmd.Parameters.AddWithValue("@id", idArticulo);
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        if (reader.HasRows)
-                        {
-                            reader.Read();
-                            calificacion = reader.GetInt32(0);
-                        }
-                    }
-                }
-            }
-
-            return calificacion;
-        }
-
         public void CalificarArticulo(string username, int idArticulo, int valorCalif)
         {
             string connectionString = AppSettings.GetConnectionString();
