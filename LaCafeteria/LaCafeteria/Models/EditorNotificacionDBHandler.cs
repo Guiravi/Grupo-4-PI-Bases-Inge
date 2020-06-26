@@ -16,8 +16,7 @@ namespace LaCafeteria.Models
 			{
 				connection.Open();
 				string sqlString = @"UPDATE Notificacion 
-									 SET notificacionAID = @notificacionAID, 
-									     usernameFK = @usernameFK, 
+									 SET usernameFK = @usernameFK, 
 										 fechaCreacion = @fechaCreacion, 
 										 mensaje = @mensaje, 
 										 estado = @estado,

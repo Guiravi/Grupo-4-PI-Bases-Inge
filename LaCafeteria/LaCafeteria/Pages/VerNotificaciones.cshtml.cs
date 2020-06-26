@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using LaCafeteria.Models;
 using LaCafeteria.Controllers;
+using LaCafeteria.Utilidades;
 
 namespace LaCafeteria.Pages
 {
@@ -17,33 +18,44 @@ namespace LaCafeteria.Pages
 		private EditorNotificacionController editorNotificacionController;
 		private int cantidadSinLeer = 0;
 
-		public void OnGet()
-        {
+
+		public VerNotificacionesModel()
+		{
 			informacionMiembroController = new InformacionMiembroController();
+			buscadorNotificacionController = new BuscadorNotificacionController();
+			editorNotificacionController = new EditorNotificacionController();
+		}
+
+		public void OnGet()
+        {	
 			listaNotificaciones = informacionMiembroController.GetNotificaciones(Request.Cookies["usernamePK"]);
+			HttpContext.Session.SetComplexData("listaNotificaciones", listaNotificaciones);
 			// Contar notificaciones sin leer
+			// TODO: Establecer en variable de sesion la cantidad de notificaciones sin leer.
         }
 
-		public ActionResult OnPost(int notificacionID)
+		public ActionResult OnPost(int notificacionAID)
 		{
 			// Obtener la notificacion
-			Notificacion notificacion = buscadorNotificacionController.GetNotificacion(notificacionID);
+			Notificacion notificacion = buscadorNotificacionController.GetNotificacion(notificacionAID);
 
 			if(notificacion.estado.Equals(Notificacion.Nueva))
 			{
 				notificacion.estado = Notificacion.Leida;
 				// Actualizar notificacion
 				editorNotificacionController.ActualizarNotificacion(notificacion);
+				// TODO: Establecer en variable de sesion la cantidad de notificaciones sin leer.
+				listaNotificaciones = informacionMiembroController.GetNotificaciones(Request.Cookies["usernamePK"]);
+				HttpContext.Session.SetComplexData("listaNotificaciones", listaNotificaciones);
 			}
 
-			if(notificacion.url != null)
+			if (notificacion.url != null)
 			{
 				// Si tiene link redirect
 				return Redirect(notificacion.url);
 			}
 
-			// TODO: Un redirect para que llame al get(?)
-			return Page();		
+			return Redirect("/VerNotificaciones");		
 		}
     }
 }

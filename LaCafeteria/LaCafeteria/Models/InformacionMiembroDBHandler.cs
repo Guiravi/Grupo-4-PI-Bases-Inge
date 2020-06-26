@@ -1,5 +1,7 @@
-﻿using System;
+﻿using LaCafeteria.Utilidades;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,14 +11,38 @@ namespace LaCafeteria.Models
 	{
 		public List<Notificacion> GetNotificaciones(string usernamePK)
 		{	
-			// TODO: Conectar a base de datos para obtener notificaciones reales ordenadas por fecha
-			List<Notificacion> listaNotificaciones = null;
+			List<Notificacion> listaNotificaciones = new List<Notificacion>();
 
-			listaNotificaciones = new List<Notificacion>();
-			listaNotificaciones.Add(new Notificacion("BadBunny", "Su articulo YHLQMDLG ha sido aceptado", "/MiPerfil"));
-			listaNotificaciones.Add(new Notificacion("BadBunny", "Usted ha sido promovido a Miembro de nucleo!", "#"));
-			listaNotificaciones.Add(new Notificacion("BadBunny", "Su articulo Bichiyal ha recibido 1 like", "#"));
-			listaNotificaciones.Add(new Notificacion("BadBunny", "Se solicita su colaboracion para revisar el articulo Oda al mono motorizado", "#"));
+			string connectionString = AppSettings.GetConnectionString();
+			using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+			{
+
+				string sqlString = @"SELECT notificacionAID, usernameFK, fechaCreacion, mensaje, estado, url
+								     FROM Notificacion WHERE @usernamePK = usernameFK
+									 ORDER BY fechaCreacion, estado DESC";
+
+				sqlConnection.Open();
+				using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+				{
+					sqlCommand.Parameters.AddWithValue("@usernamePK", usernamePK);
+					SqlDataReader dataReader = sqlCommand.ExecuteReader();
+					while(dataReader.Read())
+					{
+						Notificacion notificacion = new Notificacion()
+						{
+							notificacionAID = (int)dataReader["notificacionAID"],
+							usernameFK = (string)dataReader["usernameFK"],
+							fechaCreacion = (string)dataReader["fechaCreacion"].ToString().Remove(dataReader["fechaCreacion"].ToString().Length - 12, 12),
+							mensaje = (string)dataReader["mensaje"],
+							estado = (string)dataReader["estado"],
+							url = (!DBNull.Value.Equals(dataReader["url"])) ? (string)dataReader["url"] : null
+
+						};
+
+						listaNotificaciones.Add(notificacion);
+					}
+				}
+			}
 
 			return listaNotificaciones;
 		}

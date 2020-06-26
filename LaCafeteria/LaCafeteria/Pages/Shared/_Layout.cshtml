@@ -75,7 +75,7 @@
 						<ul class="dropdown-menu">
 							@{
 								List<Notificacion> listaNotificacion = Context.Session.GetComplexData<List<Notificacion>>("listaNotificaciones");
-								if (listaNotificacion != null)
+								if (listaNotificacion != null && listaNotificacion.Count != 0)
 								{	<form method="post" asp-page="VerNotificaciones">
 										<div class="container" style="width:400px">
 											@for (int notificacionActual = 0; notificacionActual < listaNotificacion.Count && notificacionActual < 5; notificacionActual++)
@@ -84,7 +84,7 @@
 												@if (listaNotificacion[notificacionActual].estado.Equals(Notificacion.Nueva))
 												{
 													<div class="col-sm-11">
-														<button id="notificacionID" name="notificacionID" type="submit" class="notificacion" value="@listaNotificacion[notificacionActual].notificacionID"><li style="width:320px;"><div><p style="color:white; margin:auto">@listaNotificacion[notificacionActual].mensaje</p></div></li></button>
+														<button id="notificacionAID" name="notificacionAID" type="submit" class="notificacion" value="@listaNotificacion[notificacionActual].notificacionAID"><li style="width:320px;"><div><p style="color:white; margin:auto">@listaNotificacion[notificacionActual].mensaje</p></div></li></button>
 													</div>
 													<div class="col-sm-1">
 														<span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -92,10 +92,12 @@
 												}
 												else
 												{
-													<button type="submit" name="notificacionID" class="notificacion"><li><div><p style="color:white">@listaNotificacion[notificacionActual].mensaje</p></div></li> </button>
-
+													<div class="col-sm-11">
+									
+													<button id="notificacionAID" name="notificacionAID" type="submit" class="notificacion" value="@listaNotificacion[notificacionActual].notificacionAID"><li style="width:320px;"><div><p style="color:white; margin:auto">@listaNotificacion[notificacionActual].mensaje</p></div></li></button>
+													</div>
 												}
-																
+
 											</div>
 											}
 											<a style="color:steelblue;" href="/VerNotificaciones"> Ver todas mis notificaciones</a>

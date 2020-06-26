@@ -30,7 +30,7 @@ namespace LaCafeteria.Models
 						notificacion = new Notificacion()
 						{
 							notificacionAID = (int)dataReader["notificacionAID"],
-							usernameFK = (string)dataReader["usenameFK"],
+							usernameFK = (string)dataReader["usernameFK"],
 							fechaCreacion = (string)dataReader["fechaCreacion"].ToString().Remove(dataReader["fechaCreacion"].ToString().Length - 12, 12),
 							mensaje = (string)dataReader["mensaje"],
 							estado = (string)dataReader["estado"],

@@ -8,9 +8,16 @@ namespace LaCafeteria.Controllers
 {
 	public class CreadorNotificacionController
 	{
-		public void EnviarNotificacion(Notificacion notificacion, string usernamePK)
-		{
+		private CreadorNotificacionDBHandler creadorNotificacionDBHandler;
 
+		public CreadorNotificacionController()
+		{
+			creadorNotificacionDBHandler = new CreadorNotificacionDBHandler();
+		}
+
+		public void CrearNotificacion(Notificacion notificacion)
+		{
+			creadorNotificacionDBHandler.CrearNotificacion(notificacion);
 		}
 	}
 }

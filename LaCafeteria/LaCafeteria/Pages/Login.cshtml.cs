@@ -33,7 +33,15 @@ namespace LaCafeteria.Pages
 
 		public IActionResult OnGet()
         {
-			if(cerrarSesion != null)
+			CreadorNotificacionController creadorNotificacionController = new CreadorNotificacionController();
+			
+			// TODO: Eliminar codigo de prueba
+			creadorNotificacionController.CrearNotificacion( new Notificacion("BadBunny", "Su articulo YHLQMDLG ha sido aceptado", "/Index"));
+			creadorNotificacionController.CrearNotificacion(new Notificacion("BadBunny", "Usted ha sido promovido a Miembro de nucleo!", "#"));
+			creadorNotificacionController.CrearNotificacion(new Notificacion("BadBunny", "Su articulo Bichiyal ha recibido 1 like", "#"));
+			creadorNotificacionController.CrearNotificacion(new Notificacion("BadBunny", "Se solicita su colaboracion para revisar el articulo Oda al mono motorizado", "#"));
+
+			if (cerrarSesion != null)
 			{
 				Response.Cookies.Delete("usernamePK");
 				Notificaciones.Set(this, "cerrarSesion", "Se ha cerrado la sesión", Notificaciones.TipoNotificacion.Exito);
