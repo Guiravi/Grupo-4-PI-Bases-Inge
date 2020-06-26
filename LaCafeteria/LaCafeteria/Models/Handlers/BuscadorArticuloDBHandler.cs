@@ -130,6 +130,79 @@ namespace LaCafeteria.Models.Handlers
             }
         }
 
+        public List<ArticuloModel> GetArticulosPorTitulo(String titulo, int tipos) {
+            String connectionString = AppSettings.GetConnectionString();
 
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+                connection.Open();
+
+                SqlCommand cmd;
+
+                switch ( tipos )
+                {
+                    case 1:
+                        cmd = new SqlCommand("SELECT  * " +
+                        " FROM  Articulo " +
+                        " WHERE titulo LIKE @titulo " +
+                            " AND tipo = 'Corto' " +
+                            " AND estado = 'Publicado' " +
+                        " ORDER BY fechaPublicacion DESC;", connection);
+                        break;
+                    case 2:
+                        cmd = new SqlCommand("SELECT  * " +
+                        " FROM  Articulo " +
+                        " WHERE titulo LIKE @titulo " +
+                            " AND tipo = 'Largo' " +
+                            " AND estado = 'Publicado' " +
+                        " ORDER BY fechaPublicacion DESC;", connection);
+                        break;
+                    case 3:
+                        cmd = new SqlCommand("SELECT  * " +
+                        " FROM  Articulo " +
+                        " WHERE titulo LIKE @titulo " +
+                            " AND tipo = 'Link' " +
+                            " AND estado = 'Publicado' " +
+                        " ORDER BY fechaPublicacion DESC;", connection);
+                        break;
+                    default:
+                        cmd = new SqlCommand("SELECT  * " +
+                        " FROM  Articulo " +
+                        " WHERE titulo LIKE @titulo " +
+                            " AND estado = 'Publicado' " +
+                        " ORDER BY fechaPublicacion DESC;", connection);
+                        break;
+                }
+
+                cmd.Parameters.AddWithValue("@titulo", "%" + titulo + "%");
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                List<ArticuloModel> artList = new List<ArticuloModel>();
+
+                while ( reader.Read() )
+                {
+                    ArticuloModel articuloActual = new ArticuloModel()
+                    {
+                        idArticuloPK = (int) reader["idArticuloPK"],
+                        titulo = (String) reader["titulo"],
+                        tipo = (String) reader["tipo"],
+                        fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
+                        resumen = (String) reader["resumen"],
+                        contenido = (String) reader["contenido"],
+                        estado = (String) reader["estado"],
+                        visitas = (int) reader["visitas"],
+                        puntajeTotalRev = (!DBNull.Value.Equals(reader["puntajeTotalRev"])) ? (double?) reader["puntajeTotalRev"] : null,
+                        calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
+                    };
+
+                    artList.Add(articuloActual);
+                }
+
+                reader.Close();
+
+                return artList;
+            }
+        }
     }
 }
