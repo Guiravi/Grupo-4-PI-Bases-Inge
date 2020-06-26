@@ -45,5 +45,8 @@ namespace LaCafeteria.Models.Handlers
                 command.ExecuteNonQuery();
             }
         }
+
+        public void SetRolMiembro() {
+        }
     }
 }
