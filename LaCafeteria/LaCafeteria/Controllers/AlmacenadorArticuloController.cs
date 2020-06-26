@@ -11,6 +11,10 @@ namespace LaCafeteria.Controllers
     {
         private AlmacenadorArticuloDBHandler almacenadorArticuloDBHandler;
 
+        public AlmacenadorArticuloController() {
+            almacenadorArticuloDBHandler = new AlmacenadorArticuloDBHandler();
+        }
+
         public void GuardarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<string> nombreTopicoPKTopicos) {
             almacenadorArticuloDBHandler.GuardarArticulo(articulo, usernamePKMiembrosAutores, nombreTopicoPKTopicos);
         }
