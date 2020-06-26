@@ -26,10 +26,6 @@ namespace LaCafeteria.Controllers
             miembroDBHandler.ActualizarMiembro(usernamePK, miembro);
         }
 
-		public MiembroModel GetMiembro(string usernamePK)
-		{
-			return miembroDBHandler.GetMiembro(usernamePK);
-		}
 
 
 
