@@ -19,7 +19,7 @@
 	</environment>
 	<link rel="stylesheet" href="~/css/Layout.css"/>
 </head>
-<body style="position:relative;min-height:100vh" class="body-content">
+<body class="body-content">
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -74,7 +74,7 @@
 
 	<partial name="_CookieConsentPartial" />
 
-	<div class="container body-content">
+	<div style="min-height:100vh;position:relative;padding-bottom:100px" class="container body-content">
 		@RenderBody()
 
         <footer style="position:absolute;bottom:0" class ="footer">
