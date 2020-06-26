@@ -15,5 +15,8 @@ namespace LaCafeteria.Models.Handlers
             editorMiembroDBHandler.ActualizarMiembro(usernamePK, miembro);
         }
 
+        public void SetRolMiembro() {
+
+        }
     }
 }
