@@ -233,47 +233,6 @@ namespace LaCafeteria.Models
         }
               
 
-        public List<ArticuloModel> GetTodosArticulos()
-        {
-            String connectionString = AppSettings.GetConnectionString();
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                SqlCommand cmd = new SqlCommand("SELECT idArticuloPK, titulo, tipo, fechaPublicacion, resumen, contenido, estado, visitas, puntajeTotalRev, calificacionTotalMiem " +
-                        " FROM  Articulo" +
-                        " WHERE estado = 'Publicado';",  connection);
-              
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                List<ArticuloModel> artList = new List<ArticuloModel>();
-
-                while (reader.Read())
-                {
-                    ArticuloModel articuloActual = new ArticuloModel()
-                    {
-                        idArticuloPK = (int)reader["idArticuloPK"],
-                        titulo = (String)reader["titulo"],
-                        tipo = (String)reader["tipo"],
-                        fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
-                        resumen = (String)reader["resumen"],
-                        contenido = (String)reader["contenido"],
-                        estado = (String)reader["estado"],
-                        visitas = (int)reader["visitas"],
-                        puntajeTotalRev = (!DBNull.Value.Equals(reader["puntajeTotalRev"])) ? (double?)reader["puntajeTotalRev"] : null,
-                        calificacionTotalMiem = (int)reader["calificacionTotalMiem"]
-                    };
-
-                    artList.Add(articuloActual);
-                }
-
-                reader.Close();
-
-                return artList;
-            }
-        }
-
         public byte[] DescargarArticuloDocx(int idArticulo) {
             String connectionString = AppSettings.GetConnectionString();
             SqlCommand cmd;
