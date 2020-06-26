@@ -273,39 +273,6 @@ namespace LaCafeteria.Models
             }
         }
 
-        public List<Tuple<string, string, double, string>> GetRevisiones(int id) {
-            List<Tuple<string, string, double, string>> revisiones = new List<Tuple<string, string, double, string>>();
 
-            String connectionString = AppSettings.GetConnectionString();
-
-            using ( SqlConnection connection = new SqlConnection(connectionString) )
-            {
-                connection.Open();
-
-                SqlCommand cmd = new SqlCommand("SELECT M.usernamePK, M.nombre, M.apellido1, M.apellido2, NRA.puntaje, NRA.comentarios FROM Miembro M " +
-                    "JOIN NucleoRevisaArticulo NRA " +
-                    "ON M.usernamePK = NRA.usernameMiemFK " +
-                    "JOIN Articulo A " +
-                    "ON NRA.idArticuloFK = A.idArticuloPK " +
-                    "WHERE A.idArticuloPK = @id", connection);
-
-                cmd.Parameters.AddWithValue("@id", id);
-
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                while ( reader.Read() )
-                {
-                    string username = reader["usernamePK"].ToString();
-                    string nombreRevisor = reader["nombre"].ToString() + " " + reader["apellido1"].ToString() + " " + reader["apellido2"].ToString();
-                    double puntaje = (double) reader["puntaje"];
-                    string comentarios = reader["comentarios"].ToString();
-                    revisiones.Add(Tuple.Create(username, nombreRevisor, puntaje, comentarios));
-                }
-
-                reader.Close();
-
-                return revisiones;
-            }
-        }
     }
 }
