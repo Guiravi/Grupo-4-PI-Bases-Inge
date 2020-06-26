@@ -27,10 +27,6 @@ namespace LaCafeteria.Controllers
 
 
 
-        public void CalificarArticulo(string username, int idArticulo, int valorCalif)
-        {
-            miembroDBHandler.CalificarArticulo(username, idArticulo, valorCalif);
-        }
 
         public List<string[]> GetAutoresArticuloLista(int idArticulo)
         {
