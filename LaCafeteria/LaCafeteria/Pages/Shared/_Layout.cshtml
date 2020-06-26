@@ -39,34 +39,43 @@
 			<li class="collapse navbar-collapse" id="navbar-collapse-2">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a asp-page="/Index">Página principal</a></li>
-					<li><a asp-page="/Buscar">Buscar artículos</a></li>				
+					<li><a asp-page="/Buscar">Buscar artículos</a></li>
 					@if (Context.Request.Cookies["usernamePK"] != null)
 					{
-                        <li class="dropdown" role="presentation">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                Crear artículo <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a style="color:darkslategrey;" asp-page="/EscribirArticulo">Escribir artículo</a></li>
-                                <li><a style="color:darkslategrey;" asp-page="/SubirArticulo">Subir artículo</a></li>
-                                <li><a style="color:darkslategrey;" asp-page="/EnlazarArticulo">Enlazar artículo</a></li>
-                            </ul>
-                        </li>
+						<li class="dropdown" role="presentation">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+								Crear artículo <span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a style="color:darkslategrey;" asp-page="/EscribirArticulo">Escribir artículo</a></li>
+								<li><a style="color:darkslategrey;" asp-page="/SubirArticulo">Subir artículo</a></li>
+								<li><a style="color:darkslategrey;" asp-page="/EnlazarArticulo">Enlazar artículo</a></li>
+							</ul>
+						</li>
 
-					    <li class="dropdown" role="presentation">
-						    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Context.Request.Cookies["usernamePK"]<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a style="color:darkslategrey;" asp-page="/MiPerfil">Mi perfil</a></li>
-                                <li><a style="color:darkslategrey;" asp-page="/EnviarCorreo">Enviar correo</a></li>
-                                <li><a style="color:darkslategrey;" href="/Login/cerrarSesion">Cerrar sesión</a></li>
-                            </ul>
-					    </li>
+						<li class="dropdown" role="presentation">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Context.Request.Cookies["usernamePK"]<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a style="color:darkslategrey;" asp-page="/MiPerfil">Mi perfil</a></li>
+								<li><a style="color:darkslategrey;" asp-page="/EnviarCorreo">Enviar correo</a></li>
+								<li><a style="color:darkslategrey;" href="/Login/cerrarSesion">Cerrar sesión</a></li>
+							</ul>
+						</li>
 					}
 					else
 					{
 						<li><a asp-page="/Login">Iniciar sesión</a></li>
 					}
-					<!-- <li><a asp-page="/MiPerfil"></a></li> -->
+
+					<li class="dropdown" role="presentation">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"> <i class="glyphicon glyphicon-bell"></i><span class="badge">1</span> </a>
+						<ul class="dropdown-menu">
+							<!-- for que itera sobre las notificaciones que se cargan en login -->
+							<li style="width:320px;"><div class="notificacion"><p style="color:white">Notificacion 1</p></div></li>
+							<li style="width:320px;"><div class="notificacion"><p style="color:white">Notificacion 2</p></div></li>
+						</ul>
+					</li>
+
 				</ul>
 	</div><!-- /.navbar-collapse -->
 </div><!-- /.container -->
