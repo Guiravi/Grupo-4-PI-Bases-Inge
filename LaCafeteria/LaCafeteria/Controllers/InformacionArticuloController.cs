@@ -11,6 +11,10 @@ namespace LaCafeteria.Controllers
     {
         private InformacionArticuloDBHandler informacionArticuloDBHandler;
 
+        public InformacionArticuloController() {
+            informacionArticuloDBHandler = new InformacionArticuloDBHandler();
+        }
+
         public String GetAutoresDeArticulo(int id) {
             String autores = "";
             List<MiembroModel> listaAutores = informacionArticuloDBHandler.GetAutoresDeArticulo(id);
