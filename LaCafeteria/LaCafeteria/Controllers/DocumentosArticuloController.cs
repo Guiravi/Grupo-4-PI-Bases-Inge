@@ -12,6 +12,12 @@ namespace LaCafeteria.Controllers
         private InformacionArticuloDBHandler informacionArticuloDBHandler;
         private ConvertidorFSHandler convertidorFSHandler;
 
+        public DocumentosArticuloController() {
+            administradorDeArchivosFSHandler = new AdministradorDeArchivosFSHandler();
+            informacionArticuloDBHandler = new InformacionArticuloDBHandler();
+            convertidorFSHandler = new ConvertidorFSHandler();
+        }
+
         public void CargarArticuloDOCX(int idArticulo, string rutaCarpeta) {
             if ( !administradorDeArchivosFSHandler.YaEstaEnCarpetaDOCX(idArticulo, rutaCarpeta) )
             {
