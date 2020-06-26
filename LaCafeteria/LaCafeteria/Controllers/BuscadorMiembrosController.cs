@@ -27,6 +27,10 @@ namespace LaCafeteria.Controllers
             return stringMiembros;
         }
 
+        public List<MiembroModel> GetListaMiembrosNucleoModel() {
+            return buscadorMiembroDBHandler.GetListaNucleos();
+        }
+
         public MiembroModel GetMiembro(string usernamePK) {
             return buscadorMiembroDBHandler.GetMiembro(usernamePK);
         }
