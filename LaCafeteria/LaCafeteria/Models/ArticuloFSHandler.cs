@@ -10,10 +10,7 @@ namespace LaCafeteria.Models
 {
     public class ArticuloFSHandler
     {
-        public void GuardarArticuloDOCX(int idArticulo, byte[] contenido, string rutaCarpeta)
-        {
-            File.WriteAllBytes(rutaCarpeta + "/ArticulosDOCX/" + idArticulo + ".docx", contenido);
-        }
+        
 
         public void ConvertirDocxPDF(string nombreDocx, string rutaCarpeta)
         {
