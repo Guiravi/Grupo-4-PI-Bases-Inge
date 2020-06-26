@@ -28,6 +28,10 @@ namespace LaCafeteria.Controllers
             return autores;
         }
 
+        public List<Tuple<string, string, double, string>> GetRevisiones(int id) {
+            return informacionArticuloDBHandler.GetRevisiones(id);
+        }
+
         public string GetRevisoresDeArticulo(int id) {
             string revisores = "";
             List<string> listaRevisores = informacionArticuloDBHandler.GetRevisoresDeArticulo(id);

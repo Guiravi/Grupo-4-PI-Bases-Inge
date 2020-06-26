@@ -88,9 +88,7 @@ namespace LaCafeteria.Controllers
 
 
 
-        public List<Tuple<string, string, double, string>> GetRevisiones (int id) {
-            return articuloDBHandler.GetRevisiones(id);
-        }
+
     }
 
 	class ItemEqualityComparer : IEqualityComparer<ArticuloModel>
