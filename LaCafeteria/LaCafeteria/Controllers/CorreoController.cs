@@ -27,16 +27,7 @@ namespace LaCafeteria.Controllers
             rutaCarpeta = env.WebRootPath;
         }
 
-        public List<string> getListaMiembrosString() {
-            List<string> stringMiembros = new List<string>();
 
-            foreach ( MiembroModel miembro in listaMiembros )
-            {
-                stringMiembros.Add(miembro.nombre + " " + miembro.apellido1 + " " + miembro.apellido2 + " (" + miembro.usernamePK + ")");
-            }
-
-            return stringMiembros;
-        }
 
         public void sendMail(string destino, string remitente, string asunto, string mensaje, string filePath) {
             string usernameDestino = "";
