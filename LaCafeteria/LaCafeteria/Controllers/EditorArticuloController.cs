@@ -14,5 +14,9 @@ namespace LaCafeteria.Controllers
         public void ActualizarEstadoArticulo(int id, string estadoArticulo) {
             editorArticuloDBHandler.ActualizarEstadoArticulo(id, estadoArticulo);
         }
+
+        public void AgregarVisita(int id) {
+            editorArticuloDBHandler.AgregarVisita(id);
+        }
     }
 }

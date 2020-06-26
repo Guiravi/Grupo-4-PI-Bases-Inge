@@ -70,9 +70,7 @@ namespace LaCafeteria.Controllers
 
                                                                         
 
-        public void AgregarVisita(int id) {
-            articuloDBHandler.AgregarVisita(id);
-        }
+
 
 
 
