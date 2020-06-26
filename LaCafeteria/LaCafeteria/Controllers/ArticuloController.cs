@@ -49,15 +49,7 @@ namespace LaCafeteria.Controllers
 
         }
 
-        public void CargarArticuloDOCX(int idArticulo, string rutaCarpeta)
-        {
-            if (!articuloFSHandler.YaEstaEnCarpetaDOCX(idArticulo, rutaCarpeta))
-            {
-                byte[] contenido = articuloDBHandler.DescargarArticuloDocx(idArticulo);
-                articuloFSHandler.GuardarArticuloDOCX(idArticulo, contenido, rutaCarpeta);
 
-            }
-        }
 
 
 
