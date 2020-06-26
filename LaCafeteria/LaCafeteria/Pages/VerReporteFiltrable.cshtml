@@ -15,21 +15,38 @@
             background-color: #b7d4c7;
         }
 
-        #chartDivDonut {
+        #panelTablaCatTop {
+            margin: 10px;
+            padding: 0;
+            background-color: #ffffff;
+        }
+
+        #chartDonutPais {
             width: 100%;
             height: 450px;
+        }
+
+        #chartDonutRol {
+            width: 100%;
+            height: 350px;
         }
 
         .chartDivBarras {
             width: 90%;
             height: 400px;
         }
+
+        .categorias {
+            vertical-align: middle !important; 
+            text-align: center;
+        }
     </style>
 
-    <script src="https://www.amcharts.com/lib/4/core.js"></script>
-    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
-    <script src="https://www.amcharts.com/lib/4/themes/kelly.js"></script>
-    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+    <script src="~/lib/amcharts4/core.js"></script>
+    <script src="~/lib/amcharts4/charts.js"></script>
+    <script src="~/lib/amcharts4/themes/material.js"></script>
+    <script src="~/lib/amcharts4/themes/kelly.js"></script>
+    <script src="~/lib/amcharts4/themes/animated.js"></script>
 </head>
 
 <h2>Reportes de la comunidad</h2>
@@ -51,21 +68,21 @@
 
                     <div class="row panelReporte" id="donutPanel">
                         <h3 class="text-center">Miembros por país</h3>
-                        <div id="chartDivDonut"></div>
+                        <div id="chartDonutPais" class="chartDivDonut"></div>
                     </div>
 
                 </div>
                 <div class="col-md-9">
-                    <div class="row panelReporte" id="habilidadesPanel" style="height: 50%;">
+                    <div class="row panelReporte" id="habilidadesPanel">
                         <div id="chartDivHabilidadesIdiomas" class="center-block chartDivBarras"></div>
                     </div>
-                    <div class="row panelReporte" id="pasatiemposPanel" style="height: 50%;">
+                    <div class="row panelReporte" id="pasatiemposPanel">
                         <div id="chartDivHabilidadesPaises" class="center-block chartDivBarras"></div>
                     </div>
-                    <div class="row panelReporte" id="habilidadesPanel" style="height: 50%;">
+                    <div class="row panelReporte" id="habilidadesPanel">
                         <div id="chartDivPasatiemposIdiomas" class="center-block chartDivBarras"></div>
                     </div>
-                    <div class="row panelReporte" id="pasatiemposPanel" style="height: 50%;">
+                    <div class="row panelReporte" id="pasatiemposPanel">
                         <div id="chartDivPasatiemposPaises" class="center-block chartDivBarras"></div>
                     </div>
                 </div>
@@ -76,11 +93,119 @@
             <div class="row">
                 <h2 class="text-center">Distribución de roles y artículos</h2>
             </div>
+            <div class="row">
+                <div class="col-md-3">
+
+
+                    <div class="row panelReporte" id="donutPanel">
+                        <h3 class="text-center">Miembros por rol</h3>
+                        <div id="chartDonutRol" class="chartDivDonut"></div>
+                    </div>
+
+                </div>
+                <div class="col-md-9">
+                    <div class="row panelReporte" id="artRolesPanel">
+                        <div id="chartDivArtRol" class="center-block chartDivBarras"></div>
+                    </div>
+
+                </div>
+            </div>
+            <h3 class="text-center">Información de categorías y tópicos</h3>
+            <div class="row" style="background-color: #b7d4c7;">
+                <div class="col-md-2">
+                    <h4 style="text-align: right; vertical-align: middle;">Mostrar:</h4>
+                </div>
+                <div class="col-md-2">
+                    <input type="radio" id="todosRad" class="radio-inline" name="rol" checked="checked">
+                    <label for="todosRad" style="font-size: 125%; position: relative; top: 5px;">Todos los roles</label>
+                </div>
+                <div class="col-md-2">
+                    <input type="radio" id="nucleoRad" class="radio-inline" name="rol">
+                    <label for="nucleoRad" style="font-size: 125%; position: relative; top: 5px;">Núcleo</label>
+                </div>
+                <div class="col-md-2">
+                    <input type="radio" id="activoRad" class="radio-inline" name="rol">
+                    <label for="activoRad" style="font-size: 125%; position: relative; top: 5px;">Activo</label>
+                </div>
+                <div class="col-md-2">
+                    <input type="radio" id="perifRad" class="radio-inline" name="rol">
+                    <label for="perifRad" style="font-size: 125%; position: relative; top: 5px;">Periférico</label>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row" id="panelTablaCatTop">
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr style="font-size: 125%">
+                            <th class="text-center">Categorías</th>
+                            <th class="text-center">Tópicos</th>
+                            <th class="text-center">Cantidad de artículos</th>
+                            <th class="text-center">Visitas</th>
+                            <th class="text-center">Puntaje promedio</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaMiembros" class="text-center">
+                        <tr>
+                            <th rowspan="4" scope="rowgroup" class="categorias">Física</th>
+                            <th>Física cuántica</th>
+                            <td>A</td>
+                            <td>B</td>
+                            <td>C</td>
+                        </tr>
+                        <tr>
+                            <th>Física clásica</th>
+                            <td>A</td>
+                            <td>B</td>
+                            <td>C</td>
+                        </tr>
+                        <tr>
+                            <th>Física computacional</th>
+                            <td>A</td>
+                            <td>B</td>
+                            <td>C</td>
+                        </tr>
+                        <tr style="font-weight: bolder; font-size: 115%;">
+                            <th class="text-center">Total</th>
+                            <td>A</td>
+                            <td>B</td>
+                            <td>C</td>
+                        </tr>
+                        <tr>
+                            <th rowspan="4" scope="rowgroup" class="categorias">Computación</th>
+                            <th>Bases de datos</th>
+                            <td>A</td>
+                            <td>B</td>
+                            <td>C</td>
+                        </tr>
+                        <tr>
+                            <th>Ingeniería de Software</th>
+                            <td>A</td>
+                            <td>B</td>
+                            <td>C</td>
+                        </tr>
+                        <tr>
+                            <th>Inteligencia Artificial</th>
+                            <td>A</td>
+                            <td>B</td>
+                            <td>C</td>
+                        </tr>
+                        <tr style="font-weight: bolder; font-size: 115%;">
+                            <th class="text-center">Total</th>
+                            <td>A</td>
+                            <td>B</td>
+                            <td>C</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+            </div>
         </div>
     </div>
 </div>
 
 <script>
+    ////////////////////////Distribución de miembros///////////////////////////
     am4core.ready(function () {
 
         // Themes begin
@@ -89,7 +214,7 @@
         // Themes end
 
         // Create chart instance
-        var chart = am4core.create("chartDivDonut", am4charts.PieChart);
+        var chart = am4core.create("chartDonutPais", am4charts.PieChart);
         
         
 
@@ -130,6 +255,16 @@
         chart.legend.maxHeight = 200;
         chart.legend.scrollable = true;
         chart.legend.marginBottom = 20;
+        chart.legend.labels.template.textDecoration = "none";
+        chart.legend.valueLabels.template.textDecoration = "none";
+
+        var as = chart.legend.labels.template.states.getKey("active");
+        as.properties.textDecoration = "line-through";
+        as.properties.fill = am4core.color("#000");
+
+        var as2 = chart.legend.valueLabels.template.states.getKey("active");
+        as2.properties.textDecoration = "line-through";
+        as2.properties.fill = am4core.color("#000");
 
         // Add and configure Series
         var pieSeries = chart.series.push(new am4charts.PieSeries());
@@ -158,7 +293,7 @@
 
     am4core.ready(function () {
 
-        // Themes begin
+        // Themes begin        
         am4core.useTheme(am4themes_animated);
         // Themes end
 
@@ -256,30 +391,33 @@
 
             // Configure columns
             series.columns.template.width = am4core.percent(60);
-            series.columns.template.tooltipText = "[bold]{name}[/]\n[font-size:14px]{categoryX}: {valueY}";
-
-            // Add label
-            var labelBullet = series.bullets.push(new am4charts.LabelBullet());
-            labelBullet.label.text = "{valueY}";
-            labelBullet.locationY = 0.5;
-            labelBullet.label.hideOversized = true;
+            series.columns.template.tooltipText = "[bold]{name}[/]\n[font-size:14px]{categoryX}: {valueY}";           
 
             return series;
         }
 
-        createSeries("europe", "Europe", false);
-        createSeries("namerica", "North America", true);
-        createSeries("asia", "Asia-Pacific", true);
-        createSeries("lamerica", "Latin America", false);
-        createSeries("meast", "Middle-East", true);
-        createSeries("africa", "Africa", true);
+        createSeries("europe", "Europe");
+        createSeries("namerica", "North America");
+        createSeries("asia", "Asia-Pacific");
+        createSeries("lamerica", "Latin America");
+        createSeries("meast", "Middle-East");
+        createSeries("africa", "Africa");
 
         // Legend
         chart.legend = new am4charts.Legend();
-        chart.legend.position = "bottom";
-        chart.legend.maxHeight = 60;  
+        chart.legend.position = "right";
+        chart.legend.maxHeight = 200;
         chart.legend.scrollable = true;
-        chart.legend.marginBottom = 10;
+        chart.legend.labels.template.textDecoration = "none";
+        chart.legend.valueLabels.template.textDecoration = "none";
+
+        var as = chart.legend.labels.template.states.getKey("active");
+        as.properties.textDecoration = "line-through";
+        as.properties.fill = am4core.color("#000");
+
+        var as2 = chart.legend.valueLabels.template.states.getKey("active");
+        as2.properties.textDecoration = "line-through";
+        as2.properties.fill = am4core.color("#000");
 
     }); // end am4core.ready()
 
@@ -385,28 +523,32 @@
             series.columns.template.width = am4core.percent(60);
             series.columns.template.tooltipText = "[bold]{name}[/]\n[font-size:14px]{categoryX}: {valueY}";
 
-            // Add label
-            var labelBullet = series.bullets.push(new am4charts.LabelBullet());
-            labelBullet.label.text = "{valueY}";
-            labelBullet.locationY = 0.5;
-            labelBullet.label.hideOversized = true;
-
             return series;
         }
 
-        createSeries("europe", "Europe", false);
-        createSeries("namerica", "North America", true);
-        createSeries("asia", "Asia-Pacific", true);
-        createSeries("lamerica", "Latin America", false);
-        createSeries("meast", "Middle-East", true);
-        createSeries("africa", "Africa", true);
+        createSeries("europe", "Europe");
+        createSeries("namerica", "North America");
+        createSeries("asia", "Asia-Pacific");
+        createSeries("lamerica", "Latin America");
+        createSeries("meast", "Middle-East");
+        createSeries("africa", "Africa");
 
         // Legend
         chart.legend = new am4charts.Legend();
-        chart.legend.position = "bottom";
-        chart.legend.maxHeight = 60;
+        chart.legend.position = "right";
+        chart.legend.maxHeight = 200;
         chart.legend.scrollable = true;
         chart.legend.marginBottom = 10;
+        chart.legend.labels.template.textDecoration = "none";
+        chart.legend.valueLabels.template.textDecoration = "none";
+
+        var as = chart.legend.labels.template.states.getKey("active");
+        as.properties.textDecoration = "line-through";
+        as.properties.fill = am4core.color("#000");
+
+        var as2 = chart.legend.valueLabels.template.states.getKey("active");
+        as2.properties.textDecoration = "line-through";
+        as2.properties.fill = am4core.color("#000");
 
     }); // end am4core.ready()
 
@@ -512,28 +654,32 @@
             series.columns.template.width = am4core.percent(60);
             series.columns.template.tooltipText = "[bold]{name}[/]\n[font-size:14px]{categoryX}: {valueY}";
 
-            // Add label
-            var labelBullet = series.bullets.push(new am4charts.LabelBullet());
-            labelBullet.label.text = "{valueY}";
-            labelBullet.locationY = 0.5;
-            labelBullet.label.hideOversized = true;
-
             return series;
         }
 
-        createSeries("europe", "Europe", false);
-        createSeries("namerica", "North America", true);
-        createSeries("asia", "Asia-Pacific", true);
-        createSeries("lamerica", "Latin America", false);
-        createSeries("meast", "Middle-East", true);
-        createSeries("africa", "Africa", true);
+        createSeries("europe", "Europe");
+        createSeries("namerica", "North America");
+        createSeries("asia", "Asia-Pacific");
+        createSeries("lamerica", "Latin America");
+        createSeries("meast", "Middle-East");
+        createSeries("africa", "Africa");
 
         // Legend
         chart.legend = new am4charts.Legend();
-        chart.legend.position = "bottom";
-        chart.legend.maxHeight = 60;
+        chart.legend.position = "right";
+        chart.legend.maxHeight = 200;
         chart.legend.scrollable = true;
         chart.legend.marginBottom = 10;
+        chart.legend.labels.template.textDecoration = "none";
+        chart.legend.valueLabels.template.textDecoration = "none";
+
+        var as = chart.legend.labels.template.states.getKey("active");
+        as.properties.textDecoration = "line-through";
+        as.properties.fill = am4core.color("#000");
+
+        var as2 = chart.legend.valueLabels.template.states.getKey("active");
+        as2.properties.textDecoration = "line-through";
+        as2.properties.fill = am4core.color("#000");
 
     }); // end am4core.ready()
 
@@ -639,28 +785,163 @@
             series.columns.template.width = am4core.percent(60);
             series.columns.template.tooltipText = "[bold]{name}[/]\n[font-size:14px]{categoryX}: {valueY}";
 
-            // Add label
-            var labelBullet = series.bullets.push(new am4charts.LabelBullet());
-            labelBullet.label.text = "{valueY}";
-            labelBullet.locationY = 0.5;
-            labelBullet.label.hideOversized = true;
+            return series;
+        }
+
+        createSeries("europe", "Europe");
+        createSeries("namerica", "North America");
+        createSeries("asia", "Asia-Pacific");
+        createSeries("lamerica", "Latin America");
+        createSeries("meast", "Middle-East");
+        createSeries("africa", "Africa");
+
+        // Legend
+        chart.legend = new am4charts.Legend();
+        chart.legend.position = "right";
+        chart.legend.maxHeight = 200;
+        chart.legend.scrollable = true;
+        chart.legend.marginBottom = 10;
+        chart.legend.labels.template.textDecoration = "none";
+        chart.legend.valueLabels.template.textDecoration = "none";
+
+        var as = chart.legend.labels.template.states.getKey("active");
+        as.properties.textDecoration = "line-through";
+        as.properties.fill = am4core.color("#000");
+
+        var as2 = chart.legend.valueLabels.template.states.getKey("active");
+        as2.properties.textDecoration = "line-through";
+        as2.properties.fill = am4core.color("#000");
+
+    }); // end am4core.ready()
+
+    ////////////////////////Distribución de roles y artículos///////////////////////////
+    am4core.ready(function () {
+
+        // Themes begin   
+        am4core.useTheme(am4themes_animated);
+        // Themes end
+
+        // Create chart instance
+        var chart = am4core.create("chartDonutRol", am4charts.PieChart);
+
+
+
+        // Add data
+        chart.data = [{
+            "country": "Núcleo",
+            "litres": 30
+        }, {
+            "country": "Activo",
+            "litres": 200
+        }, {
+            "country": "Periférico",
+            "litres": 400
+        }];
+
+
+        // Set inner radius
+        chart.innerRadius = am4core.percent(50);
+        chart.legend = new am4charts.Legend();
+        chart.legend.maxHeight = 200;
+        chart.legend.scrollable = true;
+        chart.legend.marginBottom = 20;
+
+        // Add and configure Series
+        var pieSeries = chart.series.push(new am4charts.PieSeries());
+        pieSeries.dataFields.value = "litres";
+        pieSeries.dataFields.category = "country";
+        pieSeries.slices.template.stroke = am4core.color("#000");
+        pieSeries.slices.template.strokeWidth = 1;
+        pieSeries.slices.template.strokeOpacity = 1;
+        pieSeries.labels.template.disabled = true;
+        pieSeries.ticks.template.disabled = true;
+
+        var label = pieSeries.createChild(am4core.Label);
+        label.text = "Total:\n{values.value.sum}";
+        label.fontSize = 16;
+        label.textAlign = "middle";
+        label.horizontalCenter = "middle";
+        label.verticalCenter = "middle";
+
+
+        // This creates initial animation
+        pieSeries.hiddenState.properties.opacity = 1;
+        pieSeries.hiddenState.properties.endAngle = -90;
+        pieSeries.hiddenState.properties.startAngle = -90;
+
+    }); // end am4core.ready()
+
+    am4core.ready(function () {
+
+        // Themes begin
+        am4core.useTheme(am4themes_animated);
+        // Themes end
+
+        // Create chart instance
+        var chart = am4core.create("chartDivArtRol", am4charts.XYChart);
+        var title = chart.titles.create();
+        title.text = "Cantidad de artículos por rol";
+        title.fontSize = 25;
+        title.marginBottom = 30;
+
+        // Add data
+        chart.data = [{
+            "cantidad": "Cantidad de artículos",
+            "nucleo": 95,
+            "activo": 150,
+            "perif": 214
+        }];
+
+        // Create axes
+
+        var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+        categoryAxis.dataFields.category = "cantidad";
+        categoryAxis.renderer.labels.template.disabled = true;
+
+
+
+        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());      
+
+        // Create series
+        function createSeries(field, name) {
+
+            // Set up series
+            var series = chart.series.push(new am4charts.ColumnSeries());
+            series.name = name;
+            series.dataFields.valueY = field;
+            series.dataFields.categoryX = "cantidad";
+            series.sequencedInterpolation = false;
+
+            // Configure columns
+            series.columns.template.width = am4core.percent(60);
+            series.columns.template.tooltipText = "[bold]{name}[/]\n[font-size:14px]{categoryX}: {valueY}";         
 
             return series;
         }
 
-        createSeries("europe", "Europe", false);
-        createSeries("namerica", "North America", true);
-        createSeries("asia", "Asia-Pacific", true);
-        createSeries("lamerica", "Latin America", false);
-        createSeries("meast", "Middle-East", true);
-        createSeries("africa", "Africa", true);
+        createSeries("nucleo", "Núcleo");
+        createSeries("activo", "Activo");
+        createSeries("perif", "Periférico");   
 
         // Legend
         chart.legend = new am4charts.Legend();
-        chart.legend.position = "bottom";
-        chart.legend.maxHeight = 60;
+        chart.legend.position = "right";
+        chart.legend.maxHeight = 200;
         chart.legend.scrollable = true;
         chart.legend.marginBottom = 10;
+        chart.legend.labels.template.textDecoration = "none";
+        chart.legend.valueLabels.template.textDecoration = "none";
+
+        var as = chart.legend.labels.template.states.getKey("active");
+        as.properties.textDecoration = "line-through";
+        as.properties.fill = am4core.color("#000");
+
+        var as2 = chart.legend.valueLabels.template.states.getKey("active");
+        as2.properties.textDecoration = "line-through";
+        as2.properties.fill = am4core.color("#000");
+
 
     }); // end am4core.ready()
+    
+
 </script>
