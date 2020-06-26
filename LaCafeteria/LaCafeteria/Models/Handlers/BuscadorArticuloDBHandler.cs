@@ -204,5 +204,88 @@ namespace LaCafeteria.Models.Handlers
                 return artList;
             }
         }
+
+        public List<ArticuloModel> GetArticulosPorTopico(String topico, int tipos) {
+            String connectionString = AppSettings.GetConnectionString();
+
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+                connection.Open();
+
+                SqlCommand cmd;
+
+                switch ( tipos )
+                {
+                    case 1:
+                        cmd = new SqlCommand("SELECT  DISTINCT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        " FROM  Articulo A JOIN ArticuloTrataTopico ATT " +
+                            " ON A.idArticuloPK = ATT.idArticuloFK " +
+                        " JOIN Topico T " +
+                            " ON ATT.nombreTopicoFK = @topico " +
+                        " WHERE A.tipo = 'Corto' " +
+                            " AND A.estado = 'Publicado' " +
+                        " ORDER BY A.fechaPublicacion DESC;", connection);
+                        break;
+                    case 2:
+                        cmd = new SqlCommand("SELECT  DISTINCT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        " FROM  Articulo A JOIN ArticuloTrataTopico ATT " +
+                            " ON A.idArticuloPK = ATT.idArticuloFK " +
+                        " JOIN Topico T " +
+                            " ON ATT.nombreTopicoFK = @topico " +
+                        " WHERE A.tipo = 'Largo' " +
+                            " AND A.estado = 'Publicado' " +
+                        " ORDER BY A.fechaPublicacion DESC;", connection);
+                        break;
+                    case 3:
+                        cmd = new SqlCommand("SELECT  DISTINCT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        " FROM  Articulo A JOIN ArticuloTrataTopico ATT " +
+                            " ON A.idArticuloPK = ATT.idArticuloFK " +
+                        " JOIN Topico T " +
+                            " ON ATT.nombreTopicoFK = @topico " +
+                        " WHERE A.tipo = 'Link' " +
+                            " AND A.estado = 'Publicado' " +
+                        " ORDER BY A.fechaPublicacion DESC;", connection);
+                        break;
+                    default:
+                        cmd = new SqlCommand("SELECT  DISTINCT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        " FROM  Articulo A JOIN ArticuloTrataTopico ATT " +
+                            " ON A.idArticuloPK = ATT.idArticuloFK " +
+                        " JOIN Topico T " +
+                            " ON ATT.nombreTopicoFK = @topico " +
+                        " WHERE A.estado = 'Publicado' " +
+                        " ORDER BY A.fechaPublicacion DESC;", connection);
+                        break;
+                }
+
+                cmd.Parameters.AddWithValue("@topico", topico);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                List<ArticuloModel> artList = new List<ArticuloModel>();
+
+                while ( reader.Read() )
+                {
+                    ArticuloModel articuloActual = new ArticuloModel()
+                    {
+                        idArticuloPK = (int) reader["idArticuloPK"],
+                        titulo = (String) reader["titulo"],
+                        tipo = (String) reader["tipo"],
+                        fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
+                        resumen = (String) reader["resumen"],
+                        contenido = (String) reader["contenido"],
+                        estado = (String) reader["estado"],
+                        visitas = (int) reader["visitas"],
+                        puntajeTotalRev = (!DBNull.Value.Equals(reader["puntajeTotalRev"])) ? (double?) reader["puntajeTotalRev"] : null,
+                        calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
+                    };
+
+                    artList.Add(articuloActual);
+                }
+
+                reader.Close();
+
+                return artList;
+            }
+        }
     }
 }
