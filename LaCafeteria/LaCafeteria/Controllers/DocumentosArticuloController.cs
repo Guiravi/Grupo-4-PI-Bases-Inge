@@ -10,6 +10,7 @@ namespace LaCafeteria.Controllers
     {
         private AdministradorDeArchivosFSHandler administradorDeArchivosFSHandler;
         private InformacionArticuloDBHandler informacionArticuloDBHandler;
+        private ConvertidorFSHandler convertidorFSHandler;
 
         public void CargarArticuloDOCX(int idArticulo, string rutaCarpeta) {
             if ( !administradorDeArchivosFSHandler.YaEstaEnCarpetaDOCX(idArticulo, rutaCarpeta) )
@@ -17,6 +18,21 @@ namespace LaCafeteria.Controllers
                 byte[] contenido = informacionArticuloDBHandler.GetBinario(idArticulo);
                 administradorDeArchivosFSHandler.GuardarArticuloDOCX(idArticulo, contenido, rutaCarpeta);
 
+            }
+        }
+
+
+        public void CargarArticuloPDF(int idArticulo, string rutaCarpeta) {
+
+            if ( !administradorDeArchivosFSHandler.YaEstaEnCarpetaPDF(idArticulo, rutaCarpeta) )
+            {
+                if ( !administradorDeArchivosFSHandler.YaEstaEnCarpetaDOCX(idArticulo, rutaCarpeta) )
+                {
+                    byte[] contenido = informacionArticuloDBHandler.GetBinario(idArticulo);
+                    administradorDeArchivosFSHandler.GuardarArticuloDOCX(idArticulo, contenido, rutaCarpeta);
+
+                }
+                convertidorFSHandler.ConvertirDocxPDF(Convert.ToString(idArticulo), rutaCarpeta);
             }
         }
     }

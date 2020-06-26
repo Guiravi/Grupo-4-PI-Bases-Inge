@@ -31,23 +31,6 @@ namespace LaCafeteria.Controllers
 
 
 
-        public void CargarArticuloPDF(int idArticulo , string rutaCarpeta)
-        {
-                    
-
-            if (!articuloFSHandler.YaEstaEnCarpetaPDF(idArticulo , rutaCarpeta))
-            {
-                if (!articuloFSHandler.YaEstaEnCarpetaDOCX(idArticulo , rutaCarpeta))
-                {
-                    byte[] contenido = articuloDBHandler.DescargarArticuloDocx(idArticulo);
-                    articuloFSHandler.GuardarArticuloDOCX(idArticulo, contenido, rutaCarpeta);
-                    
-                }
-
-                articuloFSHandler.ConvertirDocxPDF(Convert.ToString(idArticulo), rutaCarpeta);
-            }
-
-        }
 
 
 
