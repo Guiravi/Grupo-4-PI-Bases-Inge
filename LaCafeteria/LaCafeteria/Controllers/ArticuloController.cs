@@ -91,17 +91,5 @@ namespace LaCafeteria.Controllers
 
     }
 
-	class ItemEqualityComparer : IEqualityComparer<ArticuloModel>
-	{
-		public bool Equals(ArticuloModel x, ArticuloModel y)
-		{
-			// Two items are equal if their keys are equal.
-			return x.idArticuloPK == y.idArticuloPK;
-		}
 
-		public int GetHashCode(ArticuloModel obj)
-		{
-			return obj.idArticuloPK.GetHashCode();
-		}
-	}
 }
