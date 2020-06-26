@@ -9,7 +9,7 @@ namespace LaCafeteria.Models.Handlers
 {
     public class BuscadorArticuloDBHandler
     {
-        public List<ArticuloModel> GetArticulosPorAutor(String autores, int tipos) {
+        public List<ArticuloModel> GetArticulosPorAutorYTipo(String autores, int tipos) {
             String connectionString = AppSettings.GetConnectionString();
 
             using ( SqlConnection connection = new SqlConnection(connectionString) )
@@ -95,6 +95,50 @@ namespace LaCafeteria.Models.Handlers
                 return artList;
             }
 
+        }
+
+        public List<ArticuloModel> GetArticulosPorMiembro(string username) {
+            String connectionString = AppSettings.GetConnectionString();
+
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+                connection.Open();
+
+                SqlCommand cmd = new SqlCommand("SELECT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        " FROM  Articulo A " +
+                        " JOIN MiembroAutorDeArticulo MAA " +
+                            " ON A.idArticuloPK = MAA.idArticuloFK " +
+                        " WHERE usernameMiemFK = @username;", connection);
+
+                cmd.Parameters.AddWithValue("@username", username);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                List<ArticuloModel> artList = new List<ArticuloModel>();
+
+                while ( reader.Read() )
+                {
+                    ArticuloModel articuloActual = new ArticuloModel()
+                    {
+                        idArticuloPK = (int) reader["idArticuloPK"],
+                        titulo = (String) reader["titulo"],
+                        tipo = (String) reader["tipo"],
+                        fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
+                        resumen = (String) reader["resumen"],
+                        contenido = (String) reader["contenido"],
+                        estado = (String) reader["estado"],
+                        visitas = (int) reader["visitas"],
+                        puntajeTotalRev = (!DBNull.Value.Equals(reader["puntajeTotalRev"])) ? (double?) reader["puntajeTotalRev"] : null,
+                        calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
+                    };
+
+                    artList.Add(articuloActual);
+                }
+
+                reader.Close();
+
+                return artList;
+            }
         }
 
         public List<ArticuloModel> GetArticulosPorEstado(string estadoArticulo) {
