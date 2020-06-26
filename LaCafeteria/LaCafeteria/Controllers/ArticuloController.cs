@@ -86,17 +86,7 @@ namespace LaCafeteria.Controllers
 
 
 
-        public string GetRevisoresDeArticulo(int id) {
-            string revisores = "";
-            List<string> listaRevisores = articuloDBHandler.GetRevisoresDeArticulo(id);
 
-            for ( int i = 0; i < listaRevisores.Count() - 1; i++ )
-            {
-                revisores = revisores + listaRevisores[i] + ", "; 
-            }
-            revisores = revisores + listaRevisores[listaRevisores.Count() - 1];
-            return revisores;
-        }
 
         public List<Tuple<string, string, double, string>> GetRevisiones (int id) {
             return articuloDBHandler.GetRevisiones(id);

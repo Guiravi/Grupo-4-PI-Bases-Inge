@@ -27,5 +27,17 @@ namespace LaCafeteria.Controllers
 
             return autores;
         }
+
+        public string GetRevisoresDeArticulo(int id) {
+            string revisores = "";
+            List<string> listaRevisores = informacionArticuloDBHandler.GetRevisoresDeArticulo(id);
+
+            for ( int i = 0; i < listaRevisores.Count() - 1; i++ )
+            {
+                revisores = revisores + listaRevisores[i] + ", ";
+            }
+            revisores = revisores + listaRevisores[listaRevisores.Count() - 1];
+            return revisores;
+        }
     }
 }
