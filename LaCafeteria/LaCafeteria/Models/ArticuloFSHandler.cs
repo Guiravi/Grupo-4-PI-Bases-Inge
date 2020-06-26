@@ -17,11 +17,7 @@ namespace LaCafeteria.Models
             Convertidor.DocxConvertToPdf(nombreDocx, rutaCarpeta);
         }
 
-        public bool YaEstaEnCarpetaDOCX(int idArticulo, string rutaCarpeta)
-        {
-            string rutaArchivo = rutaCarpeta + "/ArticulosDOCX/" + idArticulo + ".docx";
-            return File.Exists(rutaArchivo);
-        }
+
 
 
 

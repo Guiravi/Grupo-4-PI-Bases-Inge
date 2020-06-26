@@ -14,6 +14,11 @@ namespace LaCafeteria.Models.Handlers
             return File.Exists(rutaArchivo);
         }
 
+        public bool YaEstaEnCarpetaDOCX(int idArticulo, string rutaCarpeta) {
+            string rutaArchivo = rutaCarpeta + "/ArticulosDOCX/" + idArticulo + ".docx";
+            return File.Exists(rutaArchivo);
+        }
+
         public void GuardarArticuloDOCX(int idArticulo, byte[] contenido, string rutaCarpeta) {
             File.WriteAllBytes(rutaCarpeta + "/ArticulosDOCX/" + idArticulo + ".docx", contenido);
         }
