@@ -37,10 +37,7 @@ namespace LaCafeteria.Controllers
 
 
 
-        public List<ArticuloModel> GetTodosArticulos()
-        {
-            return articuloDBHandler.GetTodosArticulos();
-        }
+
 
         public List<ArticuloModel> GetMisArticulos(string username)
         {
