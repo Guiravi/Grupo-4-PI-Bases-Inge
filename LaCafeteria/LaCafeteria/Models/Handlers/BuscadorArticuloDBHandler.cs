@@ -287,5 +287,41 @@ namespace LaCafeteria.Models.Handlers
                 return artList;
             }
         }
+
+        public List<ArticuloModel> GetArticulosRevisionFinalizada() {
+            String connectionString = AppSettings.GetConnectionString();
+
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+                connection.Open();
+
+                SqlCommand cmd = new SqlCommand("SELECT DISTINCT A.idArticuloPK, A.titulo, A.tipo " +
+                    "FROM Articulo A JOIN NucleoRevisaArticulo NRA " +
+                    "ON A.idArticuloPK = NRA.idArticuloFK " +
+                    "WHERE A.estado != 'Publicado' AND (SELECT COUNT(*) FROM NucleoRevisaArticulo NRA WHERE NRA.estadoRevision = 'Finalizado'  " +
+                    "AND A.idArticuloPK = NRA.idArticuloFK) = " +
+                    "(SELECT COUNT(*) FROM NucleoRevisaArticulo NRA " +
+                    "WHERE A.idArticuloPK = NRA.idArticuloFK)", connection);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                List<ArticuloModel> artList = new List<ArticuloModel>();
+
+                while ( reader.Read() )
+                {
+                    ArticuloModel articuloActual = new ArticuloModel()
+                    {
+                        idArticuloPK = (int) reader["idArticuloPK"],
+                        titulo = (String) reader["titulo"],
+                        tipo = (String) reader["tipo"]
+                    };
+                    artList.Add(articuloActual);
+                }
+
+                reader.Close();
+
+                return artList;
+            }
+        }
     }
 }
