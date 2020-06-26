@@ -11,7 +11,8 @@ using LaCafeteria.Models;
 using LaCafeteria.Controllers;
 
 namespace LaCafeteria.Pages
-{
+{	
+
 	public class LoginModel : PageModel
 	{	
 		[Required(ErrorMessage = "Debe ingresar su nombre de usuario")]
@@ -22,10 +23,12 @@ namespace LaCafeteria.Pages
 		public string cerrarSesion { set; get; }
 
 		public MiembroController miembroController;
+		public InformacionMiembroController informacionMiembroController;
 
 		public LoginModel()
 		{
 			miembroController = new MiembroController();
+			informacionMiembroController = new InformacionMiembroController();
 		}
 
 		public IActionResult OnGet()
@@ -45,6 +48,7 @@ namespace LaCafeteria.Pages
 			if(EsValido())
 			{
 				Response.Cookies.Append("usernamePK", usernamePK);
+				HttpContext.Session.SetComplexData("listaNotificaciones", informacionMiembroController.GetNotificaciones(usernamePK));
 				Notificaciones.Set(this, "sesionIniciada", "Sesión iniciada", Notificaciones.TipoNotificacion.Exito);
 				return Redirect("/Index");
 			}
