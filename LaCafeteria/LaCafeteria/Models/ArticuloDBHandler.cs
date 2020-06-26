@@ -100,18 +100,7 @@ namespace LaCafeteria.Models
 
         
 
-        public void AgregarVisita(int id) {
-            string connectionString = AppSettings.GetConnectionString();
-
-            using ( SqlConnection connection = new SqlConnection(connectionString) )
-            {
-                connection.Open();
-                string cmdString = "UPDATE Articulo SET Articulo.visitas = Articulo.visitas + 1 WHERE Articulo.idArticuloPK = @id";
-                SqlCommand command = new SqlCommand(cmdString, connection);
-                command.Parameters.AddWithValue("@id", id);
-                command.ExecuteNonQuery();
-            }
-        }
+       
 
 
 
