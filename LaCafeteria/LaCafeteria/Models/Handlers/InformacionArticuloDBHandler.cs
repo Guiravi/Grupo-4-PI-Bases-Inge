@@ -142,5 +142,35 @@ namespace LaCafeteria.Models.Handlers
                 return listaRevisores;
             }
         }
+
+        public byte[] GetBinario(int idArticulo) {
+            String connectionString = AppSettings.GetConnectionString();
+            SqlCommand cmd;
+            string contenido = "";
+
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+
+                connection.Open();
+
+                cmd = new SqlCommand("SELECT contenido " +
+                    " FROM [dbo].[Articulo] " +
+                    " WHERE idArticuloPK = @idArticulo;", connection);
+
+                cmd.Parameters.AddWithValue("@idArticulo", idArticulo);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while ( reader.Read() )
+                {
+                    contenido = Convert.ToString(reader.GetValue(0));
+                }
+
+                reader.Close();
+
+            }
+
+            return System.Convert.FromBase64String(contenido);
+        }
     }
 }
