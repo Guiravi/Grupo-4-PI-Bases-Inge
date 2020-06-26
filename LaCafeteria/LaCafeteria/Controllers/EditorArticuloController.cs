@@ -12,6 +12,11 @@ namespace LaCafeteria.Controllers
         private EditorArticuloDBHandler editorArticuloDBHandler;
         private AdministradorDeArchivosFSHandler administradorDeArchivosFSHandler;
 
+        public EditorArticuloController() {
+            editorArticuloDBHandler = new EditorArticuloDBHandler();
+            administradorDeArchivosFSHandler = new AdministradorDeArchivosFSHandler();
+        }
+
         public void ActualizarEstadoArticulo(int id, string estadoArticulo) {
             editorArticuloDBHandler.ActualizarEstadoArticulo(id, estadoArticulo);
         }
