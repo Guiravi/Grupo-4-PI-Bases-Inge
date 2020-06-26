@@ -35,32 +35,7 @@ namespace LaCafeteria.Controllers
             }          
         }
 
-        public List<ArticuloModel> BuscarArticulo(SolicitudBusquedaModel solicitud)
-		{
-			List<ArticuloModel> articulos = new List<ArticuloModel>();
 
-			if (solicitud.tipoBusqueda == "topicos")
-			{
-				string[] topicosSep = solicitud.topicos.Split(",");
-				for (int i = 0; i < topicosSep.Length; i++)
-				{
-					articulos.AddRange(articuloDBHandler.GetArticulosPorTopico(topicosSep[i], solicitud.tiposArticulo));
-				}
-
-				articulos = articulos.Distinct(new ItemEqualityComparer()).ToList();
-
-			}
-			else if (solicitud.tipoBusqueda == "titulos")
-			{
-				articulos = articuloDBHandler.GetArticulosPorTitulo(solicitud.textoBusqueda, solicitud.tiposArticulo);
-			}
-			else
-			{
-                articulos = articuloDBHandler.GetArticulosPorAutor(solicitud.textoBusqueda, solicitud.tiposArticulo).Distinct(new ItemEqualityComparer()).ToList();
-			}
-
-			return articulos;
-		}
 
         public List<ArticuloModel> GetTodosArticulos()
         {
@@ -100,10 +75,7 @@ namespace LaCafeteria.Controllers
             }
         }
 
-        public ArticuloModel GetArticuloModelResumen(int id) {
-            ArticuloModel articulo = articuloDBHandler.GetInfoPaginaResumen(id);
-            return articulo;
-        }
+
 
         public String GetAutoresDeArticulo (int id) {
             String autores = "";
