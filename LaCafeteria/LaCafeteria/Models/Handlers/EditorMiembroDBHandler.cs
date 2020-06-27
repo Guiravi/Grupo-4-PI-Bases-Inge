@@ -9,44 +9,132 @@ namespace LaCafeteria.Models.Handlers
 {
     public class EditorMiembroDBHandler
     {
-        public void ActualizarMiembro(string usernamePK, MiembroModel miembro) {
+        public void ActualizarMiembro(string usernamePK, EdicionMiembroModel edicionMiembroModel, List<string> idiomas, List<string> habilidades, List<string> pasatiempos) {
+            actualizarEdicionMiembroModel(usernamePK, edicionMiembroModel);
+            actualizarIdiomas(usernamePK, idiomas);
+            actualizarHabilidades(usernamePK, habilidades);
+            actualizarPasatiempos(usernamePK, pasatiempos);
+        }
 
+        public void SetRolMiembro() {
+        }
+
+        private void actualizarEdicionMiembroModel(string usernamePK, EdicionMiembroModel edicionMiembroModel) {
             string connectionString = AppSettings.GetConnectionString();
             using ( SqlConnection connection = new SqlConnection(connectionString) )
             {
                 connection.Open();
-                string sqlString = @"UPDATE Miembro SET idiomas = @idiomas,
-                                                        hobbies = @hobbies, 
-                                                        habilidades = @habilidades
+                string sqlString = @"UPDATE Miembro SET apellido2 = @apellido2,
+                                                        fechaNacimiento = @fechaNacimiento, 
+                                                        estado = @estado
+                                                        ciudad = @ciudad
+                                                        informacionLaboral = @informacionLaboral
 									WHERE usernamePK = @usernamePK ";
                 SqlCommand command = new SqlCommand(sqlString, connection);
                 command.Parameters.AddWithValue("@usernamePK", usernamePK);
-                if ( miembro.hobbies != null )
+                if ( edicionMiembroModel.apellido2 != null )
                 {
-                    command.Parameters.AddWithValue("@hobbies", miembro.hobbies);
+                    command.Parameters.AddWithValue("@apellido2", edicionMiembroModel.apellido2);
                 } else
                 {
-                    command.Parameters.AddWithValue("@hobbies", DBNull.Value);
+                    command.Parameters.AddWithValue("@apellido2", DBNull.Value);
                 }
-                if ( miembro.habilidades != null )
+                if ( edicionMiembroModel.fechaNacimiento != null )
                 {
-                    command.Parameters.AddWithValue("@habilidades", miembro.habilidades);
+                    command.Parameters.AddWithValue("@fechaNacimiento", edicionMiembroModel.fechaNacimiento);
                 } else
                 {
-                    command.Parameters.AddWithValue("@habilidades", DBNull.Value);
+                    command.Parameters.AddWithValue("@fechaNacimiento", DBNull.Value);
                 }
-                if ( miembro.idiomas != null )
+                if ( edicionMiembroModel.estado != null )
                 {
-                    command.Parameters.AddWithValue("@idiomas", miembro.idiomas);
+                    command.Parameters.AddWithValue("@estado", edicionMiembroModel.estado);
                 } else
                 {
-                    command.Parameters.AddWithValue("@idiomas", DBNull.Value);
+                    command.Parameters.AddWithValue("@estado", DBNull.Value);
+                }
+                if ( edicionMiembroModel.ciudad != null )
+                {
+                    command.Parameters.AddWithValue("@ciudad", edicionMiembroModel.ciudad);
+                } else
+                {
+                    command.Parameters.AddWithValue("@ciudad", DBNull.Value);
+                }
+                if ( edicionMiembroModel.informacionLaboral != null )
+                {
+                    command.Parameters.AddWithValue("@informacionLaboral", edicionMiembroModel.informacionLaboral);
+                } else
+                {
+                    command.Parameters.AddWithValue("@informacionLaboral", DBNull.Value);
                 }
                 command.ExecuteNonQuery();
             }
         }
 
-        public void SetRolMiembro() {
+        private void actualizarPasatiempos(string usernamePK, List<string> pasatiempos) {
+            string connectionString = AppSettings.GetConnectionString();
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+                connection.Open();
+                string sqlString = @"DELETE FROM MiembroPasatiempo WHERE @usernamePK = usernameFK";
+                SqlCommand command = new SqlCommand(sqlString, connection);
+                command.Parameters.AddWithValue("@usernamePK", usernamePK);
+                command.ExecuteNonQuery();
+
+                string sqlStringInsert = "INSERT INTO MiembroPasatiempo VALUES (@usernamePK, @pasatiempo)";
+                command = new SqlCommand(sqlString, connection);
+
+                foreach ( string _pasatiempo in pasatiempos )
+                {
+                    command.Parameters.AddWithValue("@usernamePK", usernamePK);
+                    command.Parameters.AddWithValue("@pasatiempo", _pasatiempo);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private void actualizarIdiomas(string usernamePK, List<string> idiomas) {
+            string connectionString = AppSettings.GetConnectionString();
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+                connection.Open();
+                string sqlString = @"DELETE FROM MiembroIdioma WHERE @usernamePK = usernameFK";
+                SqlCommand command = new SqlCommand(sqlString, connection);
+                command.Parameters.AddWithValue("@usernamePK", usernamePK);
+                command.ExecuteNonQuery();
+
+                string sqlStringInsert = "INSERT INTO MiembroIdioma VALUES (@usernamePK, @idioma)";
+                command = new SqlCommand(sqlString, connection);
+
+                foreach ( string _idioma in idiomas )
+                {
+                    command.Parameters.AddWithValue("@usernamePK", usernamePK);
+                    command.Parameters.AddWithValue("@idioma", _idioma);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private void actualizarHabilidades(string usernamePK, List<string> habilidades) {
+            string connectionString = AppSettings.GetConnectionString();
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+                connection.Open();
+                string sqlString = @"DELETE FROM MiembroHabilidad WHERE @usernamePK = usernameFK";
+                SqlCommand command = new SqlCommand(sqlString, connection);
+                command.Parameters.AddWithValue("@usernamePK", usernamePK);
+                command.ExecuteNonQuery();
+
+                string sqlStringInsert = "INSERT INTO MiembroHabilidad VALUES (@usernamePK, @habilidad)";
+                command = new SqlCommand(sqlString, connection);
+
+                foreach ( string _habilidad in habilidades )
+                {
+                    command.Parameters.AddWithValue("@usernamePK", usernamePK);
+                    command.Parameters.AddWithValue("@idioma", _habilidad);
+                    command.ExecuteNonQuery();
+                }
+            }
         }
     }
 }
