@@ -21,6 +21,7 @@ namespace LaCafeteria.Pages
 
         private BuscadorMiembrosController buscadorMiembrosController;
         private BuscadorArticuloController buscadorArticuloController;
+        public InformacionArticuloController informacionArticuloController;
 
 		public MiembroModel miembro;
 
@@ -29,6 +30,7 @@ namespace LaCafeteria.Pages
 
             buscadorMiembrosController = new BuscadorMiembrosController();
             buscadorArticuloController = new BuscadorArticuloController();
+            informacionArticuloController = new InformacionArticuloController();
 
         }
 
