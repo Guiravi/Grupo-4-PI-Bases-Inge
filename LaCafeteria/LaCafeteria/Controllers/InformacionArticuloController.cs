@@ -28,6 +28,19 @@ namespace LaCafeteria.Controllers
             return autores;
         }
 
+        public List<string[]> GetAutoresArticuloListaStringArray(int idArticulo) {
+            List<MiembroModel> listaModelo = informacionArticuloDBHandler.GetAutoresDeArticulo(idArticulo);
+            List<string[]> listaAutores = new List<string[]>();
+
+            foreach ( MiembroModel miembro in listaModelo )
+            {
+                string[] tupla = { miembro.usernamePK, miembro.GetNombreCompleto() };
+                listaAutores.Add(tupla);
+            }
+
+            return listaAutores;
+        }
+
         public List<Tuple<string, string, double, string>> GetRevisiones(int id) {
             return informacionArticuloDBHandler.GetRevisiones(id);
         }
