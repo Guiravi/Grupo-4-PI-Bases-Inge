@@ -156,10 +156,10 @@ namespace LaCafeteria.Pages
                 articulo.contenido = url;
                 if (TempData["idArticulo"] != null)
                 {
-                    articulo.idArticuloPK = (int)TempData["idArticulo"];
+                    articulo.articuloAID = (int)TempData["idArticulo"];
                 }
 
-                if (articulo.idArticuloPK == -1)
+                if (articulo.articuloAID == -1)
                 {
                     almacenadorArticuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
                 }
