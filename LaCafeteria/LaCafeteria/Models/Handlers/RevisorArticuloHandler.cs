@@ -11,10 +11,10 @@ namespace LaCafeteria.Models.Handlers
     {
         public RevisorArticuloHandler() { }
 
-        public void ActualizarEstadoRevisionArticulo(int opinion, int contribucion, int forma, string estadoRevision, 
+        public void ActualizarEstadoRevisionArticulo(float merito,int opinion, int contribucion, int forma, string estadoRevision, 
                                                     string comentarios, string recomendacion, string username, int idArticulo)
         {
-            int puntaje = 65;
+            float puntaje = merito*(opinion+contribucion+forma);
             string connectionString = AppSettings.GetConnectionString();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -35,7 +35,6 @@ namespace LaCafeteria.Models.Handlers
                 command.Parameters.AddWithValue("@idArticulo", idArticulo);
                 command.ExecuteNonQuery();
             }
-
         }
     }
 }
