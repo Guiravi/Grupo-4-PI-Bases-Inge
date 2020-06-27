@@ -145,6 +145,7 @@ CREATE TABLE NucleoRevisaArticulo
 	opinionGeneral INTEGER,
 	contribucion INTEGER,
 	forma INTEGER,
+	recomendacion NVARCHAR(50),
 	comentarios NVARCHAR(MAX),
 
 	CONSTRAINT PK_NucleoRevisaArticulo PRIMARY KEY (usernameMiemFK, idArticuloFK),
@@ -155,6 +156,7 @@ CREATE TABLE NucleoRevisaArticulo
 		ON DELETE CASCADE --Si se elimina el artículo en su proceso de revisión se quieren eliminar todos los registros de revisión asociados a este artículo.
 		ON UPDATE CASCADE,
 	CONSTRAINT CK_NucleoRevisaArticulo_estadoRevision CHECK (estadoRevision in ('En Revisión', 'Finalizada')),
+	CONSTRAINT CK_NucleoRevisaArticulo_recomendacion CHECK (recomendacion in ('Aceptar', 'Aceptar con modificaciones', 'Rechazar'))
 );
 
 CREATE TABLE ArticuloTrataTopico

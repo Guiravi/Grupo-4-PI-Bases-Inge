@@ -13,16 +13,18 @@ namespace LaCafeteria.Pages
 	public class VerMiembrosModel : PageModel
 	{
 		public List<MiembroModel> miembros { get; set; }
-		public MiembroController miembroController;
+        //public MiembroController miembroController;
+        private BuscadorMiembrosController buscadorMiembrosController;
 
 		public VerMiembrosModel()
 		{
-			miembroController = new MiembroController();
-		}
+            //miembroController = new MiembroController();
+            buscadorMiembrosController = new BuscadorMiembrosController();
+        }
 
         public void OnGet()
         {
-			miembros = miembroController.GetListaMiembros();
+			miembros = buscadorMiembrosController.GetListaMiembrosModel();
         }
     }
 }

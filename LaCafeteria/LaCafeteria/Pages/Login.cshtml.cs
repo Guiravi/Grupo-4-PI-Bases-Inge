@@ -21,12 +21,13 @@ namespace LaCafeteria.Pages
 		[BindProperty(SupportsGet = true)]
 		public string cerrarSesion { set; get; }
 
-		public MiembroController miembroController;
+        private BuscadorMiembrosController buscadorMiembrosController;
 
 		public LoginModel()
 		{
-			miembroController = new MiembroController();
-		}
+            buscadorMiembrosController = new BuscadorMiembrosController();
+
+        }
 
 		public IActionResult OnGet()
         {
@@ -56,7 +57,7 @@ namespace LaCafeteria.Pages
 		{
 			bool esValido = true;
 
-			if(!miembroController.ExisteMiembro(usernamePK))
+			if(buscadorMiembrosController.GetMiembro(usernamePK) != null)
 			{
 				esValido = false;
 				Notificaciones.Set(this, "usernameNoExiste", "Ingrese con un nombre de usuario valido", Notificaciones.TipoNotificacion.Error);
