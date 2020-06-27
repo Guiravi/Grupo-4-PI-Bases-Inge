@@ -45,6 +45,6 @@ namespace TheCoffeePlace.Views
 
         bool chkbBLargoChecked { get; }
 
-    }
-  
+	}
+
 }

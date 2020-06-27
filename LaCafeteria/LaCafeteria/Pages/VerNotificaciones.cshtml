@@ -1,0 +1,32 @@
+﻿@page
+@model LaCafeteria.Pages.VerNotificacionesModel
+@using LaCafeteria.Utilidades;
+@using LaCafeteria.Models;
+@{
+	ViewData["Title"] = "VerNotificaciones";
+}
+
+<h2>Mis notificaciones</h2>
+<div class="container-fluid">
+	@{
+		List<Notificacion> listaNotificaciones = HttpContext.Session.GetComplexData<List<Notificacion>>("listaNotificaciones");
+
+		if (listaNotificaciones != null && listaNotificaciones.Count != 0)
+		{	<form method="post">
+			@foreach (Notificacion notificacion in listaNotificaciones)
+			{
+				<div class="row">
+					<div class="col-md-1 notificacion" style="background-color:lightgray; width:100px"><p style="margin-top:30px; margin-bottom:2px; height:100%">@notificacion.fechaCreacion</p></div>
+					<div class="col-md-9"><button id="notificacionAID" name="notificacionAID" type="submit" class="notificacion" value="@notificacion.notificacionAID"><div><p style="color:white;">@notificacion.mensaje</p></div></button></div>
+					<div class="col-md-2">					
+					</div>
+				</div>
+			}
+			</form>
+		}
+		else
+		{
+			<p> No hay notificaciones disponibles</p>
+		}
+	}
+</div">
