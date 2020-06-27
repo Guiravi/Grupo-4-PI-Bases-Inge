@@ -16,7 +16,7 @@ namespace LaCafeteria.Pages
 
         public List<ArticuloModel> artList { get; set; }
 
-        public Dictionary<ArticuloModel, string> dictTopicos { get; set; }
+        public Dictionary<ArticuloModel, List<CategoriaTopicoModel>> dictTopicos { get; set; }
 
         public Dictionary<ArticuloModel, string> dictAutores { get; set; } 
 
@@ -27,12 +27,12 @@ namespace LaCafeteria.Pages
 
             artList = buscadorArticuloController.GetArticulosPorEstado(EstadoArticulo.RequiereRevision);
 
-            dictTopicos = new Dictionary<ArticuloModel, string>();
+            dictTopicos = new Dictionary<ArticuloModel, List<CategoriaTopicoModel>>();
             dictAutores = new Dictionary<ArticuloModel, string>();
 
             for (int i = 0; i<artList.Count(); ++i )
             {
-                dictTopicos.Add(artList[i], informacionArticuloController.GetTopicosArticuloString(artList[i].articuloAID));
+                dictTopicos.Add(artList[i], informacionArticuloController.GetCategoriaTopicosArticulo(artList[i].articuloAID));
                 dictAutores.Add(artList[i], informacionArticuloController.GetAutoresDeArticuloString(artList[i].articuloAID));
             }
         }
