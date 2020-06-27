@@ -13,8 +13,10 @@ namespace LaCafeteria.Pages
         public List<DatosGraficoDona> miembrosPorPais;
         public List<DatosGraficoBarrasApilado> habilidadesPorIdioma;
         public List<DatosGraficoBarrasApilado> habilidadesPorPais;
+        public List<string> habilidadesSinAsignar;
         public List<DatosGraficoBarrasApilado> pasatiemposPorIdioma;
         public List<DatosGraficoBarrasApilado> pasatiemposPorPais;
+        public List<string> pasatiemposSinAsignar;
         public List<DatosGraficoDona> miembrosPorRol;
         public List<DatosGraficoDona> articulosPorRol;
 
