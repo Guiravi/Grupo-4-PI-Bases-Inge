@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using LaCafeteria.Models;
 using LaCafeteria.Controllers;
 using LaCafeteria.Utilidades;
+using Microsoft.AspNetCore.Http;
 
 namespace LaCafeteria.Pages
 {
@@ -47,6 +48,7 @@ namespace LaCafeteria.Pages
 				// TODO: Establecer en variable de sesion la cantidad de notificaciones sin leer.
 				listaNotificaciones = informacionMiembroController.GetNotificaciones(Request.Cookies["usernamePK"]);
 				HttpContext.Session.SetComplexData("listaNotificaciones", listaNotificaciones);
+				HttpContext.Session.SetInt32("cantidadNotificacionesNuevas", GetCantidadNotificacionesNuevas(listaNotificaciones));
 			}
 
 			if (notificacion.url != null)
@@ -57,5 +59,23 @@ namespace LaCafeteria.Pages
 
 			return Redirect("/VerNotificaciones");		
 		}
-    }
+
+		private int GetCantidadNotificacionesNuevas(List<Notificacion> listaNotificaciones)
+		{
+			int cantidadNuevas = 0;
+
+			if (listaNotificaciones != null)
+			{
+				foreach (Notificacion notificacion in listaNotificaciones)
+				{
+					if (notificacion.estado.Equals(Notificacion.Nueva))
+					{
+						++cantidadNuevas;
+					}
+				}
+			}
+
+			return cantidadNuevas;
+		}
+	}
 }

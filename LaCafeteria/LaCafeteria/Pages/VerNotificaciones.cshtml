@@ -10,13 +10,14 @@
 <div class="container-fluid">
 	@{
 		List<Notificacion> listaNotificaciones = HttpContext.Session.GetComplexData<List<Notificacion>>("listaNotificaciones");
+
 		if (listaNotificaciones != null && listaNotificaciones.Count != 0)
 		{	<form method="post">
 			@foreach (Notificacion notificacion in listaNotificaciones)
 			{
 				<div class="row">
 					<div class="col-md-1 notificacion" style="background-color:lightgray; width:100px"><p style="margin-top:30px; margin-bottom:2px; height:100%">@notificacion.fechaCreacion</p></div>
-					<div class="col-md-9"><button id="notificacionAID" name="notificacionAID" type="submit" class="notificacion" value="@notificacion.notificacionAID"><div><p style="color:white; align-content:left;">@notificacion.mensaje</p></div></button></div>
+					<div class="col-md-9"><button id="notificacionAID" name="notificacionAID" type="submit" class="notificacion" value="@notificacion.notificacionAID"><div><p style="color:white;">@notificacion.mensaje</p></div></button></div>
 					<div class="col-md-2">					
 					</div>
 				</div>
@@ -25,7 +26,7 @@
 		}
 		else
 		{
-
+			<p> No hay notificaciones disponibles</p>
 		}
 	}
-	</div">
+</div">

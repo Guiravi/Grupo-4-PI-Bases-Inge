@@ -23,5 +23,10 @@ namespace LaCafeteria.Utilidades
 		{
 			session.SetString(key, JsonConvert.SerializeObject(value));
 		}
+
+		//public static int GetInt32(this ISession session, string key)
+		//{
+		//	return  session.GetInt32(key);
+		//}
 	}
 }

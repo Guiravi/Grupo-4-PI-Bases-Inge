@@ -1,6 +1,6 @@
 ﻿@using LaCafeteria.Utilidades;
 @using LaCafeteria.Models
-
+@using Microsoft.AspNetCore.Http;
 <!DOCTYPE html>
 <html>
 <head>
@@ -71,11 +71,25 @@
 					}
 
 					<li class="dropdown" role="presentation">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"> <i class="glyphicon glyphicon-bell"></i><span class="badge">1</span> </a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+							<i class="glyphicon glyphicon-bell"></i>
+							@{	
+
+							   byte[] value = new byte[32];
+							   if(Context.Session.TryGetValue("cantidadNotificacionesNuevas", out value))
+							   {
+								   int? cantidadNotificacionesNuevas = Context.Session.GetInt32("cantidadNotificacionesNuevas");
+								   if (cantidadNotificacionesNuevas > 0)
+								   {
+									  <span class="badge">@cantidadNotificacionesNuevas</span>
+								   }
+							   }
+							}
+						</a>
 						<ul class="dropdown-menu">
 							@{
 								List<Notificacion> listaNotificacion = Context.Session.GetComplexData<List<Notificacion>>("listaNotificaciones");
-								if (listaNotificacion != null && listaNotificacion.Count != 0)
+								if (listaNotificacion != null && listaNotificacion.Count > 0)
 								{	<form method="post" asp-page="VerNotificaciones">
 										<div class="container" style="width:400px">
 											@for (int notificacionActual = 0; notificacionActual < listaNotificacion.Count && notificacionActual < 5; notificacionActual++)
@@ -93,7 +107,6 @@
 												else
 												{
 													<div class="col-sm-11">
-									
 													<button id="notificacionAID" name="notificacionAID" type="submit" class="notificacion" value="@listaNotificacion[notificacionActual].notificacionAID"><li style="width:320px;"><div><p style="color:white; margin:auto">@listaNotificacion[notificacionActual].mensaje</p></div></li></button>
 													</div>
 												}
@@ -103,7 +116,11 @@
 											<a style="color:steelblue;" href="/VerNotificaciones"> Ver todas mis notificaciones</a>
 										</div>
 									</form>
-								}			
+								}
+								else
+								{
+									<li style="width:320px; text-align:center"><p>No hay notificaciones disponibles</p></li>
+								}
 							}
 						</ul>
 					</li>

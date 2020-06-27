@@ -54,9 +54,12 @@ namespace LaCafeteria.Pages
 		public IActionResult OnPost()
 		{
 			if(EsValido())
-			{
+			{	
+
 				Response.Cookies.Append("usernamePK", usernamePK);
-				HttpContext.Session.SetComplexData("listaNotificaciones", informacionMiembroController.GetNotificaciones(usernamePK));
+				List<Notificacion> listaNotificaciones = informacionMiembroController.GetNotificaciones(usernamePK);
+				HttpContext.Session.SetComplexData("listaNotificaciones", listaNotificaciones);
+				HttpContext.Session.SetInt32("cantidadNotificacionesNuevas", GetCantidadNotificacionesNuevas(listaNotificaciones));
 				Notificaciones.Set(this, "sesionIniciada", "Sesión iniciada", Notificaciones.TipoNotificacion.Exito);
 				return Redirect("/Index");
 			}
@@ -75,6 +78,24 @@ namespace LaCafeteria.Pages
 			}
 
 			return esValido && ModelState.IsValid;
+		}
+
+		private int GetCantidadNotificacionesNuevas(List<Notificacion> listaNotificaciones)
+		{
+			int cantidadNuevas = 0;
+			
+			if(listaNotificaciones != null)
+			{
+				foreach (Notificacion notificacion in listaNotificaciones)
+				{
+					if(notificacion.estado.Equals(Notificacion.Nueva))
+					{
+						++cantidadNuevas;
+					}
+				}
+			}
+			
+			return cantidadNuevas;
 		}
     }
 }
