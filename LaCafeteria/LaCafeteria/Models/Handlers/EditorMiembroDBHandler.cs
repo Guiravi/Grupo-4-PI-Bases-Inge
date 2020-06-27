@@ -82,7 +82,7 @@ namespace LaCafeteria.Models.Handlers
                 command.ExecuteNonQuery();
 
                 string sqlStringInsert = "INSERT INTO MiembroPasatiempo VALUES (@usernamePK, @pasatiempo)";
-                command = new SqlCommand(sqlString, connection);
+                command = new SqlCommand(sqlStringInsert, connection);
 
                 foreach ( string _pasatiempo in pasatiempos )
                 {
@@ -104,7 +104,7 @@ namespace LaCafeteria.Models.Handlers
                 command.ExecuteNonQuery();
 
                 string sqlStringInsert = "INSERT INTO MiembroIdioma VALUES (@usernamePK, @idioma)";
-                command = new SqlCommand(sqlString, connection);
+                command = new SqlCommand(sqlStringInsert, connection);
 
                 foreach ( string _idioma in idiomas )
                 {
@@ -126,7 +126,7 @@ namespace LaCafeteria.Models.Handlers
                 command.ExecuteNonQuery();
 
                 string sqlStringInsert = "INSERT INTO MiembroHabilidad VALUES (@usernamePK, @habilidad)";
-                command = new SqlCommand(sqlString, connection);
+                command = new SqlCommand(sqlStringInsert, connection);
 
                 foreach ( string _habilidad in habilidades )
                 {
