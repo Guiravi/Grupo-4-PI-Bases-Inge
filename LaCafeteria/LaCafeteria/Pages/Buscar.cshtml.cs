@@ -28,11 +28,9 @@ namespace LaCafeteria.Pages
         [BindProperty]
         public List<string> listaTopicosSelec { set; get; }
 
-        public TopicoController topicoController;
+        //public TopicoController topicoController;
 
-        public ArticuloController articuloController;
-
-        public MiembroController miembroController;
+        private BuscadorArticuloController buscadorArticuloController;
 
 
         public int cantResultados { set; get; }  
@@ -48,9 +46,8 @@ namespace LaCafeteria.Pages
 
         public BuscarModel()
         {
-            topicoController = new TopicoController();
-            articuloController = new ArticuloController();
-            miembroController = new MiembroController();
+            //topicoController = new TopicoController();
+            buscadorArticuloController = new BuscadorArticuloController();
             listaTopicos = topicoController.GetListaTopicos();
 
             listaTopicosSelec = new List<string>();
@@ -66,7 +63,7 @@ namespace LaCafeteria.Pages
             {
                 if (todos != 0)
                 {
-                    articulosResultado = articuloController.GetTodosArticulos();
+                    articulosResultado = buscadorArticuloController.GetTodosArticulos();
                     cantResultados = articulosResultado.Count;
                     articulosResultado = PaginarResultados(articulosResultado, indice, articulosPorPagina);
                     totalPaginas = (int)Math.Ceiling(decimal.Divide(cantResultados, articulosPorPagina));                  
@@ -89,7 +86,7 @@ namespace LaCafeteria.Pages
                     SolicitudBusquedaModel solicitud = new SolicitudBusquedaModel(tipoBusqueda, topicosSelec,
                     tiposArticulo, textoBusqueda);
 
-                    articulosResultado = articuloController.BuscarArticulo(solicitud);
+                    articulosResultado = buscadorArticuloController.BuscarArticulo(solicitud);
                     cantResultados = articulosResultado.Count;
                     articulosResultado = PaginarResultados(articulosResultado, indice, articulosPorPagina);
                     totalPaginas = (int)Math.Ceiling(decimal.Divide(cantResultados, articulosPorPagina));
