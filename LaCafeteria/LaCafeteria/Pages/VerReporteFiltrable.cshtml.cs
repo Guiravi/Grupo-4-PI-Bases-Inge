@@ -32,8 +32,7 @@ namespace LaCafeteria.Pages
             articulosPorRol = new List<DatosGraficoDona>();
 
             informacionMiembroController = new InformacionMiembroController();
-
-            
+           
         }
 
         public void OnGet()
@@ -43,6 +42,7 @@ namespace LaCafeteria.Pages
             habilidadesPorIdioma = informacionMiembroController.GetHabilidadesPorIdioma();
             pasatiemposPorPais = informacionMiembroController.GetPasatiemposPorPais();
             pasatiemposPorIdioma = informacionMiembroController.GetPasatiemposPorIdioma();
+            miembrosPorRol = informacionMiembroController.GetMiembrosPorRol();
         }      
        
     }

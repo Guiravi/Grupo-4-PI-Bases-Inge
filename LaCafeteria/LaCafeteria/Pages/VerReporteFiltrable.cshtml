@@ -28,7 +28,8 @@
 
         #chartDonutRol {
             width: 100%;
-            height: 350px;
+            height: 400px;
+            margin: 0;
         }
 
         .chartDivBarras {
@@ -937,14 +938,14 @@
 
         // Add data
         chart.data = [
-            @for (int i = 0; i < Model.miembrosPorPais.Count; i++)
+            @for (int i = 0; i < Model.miembrosPorRol.Count; i++)
             {
-                if (i != Model.miembrosPorPais.Count - 1)
+                if (i != Model.miembrosPorRol.Count - 1)
                 {
                     <text>
                     {
-                        "rol": "@Model.miembrosPorPais[i].categoria",
-                        "cantidad": @Model.miembrosPorPais[i].cantidad
+                        "rol": "@Html.Raw(Model.miembrosPorRol[i].categoria)",
+                        "cantidad": @Model.miembrosPorRol[i].cantidad
                     },
                     </text>
                 }
@@ -952,8 +953,8 @@
                 {
                     <text>
                     {
-                        "rol": "@Model.miembrosPorPais[i].categoria",
-                        "cantidad": @Model.miembrosPorPais[i].cantidad
+                        "rol": "@Html.Raw(Model.miembrosPorRol[i].categoria)",
+                        "cantidad": @Model.miembrosPorRol[i].cantidad
                     }
                     </text>
                 }
