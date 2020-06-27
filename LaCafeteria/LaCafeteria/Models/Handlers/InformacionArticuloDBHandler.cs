@@ -58,7 +58,7 @@ namespace LaCafeteria.Models.Handlers
                 {
                     articulo = new ArticuloModel()
                     {
-                        idArticuloPK = id,
+                        articuloAID = id,
                         titulo = (string) reader["titulo"],
                         tipo = (string) reader["tipo"],
                         fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
