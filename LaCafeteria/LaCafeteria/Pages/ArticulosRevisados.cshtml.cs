@@ -36,7 +36,7 @@ namespace LaCafeteria.Pages
             for ( int i = 0; i < artList.Count(); ++i )
             {
                 dictTopicos.Add(artList[i], informacionArticuloController.GetTopicosArticuloString(artList[i].idArticuloPK));
-                dictAutores.Add(artList[i], informacionArticuloController.GetAutoresDeArticulo(artList[i].idArticuloPK));
+                dictAutores.Add(artList[i], informacionArticuloController.GetAutoresDeArticuloString(artList[i].idArticuloPK));
                 dictRevisores.Add(artList[i], informacionArticuloController.GetRevisoresDeArticulo(artList[i].idArticuloPK));
             }
         }
