@@ -107,5 +107,39 @@ namespace LaCafeteria.Models.Handlers
             return lista;
         }
 
+        public List<DatosGraficoBarrasApilado> GetHabilidadesPorIdioma()
+        {
+            List<DatosGraficoBarrasApilado> lista = new List<DatosGraficoBarrasApilado>();
+
+            string connectionString = AppSettings.GetConnectionString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+
+                string sqlString = @"SELECT  MH.habilidad, MI.idiomaFK, COUNT(*) AS cantidad
+                                    FROM [dbo].[Miembro] M
+                                    JOIN [dbo].[MiembroHabilidad] MH
+	                                    ON M.usernamePK = MH.usernameFK
+                                    JOIN [dbo].[MiembroIdioma] MI
+	                                    ON M.usernamePK = MI.usernameFK
+                                    WHERE	MH.habilidad IN (SELECT habilidadPK
+						                                    FROM [Catalogo].[Habilidad])
+                                    GROUP BY MI.idiomaFK, MH.habilidad
+                                    ORDER BY MH.habilidad, MI.idiomaFK";
+
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+                {
+                    SqlDataReader dataReader = sqlCommand.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        DatosGraficoBarrasApilado datos = new DatosGraficoBarrasApilado((string)dataReader["habilidad"], (string)dataReader["idiomaFK"], (int)dataReader["cantidad"]);
+                        lista.Add(datos);
+                    }
+                }
+            }
+
+            return lista;
+        }
+
     }
 }
