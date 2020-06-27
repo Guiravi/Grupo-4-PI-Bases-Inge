@@ -29,7 +29,7 @@ namespace LaCafeteria.Controllers
             editorArticuloDBHandler.EditarArticulo(articulo, usernamePKMiembrosAutores, nombreTopicoPKTopicos);
             if ( articulo.tipo == "Largo" )
             {
-                administradorDeArchivosFSHandler.BorrarViejoArchivo(articulo.idArticuloPK, rutaCarpeta);
+                administradorDeArchivosFSHandler.BorrarViejoArchivo(articulo.articuloAID, rutaCarpeta);
             }
         }
     }
