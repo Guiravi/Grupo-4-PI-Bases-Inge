@@ -146,7 +146,7 @@ namespace LaCafeteria.Pages
             {
                 articulo.tipo = TipoArticulo.Largo;
                 articulo.estado = EstadoArticulo.EnProgreso;
-                articulo.idArticuloPK = (int)TempData["idArticulo"];
+                articulo.articuloAID = (int)TempData["idArticulo"];
                 editorArticuloController.EditarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo, rutaCarpeta);
                 Notificaciones.Set(this, "articuloEditado", "Su artículo se editó correctamente", Notificaciones.TipoNotificacion.Exito);
 
@@ -164,9 +164,9 @@ namespace LaCafeteria.Pages
                 articulo.estado = EstadoArticulo.RequiereRevision;
                 if (TempData["idArticulo"] != null)
                 {
-                    articulo.idArticuloPK = (int)TempData["idArticulo"];
+                    articulo.articuloAID = (int)TempData["idArticulo"];
                 }
-                if (articulo.idArticuloPK ==  -1)
+                if (articulo.articuloAID ==  -1)
                 {
                     almacenadorArticuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
                 }
