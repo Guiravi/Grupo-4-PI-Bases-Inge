@@ -148,9 +148,9 @@ namespace LaCafeteria.Pages
                 articulo.estado = EstadoArticulo.RequiereRevision;
                 if (TempData["idArticulo"] != null)
                 {
-                    articulo.idArticuloPK = (int)TempData["idArticulo"];
+                    articulo.articuloAID = (int)TempData["idArticulo"];
                 }
-                if (articulo.idArticuloPK == -1)
+                if (articulo.articuloAID == -1)
                 {
                     almacenadorArticuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
                 }
