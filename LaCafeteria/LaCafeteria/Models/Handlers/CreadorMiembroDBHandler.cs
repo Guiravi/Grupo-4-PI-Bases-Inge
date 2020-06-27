@@ -14,8 +14,8 @@ namespace LaCafeteria.Models.Handlers
             using ( SqlConnection sqlConnection = new SqlConnection(connectionString) )
             {
 
-                string sqlString = @"INSERT INTO Miembro(usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, pais, estado, ciudad, rutaImagenPerfil, 
-											hobbies, habilidades, idiomas, informacionLaboral)
+                string sqlString = @"INSERT INTO Miembro(usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, paisFK, estado, ciudad, rutaImagenPerfil, 
+											pasatiempos, habilidades, idiomas, informacionLaboral)
 
 									VALUES(@usernamePK, @email, @nombre, @apellido1, @apellido2, @fechaNacimiento, @pais, @estado, @ciudad, @rutaImagenPerfil, @hobbies, @habilidades, @idiomas, @informacionLaboral)";
 
@@ -26,14 +26,22 @@ namespace LaCafeteria.Models.Handlers
                     sqlCommand.Parameters.AddWithValue("@email", miembro.email);
                     sqlCommand.Parameters.AddWithValue("@nombre", miembro.nombre);
                     sqlCommand.Parameters.AddWithValue("@apellido1", miembro.apellido1);
-                    sqlCommand.Parameters.AddWithValue("@apellido2", miembro.apellido2);
-                    sqlCommand.Parameters.AddWithValue("@fechaNacimiento", miembro.fechaNacimiento);
-                    if ( miembro.pais != null )
+                    sqlCommand.Parameters.AddWithValue("@pais", miembro.paisFK);
+                    sqlCommand.Parameters.AddWithValue("@rutaImagenPerfil", miembro.rutaImagenPerfil);
+
+                    if ( miembro.fechaNacimiento != null )
                     {
-                        sqlCommand.Parameters.AddWithValue("@pais", miembro.pais);
+                        sqlCommand.Parameters.AddWithValue("@fechaNacimiento", miembro.fechaNacimiento);
                     } else
                     {
-                        sqlCommand.Parameters.AddWithValue("@pais", DBNull.Value);
+                        sqlCommand.Parameters.AddWithValue("@fechaNacimiento", DBNull.Value);
+                    }
+                    if ( miembro.apellido2 != null )
+                    {
+                        sqlCommand.Parameters.AddWithValue("@apellido2", miembro.apellido2);
+                    } else
+                    {
+                        sqlCommand.Parameters.AddWithValue("@apellido2", DBNull.Value);
                     }
                     if ( miembro.estado != null )
                     {
@@ -50,10 +58,11 @@ namespace LaCafeteria.Models.Handlers
                     {
                         sqlCommand.Parameters.AddWithValue("@ciudad", DBNull.Value);
                     }
-                    sqlCommand.Parameters.AddWithValue("@rutaImagenPerfil", miembro.rutaImagenPerfil);
-                    if ( miembro.hobbies != null )
+
+                    
+                    /*if ( miembro.pasatiempos != null )
                     {
-                        sqlCommand.Parameters.AddWithValue("@hobbies", miembro.hobbies);
+                        sqlCommand.Parameters.AddWithValue("@hobbies", miembro.pasatiempos);
                     } else
                     {
                         sqlCommand.Parameters.AddWithValue("@hobbies", DBNull.Value);
@@ -71,7 +80,8 @@ namespace LaCafeteria.Models.Handlers
                     } else
                     {
                         sqlCommand.Parameters.AddWithValue("@idiomas", DBNull.Value);
-                    }
+                    }*/
+
                     if ( miembro.informacionLaboral != null )
                     {
                         sqlCommand.Parameters.AddWithValue("@informacionLaboral", miembro.informacionLaboral);
