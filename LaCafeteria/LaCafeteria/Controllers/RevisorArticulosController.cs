@@ -8,17 +8,17 @@ namespace LaCafeteria.Controllers
 {
     public class RevisorArticulosController
     {
-        RevisorArticuloHandler revisorArticuloHandler;
+        private RevisorArticuloHandler revisorArticuloHandler;
         
-        RevisorArticulosController()
+        public RevisorArticulosController()
         {
 
         }
 
-        public void ActualizarRevisionArticulo(int opinion, int contribucion, int forma, string estadoRevision,
+        public void ActualizarRevisionArticulo(float merito, int opinion, int contribucion, int forma, string estadoRevision,
                                                     string comentarios, string recomendacion, string username, int idArticulo)
         {
-            revisorArticuloHandler.ActualizarEstadoRevisionArticulo(opinion, contribucion, forma, estadoRevision,
+            revisorArticuloHandler.ActualizarEstadoRevisionArticulo(merito, opinion, contribucion, forma, estadoRevision,
                                                     comentarios, recomendacion, username, idArticulo);
         }
     }
