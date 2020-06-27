@@ -217,7 +217,7 @@
                                         <li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.misArticulos[articuloActual].fechaPublicacion)</li>
                                         <li><strong>Tipo: </strong>@Model.misArticulos[articuloActual].tipo</li>
                                         <li><strong>Autor(es): </strong>@Model.informacionArticuloController.GetAutoresDeArticuloString(Model.misArticulos[articuloActual].articuloAID)</li>
-                                        <li><strong>Tópico(s): </strong>@Model.informacionArticuloController.GetTopicosArticuloString(Model.misArticulos[articuloActual].articuloAID)</li>
+                                        <li><strong>Tópico(s): </strong>@Model.informacionArticuloController.GetCategoriaTopicosArticulo(Model.misArticulos[articuloActual].articuloAID)</li>
                                         @if (Model.misArticulos[articuloActual].tipo == "Corto")
                                         {
                                             <li style="margin-top: 20px"><a href="/EscribirArticulo/@Model.misArticulos[articuloActual].articuloAID" class="btn">Editar</a></li>
