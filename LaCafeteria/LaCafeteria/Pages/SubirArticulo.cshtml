@@ -90,11 +90,11 @@
                                     bool encontrado = false;
                                     while (!encontrado && contador < Model.listaTopicosArticulo.Count)
                                     {
-                                        if (Model.listaTopicos[topicoActual].nombre == Model.listaTopicosArticulo[contador])
+                                        if (Model.listaTopicos[topicoActual].nombreTopicoPK == Model.listaTopicosArticulo[contador])
                                         {
                                             encontrado = true;
 
-                                            <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaTopicosArticulo" value="@Model.listaTopicos[topicoActual].nombre" checked="checked"> @Model.listaTopicos[topicoActual].nombre</li>
+                                            <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaTopicosArticulo" value="@Model.listaTopicos[topicoActual].nombreTopicoPK" checked="checked"> @Model.listaTopicos[topicoActual].nombreTopicoPK</li>
                                         }
 
                                         contador++;
@@ -102,7 +102,7 @@
 
                                     if (!encontrado)
                                     {
-                                        <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaTopicosArticulo" value="@Model.listaTopicos[topicoActual].nombre"> @Model.listaTopicos[topicoActual].nombre</li>
+                                        <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaTopicosArticulo" value="@Model.listaTopicos[topicoActual].nombreTopicoPK"> @Model.listaTopicos[topicoActual].nombreTopicoPK</li>
                                     }
 
                                 }
@@ -111,7 +111,7 @@
                             {
                                 for (int topicoActual = 0; topicoActual < Model.listaTopicos.Count; ++topicoActual)
                                 {
-                                    <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaTopicosArticulo" value="@Model.listaTopicos[topicoActual].nombre"> @Model.listaTopicos[topicoActual].nombre</li>
+                                    <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaTopicosArticulo" value="@Model.listaTopicos[topicoActual].nombreTopicoPK"> @Model.listaTopicos[topicoActual].nombreTopicoPK</li>
                                 }
                             }
                         </ul>
