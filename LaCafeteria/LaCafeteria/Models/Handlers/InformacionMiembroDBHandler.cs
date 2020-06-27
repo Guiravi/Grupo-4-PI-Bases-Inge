@@ -207,5 +207,59 @@ namespace LaCafeteria.Models.Handlers
             return lista;
         }
 
+        public List<string> GetHabilidadesEstandarSinAsignar()
+        {
+            List<string> lista = new List<string>();
+            string connectionString = AppSettings.GetConnectionString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+
+                string sqlString = @"SELECT H.habilidadPK
+                                    FROM [Catalogo].[Habilidad] H
+                                    WHERE	H.habilidadPK NOT IN	(SELECT habilidad 
+							                                    FROM [dbo].[MiembroHabilidad])";
+
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+                {
+                    SqlDataReader dataReader = sqlCommand.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        string habilidad = (string)dataReader["habilidadPK"];
+                        lista.Add(habilidad);
+                    }
+                }
+            }
+
+            return lista;
+        }
+
+        public List<string> GetPasatiemposEstandarSinAsignar()
+        {
+            List<string> lista = new List<string>();
+            string connectionString = AppSettings.GetConnectionString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+
+                string sqlString = @"SELECT P.pasatiempoPK
+                                    FROM [Catalogo].[Pasatiempo] P
+                                    WHERE	P.pasatiempoPK NOT IN	(SELECT pasatiempo
+								                                    FROM [dbo].[MiembroPasatiempo])";
+
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+                {
+                    SqlDataReader dataReader = sqlCommand.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        string pasatiempo = (string)dataReader["pasatiempoPK"];
+                        lista.Add(pasatiempo);
+                    }
+                }
+            }
+
+            return lista;
+        }
+
     }
 }
