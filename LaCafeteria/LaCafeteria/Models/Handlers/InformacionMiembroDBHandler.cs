@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using LaCafeteria.Models;
 
 namespace LaCafeteria.Models.Handlers
 {
@@ -46,5 +47,33 @@ namespace LaCafeteria.Models.Handlers
 
 			return listaNotificaciones;
 		}
-	}
+
+        public List<DatosGraficoDona> GetMiembrosPorPais()
+        {
+            List<DatosGraficoDona> lista = new List<DatosGraficoDona>();
+
+            string connectionString = AppSettings.GetConnectionString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+
+                string sqlString = @"SELECT paisFK, COUNT(*) AS cantidad
+                                        FROM [dbo].[Miembro]
+                                        GROUP BY paisFK";
+
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+                {
+                    SqlDataReader dataReader = sqlCommand.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        DatosGraficoDona datos = new DatosGraficoDona((string)dataReader["paisFK"], (int)dataReader["cantidad"]);
+                        lista.Add(datos);
+                    }
+                }
+            }
+
+            return lista;
+        }
+
+    }
 }
