@@ -250,6 +250,7 @@ namespace TheCoffeePlace.Controllers
             ((Page)view).Response.End();
             //((Page)view).Response.Redirect("~/EditarArticuloLargo.aspx?idArticuloPK=" + ((Page)view).Request.QueryString["idArticuloPK"] + "&tipo=" + ((Page)view).Request.QueryString["tipo"] + "&usernameFK=" + ((Page)view).Request.QueryString["usernameFK"] + "&descarga=" + 0,true);
         }
+		*/
         
 
     }

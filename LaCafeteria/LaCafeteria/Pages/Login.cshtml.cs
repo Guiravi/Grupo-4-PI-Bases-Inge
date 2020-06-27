@@ -11,7 +11,8 @@ using LaCafeteria.Models;
 using LaCafeteria.Controllers;
 
 namespace LaCafeteria.Pages
-{
+{	
+
 	public class LoginModel : PageModel
 	{	
 		[Required(ErrorMessage = "Debe ingresar su nombre de usuario")]
@@ -22,16 +23,25 @@ namespace LaCafeteria.Pages
 		public string cerrarSesion { set; get; }
 
         private BuscadorMiembrosController buscadorMiembrosController;
+		public InformacionMiembroController informacionMiembroController;
 
 		public LoginModel()
 		{
             buscadorMiembrosController = new BuscadorMiembrosController();
-
-        }
+			informacionMiembroController = new InformacionMiembroController();
+		}
 
 		public IActionResult OnGet()
         {
-			if(cerrarSesion != null)
+			CreadorNotificacionController creadorNotificacionController = new CreadorNotificacionController();
+			
+			// TODO: Eliminar codigo de prueba
+			creadorNotificacionController.CrearNotificacion( new Notificacion("BadBunny", "Su articulo YHLQMDLG ha sido aceptado", "/Index"));
+			creadorNotificacionController.CrearNotificacion(new Notificacion("BadBunny", "Usted ha sido promovido a Miembro de nucleo!", "#"));
+			creadorNotificacionController.CrearNotificacion(new Notificacion("BadBunny", "Su articulo Bichiyal ha recibido 1 like", "#"));
+			creadorNotificacionController.CrearNotificacion(new Notificacion("BadBunny", "Se solicita su colaboracion para revisar el articulo Oda al mono motorizado", "#"));
+
+			if (cerrarSesion != null)
 			{
 				Response.Cookies.Delete("usernamePK");
 				Notificaciones.Set(this, "cerrarSesion", "Se ha cerrado la sesión", Notificaciones.TipoNotificacion.Exito);
@@ -44,8 +54,12 @@ namespace LaCafeteria.Pages
 		public IActionResult OnPost()
 		{
 			if(EsValido())
-			{
+			{	
+
 				Response.Cookies.Append("usernamePK", usernamePK);
+				List<Notificacion> listaNotificaciones = informacionMiembroController.GetNotificaciones(usernamePK);
+				HttpContext.Session.SetComplexData("listaNotificaciones", listaNotificaciones);
+				HttpContext.Session.SetInt32("cantidadNotificacionesNuevas", GetCantidadNotificacionesNuevas(listaNotificaciones));
 				Notificaciones.Set(this, "sesionIniciada", "Sesión iniciada", Notificaciones.TipoNotificacion.Exito);
 				return Redirect("/Index");
 			}
@@ -64,6 +78,24 @@ namespace LaCafeteria.Pages
 			}
 
 			return esValido && ModelState.IsValid;
+		}
+
+		private int GetCantidadNotificacionesNuevas(List<Notificacion> listaNotificaciones)
+		{
+			int cantidadNuevas = 0;
+			
+			if(listaNotificaciones != null)
+			{
+				foreach (Notificacion notificacion in listaNotificaciones)
+				{
+					if(notificacion.estado.Equals(Notificacion.Nueva))
+					{
+						++cantidadNuevas;
+					}
+				}
+			}
+			
+			return cantidadNuevas;
 		}
     }
 }
