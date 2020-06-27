@@ -261,5 +261,33 @@ namespace LaCafeteria.Models.Handlers
             return lista;
         }
 
+        public List<DatosGraficoDona> GetMiembrosPorRol()
+        {
+            List<DatosGraficoDona> lista = new List<DatosGraficoDona>();
+
+            string connectionString = AppSettings.GetConnectionString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+
+                string sqlString = @"SELECT nombreRolFK, COUNT(*) AS cantidad
+                                    FROM [dbo].[Miembro]
+                                    WHERE nombreRolFK != 'Coordinador'
+                                    GROUP BY nombreRolFK";
+
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+                {
+                    SqlDataReader dataReader = sqlCommand.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        DatosGraficoDona datos = new DatosGraficoDona((string)dataReader["nombreRolFK"], (int)dataReader["cantidad"]);
+                        lista.Add(datos);
+                    }
+                }
+            }
+
+            return lista;
+        }
+
     }
 }
