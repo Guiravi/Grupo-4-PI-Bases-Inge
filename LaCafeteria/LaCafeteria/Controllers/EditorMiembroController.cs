@@ -15,8 +15,8 @@ namespace LaCafeteria.Controllers
             editorMiembroDBHandler = new EditorMiembroDBHandler();
         }
 
-        public void ActualizarMiembro(string usernamePK, MiembroModel miembro) {
-            editorMiembroDBHandler.ActualizarMiembro(usernamePK, miembro);
+        public void ActualizarMiembro(string usernamePK, EdicionMiembroModel edicionMiembroModel, List<string> idiomas, List<string> habilidades, List<string> pasatiempos) {
+            editorMiembroDBHandler.ActualizarMiembro(usernamePK, edicionMiembroModel, idiomas, habilidades, pasatiempos);
         }
 
         public void SetRolMiembro() {
