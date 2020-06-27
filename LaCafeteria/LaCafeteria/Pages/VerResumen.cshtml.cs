@@ -21,13 +21,11 @@ namespace LaCafeteria.Pages
         [BindProperty]
         public ArticuloModel articulo { get; set; }
 
-        public ArticuloController articuloController { get; set; }
+        private InformacionArticuloController informacionArticuloController;
+        private CalificadorDeArticuloController calificadorDeArticuloController;
+        private EditorArticuloController editorArticuloController;
 
-        public TopicoController topicoController { get; set; }
-
-        public MiembroController miembroController;
-
-        public string topicos { get; set; }
+        public List<CategoriaTopicoModel> topicos { get; set; }
 
         public string autores { get; set; }
 
@@ -37,21 +35,18 @@ namespace LaCafeteria.Pages
 
         public VerResumenModel()
         {
-            articuloController = new ArticuloController();
-            topicoController = new TopicoController();
-            miembroController = new MiembroController();
+            informacionArticuloController = new InformacionArticuloController();
+            calificadorDeArticuloController = new CalificadorDeArticuloController();
+            editorArticuloController = new EditorArticuloController();
         }
 
         public void OnGet() {
-            
-            articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
-            autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
-            topicos = topicoController.GetTopicosArticulo(idArticuloPK);
-            contenido = articulo.contenido;
+
+            SetInformacionArticulo();
 
             if (Request.Cookies["usernamePK"] != null)
             {
-                calificacion = miembroController.GetCalificacionMiembro(Request.Cookies["usernamePK"], idArticuloPK);
+                calificacion = informacionArticuloController.GetCalificacionMiembro(Request.Cookies["usernamePK"], idArticuloPK);
             }
            
             TempData["idArticuloPK"] = idArticuloPK;
@@ -60,12 +55,9 @@ namespace LaCafeteria.Pages
         public IActionResult OnPostGustar()
         {
             idArticuloPK = (int)TempData["idArticuloPK"]; 
-            calificacion = 1;          
-            miembroController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, 1);
-            articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
-            autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
-            topicos = topicoController.GetTopicosArticulo(idArticuloPK);
-            contenido = articulo.contenido;
+            calificacion = 1;
+            calificadorDeArticuloController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, 1);
+            SetInformacionArticulo();
             TempData["visto"] = 2;
             Notificaciones.Set(this, "meGusta", "Su calificación \"Me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
 
@@ -75,12 +67,9 @@ namespace LaCafeteria.Pages
         public IActionResult OnPostIgual()
         {
             idArticuloPK = (int)TempData["idArticuloPK"];
-            calificacion = 0;            
-            miembroController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, 0);
-            articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
-            autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
-            topicos = topicoController.GetTopicosArticulo(idArticuloPK);
-            contenido = articulo.contenido;
+            calificacion = 0;
+            calificadorDeArticuloController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, 0);
+            SetInformacionArticulo();
             TempData["visto"] = 2;
             Notificaciones.Set(this, "nulo", "Su calificación \"Nulo\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
 
@@ -90,12 +79,9 @@ namespace LaCafeteria.Pages
         public IActionResult OnPostDisgustar()
         {
             idArticuloPK = (int)TempData["idArticuloPK"];
-            calificacion = -1;          
-            miembroController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, -1);
-            articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
-            autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
-            topicos = topicoController.GetTopicosArticulo(idArticuloPK);
-            contenido = articulo.contenido;
+            calificacion = -1;
+            calificadorDeArticuloController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, -1);
+            SetInformacionArticulo();
             TempData["visto"] = 2;
             Notificaciones.Set(this, "noMeGusta", "Su calificación \"No me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
 
@@ -106,12 +92,9 @@ namespace LaCafeteria.Pages
             if (Request.Cookies["usernamePK"] != null)
             {
                 idArticuloPK = (int)TempData["idArticuloPK"];
-                articuloController.AgregarVisita(idArticuloPK);
-                articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
-                autores = articuloController.GetAutoresDeArticulo(idArticuloPK);
-                topicos = topicoController.GetTopicosArticulo(idArticuloPK);
-                calificacion = miembroController.GetCalificacionMiembro(Request.Cookies["usernamePK"], idArticuloPK);
-                contenido = articulo.contenido;
+                editorArticuloController.AgregarVisita(idArticuloPK);
+                SetInformacionArticulo();
+                calificacion = informacionArticuloController.GetCalificacionMiembro(Request.Cookies["usernamePK"], idArticuloPK);
                 TempData["visto"] = 1;
                 TempData["idArticuloPK"] = idArticuloPK;
             }
@@ -121,6 +104,13 @@ namespace LaCafeteria.Pages
                 return Redirect("/Login");
             }
             return Page();
-}
+        }
+
+        private void SetInformacionArticulo() {
+            articulo = informacionArticuloController.GetInformacionArticuloModel(idArticuloPK);
+            autores = informacionArticuloController.GetAutoresDeArticuloString(idArticuloPK);
+            topicos = informacionArticuloController.GetCategoriaTopicosArticulo(idArticuloPK);
+            contenido = articulo.contenido;
+        }
     }
 }

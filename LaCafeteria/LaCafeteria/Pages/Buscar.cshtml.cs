@@ -12,7 +12,7 @@ namespace LaCafeteria.Pages
 {
     public class BuscarModel : PageModel
     {
-        public List<TopicoModel> listaTopicos { set; get; }
+        public List<CategoriaTopicoModel> listaTopicos { set; get; }
 
         public List<ArticuloModel> articulosResultado { set; get; }
 
@@ -28,11 +28,9 @@ namespace LaCafeteria.Pages
         [BindProperty]
         public List<string> listaTopicosSelec { set; get; }
 
-        public TopicoController topicoController;
-
-        public ArticuloController articuloController;
-
-        public MiembroController miembroController;
+        private InformacionCategoriaTopicoController informacionCategoriaTopicoController;
+        private BuscadorArticuloController buscadorArticuloController;
+        public InformacionArticuloController informacionArticuloController;
 
 
         public int cantResultados { set; get; }  
@@ -48,10 +46,11 @@ namespace LaCafeteria.Pages
 
         public BuscarModel()
         {
-            topicoController = new TopicoController();
-            articuloController = new ArticuloController();
-            miembroController = new MiembroController();
-            listaTopicos = topicoController.GetListaTopicos();
+            informacionCategoriaTopicoController = new InformacionCategoriaTopicoController();
+            buscadorArticuloController = new BuscadorArticuloController();
+            informacionArticuloController = new InformacionArticuloController();
+
+            listaTopicos = informacionCategoriaTopicoController.GetCategoriasYTopicos();
 
             listaTopicosSelec = new List<string>();
             articulosResultado = new List<ArticuloModel>();
@@ -66,7 +65,7 @@ namespace LaCafeteria.Pages
             {
                 if (todos != 0)
                 {
-                    articulosResultado = articuloController.GetTodosArticulos();
+                    articulosResultado = buscadorArticuloController.GetTodosArticulos();
                     cantResultados = articulosResultado.Count;
                     articulosResultado = PaginarResultados(articulosResultado, indice, articulosPorPagina);
                     totalPaginas = (int)Math.Ceiling(decimal.Divide(cantResultados, articulosPorPagina));                  
@@ -89,7 +88,7 @@ namespace LaCafeteria.Pages
                     SolicitudBusquedaModel solicitud = new SolicitudBusquedaModel(tipoBusqueda, topicosSelec,
                     tiposArticulo, textoBusqueda);
 
-                    articulosResultado = articuloController.BuscarArticulo(solicitud);
+                    articulosResultado = buscadorArticuloController.BuscarArticulo(solicitud);
                     cantResultados = articulosResultado.Count;
                     articulosResultado = PaginarResultados(articulosResultado, indice, articulosPorPagina);
                     totalPaginas = (int)Math.Ceiling(decimal.Divide(cantResultados, articulosPorPagina));
