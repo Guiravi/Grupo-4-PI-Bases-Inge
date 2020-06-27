@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using LaCafeteria.Utilidades;
 
-namespace LaCafeteria.Models
+namespace LaCafeteria.Models.Handlers
 {
     public class ArticuloDBHandler
     {
