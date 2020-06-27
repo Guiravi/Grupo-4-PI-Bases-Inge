@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using LaCafeteria.Models;
 using LaCafeteria.Models.Handlers;
 
-namespace LaCafeteria.Models.Handlers
+namespace LaCafeteria.Controllers
 {
     public class EditorMiembroController
     {
