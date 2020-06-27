@@ -53,8 +53,8 @@
 
 				<div class="form-group">
 					<label for="txtFechaNacimiento">Pais</label>
-					<input id="txtFechaNacimiento" type="text" class="form-control" asp-for="miembro.pais" />
-					<span asp-validation-for="miembro.pais"></span>
+					<input id="txtFechaNacimiento" type="text" class="form-control" asp-for="miembro.paisFK" />
+					<span asp-validation-for="miembro.paisFK"></span>
 				</div>
 
 				<div class="form-group">
@@ -84,8 +84,8 @@
 
 			<div class="form-group">
 				<label for="txtHobbies">Hobbies</label>
-				<textarea id="txtHobbies" class="form-control" asp-for="miembro.hobbies"></textarea>
-				<span asp-validation-for="miembro.hobbies"></span>
+				<textarea id="txtHobbies" class="form-control" asp-for="miembro.pasatiempos"></textarea>
+				<span asp-validation-for="miembro.pasatiempos"></span>
 			</div>
 
 			<div class="form-group">
