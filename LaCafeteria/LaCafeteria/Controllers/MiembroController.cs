@@ -24,12 +24,12 @@ namespace LaCafeteria.Controllers
 		{
 			miembroDBHandler.CrearMiembro(model);
 		}
-
+        /*
         public void ActualizarMiembro(string usernamePK, MiembroModel miembro)
         {
             miembroDBHandler.ActualizarMiembro(usernamePK, miembro);
         }
-
+        */
 		public MiembroModel GetMiembro(string usernamePK)
 		{
 			return miembroDBHandler.GetMiembro(usernamePK);
@@ -40,6 +40,21 @@ namespace LaCafeteria.Controllers
 			return miembroDBHandler.GetListaMiembros();
 		}
 
+        public void DegradarMiembro(string usernamePK, string nombreRolFK) {
+            
+
+
+
+             if (nombreRolFK == "Activo") {
+                nombreRolFK = "Periférico";
+             }
+            else {
+                nombreRolFK = "Activo";
+            }
+
+            miembroDBHandler.DegradarMiembro(usernamePK,nombreRolFK);
+            
+        }
         public int GetCalificacionMiembro(string username, int idArticulo)
         {
             return miembroDBHandler.GetCalificacionMiembro(username, idArticulo);
