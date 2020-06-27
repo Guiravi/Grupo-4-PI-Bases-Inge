@@ -56,21 +56,6 @@ namespace LaCafeteria.Controllers
             return revisores;
         }
 
-        public string GetTopicosArticuloString(int id) {
-            List<string> topicos = informacionArticuloDBHandler.GetTopicosArticulo(id);
-
-            string msjTopicos = "";
-
-            for ( int i = 0; i < topicos.Count - 1; ++i )
-            {
-                msjTopicos = msjTopicos + topicos[i] + ", ";
-            }
-
-            msjTopicos = msjTopicos + topicos[topicos.Count - 1];
-
-            return msjTopicos;
-        }
-
         public List<CategoriaTopicoModel> GetCategoriaTopicosArticulo(int id) {
             return informacionArticuloDBHandler.GetCategoriasTopicosArticulo(id);
         }
