@@ -15,7 +15,7 @@ namespace LaCafeteria.Models.Handlers
             using ( SqlConnection connection = new SqlConnection(connectionString) )
             {
                 connection.Open();
-                string cmdString = "UPDATE Articulo SET Articulo.estado = @estadoArticulo WHERE Articulo.idArticuloPK = @id";
+                string cmdString = "UPDATE Articulo SET Articulo.estado = @estadoArticulo WHERE Articulo.articuloAID = @id";
                 SqlCommand command = new SqlCommand(cmdString, connection);
                 command.Parameters.AddWithValue("@id", id);
                 command.Parameters.AddWithValue("@estadoArticulo", estadoArticulo);
@@ -30,7 +30,7 @@ namespace LaCafeteria.Models.Handlers
             using ( SqlConnection connection = new SqlConnection(connectionString) )
             {
                 connection.Open();
-                string cmdString = "UPDATE Articulo SET Articulo.visitas = Articulo.visitas + 1 WHERE Articulo.idArticuloPK = @id";
+                string cmdString = "UPDATE Articulo SET Articulo.visitas = Articulo.visitas + 1 WHERE Articulo.articuloAID = @id";
                 SqlCommand command = new SqlCommand(cmdString, connection);
                 command.Parameters.AddWithValue("@id", id);
                 command.ExecuteNonQuery();
@@ -50,12 +50,12 @@ namespace LaCafeteria.Models.Handlers
 										resumen = @resumen, 
 										contenido = @contenido, 
 										estado = @estado
-                                    WHERE idArticuloPK = @idArticuloPK";
+                                    WHERE articuloAID = @idArticuloPK";
 
                 sqlConnection.Open();
                 using ( SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection) )
                 {
-                    sqlCommand.Parameters.AddWithValue("@idArticuloPK", articulo.idArticuloPK);
+                    sqlCommand.Parameters.AddWithValue("@idArticuloPK", articulo.articuloAID);
                     sqlCommand.Parameters.AddWithValue("@titulo", articulo.titulo);
                     sqlCommand.Parameters.AddWithValue("@tipo", articulo.tipo);
                     sqlCommand.Parameters.AddWithValue("@fechaPublicacion", articulo.fechaPublicacion);
@@ -72,7 +72,7 @@ namespace LaCafeteria.Models.Handlers
                     foreach ( string usernamePK in usernamePKMiembrosAutores )
                     {
                         sqlCommand.Parameters.Clear();
-                        sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.idArticuloPK);
+                        sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.articuloAID);
                         sqlCommand.ExecuteNonQuery();
                     }
 
@@ -83,7 +83,7 @@ namespace LaCafeteria.Models.Handlers
                     {
                         sqlCommand.Parameters.Clear();
                         sqlCommand.Parameters.AddWithValue("@usernameMiemFK", usernamePK);
-                        sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.idArticuloPK);
+                        sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.articuloAID);
                         sqlCommand.ExecuteNonQuery();
                     }
 
@@ -93,7 +93,7 @@ namespace LaCafeteria.Models.Handlers
                     foreach ( string nombreTopicoPK in nombreTopicoPKTopicos )
                     {
                         sqlCommand.Parameters.Clear();
-                        sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.idArticuloPK);
+                        sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.articuloAID);
                         sqlCommand.ExecuteNonQuery();
                     }
 
@@ -104,7 +104,7 @@ namespace LaCafeteria.Models.Handlers
                     {
                         sqlCommand.Parameters.Clear();
                         sqlCommand.Parameters.AddWithValue("@nombreTopicoFK", nombreTopicoPK);
-                        sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.idArticuloPK);
+                        sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.articuloAID);
                         sqlCommand.ExecuteNonQuery();
                     }
                 }
