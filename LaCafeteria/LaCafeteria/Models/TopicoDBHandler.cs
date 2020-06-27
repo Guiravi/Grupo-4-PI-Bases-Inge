@@ -26,7 +26,7 @@ namespace LaCafeteria.Models
 					connection.Open();
 					SqlDataReader reader = command.ExecuteReader();
 
-					while (reader.Read())
+					while(reader.Read())
 					{
 						TopicoModel topicoActual = new TopicoModel()
 						{
