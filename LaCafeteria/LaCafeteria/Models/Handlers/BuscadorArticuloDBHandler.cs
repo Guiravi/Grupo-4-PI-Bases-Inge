@@ -21,9 +21,9 @@ namespace LaCafeteria.Models.Handlers
                 switch ( tipos )
                 {
                     case 1:
-                        cmd = new SqlCommand("SELECT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        cmd = new SqlCommand("SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
                         " FROM  Articulo A JOIN MiembroAutorDeArticulo MAA " +
-                            " ON A.idArticuloPK = MAA.idArticuloFK " +
+                            " ON A.articuloAID = MAA.idArticuloFK " +
                         " JOIN Miembro M " +
                             " ON MAA.usernameMiemFK = M.usernamePK " +
                         " WHERE M.nombre +' '+ M.apellido1 +' '+ M.apellido2 LIKE @autor " +
@@ -32,9 +32,9 @@ namespace LaCafeteria.Models.Handlers
                         " ORDER BY fechaPublicacion DESC;", connection);
                         break;
                     case 2:
-                        cmd = new SqlCommand("SELECT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        cmd = new SqlCommand("SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
                         " FROM  Articulo A JOIN MiembroAutorDeArticulo MAA " +
-                            " ON A.idArticuloPK = MAA.idArticuloFK " +
+                            " ON A.articuloAID = MAA.idArticuloFK " +
                         " JOIN Miembro M " +
                             " ON MAA.usernameMiemFK = M.usernamePK " +
                         " WHERE M.nombre + M.apellido1 + M.apellido2 LIKE @autor " +
@@ -43,9 +43,9 @@ namespace LaCafeteria.Models.Handlers
                         " ORDER BY fechaPublicacion DESC;", connection);
                         break;
                     case 3:
-                        cmd = new SqlCommand("SELECT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        cmd = new SqlCommand("SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
                         " FROM  Articulo A JOIN MiembroAutorDeArticulo MAA " +
-                            " ON A.idArticuloPK = MAA.idArticuloFK " +
+                            " ON A.articuloAID = MAA.idArticuloFK " +
                         " JOIN Miembro M " +
                             " ON MAA.usernameMiemFK = M.usernamePK " +
                         " WHERE M.nombre + M.apellido1 + M.apellido2 LIKE @autor " +
@@ -54,9 +54,9 @@ namespace LaCafeteria.Models.Handlers
                         " ORDER BY fechaPublicacion DESC;", connection);
                         break;
                     default:
-                        cmd = new SqlCommand("SELECT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        cmd = new SqlCommand("SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
                         " FROM  Articulo A JOIN MiembroAutorDeArticulo MAA " +
-                            " ON A.idArticuloPK = MAA.idArticuloFK " +
+                            " ON A.articuloAID = MAA.idArticuloFK " +
                         " JOIN Miembro M " +
                             " ON MAA.usernameMiemFK = M.usernamePK " +
                         " WHERE M.nombre + M.apellido1 + M.apellido2 LIKE @autor " +
@@ -75,7 +75,7 @@ namespace LaCafeteria.Models.Handlers
                 {
                     ArticuloModel articuloActual = new ArticuloModel()
                     {
-                        idArticuloPK = (int) reader["idArticuloPK"],
+                        articuloAID = (int) reader["articuloAID"],
                         titulo = (String) reader["titulo"],
                         tipo = (String) reader["tipo"],
                         fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
@@ -104,10 +104,10 @@ namespace LaCafeteria.Models.Handlers
             {
                 connection.Open();
 
-                SqlCommand cmd = new SqlCommand("SELECT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                SqlCommand cmd = new SqlCommand("SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
                         " FROM  Articulo A " +
                         " JOIN MiembroAutorDeArticulo MAA " +
-                            " ON A.idArticuloPK = MAA.idArticuloFK " +
+                            " ON A.articuloAID = MAA.idArticuloFK " +
                         " WHERE usernameMiemFK = @username;", connection);
 
                 cmd.Parameters.AddWithValue("@username", username);
@@ -120,7 +120,7 @@ namespace LaCafeteria.Models.Handlers
                 {
                     ArticuloModel articuloActual = new ArticuloModel()
                     {
-                        idArticuloPK = (int) reader["idArticuloPK"],
+                        articuloAID = (int) reader["articuloAID"],
                         titulo = (String) reader["titulo"],
                         tipo = (String) reader["tipo"],
                         fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
@@ -148,7 +148,7 @@ namespace LaCafeteria.Models.Handlers
             {
                 connection.Open();
 
-                SqlCommand cmd = new SqlCommand("SELECT idArticuloPK, titulo, tipo, estado" +
+                SqlCommand cmd = new SqlCommand("SELECT articuloAID, titulo, tipo, estado" +
                         " FROM Articulo WHERE estado = @estadoArticulo", connection);
                 cmd.Parameters.AddWithValue("@estadoArticulo", estadoArticulo);
 
@@ -160,7 +160,7 @@ namespace LaCafeteria.Models.Handlers
                 {
                     ArticuloModel articuloActual = new ArticuloModel()
                     {
-                        idArticuloPK = (int) reader["idArticuloPK"],
+                        articuloAID = (int) reader["articuloAID"],
                         titulo = (String) reader["titulo"],
                         tipo = (String) reader["tipo"],
                         estado = (String) reader["estado"],
@@ -228,7 +228,7 @@ namespace LaCafeteria.Models.Handlers
                 {
                     ArticuloModel articuloActual = new ArticuloModel()
                     {
-                        idArticuloPK = (int) reader["idArticuloPK"],
+                        articuloAID = (int) reader["articuloAID"],
                         titulo = (String) reader["titulo"],
                         tipo = (String) reader["tipo"],
                         fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
@@ -261,9 +261,9 @@ namespace LaCafeteria.Models.Handlers
                 switch ( tipos )
                 {
                     case 1:
-                        cmd = new SqlCommand("SELECT  DISTINCT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        cmd = new SqlCommand("SELECT  DISTINCT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
                         " FROM  Articulo A JOIN ArticuloTrataTopico ATT " +
-                            " ON A.idArticuloPK = ATT.idArticuloFK " +
+                            " ON A.articuloAID = ATT.idArticuloFK " +
                         " JOIN Topico T " +
                             " ON ATT.nombreTopicoFK = @topico " +
                         " WHERE A.tipo = 'Corto' " +
@@ -271,9 +271,9 @@ namespace LaCafeteria.Models.Handlers
                         " ORDER BY A.fechaPublicacion DESC;", connection);
                         break;
                     case 2:
-                        cmd = new SqlCommand("SELECT  DISTINCT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        cmd = new SqlCommand("SELECT  DISTINCT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
                         " FROM  Articulo A JOIN ArticuloTrataTopico ATT " +
-                            " ON A.idArticuloPK = ATT.idArticuloFK " +
+                            " ON A.articuloAID = ATT.idArticuloFK " +
                         " JOIN Topico T " +
                             " ON ATT.nombreTopicoFK = @topico " +
                         " WHERE A.tipo = 'Largo' " +
@@ -281,9 +281,9 @@ namespace LaCafeteria.Models.Handlers
                         " ORDER BY A.fechaPublicacion DESC;", connection);
                         break;
                     case 3:
-                        cmd = new SqlCommand("SELECT  DISTINCT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        cmd = new SqlCommand("SELECT  DISTINCT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
                         " FROM  Articulo A JOIN ArticuloTrataTopico ATT " +
-                            " ON A.idArticuloPK = ATT.idArticuloFK " +
+                            " ON A.articuloAID = ATT.idArticuloFK " +
                         " JOIN Topico T " +
                             " ON ATT.nombreTopicoFK = @topico " +
                         " WHERE A.tipo = 'Link' " +
@@ -291,9 +291,9 @@ namespace LaCafeteria.Models.Handlers
                         " ORDER BY A.fechaPublicacion DESC;", connection);
                         break;
                     default:
-                        cmd = new SqlCommand("SELECT  DISTINCT A.idArticuloPK, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                        cmd = new SqlCommand("SELECT  DISTINCT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
                         " FROM  Articulo A JOIN ArticuloTrataTopico ATT " +
-                            " ON A.idArticuloPK = ATT.idArticuloFK " +
+                            " ON A.articuloAID = ATT.idArticuloFK " +
                         " JOIN Topico T " +
                             " ON ATT.nombreTopicoFK = @topico " +
                         " WHERE A.estado = 'Publicado' " +
@@ -311,7 +311,7 @@ namespace LaCafeteria.Models.Handlers
                 {
                     ArticuloModel articuloActual = new ArticuloModel()
                     {
-                        idArticuloPK = (int) reader["idArticuloPK"],
+                        articuloAID = (int) reader["articuloAID"],
                         titulo = (String) reader["titulo"],
                         tipo = (String) reader["tipo"],
                         fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
@@ -339,13 +339,13 @@ namespace LaCafeteria.Models.Handlers
             {
                 connection.Open();
 
-                SqlCommand cmd = new SqlCommand("SELECT DISTINCT A.idArticuloPK, A.titulo, A.tipo " +
+                SqlCommand cmd = new SqlCommand("SELECT DISTINCT A.articuloAID, A.titulo, A.tipo " +
                     "FROM Articulo A JOIN NucleoRevisaArticulo NRA " +
-                    "ON A.idArticuloPK = NRA.idArticuloFK " +
+                    "ON A.articuloAID = NRA.idArticuloFK " +
                     "WHERE A.estado != 'Publicado' AND (SELECT COUNT(*) FROM NucleoRevisaArticulo NRA WHERE NRA.estadoRevision = 'Finalizado'  " +
-                    "AND A.idArticuloPK = NRA.idArticuloFK) = " +
+                    "AND A.articuloAID = NRA.idArticuloFK) = " +
                     "(SELECT COUNT(*) FROM NucleoRevisaArticulo NRA " +
-                    "WHERE A.idArticuloPK = NRA.idArticuloFK)", connection);
+                    "WHERE A.articuloAID = NRA.idArticuloFK)", connection);
 
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -355,7 +355,7 @@ namespace LaCafeteria.Models.Handlers
                 {
                     ArticuloModel articuloActual = new ArticuloModel()
                     {
-                        idArticuloPK = (int) reader["idArticuloPK"],
+                        articuloAID = (int) reader["articuloAID"],
                         titulo = (String) reader["titulo"],
                         tipo = (String) reader["tipo"]
                     };
@@ -375,7 +375,7 @@ namespace LaCafeteria.Models.Handlers
             {
                 connection.Open();
 
-                SqlCommand cmd = new SqlCommand("SELECT idArticuloPK, titulo, tipo, fechaPublicacion, resumen, contenido, estado, visitas, puntajeTotalRev, calificacionTotalMiem " +
+                SqlCommand cmd = new SqlCommand("SELECT articuloAID, titulo, tipo, fechaPublicacion, resumen, contenido, estado, visitas, puntajeTotalRev, calificacionTotalMiem " +
                         " FROM  Articulo" +
                         " WHERE estado = 'Publicado';", connection);
 
@@ -387,7 +387,7 @@ namespace LaCafeteria.Models.Handlers
                 {
                     ArticuloModel articuloActual = new ArticuloModel()
                     {
-                        idArticuloPK = (int) reader["idArticuloPK"],
+                        articuloAID = (int) reader["articuloAID"],
                         titulo = (String) reader["titulo"],
                         tipo = (String) reader["tipo"],
                         fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
