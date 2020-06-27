@@ -9,7 +9,28 @@ namespace LaCafeteria.Pages
 {
     public class RevisarArticuloModel : PageModel
     {
+
+        [BindProperty]
+        public int opinion { get; set; }
+
+        [BindProperty]
+        public int contribucion { get; set; }
+
+        [BindProperty]
+        public int forma { get; set; }
+
+        [BindProperty]
+        public int recomendacion { get; set; }
+
+        [BindProperty]
+        public int comentario { get; set; }
+
         public void OnGet()
+        {
+
+        }
+
+        public void OnPost()
         {
 
         }
