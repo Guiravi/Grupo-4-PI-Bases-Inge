@@ -25,14 +25,17 @@ namespace LaCafeteria.Pages
 
 		[BindProperty]
 		public List<string> listaIdiomas { set; get; }
-
-		public MiembroController miembroController{ set; get; }
+       
+        private CreadorMiembrosController creadorMiembrosController;
+        private BuscadorMiembrosController buscadorMiembrosController;
 
 		public string rutaCarpeta;
 
 		public CrearPerfilModel(IHostingEnvironment env)
 		{
-			miembroController = new MiembroController();
+            creadorMiembrosController = new CreadorMiembrosController();
+            buscadorMiembrosController = new BuscadorMiembrosController();
+
 			listaIdiomas = new List<string>();
 			rutaCarpeta = env.WebRootPath;
 		}
@@ -51,7 +54,7 @@ namespace LaCafeteria.Pages
 				miembro.rutaImagenPerfil = "images/ImagenesPerfil/" + miembro.usernamePK + "." + imagenDePerfil.ContentType.Split('/')[1];
 
 				miembro.idiomas = ObtenerIdiomasCSV();
-				miembroController.CrearMiembro(miembro);
+                creadorMiembrosController.CrearMiembro(miembro);
 				Response.Cookies.Append("usernamePK", miembro.usernamePK);
 				Notificaciones.Set(this, "sesionIniciada", "Sesión iniciada", Notificaciones.TipoNotificacion.Exito);
 				return Redirect("/Index");
@@ -95,7 +98,7 @@ namespace LaCafeteria.Pages
 						Notificaciones.Set(this, "formatoInvalido", "Debe subir una imagen en formato .png o .jpg", Notificaciones.TipoNotificacion.Error);
 					}
 				}
-				if (miembroController.ExisteMiembro(miembro.usernamePK) && esValido)
+				if ( buscadorMiembrosController.GetMiembro(miembro.usernamePK) != null && esValido)
 				{
 					esValido = false;
 					Notificaciones.Set(this, "usernamePKInvalido", "Nombre de usuario ya existe. Seleccione otro nombre de usuario", Notificaciones.TipoNotificacion.Error);
