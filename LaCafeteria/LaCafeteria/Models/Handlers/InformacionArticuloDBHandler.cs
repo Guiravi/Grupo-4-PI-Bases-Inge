@@ -173,12 +173,12 @@ namespace LaCafeteria.Models.Handlers
             return System.Convert.FromBase64String(contenido);
         }
 
-        public List<string> GetTopicosArticulo(int id) {
-            List<string> topicos = new List<string>();
+        public List<CategoriaTopicoModel> GetTopicosArticulo(int id) {
+            List<CategoriaTopicoModel> categoriaTopicos = new List<CategoriaTopicoModel>();
 
             String connectionString = AppSettings.GetConnectionString();
 
-            String sqlString = "SELECT ArticuloTrataTopico.nombreTopicoFK FROM ArticuloTrataTopico WHERE ArticuloTrataTopico.idArticuloFK = @id";
+            String sqlString = "SELECT ArticuloTrataTopico.nombreCategoriaFK ,ArticuloTrataTopico.nombreTopicoFK FROM ArticuloTrataTopico WHERE ArticuloTrataTopico.idArticuloFK = @id";
 
             using ( SqlConnection connection = new SqlConnection(connectionString) )
             {
@@ -191,11 +191,16 @@ namespace LaCafeteria.Models.Handlers
 
                     while ( reader.Read() )
                     {
-                        topicos.Add((string) reader["nombreTopicoFK"]);
+                        CategoriaTopicoModel categoriaTopico = new CategoriaTopicoModel()
+                        {
+                            nombreCategoriaPK = (string) reader["nombreCategoriaFK"],
+                            nombreTopicoPK = (string) reader["nombreTopicoFK"]
+                        };
+                        categoriaTopicos.Add(categoriaTopico);
                     }
                 }
             }
-            return topicos;
+            return categoriaTopicos;
         }
 
         public int GetCalificacionMiembro(string username, int idArticulo) {
