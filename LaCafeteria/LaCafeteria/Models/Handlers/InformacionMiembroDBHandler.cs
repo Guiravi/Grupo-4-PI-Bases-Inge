@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LaCafeteria.Models.Handlers;
+namespace LaCafeteria.Models.Handlers
 {
 	public class InformacionMiembroDBHandler
 	{
