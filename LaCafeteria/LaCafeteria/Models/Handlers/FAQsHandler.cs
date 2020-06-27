@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 /// <summary>
 /// Esta clase se encarga de manipular los archivos de FAQs y el modelo FAQsFileModel
 /// </summary>
-namespace LaCafeteria.Models
+namespace LaCafeteria.Models.Handlers
 {
 
     public class FAQsHandler
