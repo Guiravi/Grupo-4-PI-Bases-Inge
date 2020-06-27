@@ -30,6 +30,7 @@ namespace LaCafeteria.Pages
 
         private InformacionCategoriaTopicoController informacionCategoriaTopicoController;
         private BuscadorArticuloController buscadorArticuloController;
+        public InformacionArticuloController informacionArticuloController;
 
 
         public int cantResultados { set; get; }  
@@ -47,6 +48,8 @@ namespace LaCafeteria.Pages
         {
             informacionCategoriaTopicoController = new InformacionCategoriaTopicoController();
             buscadorArticuloController = new BuscadorArticuloController();
+            informacionArticuloController = new InformacionArticuloController();
+
             listaTopicos = informacionCategoriaTopicoController.GetCategoriasYTopicos();
 
             listaTopicosSelec = new List<string>();
