@@ -25,8 +25,8 @@ namespace LaCafeteria.Controllers
             editorArticuloDBHandler.AgregarVisita(id);
         }
 
-        public void EditarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<string> nombreTopicoPKTopicos, string rutaCarpeta) {
-            editorArticuloDBHandler.EditarArticulo(articulo, usernamePKMiembrosAutores, nombreTopicoPKTopicos);
+        public void EditarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<CategoriaTopicoModel> listaCategoriaTopicos, string rutaCarpeta) {
+            editorArticuloDBHandler.EditarArticulo(articulo, usernamePKMiembrosAutores, listaCategoriaTopicos);
             if ( articulo.tipo == "Largo" )
             {
                 administradorDeArchivosFSHandler.BorrarViejoArchivo(articulo.articuloAID, rutaCarpeta);
