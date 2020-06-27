@@ -85,5 +85,10 @@ namespace LaCafeteria.Controllers
             return lista;
         }
 
+        public List<DatosGraficoDona> GetMiembrosPorRol()
+        {
+            return informacionMiembroDBHandler.GetMiembrosPorRol();
+        }
+
     }
 }
