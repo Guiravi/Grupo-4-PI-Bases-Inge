@@ -11,8 +11,8 @@ namespace LaCafeteria.Pages
 {
     public class ArticulosPorRevisarModel : PageModel
     {
-        public ArticuloController articuloController { get; set; }
-        public TopicoController topicoController { get; set; }
+        private BuscadorArticuloController buscadorArticuloController { get; set; }
+        private InformacionArticuloController informacionArticuloController { get; set; }
 
         public List<ArticuloModel> artList { get; set; }
 
@@ -21,18 +21,19 @@ namespace LaCafeteria.Pages
         public Dictionary<ArticuloModel, string> dictAutores { get; set; } 
 
         public ArticulosPorRevisarModel() {
-            articuloController = new ArticuloController();
-            topicoController = new TopicoController();
 
-            artList = articuloController.GetArticulosPorEstado(EstadoArticulo.RequiereRevision);
+            buscadorArticuloController = new BuscadorArticuloController();
+            informacionArticuloController = new InformacionArticuloController();
+
+            artList = buscadorArticuloController.GetArticulosPorEstado(EstadoArticulo.RequiereRevision);
 
             dictTopicos = new Dictionary<ArticuloModel, string>();
             dictAutores = new Dictionary<ArticuloModel, string>();
 
             for (int i = 0; i<artList.Count(); ++i )
             {
-                dictTopicos.Add(artList[i], topicoController.GetTopicosArticulo(artList[i].idArticuloPK));
-                dictAutores.Add(artList[i], articuloController.GetAutoresDeArticulo(artList[i].idArticuloPK));
+                dictTopicos.Add(artList[i], informacionArticuloController.GetTopicosArticuloString(artList[i].idArticuloPK));
+                dictAutores.Add(artList[i], informacionArticuloController.GetAutoresDeArticuloString(artList[i].idArticuloPK));
             }
         }
 

@@ -30,7 +30,7 @@ namespace LaCafeteria.Models
 
 	public class ArticuloModel
 	{	
-		public int idArticuloPK { get; set; }
+		public int articuloAID { get; set; }
 
 		[Required(ErrorMessage ="Debe incluir un título para su artículo")]
 		public String titulo { get; set; }

@@ -16,23 +16,17 @@ namespace LaCafeteria.Pages
 
         public int cantResultados { set; get; }
 
-        public TopicoController topicoController;
-
-        public ArticuloController articuloController;
-
-        public MiembroController miembroController;
+        private BuscadorArticuloController buscadorArticuloController;
 
         public MisArticulosModel()
         {
-            topicoController = new TopicoController();
-            articuloController = new ArticuloController();
-            miembroController = new MiembroController();
+            buscadorArticuloController = new BuscadorArticuloController();
         }
 
         public void OnGet()
         {	
 			string usernamePK = Request.Cookies["usernamePK"];
-			misArticulos = articuloController.GetMisArticulos(usernamePK);
+			misArticulos = buscadorArticuloController.GetArticulosPorMiembro(usernamePK);
             cantResultados = misArticulos.Count;
         }
     }

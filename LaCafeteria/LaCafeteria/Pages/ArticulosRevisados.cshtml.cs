@@ -11,8 +11,8 @@ namespace LaCafeteria.Pages
 {
     public class ArticulosRevisadosModel : PageModel
     {
-        public ArticuloController articuloController { get; set; }
-        public TopicoController topicoController { get; set; }
+        private BuscadorArticuloController buscadorArticuloController;
+        private InformacionArticuloController informacionArticuloController;
 
         public List<ArticuloModel> artList { get; set; }
 
@@ -23,10 +23,11 @@ namespace LaCafeteria.Pages
         public Dictionary<ArticuloModel, string> dictRevisores { get; set; }
 
         public ArticulosRevisadosModel() {
-            articuloController = new ArticuloController();
-            topicoController = new TopicoController();
 
-            artList = articuloController.GetArticulosRevisionFinalizada();
+            buscadorArticuloController = new BuscadorArticuloController();
+            informacionArticuloController = new InformacionArticuloController();
+
+            artList = buscadorArticuloController.GetArticulosRevisionFinalizada();
 
             dictTopicos = new Dictionary<ArticuloModel, string>();
             dictAutores = new Dictionary<ArticuloModel, string>();
@@ -34,9 +35,9 @@ namespace LaCafeteria.Pages
 
             for ( int i = 0; i < artList.Count(); ++i )
             {
-                dictTopicos.Add(artList[i], topicoController.GetTopicosArticulo(artList[i].idArticuloPK));
-                dictAutores.Add(artList[i], articuloController.GetAutoresDeArticulo(artList[i].idArticuloPK));
-                dictRevisores.Add(artList[i], articuloController.GetRevisoresDeArticulo(artList[i].idArticuloPK));
+                dictTopicos.Add(artList[i], informacionArticuloController.GetTopicosArticuloString(artList[i].idArticuloPK));
+                dictAutores.Add(artList[i], informacionArticuloController.GetAutoresDeArticuloString(artList[i].idArticuloPK));
+                dictRevisores.Add(artList[i], informacionArticuloController.GetRevisoresDeArticulo(artList[i].idArticuloPK));
             }
         }
 

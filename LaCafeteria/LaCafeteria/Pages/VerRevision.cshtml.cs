@@ -12,13 +12,16 @@ namespace LaCafeteria.Pages
 {
     public class VerRevisionModel : PageModel
     {
-        [BindProperty (SupportsGet = true)]
+        [BindProperty(SupportsGet = true)]
         public int idArticuloPK { get; set; }
 
-        [BindProperty (SupportsGet = true)]
+        [BindProperty(SupportsGet = true)]
         public string tipoArticulo { get; set; }
 
-        public ArticuloController articuloController { get; set; }
+        //public ArticuloController articuloController { get; set; }
+        private InformacionArticuloController informacionArticuloController;
+        private DocumentosArticuloController documentosArticuloController;
+        private EditorArticuloController editorArticuloController;
 
         [BindProperty]
         public ArticuloModel articulo { get; set; }
@@ -30,43 +33,39 @@ namespace LaCafeteria.Pages
         public string rutaCarpeta = "";
 
         public VerRevisionModel(IHostingEnvironment env) {
-            articuloController = new ArticuloController();
+            //articuloController = new ArticuloController();
+            informacionArticuloController = new InformacionArticuloController();
+            documentosArticuloController = new DocumentosArticuloController();
+
             rutaCarpeta = env.WebRootPath;
-            
-            
         }
 
-        public void OnGet()
-        {
+        public void OnGet() {
 
-            articulo = articuloController.GetArticuloModelResumen(idArticuloPK);
-            revisiones = articuloController.GetRevisiones(idArticuloPK);
-            if (tipoArticulo == "Largo")
+            articulo = informacionArticuloController.GetInformacionArticuloModel(idArticuloPK);
+            revisiones = informacionArticuloController.GetRevisiones(idArticuloPK);
+            if ( tipoArticulo == "Largo" )
             {
-            articuloController.CargarArticuloPDF(idArticuloPK, rutaCarpeta);
-            articuloPDF = Convert.ToString(idArticuloPK) + ".pdf";
-            }
-            else
+                documentosArticuloController.CargarArticuloPDF(idArticuloPK, rutaCarpeta);
+                articuloPDF = Convert.ToString(idArticuloPK) + ".pdf";
+            } else
             {
 
             }
         }
-        public IActionResult OnPostRechazar()
-        {
+        public IActionResult OnPostRechazar() {
             return Page();
 
         }
-        public IActionResult OnPostAceptarConModificaciones()
-        {
+        public IActionResult OnPostAceptarConModificaciones() {
             return Page();
         }
-        public IActionResult OnPostAceptar()
-        {
+        public IActionResult OnPostAceptar() {
             string estadoArticulo = EstadoArticulo.Publicado;
-            articuloController.ActualizarEstadoArticulo(idArticuloPK, estadoArticulo);
+            editorArticuloController.ActualizarEstadoArticulo(idArticuloPK, estadoArticulo);
 
             Notificaciones.Set(this, "Aceptar", "El artículo ha sido aceptado", Notificaciones.TipoNotificacion.Exito);
-            return Redirect("/VerRevision/"+idArticuloPK+"/"+tipoArticulo);
+            return Redirect("/VerRevision/" + idArticuloPK + "/" + tipoArticulo);
             //return Page();
         }
     }

@@ -8,20 +8,24 @@
 <input class="form-control" id="inputBusqueda" type="text" placeholder="Buscar miembro..">
 <table class="table-hover table-striped table ">
 	<thead>
-		<tr>
-			<th class="text-center">Nombre</th>
-			<th class="text-center">Nombre de usuario</th>
-			<th class="text-center">Ver perfil</th>
-		</tr>
+        <tr>
+            <th class="text-center">Imagen de perfil</th>
+            <th class="text-center">Nombre</th>
+            <th class="text-center">Nombre de usuario</th>
+            <th class="text-center">Rol</th>
+            <th class="text-center">Ver perfil</th>
+        </tr>
 	</thead>
 	<tbody id="tablaMiembros" class="text-center">
 		@foreach (var miembro in Model.miembros)
 		{	
-		<tr>
-			<td>@miembro.GetNombreCompleto()</td>
-			<td>@miembro.usernamePK</td>
-			<td class="text-center"><a href="/VerPerfil/@miembro.usernamePK"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></td>
-		</tr>
+        <tr>
+            <td><img class="img-rounded" style="width: 50px; height:50px" src="~/@miembro.rutaImagenPerfil" /></td>
+            <td>@miembro.GetNombreCompleto()</td>
+            <td>@miembro.usernamePK</td>
+            <td>@miembro.nombreRolFK</td>
+            <td class="text-center"><a href="/VerPerfil/@miembro.usernamePK" class="btn btn-lg"><span class="glyphicon glyphicon-eye-open" aria-hidden="true" style="color: black;"></span></a></td>
+        </tr>
 		}
 	</tbody>
 </table>
