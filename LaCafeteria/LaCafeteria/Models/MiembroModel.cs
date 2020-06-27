@@ -35,7 +35,7 @@ namespace LaCafeteria.Models
 		public string fechaNacimiento { get; set; }
 
 		[BindProperty]
-		public string pais { get; set; }
+		public string paisFK { get; set; }
 
 		[BindProperty]
 		public string estado { get; set; }
@@ -45,19 +45,11 @@ namespace LaCafeteria.Models
 
 		public string rutaImagenPerfil { get; set; }
 
-		[BindProperty]
-		public string hobbies { get; set; }
-
-		[BindProperty]
-		public string habilidades { get; set; }
-
-		[BindProperty]
-		public string idiomas { get; set; }
 
 		[BindProperty]
 		public string informacionLaboral { get; set; }
 
-		public int meritos { get; set; }
+		public double meritos { get; set; }
 
 		public bool activo { get; set; }
 
