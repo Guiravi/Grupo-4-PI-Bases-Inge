@@ -1,5 +1,6 @@
 ﻿@page
 @model LaCafeteria.Pages.RevisarArticuloModel
+@using LaCafeteria.Utilidades
 @{
     ViewData["Title"] = "RevisarArticulo";
 }
@@ -40,7 +41,7 @@
     }
 </style>
 
-<h2 class="text-center"  style="font-size:30px; font-weight: bold;">Revisar: Título de Artículo</h2>
+<h2 class="text-center" style="font-size:30px; font-weight: bold;">Revisar: Título de Artículo</h2>
 
 <p>Autores:</p>
 <p>Tópicos:</p>
@@ -70,105 +71,111 @@
     <div class="panel-heading panel-default">
         <h3 class="panel-title text-center" style="font-size:25px; font-weight: bold;">Formulario de Revisión de Artículo</h3>
     </div>
-
+    @if (Notificaciones.Existe(Model, "revision"))
+    {
+        @Html.Raw(Notificaciones.Get(Model, "revision"));
+    }
     <div class="panel-body">
         <form method="post">
 
             <div class="panel panel-default">
-                <div class="panel-heading" style="background-color:#bee3db; font-size:15px; font-weight: bold;">Opinión General del artículo:</div>
-                <div class="panel-body" style="padding-left: 40px;">
-                    <div class="btn-group" data-toggle="buttons" id="tipoOpinion" role="group" aria-label="Opinión General del artículo">
-
-                        <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
-                            <input type="radio" asp-for="opinion"> 0
-                        </label>
-                        <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
-                            <input type="radio" asp-for="opinion"> 1
-                        </label>
-                        <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
-                            <input type="radio" asp-for="opinion"> 2
-                        </label>
-                        <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
-                            <input type="radio" asp-for="opinion"> 3
-                        </label>
-                        <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
-                            <input type="radio" asp-for="opinion"> 4
-                        </label>
-                        <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
-                            <input type="radio" asp-for="opinion"> 5
-                        </label>
+                <div class="panel-heading text-center" style="background-color:#bee3db; font-size:15px; font-weight: bold;">Opinión General del artículo:</div>
+                <div class="panel-body" style="padding-left:0; padding-right:0;">
+                    <div class="container">
+                        <div class="row text-center" data-toggle="buttons" id="tipoOpinion" role="group" aria-label="Opinion del artículo">
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="opinion" value="0"> 0
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="opinion" value="1"> 1
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="opinion" value="2"> 2
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="opinion" value="3"> 3
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="opinion" value="4"> 4
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="opinion" value="5"> 5
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="panel panel-default">
-                <div class="panel-heading"  style="background-color:#bee3db; font-size:15px; font-weight: bold;">Contribución del artículo:</div>
-                <div class="panel-body" style="padding-left: 40px;">
-                    <div class="btn-group" data-toggle="buttons" id="tipoContribucion" role="group" aria-label="Contribución del artículo">
-
-                        <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
-                            <input type="radio" asp-for="contribucion"> 0
-                        </label>
-                        <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
-                            <input type="radio" asp-for="contribucion"> 1
-                        </label>
-                        <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
-                            <input type="radio" asp-for="contribucion"> 2
-                        </label>
-                        <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
-                            <input type="radio" asp-for="contribucion"> 3
-                        </label>
-                        <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
-                            <input type="radio" asp-for="contribucion"> 4
-                        </label>
-                        <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
-                            <input type="radio" asp-for="contribucion"> 5
-                        </label>
+                <div class="panel-heading text-center" style="background-color:#bee3db; font-size:15px; font-weight: bold;">Contribución del artículo</div>
+                <div class="panel-body" style="padding-left:0; padding-right:0;">
+                    <div class="container">
+                        <div class="row text-center" data-toggle="buttons" id="tipoContribucion" role="group" aria-label="Contribución del artículo">
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="contribucion" value="0"> 0
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="contribucion" value="1"> 1
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="contribucion" value="2"> 2
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="contribucion" value="3"> 3
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="contribucion" value="4"> 4
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="contribucion" value="5"> 5
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="panel panel-default">
-                <div class="panel-heading" style="background-color:#bee3db; font-size:15px; font-weight: bold;">Forma del artículo:</div>
-                <div class="panel-body" style="padding-left: 40px;">
-                    <div class="btn-group" data-toggle="buttons" id="tipoForma" role="group" aria-label="Forma del artículo">
-
-                        <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
-                            <input type="radio" asp-for="forma"> 0
-                        </label>
-                        <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
-                            <input type="radio" asp-for="forma"> 1
-                        </label>
-                        <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
-                            <input type="radio" asp-for="forma"> 2
-                        </label>
-                        <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
-                            <input type="radio" asp-for="forma"> 3
-                        </label>
-                        <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
-                            <input type="radio" asp-for="forma"> 4
-                        </label>
-                        <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
-                            <input type="radio" asp-for="forma"> 5
-                        </label>
+                <div class="panel-heading  text-center" style="background-color:#bee3db; font-size:15px; font-weight: bold;">Forma del artículo</div>
+                <div class="panel-body" style="padding-left:0; padding-right:0;">
+                    <div class="container">
+                        <div class="row text-center" data-toggle="buttons" id="tipoForma" role="group" aria-label="Forma del artículo">
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="forma" value="0"> 0
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="forma" value="1"> 1
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="forma" value="2"> 2
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="forma" value="3"> 3
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="forma" value="4"> 4
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="forma" value="5"> 5
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
-
             <div class="panel panel-default">
-                <div class="panel-heading" style="background-color:#bee3db; font-size:15px; font-weight: bold;">Recomendación:</div>
-                <div class="panel-body" style="padding-left: 40px;">
-                    <div class="btn-group" data-toggle="buttons" id="tiposRecomendacion" role="group" aria-label="Recomendación del artículo">
-
-                        <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
-                            <input type="radio" asp-for="recomendacion"> Aceptar
-                        </label>
-                        <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
-                            <input type="radio" asp-for="recomendacion"> Aceptar con Modificaciones
-                        </label>
-                        <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
-                            <input type="radio" asp-for="recomendacion"> Rechazar
-                        </label>
+                <div class="panel-heading text-center" style="background-color:#bee3db; font-size:15px; font-weight: bold;">Recomendación</div>
+                <div class="panel-body" style="padding-left:0; padding-right:0;">
+                    <div class="container">
+                        <div class="row text-center" style="padding:0; margin:0;" data-toggle="buttons" id="tipoRecomendacion" role="group" aria-label="Recomendacion del artículo">
+                            <label class="btn  btn-default">
+                                <input id="q" type="radio" asp-for="recomendacion" value="0"> Aceptar
+                            </label>
+                            <label class="btn  btn-default">
+                                <input id="w" type="radio" asp-for="recomendacion" value="1"> Aceptar con Modificaciones
+                            </label>
+                            <label class="btn  btn-default">
+                                <input id="z" type="radio" asp-for="recomendacion" value="2"> Rechazar
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -176,20 +183,14 @@
             <div class="panel panel-default">
                 <div class="panel-heading" style="background-color:#bee3db; font-size:15px; font-weight: bold;">Comentarios:</div>
                 <div class="panel-body">
-                    <textarea placeholder="Escriba sus comentarios sobre el artículo"  asp-for="comentario" rows="5" cols="100" style="border-radius:5px"></textarea>
+                    <textarea asp-for="comentario" placeholder="Escriba sus comentarios sobre el artículo" rows="5" cols="100" style="border-radius:5px"></textarea>
                 </div>
             </div>
+
+            <div class="container text-center">
+                <button class="btn btn-danger" asp-page="ArticulosPorRevisar"> Cancelar </button>
+                <button class="btn btn-success" type="submit" asp-page-handler="enviar"> Enviar a Revisión </button>
+            </div>
         </form>
-
-        <div class="container text-center">
-            <form method="post" style="display:inline-block">
-                <input type="button" class="btn btn-danger" value="Cancelar"/>
-            </form>
-
-            <form method="post" style="display:inline-block">
-
-                <input type="button" class="btn btn-success" value="Enviar Revisión"/>
-            </form>
-        </div>
     </div>
 </div>
