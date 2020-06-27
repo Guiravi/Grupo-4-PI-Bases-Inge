@@ -18,9 +18,13 @@ namespace LaCafeteria.Pages
 
         public ArticuloModel articulo { get; set; }
 
-        public ArticuloController articuloController;
+        //public ArticuloController articuloController;
 
-        public MiembroController miembroController;
+        //public MiembroController miembroController;
+        private EditorArticuloController editorArticuloController;
+        private DocumentosArticuloController documentosArticuloController;
+        private InformacionArticuloController informacionArticuloController;
+        private CalificadorDeArticuloController calificadorDeArticuloController;
 
         public int calificacion;
 
@@ -30,8 +34,12 @@ namespace LaCafeteria.Pages
 
         public VerArticuloLargoModel(IHostingEnvironment env)
         {
-            articuloController = new ArticuloController();
-            miembroController = new MiembroController();
+            //articuloController = new ArticuloController();
+            //miembroController = new MiembroController();
+            editorArticuloController = new EditorArticuloController();
+            documentosArticuloController = new DocumentosArticuloController();
+            informacionArticuloController = new InformacionArticuloController();
+            calificadorDeArticuloController = new CalificadorDeArticuloController();
 
             rutaCarpeta = env.WebRootPath;
         }
@@ -40,11 +48,11 @@ namespace LaCafeteria.Pages
         {
             if (Request.Cookies["usernamePK"] != null)
             {
-                articuloController.AgregarVisita(idArticuloPK);
-                articuloController.CargarArticuloPDF(idArticuloPK , rutaCarpeta);
+                editorArticuloController.AgregarVisita(idArticuloPK);
+                documentosArticuloController.CargarArticuloPDF(idArticuloPK , rutaCarpeta);
                 articuloPDF = Convert.ToString(idArticuloPK) + ".pdf";
 
-                calificacion = miembroController.GetCalificacionMiembro(Request.Cookies["usernamePK"], idArticuloPK);
+                calificacion = informacionArticuloController.GetCalificacionMiembro(Request.Cookies["usernamePK"], idArticuloPK);
                 TempData["idArticuloPK"] = idArticuloPK;
                 TempData["rutaPDF"] = articuloPDF;
             }
@@ -61,7 +69,7 @@ namespace LaCafeteria.Pages
             idArticuloPK = (int)TempData["idArticuloPK"];
             articuloPDF = (string)TempData["rutaPDF"];
             calificacion = 1;
-            miembroController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, 1);
+            calificadorDeArticuloController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, 1);
             Notificaciones.Set(this, "meGusta", "Su calificación \"Me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
 
             return Page();
@@ -72,7 +80,7 @@ namespace LaCafeteria.Pages
             idArticuloPK = (int)TempData["idArticuloPK"];
             articuloPDF = (string)TempData["rutaPDF"];
             calificacion = 0;
-            miembroController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, 0);
+            calificadorDeArticuloController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, 0);
             Notificaciones.Set(this, "nulo", "Su calificación \"Nulo\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
 
             return Page();
@@ -83,7 +91,7 @@ namespace LaCafeteria.Pages
             idArticuloPK = (int)TempData["idArticuloPK"];
             articuloPDF = (string)TempData["rutaPDF"];
             calificacion = -1;
-            miembroController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, -1);
+            calificadorDeArticuloController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, -1);
             Notificaciones.Set(this, "noMeGusta", "Su calificación \"No me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
 
             return Page();
