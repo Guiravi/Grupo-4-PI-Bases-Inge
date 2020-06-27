@@ -189,7 +189,7 @@
 										<li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.articulosResultado[articuloActual].fechaPublicacion)</li>
 										<li><strong>Tipo: </strong>@Model.articulosResultado[articuloActual].tipo</li>
 										<li><strong>Autor(es): </strong>@Model.informacionArticuloController.GetAutoresDeArticuloString(Model.articulosResultado[articuloActual].articuloAID)</li>
-										<li><strong>Tópico(s): </strong>@Model.informacionArticuloController.GetTopicosArticuloString(Model.articulosResultado[articuloActual].articuloAID)</li>
+										<li><strong>Tópico(s): </strong>@Model.informacionArticuloController.GetCategoriaTopicosArticulo(Model.articulosResultado[articuloActual].articuloAID)</li>
 									</ul>
 								</div>
 							</div>
