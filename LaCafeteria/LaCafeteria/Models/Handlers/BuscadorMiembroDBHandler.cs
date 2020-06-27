@@ -109,13 +109,18 @@ namespace LaCafeteria.Models.Handlers
 			using (SqlConnection sqlConnection = new SqlConnection(connectionString))
 			{
 
-				string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, pais, estado, ciudad, rutaImagenPerfil, 
-											informacionLaboral, meritos, activo, nombreRolFK
-									FROM Miembro WHERE nombreRolFK = 'Núcleo'";
+				string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, pais, estado, ciudad, rutaImagenPerfil, informacionLaboral, 
+											meritos, activo, nombreRolFK
+									FROM Miembro
+									WHERE NOT EXISTS
+									(SELECT 1 FROM NucleoRevisaArticulo WHERE usernamePK = usernameMiemFK AND @articuloAID = idArticuloFK) AND
+									NOT EXISTS
+									(SELECT 1 FROM NucleoPuedeSerRevisorDeArticulo WHERE usernamePK = usernameMiemFK AND @articuloAID = idArticuloFK)";
 
 				sqlConnection.Open();
 				using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
 				{
+					sqlCommand.Parameters.AddWithValue("@articuloAID", articuloAID);
 					using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
 					{
 						while (dataReader.Read())
