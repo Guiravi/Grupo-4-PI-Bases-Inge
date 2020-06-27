@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using LaCafeteria.Utilidades;
+using LaCafeteria.Controllers;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,6 +13,8 @@ namespace LaCafeteria.Pages
 {
     public class RevisarArticuloModel : PageModel
     {
+        RevisorArticulosController revisorArticulosController;
+
         [BindProperty]
         public int opinion { get; set; }
         
@@ -43,13 +46,18 @@ namespace LaCafeteria.Pages
                 Notificaciones.Set(this, "revision", "Debe realizar todas las calificaciones", Notificaciones.TipoNotificacion.Error);
                 return Page();
             }
-
-            int calif_opinion = opinion;
-            int calif_forma = forma;
-            int calif_contribucion = contribucion;
+            string recomend_final = "Rechazar";
+            if (recomendacion == 0)
+            {
+                recomend_final = "Aceptar";
+            }
+            else if (recomendacion == 1)
+            {
+                recomend_final = "Aceptar con Modificaciones";
+            }
 
             /* Crear nuevo controlador de revisor de artículo */
-
+            revisorArticulosController.ActualizarRevisionArticulo(opinion,contribucion, forma, "Finalizada", comentario,recomend_final0,0);
 
 
             return Page();
