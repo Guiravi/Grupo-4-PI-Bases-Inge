@@ -25,7 +25,7 @@ namespace LaCafeteria.Pages
         private CalificadorDeArticuloController calificadorDeArticuloController;
         private EditorArticuloController editorArticuloController;
 
-        public string topicos { get; set; }
+        public List<CategoriaTopicoModel> topicos { get; set; }
 
         public string autores { get; set; }
 
@@ -109,7 +109,7 @@ namespace LaCafeteria.Pages
         private void SetInformacionArticulo() {
             articulo = informacionArticuloController.GetInformacionArticuloModel(idArticuloPK);
             autores = informacionArticuloController.GetAutoresDeArticuloString(idArticuloPK);
-            topicos = informacionArticuloController.GetTopicosArticuloString(idArticuloPK);
+            topicos = informacionArticuloController.GetCategoriaTopicosArticulo(idArticuloPK);
             contenido = articulo.contenido;
         }
     }

@@ -96,7 +96,7 @@
 						<h3 class="panel-title">País</h3>
 					</div>
 					<div class="panel-body">
-						@Model.miembro.pais
+						@Model.miembro.paisFK
 					</div>
 				</div>
 
@@ -124,9 +124,9 @@
 					<div class="panel-heading">
 						<h3 class="panel-title">Habilidades</h3>
 					</div>
-					<div class="panel-body">
-						@Model.miembro.habilidades
-					</div>
+                    <div class="panel-body">
+                        @Model.miembro.habilidades @*/for each*@
+                    </div>
 				</div>
 
 				<div class="panel panel-default">
@@ -134,7 +134,7 @@
 						<h3 class="panel-title">Hobbies</h3>
 					</div>
 					<div class="panel-body">
-						@Model.miembro.hobbies
+						@Model.miembro.pasatiempos  @*/for each*@
 					</div>
 				</div>
 
@@ -142,9 +142,9 @@
 					<div class="panel-heading">
 						<h3 class="panel-title">Idiomas</h3>
 					</div>
-					<div class="panel-body">
-						@Model.miembro.idiomas
-					</div>
+                    <div class="panel-body">
+                        @Model.miembro.idiomas @*/for each*@
+                    </div>
 				</div>
 
 				<div class="panel panel-default">
@@ -174,7 +174,7 @@
 									<div class="container">
 										<div class="row">
 											<div class="col-md-7">
-												<h2 class="panel-title" style="font-size: 125%;"><a href="/VerResumen/@Model.articulosResultado[articuloActual].idArticuloPK/@Model.articulosResultado[articuloActual].tipo">@Model.articulosResultado[articuloActual].titulo</a></h2>
+												<h2 class="panel-title" style="font-size: 125%;"><a href="/VerResumen/@Model.articulosResultado[articuloActual].articuloAID/@Model.articulosResultado[articuloActual].tipo">@Model.articulosResultado[articuloActual].titulo</a></h2>
 											</div>
 											<div class="col-md-3">
 												<h3 class="panel-title" style="text-align: right;">
@@ -188,8 +188,8 @@
 									<ul style="list-style: none;">
 										<li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.articulosResultado[articuloActual].fechaPublicacion)</li>
 										<li><strong>Tipo: </strong>@Model.articulosResultado[articuloActual].tipo</li>
-										<li><strong>Autor(es): </strong>@Model.articuloController.GetAutoresDeArticulo(Model.articulosResultado[articuloActual].idArticuloPK)</li>
-										<li><strong>Tópico(s): </strong>@Model.topicoController.GetTopicosArticulo(Model.articulosResultado[articuloActual].idArticuloPK)</li>
+										<li><strong>Autor(es): </strong>@Model.informacionArticuloController.GetAutoresDeArticuloString(Model.articulosResultado[articuloActual].articuloAID)</li>
+										<li><strong>Tópico(s): </strong>@Model.informacionArticuloController.GetCategoriaTopicosArticulo(Model.articulosResultado[articuloActual].articuloAID)</li>
 									</ul>
 								</div>
 							</div>

@@ -17,10 +17,12 @@ namespace LaCafeteria.Pages
         public int cantResultados { set; get; }
 
         private BuscadorArticuloController buscadorArticuloController;
+        public InformacionArticuloController informacionArticuloController;
 
         public MisArticulosModel()
         {
             buscadorArticuloController = new BuscadorArticuloController();
+            informacionArticuloController = new InformacionArticuloController();
         }
 
         public void OnGet()

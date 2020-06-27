@@ -20,11 +20,13 @@ namespace LaCafeteria.Pages
 
         private BuscadorMiembrosController buscadorMiembrosController;
         private BuscadorArticuloController buscadorArticuloController;
+        public InformacionArticuloController informacionArticuloController;
 
 		public MiPerfilModel()
 		{
             buscadorMiembrosController = new BuscadorMiembrosController();
             buscadorArticuloController = new BuscadorArticuloController();
+            informacionArticuloController = new InformacionArticuloController();
 
         }
 

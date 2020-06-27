@@ -15,9 +15,9 @@ namespace LaCafeteria.Models.Handlers
             {
 
                 string sqlString = @"INSERT INTO Miembro(usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, paisFK, estado, ciudad, rutaImagenPerfil, 
-											pasatiempos, habilidades, idiomas, informacionLaboral)
+											 informacionLaboral)
 
-									VALUES(@usernamePK, @email, @nombre, @apellido1, @apellido2, @fechaNacimiento, @pais, @estado, @ciudad, @rutaImagenPerfil, @hobbies, @habilidades, @idiomas, @informacionLaboral)";
+									VALUES(@usernamePK, @email, @nombre, @apellido1, @apellido2, @fechaNacimiento, @pais, @estado, @ciudad, @rutaImagenPerfil, @informacionLaboral)";
 
                 sqlConnection.Open();
                 using ( SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection) )
@@ -59,28 +59,20 @@ namespace LaCafeteria.Models.Handlers
                         sqlCommand.Parameters.AddWithValue("@ciudad", DBNull.Value);
                     }
 
-                    
-                    /*if ( miembro.pasatiempos != null )
+                    if ( miembro.pasatiempos != null )
                     {
-                        sqlCommand.Parameters.AddWithValue("@hobbies", miembro.pasatiempos);
-                    } else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@hobbies", DBNull.Value);
+                        agregarPasatiempos(miembro.usernamePK, miembro.pasatiempos);
                     }
+
                     if ( miembro.habilidades != null )
                     {
-                        sqlCommand.Parameters.AddWithValue("@habilidades", miembro.habilidades);
-                    } else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@habilidades", DBNull.Value);
+                        agregarHabilidades(miembro.usernamePK, miembro.habilidades);
                     }
+
                     if ( miembro.idiomas != null )
                     {
-                        sqlCommand.Parameters.AddWithValue("@idiomas", miembro.idiomas);
-                    } else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@idiomas", DBNull.Value);
-                    }*/
+                        agregarIdiomas(miembro.usernamePK, miembro.habilidades);
+                    }
 
                     if ( miembro.informacionLaboral != null )
                     {
@@ -91,6 +83,55 @@ namespace LaCafeteria.Models.Handlers
                     }
 
                     sqlCommand.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private void agregarPasatiempos(string usernamePK, List<string> pasatiempos) {
+            string connectionString = AppSettings.GetConnectionString();
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+                string sqlStringInsert = "INSERT INTO MiembroPasatiempo VALUES (@usernamePK, @pasatiempo)";
+                SqlCommand command = new SqlCommand(sqlStringInsert, connection);
+
+                foreach ( string _pasatiempo in pasatiempos )
+                {
+                    command.Parameters.AddWithValue("@usernamePK", usernamePK);
+                    command.Parameters.AddWithValue("@pasatiempo", _pasatiempo);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private void agregarIdiomas(string usernamePK, List<string> idiomas) {
+            string connectionString = AppSettings.GetConnectionString();
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+                string sqlStringInsert = "INSERT INTO MiembroIdioma VALUES (@usernamePK, @idioma)";
+                SqlCommand command = new SqlCommand(sqlStringInsert, connection);
+
+                foreach ( string _idioma in idiomas )
+                {
+                    command.Parameters.AddWithValue("@usernamePK", usernamePK);
+                    command.Parameters.AddWithValue("@idioma", _idioma);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private void agregarHabilidades(string usernamePK, List<string> habilidades) {
+            string connectionString = AppSettings.GetConnectionString();
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+
+                string sqlStringInsert = "INSERT INTO MiembroHabilidad VALUES (@usernamePK, @habilidad)";
+                SqlCommand command = new SqlCommand(sqlStringInsert, connection);
+
+                foreach ( string _habilidad in habilidades )
+                {
+                    command.Parameters.AddWithValue("@usernamePK", usernamePK);
+                    command.Parameters.AddWithValue("@idioma", _habilidad);
+                    command.ExecuteNonQuery();
                 }
             }
         }
