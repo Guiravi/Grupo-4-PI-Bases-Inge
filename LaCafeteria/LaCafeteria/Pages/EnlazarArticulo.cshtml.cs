@@ -19,7 +19,7 @@ namespace LaCafeteria.Pages
 {
     public class EnlazarArticuloModel : PageModel
     {
-        public List<TopicoModel> listaTopicos { set; get; }
+        public List<CategoriaTopicoModel> listaTopicos { set; get; }
 
         public List<MiembroModel> listaMiembros { set; get; }
 
@@ -37,9 +37,10 @@ namespace LaCafeteria.Pages
         public string url { get; set; }
 
         public List<string[]> autoresViejos { get; set; }
-        //public TopicoController topicoController;
+
         //public CorreoController correoController;
 
+        private InformacionCategoriaTopicoController informacionCategoriaTopicoController;
         private BuscadorMiembrosController buscadorMiembrosController;
         private InformacionArticuloController informacionArticuloController;
         private AlmacenadorArticuloController almacenadorArticuloController;
@@ -51,15 +52,14 @@ namespace LaCafeteria.Pages
 
         public EnlazarArticuloModel(IHostingEnvironment env)
         {
-            //topicoController = new TopicoController();
             //correoController = new CorreoController(env);
-
+            informacionCategoriaTopicoController = new InformacionCategoriaTopicoController();
             buscadorMiembrosController = new BuscadorMiembrosController();
             informacionArticuloController = new InformacionArticuloController();
             almacenadorArticuloController = new AlmacenadorArticuloController();
             editorArticuloController = new EditorArticuloController();
 
-            listaTopicos = topicoController.GetListaTopicos();
+            listaTopicos = informacionCategoriaTopicoController.GetCategoriasYTopicos();
             listaMiembros = buscadorMiembrosController.GetListaMiembrosModel();
             listaMiembrosAutores = new List<string>();
             listaTopicosArticulo = new List<string>();
