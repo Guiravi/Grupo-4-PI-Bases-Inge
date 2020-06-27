@@ -14,7 +14,9 @@ namespace LaCafeteria.Pages
 {
     public class EnviarCorreoModel : PageModel
     {
-        public CorreoController correoController { get; set; }
+        private EnviarEmailController enviarEmailController;
+        private BuscadorMiembrosController buscadorMiembrosController;
+
         public List<string> listaMiembros { get; set; }
 
         public string remitente { get; set; }
@@ -36,8 +38,10 @@ namespace LaCafeteria.Pages
         public string rutaCarpeta { get; set; }
 
         public EnviarCorreoModel(IHostingEnvironment env) {
-            correoController = new CorreoController(env);
-            listaMiembros = correoController.getListaMiembrosString();
+            enviarEmailController = new EnviarEmailController(env);
+            buscadorMiembrosController = new BuscadorMiembrosController();
+
+            listaMiembros = buscadorMiembrosController.GetListaMiembrosString();
 
             rutaCarpeta = env.WebRootPath;
         }
@@ -58,7 +62,7 @@ namespace LaCafeteria.Pages
                     archivoAdjunto.CopyTo(stream);
                 }
             }
-            correoController.sendMail(destino, remitente, asunto, mensaje, filePath);
+            enviarEmailController.EnviarMail(destino, remitente, asunto, mensaje, filePath);
 
             Notificaciones.Set(this, "Correo Enviado", "Su correo ha sido enviado exitosamente", Notificaciones.TipoNotificacion.Exito);
             return Redirect("/EnviarCorreo");
