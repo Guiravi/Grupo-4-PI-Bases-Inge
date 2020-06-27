@@ -58,7 +58,7 @@ namespace LaCafeteria.Models.Handlers
                 {
                     articulo = new ArticuloModel()
                     {
-                        idArticuloPK = id,
+                        articuloAID = id,
                         titulo = (string) reader["titulo"],
                         tipo = (string) reader["tipo"],
                         fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
@@ -173,12 +173,12 @@ namespace LaCafeteria.Models.Handlers
             return System.Convert.FromBase64String(contenido);
         }
 
-        public List<TopicoModel> GetTopicosArticulo(int id) {
-            List<TopicoModel> topicos = new List<TopicoModel>();
+        public List<CategoriaTopicoModel> GetCategoriasTopicosArticulo(int id) {
+            List<CategoriaTopicoModel> categoriaTopicos = new List<CategoriaTopicoModel>();
 
             String connectionString = AppSettings.GetConnectionString();
 
-            String sqlString = "SELECT ArticuloTrataTopico.nombreTopicoFK FROM ArticuloTrataTopico WHERE ArticuloTrataTopico.idArticuloFK = @id";
+            String sqlString = "SELECT ArticuloTrataTopico.nombreCategoriaFK ,ArticuloTrataTopico.nombreTopicoFK FROM ArticuloTrataTopico WHERE ArticuloTrataTopico.idArticuloFK = @id";
 
             using ( SqlConnection connection = new SqlConnection(connectionString) )
             {
@@ -191,15 +191,16 @@ namespace LaCafeteria.Models.Handlers
 
                     while ( reader.Read() )
                     {
-                        TopicoModel topicoActual = new TopicoModel()
+                        CategoriaTopicoModel categoriaTopico = new CategoriaTopicoModel()
                         {
-                            nombre = (string) reader["nombreTopicoFK"]
+                            nombreCategoriaPK = (string) reader["nombreCategoriaFK"],
+                            nombreTopicoPK = (string) reader["nombreTopicoFK"]
                         };
-                        topicos.Add(topicoActual);
+                        categoriaTopicos.Add(categoriaTopico);
                     }
                 }
             }
-            return topicos;
+            return categoriaTopicos;
         }
 
         public int GetCalificacionMiembro(string username, int idArticulo) {

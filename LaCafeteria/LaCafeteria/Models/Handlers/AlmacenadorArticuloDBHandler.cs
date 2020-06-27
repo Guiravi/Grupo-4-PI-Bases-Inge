@@ -9,7 +9,7 @@ namespace LaCafeteria.Models.Handlers
 {
     public class AlmacenadorArticuloDBHandler
     {
-        public void GuardarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<string> nombreTopicoPKTopicos) {
+        public void GuardarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<CategoriaTopicoModel> listaCategoriaTopicos) {
             string connectionString = AppSettings.GetConnectionString();
 
             using ( SqlConnection sqlConnection = new SqlConnection(connectionString) )
@@ -52,12 +52,13 @@ namespace LaCafeteria.Models.Handlers
                     //Guardar registro de relaciones de Articulo con sus Topicos
 
                     articulo.articuloAID = ObtenerSiguienteId();
-                    sqlCommand.CommandText = "INSERT INTO ArticuloTrataTopico VALUES(@nombreTopicoFK, @idArticuloFK)";
+                    sqlCommand.CommandText = "INSERT INTO ArticuloTrataTopico VALUES(@nombreCategoriaFK,@nombreTopicoFK, @idArticuloFK)";
 
-                    foreach ( string nombreTopicoPK in nombreTopicoPKTopicos )
+                    foreach ( CategoriaTopicoModel categoriaTopico in listaCategoriaTopicos )
                     {
                         sqlCommand.Parameters.Clear();
-                        sqlCommand.Parameters.AddWithValue("@nombreTopicoFK", nombreTopicoPK);
+                        sqlCommand.Parameters.AddWithValue("@nombreCategoriaFK", categoriaTopico.nombreCategoriaPK);
+                        sqlCommand.Parameters.AddWithValue("@nombreTopicoFK", categoriaTopico.nombreTopicoPK);
                         sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.articuloAID);
                         sqlCommand.ExecuteNonQuery();
                     }

@@ -64,11 +64,11 @@ namespace LaCafeteria.Controllers
     {
         public bool Equals(ArticuloModel x, ArticuloModel y) {
             // Two items are equal if their keys are equal.
-            return x.idArticuloPK == y.idArticuloPK;
+            return x.articuloAID == y.articuloAID;
         }
 
         public int GetHashCode(ArticuloModel obj) {
-            return obj.idArticuloPK.GetHashCode();
+            return obj.articuloAID.GetHashCode();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace LaCafeteria.Pages
 {
     public class BuscarModel : PageModel
     {
-        public List<TopicoModel> listaTopicos { set; get; }
+        public List<CategoriaTopicoModel> listaTopicos { set; get; }
 
         public List<ArticuloModel> articulosResultado { set; get; }
 
@@ -28,9 +28,9 @@ namespace LaCafeteria.Pages
         [BindProperty]
         public List<string> listaTopicosSelec { set; get; }
 
-        //public TopicoController topicoController;
-
+        private InformacionCategoriaTopicoController informacionCategoriaTopicoController;
         private BuscadorArticuloController buscadorArticuloController;
+        public InformacionArticuloController informacionArticuloController;
 
 
         public int cantResultados { set; get; }  
@@ -46,9 +46,11 @@ namespace LaCafeteria.Pages
 
         public BuscarModel()
         {
-            //topicoController = new TopicoController();
+            informacionCategoriaTopicoController = new InformacionCategoriaTopicoController();
             buscadorArticuloController = new BuscadorArticuloController();
-            listaTopicos = topicoController.GetListaTopicos();
+            informacionArticuloController = new InformacionArticuloController();
+
+            listaTopicos = informacionCategoriaTopicoController.GetCategoriasYTopicos();
 
             listaTopicosSelec = new List<string>();
             articulosResultado = new List<ArticuloModel>();

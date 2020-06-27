@@ -16,7 +16,7 @@ namespace LaCafeteria.Pages
 {
     public class SubirArticuloModel : PageModel
     {
-		public List<TopicoModel> listaTopicos { set; get; }
+		public List<CategoriaTopicoModel> listaTopicos { set; get; }
 
 		public List<MiembroModel> listaMiembros { set; get; }
 
@@ -27,14 +27,13 @@ namespace LaCafeteria.Pages
 		public IFormFile archivoArticulo { get; set; }
 
 		[BindProperty]
-		public List<string> listaTopicosArticulo { get; set; }
+		public List<CategoriaTopicoModel> listaTopicosArticulo { get; set; }
 
 		[BindProperty]
 		public List<string> listaMiembrosAutores { set; get; }
 
         public List<string[]> autoresViejos { get; set; }
 
-        //public TopicoController topicoController;
         //public CorreoController correoController;
 
         private BuscadorMiembrosController buscadorMiembrosController;
@@ -42,6 +41,7 @@ namespace LaCafeteria.Pages
         private DocumentosArticuloController documentosArticuloController;
         private AlmacenadorArticuloController almacenadorArticuloController;
         private EditorArticuloController editorArticuloController;
+        private InformacionCategoriaTopicoController informacionCategoriaTopicoController;
 
         [BindProperty(SupportsGet = true)]
         public int idArticuloPK { get; set; }
@@ -53,19 +53,18 @@ namespace LaCafeteria.Pages
 
         public SubirArticuloModel(IHostingEnvironment env)
 		{
-            //topicoController = new TopicoController();
             //correoController = new CorreoController(env);
-
+            informacionCategoriaTopicoController = new InformacionCategoriaTopicoController();
             buscadorMiembrosController = new BuscadorMiembrosController();
             informacionArticuloController = new InformacionArticuloController();
             documentosArticuloController = new DocumentosArticuloController();
             almacenadorArticuloController = new AlmacenadorArticuloController();
             editorArticuloController = new EditorArticuloController();
 
-            listaTopicos = topicoController.GetListaTopicos();
+            listaTopicos = informacionCategoriaTopicoController.GetCategoriasYTopicos();
 			listaMiembros = buscadorMiembrosController.GetListaMiembrosModel();
             listaMiembrosAutores = new List<string>();
-            listaTopicosArticulo = new List<string>();
+            listaTopicosArticulo = new List<CategoriaTopicoModel>();
             autoresViejos = new List<string[]>();
             articulo = new ArticuloModel();
 
@@ -84,7 +83,7 @@ namespace LaCafeteria.Pages
 
                     articulo.fechaPublicacion = Convertidor.CambiarFormatoFechaAMD(articulo.fechaPublicacion);
 
-                    listaTopicosArticulo = informacionArticuloController.GetTopicosArticuloListaString(idArticuloPK);
+                    listaTopicosArticulo = informacionArticuloController.GetCategoriaTopicosArticulo(idArticuloPK);
 
                     autoresViejos = informacionArticuloController.GetAutoresArticuloListaStringArray(idArticuloPK);
                     foreach (string[] item in autoresViejos)
@@ -146,7 +145,7 @@ namespace LaCafeteria.Pages
             {
                 articulo.tipo = TipoArticulo.Largo;
                 articulo.estado = EstadoArticulo.EnProgreso;
-                articulo.idArticuloPK = (int)TempData["idArticulo"];
+                articulo.articuloAID = (int)TempData["idArticulo"];
                 editorArticuloController.EditarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo, rutaCarpeta);
                 Notificaciones.Set(this, "articuloEditado", "Su artículo se editó correctamente", Notificaciones.TipoNotificacion.Exito);
 
@@ -164,9 +163,9 @@ namespace LaCafeteria.Pages
                 articulo.estado = EstadoArticulo.RequiereRevision;
                 if (TempData["idArticulo"] != null)
                 {
-                    articulo.idArticuloPK = (int)TempData["idArticulo"];
+                    articulo.articuloAID = (int)TempData["idArticulo"];
                 }
-                if (articulo.idArticuloPK ==  -1)
+                if (articulo.articuloAID ==  -1)
                 {
                     almacenadorArticuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
                 }
