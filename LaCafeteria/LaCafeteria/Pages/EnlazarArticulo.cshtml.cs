@@ -27,7 +27,7 @@ namespace LaCafeteria.Pages
         public ArticuloModel articulo { set; get; }
 
         [BindProperty]
-        public List<string> listaTopicosArticulo { get; set; }
+        public List<CategoriaTopicoModel> listaTopicosArticulo { get; set; }
 
         [BindProperty]
         public List<string> listaMiembrosAutores { set; get; }
@@ -62,7 +62,7 @@ namespace LaCafeteria.Pages
             listaTopicos = informacionCategoriaTopicoController.GetCategoriasYTopicos();
             listaMiembros = buscadorMiembrosController.GetListaMiembrosModel();
             listaMiembrosAutores = new List<string>();
-            listaTopicosArticulo = new List<string>();
+            listaTopicosArticulo = new List<CategoriaTopicoModel>();
             autoresViejos = new List<string[]>();
             articulo = new ArticuloModel();
             idArticuloPK = -1;
@@ -84,7 +84,7 @@ namespace LaCafeteria.Pages
                         listaMiembrosAutores.Add(item[0]);
                     }
 
-                    listaTopicosArticulo = informacionArticuloController.GetTopicosArticuloListaString(idArticuloPK);
+                    listaTopicosArticulo = informacionArticuloController.GetCategoriaTopicosArticulo(idArticuloPK);
 
                     TempData["idArticulo"] = idArticuloPK;
 
