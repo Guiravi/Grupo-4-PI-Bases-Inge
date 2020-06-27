@@ -46,5 +46,28 @@ namespace LaCafeteria.Models.Handlers
 
 			return listaNotificaciones;
 		}
+
+        public float GetMeritos(string username)
+        {
+            float merito;
+            string connectionString = AppSettings.GetConnectionString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+
+                string sqlString = @"SELECT meritos
+								     FROM Miembro WHERE @username = usernamePK
+									 ORDER BY fechaCreacion, estado DESC";
+
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+                {
+                    sqlCommand.Parameters.AddWithValue("@usernamePK", username);
+                    SqlDataReader dataReader = sqlCommand.ExecuteReader();
+                    dataReader.Read();
+                    merito = (float)dataReader["meritos"];
+                }
+            }
+            return merito;
+        }
 	}
 }
