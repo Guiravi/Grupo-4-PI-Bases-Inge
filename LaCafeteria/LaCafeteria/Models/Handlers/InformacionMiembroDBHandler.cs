@@ -141,5 +141,37 @@ namespace LaCafeteria.Models.Handlers
             return lista;
         }
 
+        public List<DatosGraficoBarrasApilado> GetPasatiemposPorPais()
+        {
+            List<DatosGraficoBarrasApilado> lista = new List<DatosGraficoBarrasApilado>();
+
+            string connectionString = AppSettings.GetConnectionString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+
+                string sqlString = @"SELECT MP.pasatiempo, M.paisFK, COUNT(*) AS cantidad
+                                    FROM [dbo].[Miembro] M
+                                    JOIN [dbo].[MiembroPasatiempo] MP
+	                                    ON M.usernamePK = MP.usernameFK
+                                    WHERE	MP.pasatiempo IN (SELECT pasatiempoPK
+						                                    FROM [Catalogo].[Pasatiempo])
+                                    GROUP BY M.paisFK, MP.pasatiempo
+                                    ORDER BY MP.pasatiempo, M.paisFK";
+
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+                {
+                    SqlDataReader dataReader = sqlCommand.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        DatosGraficoBarrasApilado datos = new DatosGraficoBarrasApilado((string)dataReader["pasatiempo"], (string)dataReader["paisFK"], (int)dataReader["cantidad"]);
+                        lista.Add(datos);
+                    }
+                }
+            }
+
+            return lista;
+        }
+
     }
 }
