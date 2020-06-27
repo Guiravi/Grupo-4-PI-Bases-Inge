@@ -11,7 +11,7 @@
     "IIS Express": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "AsignarRevisor",
+      "launchUrl": "ArticulosPorRevisar",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -19,7 +19,7 @@
     "LaCafeteria": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "Index",
+      "launchUrl": "ArticulosPorRevisar",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
