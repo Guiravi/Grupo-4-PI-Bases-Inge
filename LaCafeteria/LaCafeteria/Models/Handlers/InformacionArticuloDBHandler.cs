@@ -173,8 +173,8 @@ namespace LaCafeteria.Models.Handlers
             return System.Convert.FromBase64String(contenido);
         }
 
-        public List<TopicoModel> GetTopicosArticulo(int id) {
-            List<TopicoModel> topicos = new List<TopicoModel>();
+        public List<string> GetTopicosArticulo(int id) {
+            List<string> topicos = new List<string>();
 
             String connectionString = AppSettings.GetConnectionString();
 
@@ -191,11 +191,7 @@ namespace LaCafeteria.Models.Handlers
 
                     while ( reader.Read() )
                     {
-                        TopicoModel topicoActual = new TopicoModel()
-                        {
-                            nombre = (string) reader["nombreTopicoFK"]
-                        };
-                        topicos.Add(topicoActual);
+                        topicos.Add((string) reader["nombreTopicoFK"]);
                     }
                 }
             }
