@@ -33,7 +33,7 @@
 
         .chartDivBarras {
             width: 90%;
-            height: 400px;
+            height: 600px;
         }
 
         .categorias {
@@ -218,17 +218,14 @@
 
         // Add data
         chart.data = [
-        //{ EJEMPLO
-            //"country": "Lithuania",
-            //"litres": 501.9
-        //}
         @for (int i = 0; i < Model.miembrosPorPais.Count; i++)
         {
             if (i != Model.miembrosPorPais.Count - 1)
             {
+
                 <text>
                 {
-                    "pais": "@Model.miembrosPorPais[i].categoria",
+                    "pais": "@Html.Raw(Model.miembrosPorPais[i].categoria)",
                     "cantidad": @Model.miembrosPorPais[i].cantidad
                 },
                 </text>
@@ -237,7 +234,7 @@
             {
                 <text>
                 {
-                    "pais": "@Model.miembrosPorPais[i].categoria",
+                    "pais": "@Html.Raw(Model.miembrosPorPais[i].categoria)",
                     "cantidad": @Model.miembrosPorPais[i].cantidad
                 }
                 </text>
@@ -322,20 +319,28 @@
             {
                 catActual = Model.habilidadesPorIdioma[i].nombreCategoria;
 
-                if (i != Model.habilidadesPorIdioma.Count)
+                if (i != Model.habilidadesPorIdioma.Count - 1)
                 {
                     <text>
                     {
-                        "habilidad": "@Model.habilidadesPorIdioma[i].nombreCategoria",
-                        "@Model.habilidadesPorIdioma[i].nombreSubcategoria": @Model.habilidadesPorIdioma[i].cantidad,
+                        "habilidad": "@Html.Raw(Model.habilidadesPorIdioma[i].nombreCategoria)",
+                        "@Html.Raw(Model.habilidadesPorIdioma[i].nombreSubcategoria)": @Model.habilidadesPorIdioma[i].cantidad,
                     </text>
+
+                    if (catActual != Model.habilidadesPorIdioma[i + 1].nombreCategoria)
+                    {
+                        <text>
+                        },
+                        </text>
+                    }
+
                 }
                 else
                 {
                     <text>
                     {
-                        "habilidad": "@Model.habilidadesPorIdioma[i].nombreCategoria",
-                        "@Model.habilidadesPorIdioma[i].nombreSubcategoria": @Model.habilidadesPorIdioma[i].cantidad
+                        "habilidad": "@Html.Raw(Model.habilidadesPorIdioma[i].nombreCategoria)",
+                        "@Html.Raw(Model.habilidadesPorIdioma[i].nombreSubcategoria)": @Model.habilidadesPorIdioma[i].cantidad
                     }
                     </text>
                 }
@@ -345,7 +350,7 @@
                 if (i != Model.habilidadesPorIdioma.Count - 1)
                 {
                     <text>
-                        "@Model.habilidadesPorIdioma[i].nombreSubcategoria": @Model.habilidadesPorIdioma[i].cantidad,
+                        "@Html.Raw(Model.habilidadesPorIdioma[i].nombreSubcategoria)": @Model.habilidadesPorIdioma[i].cantidad,
                     </text>
 
                     if (catActual != Model.habilidadesPorIdioma[i + 1].nombreCategoria)
@@ -358,7 +363,7 @@
                 else
                 {
                     <text>
-                        "@Model.habilidadesPorIdioma[i].nombreSubcategoria": @Model.habilidadesPorIdioma[i].cantidad
+                        "@Html.Raw(Model.habilidadesPorIdioma[i].nombreSubcategoria)": @Model.habilidadesPorIdioma[i].cantidad
                     }
                     </text>
                 }
@@ -372,10 +377,16 @@
         categoryAxis.dataFields.category = "habilidad";
         categoryAxis.renderer.grid.template.location = 0;
         categoryAxis.renderer.minGridDistance = 30;
+        categoryAxis.renderer.labels.template.horizontalCenter = "right";
+        categoryAxis.renderer.labels.template.verticalCenter = "middle";
+        categoryAxis.renderer.labels.template.rotation = 285;
+        categoryAxis.renderer.minHeight = 110;
 
 
         var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
         valueAxis.min = 0;
+        valueAxis.title.text = "Cantidad de miembros";
+        valueAxis.title.fontSize=  "125%";
         valueAxis.renderer.grid.template.location = 0;
 
         // Create series
@@ -398,22 +409,36 @@
             return series;
         }
 
-        //createSeries("europe", "Europe"); EJEMPLO
-        @{ string subCatActual = ""; }
-        @for (int i = 0 ; i < Model.habilidadesPorIdioma.Count; i++) {
-            if (subCatActual != Model.habilidadesPorIdioma[i].nombreSubcategoria)
+        @{ List<string> subcategorias = new List<string>();}
+        @for (int i = 0; i < Model.habilidadesPorIdioma.Count; i++)
+        {
+            bool esta = false;
+            for (int j = 0; j < subcategorias.Count; j++)
             {
-                subCatActual = Model.habilidadesPorIdioma[i].nombreSubcategoria;
-                <text>
-                createSeries("@Model.habilidadesPorIdioma[i].nombreSubcategoria", "@Model.habilidadesPorIdioma[i].nombreSubcategoria")
-                </text>
+                if (subcategorias[j] == Model.habilidadesPorIdioma[i].nombreSubcategoria)
+                {
+                    esta = true;
+                }
             }
+
+            if (!esta)
+            {
+                subcategorias.Add(Model.habilidadesPorIdioma[i].nombreSubcategoria);
+            }
+        }
+
+        @for (int i = 0 ; i < subcategorias.Count; i++) {
+
+            <text>
+            createSeries("@Html.Raw(subcategorias[i])", "@Html.Raw(subcategorias[i])")
+            </text>
+
         }
 
         // Legend
         chart.legend = new am4charts.Legend();
         chart.legend.position = "right";
-        chart.legend.maxHeight = 200;
+        chart.legend.maxHeight = 300;
         chart.legend.scrollable = true;
         chart.legend.labels.template.textDecoration = "none";
         chart.legend.valueLabels.template.textDecoration = "none";
@@ -451,33 +476,15 @@
             {
                 catActual = Model.habilidadesPorPais[i].nombreCategoria;
 
-                if (i != Model.habilidadesPorPais.Count)
+                if (i != Model.habilidadesPorPais.Count - 1)
                 {
                     <text>
                     {
-                        "habilidad": "@Model.habilidadesPorPais[i].nombreCategoria",
-                        "@Model.habilidadesPorPais[i].nombreSubcategoria": @Model.habilidadesPorPais[i].cantidad,
-                    </text>
-                }
-                else
-                {
-                    <text>
-                    {
-                        "habilidad": "@Model.habilidadesPorPais[i].nombreCategoria",
-                        "@Model.habilidadesPorIdioma[i].nombreSubcategoria": @Model.habilidadesPorIdioma[i].cantidad
-                    }
-                    </text>
-                }
-            }
-            else
-            {
-                if (i != Model.habilidadesPorIdioma.Count - 1)
-                {
-                    <text>
-                        "@Model.habilidadesPorIdioma[i].nombreSubcategoria": @Model.habilidadesPorIdioma[i].cantidad,
+                        "habilidad": "@Html.Raw(Model.habilidadesPorPais[i].nombreCategoria)",
+                        "@Html.Raw(Model.habilidadesPorPais[i].nombreSubcategoria)": @Model.habilidadesPorPais[i].cantidad,
                     </text>
 
-                    if (catActual != Model.habilidadesPorIdioma[i + 1].nombreCategoria)
+                    if (catActual != Model.habilidadesPorPais[i + 1].nombreCategoria)
                     {
                         <text>
                         },
@@ -487,7 +494,32 @@
                 else
                 {
                     <text>
-                        "@Model.habilidadesPorIdioma[i].nombreSubcategoria": @Model.habilidadesPorIdioma[i].cantidad
+                    {
+                        "habilidad": "@Html.Raw(Model.habilidadesPorPais[i].nombreCategoria)",
+                        "@Html.Raw(Model.habilidadesPorPais[i].nombreSubcategoria)": @Model.habilidadesPorPais[i].cantidad
+                    }
+                    </text>
+                }
+            }
+            else
+            {
+                if (i != Model.habilidadesPorPais.Count - 1)
+                {
+                    <text>
+                        "@Html.Raw(Model.habilidadesPorPais[i].nombreSubcategoria)": @Model.habilidadesPorPais[i].cantidad,
+                    </text>
+
+                    if (catActual != Model.habilidadesPorPais[i + 1].nombreCategoria)
+                    {
+                        <text>
+                        },
+                        </text>
+                    }
+                }
+                else
+                {
+                    <text>
+                        "@Html.Raw(Model.habilidadesPorPais[i].nombreSubcategoria)": @Model.habilidadesPorPais[i].cantidad
                     }
                     </text>
                 }
@@ -498,14 +530,21 @@
 
         // Create axes
         var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-        categoryAxis.dataFields.category = "habilidades";
+        categoryAxis.dataFields.category = "habilidad";
         categoryAxis.renderer.grid.template.location = 0;
         categoryAxis.renderer.minGridDistance = 30;
+        categoryAxis.renderer.labels.template.horizontalCenter = "right";
+        categoryAxis.renderer.labels.template.verticalCenter = "middle";
+        categoryAxis.renderer.labels.template.rotation = 285;
+        categoryAxis.renderer.minHeight = 110;
 
 
         var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
         valueAxis.min = 0;
+        valueAxis.title.text = "Cantidad de miembros";
+        valueAxis.title.fontSize = "125%";
         valueAxis.renderer.grid.template.location = 0;
+
 
         // Create series
         function createSeries(field, name) {
@@ -514,7 +553,7 @@
             var series = chart.series.push(new am4charts.ColumnSeries());
             series.name = name;
             series.dataFields.valueY = field;
-            series.dataFields.categoryX = "habilidades";
+            series.dataFields.categoryX = "habilidad";
             series.sequencedInterpolation = false;
 
             // Make it stacked
@@ -527,21 +566,36 @@
             return series;
         }
 
-        @{ subCatActual = ""; }
-        @for (int i = 0 ; i < Model.habilidadesPorPais.Count; i++) {
-            if (subCatActual != Model.habilidadesPorPais[i].nombreSubcategoria)
+        @{ subcategorias = new List<string>();}
+        @for (int i = 0; i < Model.habilidadesPorPais.Count; i++)
+        {
+            bool esta = false;
+            for (int j = 0; j < subcategorias.Count; j++)
             {
-                subCatActual = Model.habilidadesPorPais[i].nombreSubcategoria;
-                <text>
-                createSeries("@Model.habilidadesPorPais[i].nombreSubcategoria", "@Model.habilidadesPorPais[i].nombreSubcategoria")
-                </text>
+                if (subcategorias[j] == Model.habilidadesPorPais[i].nombreSubcategoria)
+                {
+                    esta = true;
+                }
             }
+
+            if (!esta)
+            {
+                subcategorias.Add(Model.habilidadesPorPais[i].nombreSubcategoria);
+            }
+        }
+
+        @for (int i = 0 ; i < subcategorias.Count; i++) {
+
+            <text>
+            createSeries("@Html.Raw(subcategorias[i])", "@Html.Raw(subcategorias[i])")
+            </text>
+
         }
 
         // Legend
         chart.legend = new am4charts.Legend();
         chart.legend.position = "right";
-        chart.legend.maxHeight = 200;
+        chart.legend.maxHeight = 300;
         chart.legend.scrollable = true;
         chart.legend.marginBottom = 10;
         chart.legend.labels.template.textDecoration = "none";
@@ -580,30 +634,12 @@
             {
                 catActual = Model.pasatiemposPorIdioma[i].nombreCategoria;
 
-                if (i != Model.pasatiemposPorIdioma.Count)
-                {
-                    <text>
-                    {
-                        "pasatiempo": "@Model.pasatiemposPorIdioma[i].nombreCategoria",
-                        "@Model.pasatiemposPorIdioma[i].nombreSubcategoria": @Model.pasatiemposPorIdioma[i].cantidad,
-                    </text>
-                }
-                else
-                {
-                    <text>
-                    {
-                        "pasatiempo": "@Model.pasatiemposPorIdioma[i].nombreCategoria",
-                        "@Model.pasatiemposPorIdioma[i].nombreSubcategoria": @Model.pasatiemposPorIdioma[i].cantidad
-                    }
-                    </text>
-                }
-            }
-            else
-            {
                 if (i != Model.pasatiemposPorIdioma.Count - 1)
                 {
                     <text>
-                        "@Model.pasatiemposPorIdioma[i].nombreSubcategoria": @Model.pasatiemposPorIdioma[i].cantidad,
+                    {
+                        "pasatiempo": "@Html.Raw(Model.pasatiemposPorIdioma[i].nombreCategoria)",
+                        "@Html.Raw(Model.pasatiemposPorIdioma[i].nombreSubcategoria)": @Model.pasatiemposPorIdioma[i].cantidad,
                     </text>
 
                     if (catActual != Model.pasatiemposPorIdioma[i + 1].nombreCategoria)
@@ -616,7 +652,32 @@
                 else
                 {
                     <text>
-                        "@Model.pasatiemposPorIdioma[i].nombreSubcategoria": @Model.pasatiemposPorIdioma[i].cantidad
+                    {
+                        "pasatiempo": "@Html.Raw(Model.pasatiemposPorIdioma[i].nombreCategoria)",
+                        "@Html.Raw(Model.pasatiemposPorIdioma[i].nombreSubcategoria)": @Model.pasatiemposPorIdioma[i].cantidad
+                    }
+                    </text>
+                }
+            }
+            else
+            {
+                if (i != Model.pasatiemposPorIdioma.Count - 1)
+                {
+                    <text>
+                        "@Html.Raw(Model.pasatiemposPorIdioma[i].nombreSubcategoria)": @Model.pasatiemposPorIdioma[i].cantidad,
+                    </text>
+
+                    if (catActual != Model.pasatiemposPorIdioma[i + 1].nombreCategoria)
+                    {
+                        <text>
+                        },
+                        </text>
+                    }
+                }
+                else
+                {
+                    <text>
+                        "@Html.Raw(Model.pasatiemposPorIdioma[i].nombreSubcategoria)": @Model.pasatiemposPorIdioma[i].cantidad
                     }
                     </text>
                 }
@@ -629,10 +690,16 @@
         categoryAxis.dataFields.category = "pasatiempo";
         categoryAxis.renderer.grid.template.location = 0;
         categoryAxis.renderer.minGridDistance = 30;
+        categoryAxis.renderer.labels.template.horizontalCenter = "right";
+        categoryAxis.renderer.labels.template.verticalCenter = "middle";
+        categoryAxis.renderer.labels.template.rotation = 285;
+        categoryAxis.renderer.minHeight = 110;
 
 
         var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
         valueAxis.min = 0;
+        valueAxis.title.text = "Cantidad de miembros";
+        valueAxis.title.fontSize = "125%";
         valueAxis.renderer.grid.template.location = 0;
 
         // Create series
@@ -655,21 +722,36 @@
             return series;
         }
 
-        @{ subCatActual = ""; }
-        @for (int i = 0 ; i < Model.pasatiemposPorIdioma.Count; i++) {
-            if (subCatActual != Model.pasatiemposPorIdioma[i].nombreSubcategoria)
+        @{ subcategorias = new List<string>();}
+        @for (int i = 0; i < Model.pasatiemposPorIdioma.Count; i++)
+        {
+            bool esta = false;
+            for (int j = 0; j < subcategorias.Count; j++)
             {
-                subCatActual = Model.pasatiemposPorIdioma[i].nombreSubcategoria;
-                <text>
-                createSeries("@Model.pasatiemposPorIdioma[i].nombreSubcategoria", "@Model.pasatiemposPorIdioma[i].nombreSubcategoria")
-                </text>
+                if (subcategorias[j] == Model.pasatiemposPorIdioma[i].nombreSubcategoria)
+                {
+                    esta = true;
+                }
             }
+
+            if (!esta)
+            {
+                subcategorias.Add(Model.pasatiemposPorIdioma[i].nombreSubcategoria);
+            }
+        }
+
+        @for (int i = 0 ; i < subcategorias.Count; i++) {
+
+            <text>
+            createSeries("@Html.Raw(subcategorias[i])", "@Html.Raw(subcategorias[i])")
+            </text>
+
         }
 
         // Legend
         chart.legend = new am4charts.Legend();
         chart.legend.position = "right";
-        chart.legend.maxHeight = 200;
+        chart.legend.maxHeight = 300;
         chart.legend.scrollable = true;
         chart.legend.marginBottom = 10;
         chart.legend.labels.template.textDecoration = "none";
@@ -708,30 +790,12 @@
             {
                 catActual = Model.pasatiemposPorPais[i].nombreCategoria;
 
-                if (i != Model.pasatiemposPorPais.Count)
-                {
-                    <text>
-                    {
-                        "pasatiempo": "@Model.pasatiemposPorPais[i].nombreCategoria",
-                        "@Model.pasatiemposPorPais[i].nombreSubcategoria": @Model.pasatiemposPorPais[i].cantidad,
-                    </text>
-                }
-                else
-                {
-                    <text>
-                    {
-                        "pasatiempo": "@Model.pasatiemposPorPais[i].nombreCategoria",
-                        "@Model.pasatiemposPorPais[i].nombreSubcategoria": @Model.pasatiemposPorPais[i].cantidad
-                    }
-                    </text>
-                }
-            }
-            else
-            {
                 if (i != Model.pasatiemposPorPais.Count - 1)
                 {
                     <text>
-                        "@Model.pasatiemposPorPais[i].nombreSubcategoria": @Model.pasatiemposPorPais[i].cantidad,
+                    {
+                        "pasatiempo": "@Html.Raw(Model.pasatiemposPorPais[i].nombreCategoria)",
+                        "@Html.Raw(Model.pasatiemposPorPais[i].nombreSubcategoria)": @Model.pasatiemposPorPais[i].cantidad,
                     </text>
 
                     if (catActual != Model.pasatiemposPorPais[i + 1].nombreCategoria)
@@ -744,7 +808,32 @@
                 else
                 {
                     <text>
-                        "@Model.pasatiemposPorPais[i].nombreSubcategoria": @Model.pasatiemposPorPais[i].cantidad
+                    {
+                        "pasatiempo": "@Html.Raw(Model.pasatiemposPorPais[i].nombreCategoria)",
+                        "@Html.Raw(Model.pasatiemposPorPais[i].nombreSubcategoria)": @Model.pasatiemposPorPais[i].cantidad
+                    }
+                    </text>
+                }
+            }
+            else
+            {
+                if (i != Model.pasatiemposPorPais.Count - 1)
+                {
+                    <text>
+                        "@Html.Raw(Model.pasatiemposPorPais[i].nombreSubcategoria)": @Model.pasatiemposPorPais[i].cantidad,
+                    </text>
+
+                    if (catActual != Model.pasatiemposPorPais[i + 1].nombreCategoria)
+                    {
+                        <text>
+                        },
+                        </text>
+                    }
+                }
+                else
+                {
+                    <text>
+                        "@Html.Raw(Model.pasatiemposPorPais[i].nombreSubcategoria)": @Model.pasatiemposPorPais[i].cantidad
                     }
                     </text>
                 }
@@ -754,13 +843,19 @@
 
         // Create axes
         var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-        categoryAxis.dataFields.category = "habilidades";
+        categoryAxis.dataFields.category = "pasatiempo";
         categoryAxis.renderer.grid.template.location = 0;
         categoryAxis.renderer.minGridDistance = 30;
+        categoryAxis.renderer.labels.template.horizontalCenter = "right";
+        categoryAxis.renderer.labels.template.verticalCenter = "middle";
+        categoryAxis.renderer.labels.template.rotation = 285;
+        categoryAxis.renderer.minHeight = 110;
 
 
         var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-        valueAxis.min = 0;
+        valueAxis.min = 0; 
+        valueAxis.title.text = "Cantidad de miembros";
+        valueAxis.title.fontSize = "125%";
         valueAxis.renderer.grid.template.location = 0;
 
         // Create series
@@ -770,7 +865,7 @@
             var series = chart.series.push(new am4charts.ColumnSeries());
             series.name = name;
             series.dataFields.valueY = field;
-            series.dataFields.categoryX = "habilidades";
+            series.dataFields.categoryX = "pasatiempo";
             series.sequencedInterpolation = false;
 
             // Make it stacked
@@ -783,21 +878,36 @@
             return series;
         }
 
-        @{ subCatActual = ""; }
-        @for (int i = 0 ; i < Model.pasatiemposPorPais.Count; i++) {
-            if (subCatActual != Model.pasatiemposPorPais[i].nombreSubcategoria)
+        @{ subcategorias = new List<string>();}
+        @for (int i = 0; i < Model.pasatiemposPorPais.Count; i++)
+        {
+            bool esta = false;
+            for (int j = 0; j < subcategorias.Count; j++)
             {
-                subCatActual = Model.pasatiemposPorPais[i].nombreSubcategoria;
-                <text>
-                createSeries("@Model.pasatiemposPorPais[i].nombreSubcategoria", "@Model.pasatiemposPorPais[i].nombreSubcategoria")
-                </text>
+                if (subcategorias[j] == Model.pasatiemposPorPais[i].nombreSubcategoria)
+                {
+                    esta = true;
+                }
             }
+
+            if (!esta)
+            {
+                subcategorias.Add(Model.pasatiemposPorPais[i].nombreSubcategoria);
+            }
+        }
+
+        @for (int i = 0 ; i < subcategorias.Count; i++) {
+
+            <text>
+            createSeries("@Html.Raw(subcategorias[i])", "@Html.Raw(subcategorias[i])")
+            </text>
+
         }
 
         // Legend
         chart.legend = new am4charts.Legend();
         chart.legend.position = "right";
-        chart.legend.maxHeight = 200;
+        chart.legend.maxHeight = 300;
         chart.legend.scrollable = true;
         chart.legend.marginBottom = 10;
         chart.legend.labels.template.textDecoration = "none";
@@ -954,7 +1064,7 @@
             <text>
             createSeries("@Model.articulosPorRol[i].categoria", "@Model.articulosPorRol[i].categoria")
             </text>
-        }      
+        }
 
         // Legend
         chart.legend = new am4charts.Legend();
