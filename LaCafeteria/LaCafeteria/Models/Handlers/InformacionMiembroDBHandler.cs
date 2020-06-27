@@ -55,8 +55,8 @@ namespace LaCafeteria.Models.Handlers
             {
 
                 string sqlString = @"SELECT meritos
-								     FROM Miembro WHERE @username = usernamePK
-									 ORDER BY fechaCreacion, estado DESC";
+								     FROM Miembro 
+                                        WHERE @username = usernamePK";
 
                 sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
