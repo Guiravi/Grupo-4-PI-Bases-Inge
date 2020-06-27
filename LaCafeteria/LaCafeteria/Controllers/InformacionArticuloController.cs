@@ -58,16 +58,16 @@ namespace LaCafeteria.Controllers
         }
 
         public string GetTopicosArticuloString(int id) {
-            List<TopicoModel> topicos = informacionArticuloDBHandler.GetTopicosArticulo(id);
+            List<string> topicos = informacionArticuloDBHandler.GetTopicosArticulo(id);
 
             string msjTopicos = "";
 
             for ( int i = 0; i < topicos.Count - 1; ++i )
             {
-                msjTopicos = msjTopicos + topicos[i].nombre + ", ";
+                msjTopicos = msjTopicos + topicos[i] + ", ";
             }
 
-            msjTopicos = msjTopicos + topicos[topicos.Count - 1].nombre;
+            msjTopicos = msjTopicos + topicos[topicos.Count - 1];
 
             return msjTopicos;
         }
