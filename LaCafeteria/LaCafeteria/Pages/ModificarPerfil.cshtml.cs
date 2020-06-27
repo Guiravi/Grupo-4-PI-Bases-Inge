@@ -15,7 +15,9 @@ namespace LaCafeteria.Pages
         [BindProperty]
         public MiembroModel miembro { set; get; }
 
-        public MiembroController miembroController { set; get; }
+        //public MiembroController miembroController { set; get; }
+        private BuscadorMiembrosController buscadorMiembrosController;
+        private EditorMiembroController editorArticuloController;
 
         public List<string> listaIdiomasElegidos { set; get; }
 
@@ -25,14 +27,16 @@ namespace LaCafeteria.Pages
         public List<string> listaIdiomasDisponibles { set; get; }
         public ModificarPerfilModel()
         {
-            miembroController = new MiembroController();
+            buscadorMiembrosController = new BuscadorMiembrosController();
+            editorArticuloController = new EditorMiembroController();
+
             listaIdiomasElegidos = new List<string>();
             listaIdiomasDisponibles = new List<string>();
         }
 
         public void OnGet()
         {
-            miembro = miembroController.GetMiembro(Request.Cookies["usernamePK"]);
+            miembro = buscadorMiembrosController.GetMiembro(Request.Cookies["usernamePK"]);
             listaIdiomasDisponibles.Add("Español");
             listaIdiomasDisponibles.Add("Inglés");
             listaIdiomasDisponibles.Add("Árabe");
@@ -54,7 +58,7 @@ namespace LaCafeteria.Pages
         public IActionResult OnPostActualizar()
         {
             miembro.idiomas = ObtenerIdiomasCSV();
-            miembroController.ActualizarMiembro(Request.Cookies["usernamePK"], miembro);
+            editorArticuloController.ActualizarMiembro(Request.Cookies["usernamePK"], miembro);
             Notificaciones.Set(this, "Actualizado", "Su perfil se ha actualizado satifactoriamente", Notificaciones.TipoNotificacion.Exito);
             return Redirect("/MiPerfil");
 
