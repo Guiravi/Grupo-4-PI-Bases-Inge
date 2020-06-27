@@ -13,7 +13,8 @@ namespace LaCafeteria.Pages
 {
     public class RevisarArticuloModel : PageModel
     {
-        RevisorArticulosController revisorArticulosController;
+        private RevisorArticulosController revisorArticulosController;
+        private InformacionMiembroController informacionMiembroController;
 
         [BindProperty]
         public int opinion { get; set; }
@@ -32,6 +33,9 @@ namespace LaCafeteria.Pages
 
         public RevisarArticuloModel()
         {
+            revisorArticulosController = new RevisorArticulosController();
+            informacionMiembroController = new InformacionMiembroController();
+
             forma = -1;
             opinion = -1;
             contribucion = -1;
@@ -56,8 +60,11 @@ namespace LaCafeteria.Pages
                 recomend_final = "Aceptar con Modificaciones";
             }
 
+            float merito = informacionMiembroController.GetMeritos(Request.Cookies["usernamePK"]);
+
             /* Crear nuevo controlador de revisor de artículo */
-            revisorArticulosController.ActualizarRevisionArticulo(opinion,contribucion, forma, "Finalizada", comentario,recomend_final0,0);
+            revisorArticulosController.ActualizarRevisionArticulo(merito,opinion,contribucion, forma, "Finalizada", 
+                comentario,recomend_final,Request.Cookies["usernamePK"],0);
 
 
             return Page();
