@@ -75,5 +75,37 @@ namespace LaCafeteria.Models.Handlers
             return lista;
         }
 
+        public List<DatosGraficoBarrasApilado> GetHabilidadesPorPais()
+        {
+            List<DatosGraficoBarrasApilado> lista = new List<DatosGraficoBarrasApilado>();
+
+            string connectionString = AppSettings.GetConnectionString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+
+                string sqlString = @"SELECT MH.habilidad, M.paisFK, COUNT(*) AS cantidad
+                                    FROM [dbo].[Miembro] M
+                                    JOIN [dbo].[MiembroHabilidad] MH
+	                                    ON M.usernamePK = MH.usernameFK
+                                    WHERE	MH.habilidad IN (SELECT habilidadPK
+						                                    FROM [Catalogo].[Habilidad])
+                                    GROUP BY M.paisFK, MH.habilidad
+                                    ORDER BY MH.habilidad, M.paisFK";
+
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+                {
+                    SqlDataReader dataReader = sqlCommand.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        DatosGraficoBarrasApilado datos = new DatosGraficoBarrasApilado((string)dataReader["habilidad"], (string)dataReader["paisFK"], (int)dataReader["cantidad"]);
+                        lista.Add(datos);
+                    }
+                }
+            }
+
+            return lista;
+        }
+
     }
 }
