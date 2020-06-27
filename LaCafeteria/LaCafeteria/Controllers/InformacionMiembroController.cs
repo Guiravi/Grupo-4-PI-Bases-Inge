@@ -36,7 +36,7 @@ namespace LaCafeteria.Controllers
 
             for (int i = 0; i < listaSinAsignar.Count; i++)
             {
-                DatosGraficoBarrasApilado habilidad = new DatosGraficoBarrasApilado(listaSinAsignar[i], "", 0);
+                DatosGraficoBarrasApilado habilidad = new DatosGraficoBarrasApilado(listaSinAsignar[i], "Sin asignar", 0);
                 lista.Add(habilidad);
             }
 
@@ -50,7 +50,7 @@ namespace LaCafeteria.Controllers
 
             for (int i = 0; i < listaSinAsignar.Count; i++)
             {
-                DatosGraficoBarrasApilado habilidad = new DatosGraficoBarrasApilado(listaSinAsignar[i], "", 0);
+                DatosGraficoBarrasApilado habilidad = new DatosGraficoBarrasApilado(listaSinAsignar[i], "Sin asignar", 0);
                 lista.Add(habilidad);
             }
 
@@ -64,7 +64,7 @@ namespace LaCafeteria.Controllers
 
             for (int i = 0; i < listaSinAsignar.Count; i++)
             {
-                DatosGraficoBarrasApilado pasatiempo = new DatosGraficoBarrasApilado(listaSinAsignar[i], "", 0);
+                DatosGraficoBarrasApilado pasatiempo = new DatosGraficoBarrasApilado(listaSinAsignar[i], "Sin asignar", 0);
                 lista.Add(pasatiempo);
             }
 
@@ -78,7 +78,7 @@ namespace LaCafeteria.Controllers
 
             for (int i = 0; i < listaSinAsignar.Count; i++)
             {
-                DatosGraficoBarrasApilado pasatiempo = new DatosGraficoBarrasApilado(listaSinAsignar[i], "", 0);
+                DatosGraficoBarrasApilado pasatiempo = new DatosGraficoBarrasApilado(listaSinAsignar[i], "Sin asignar", 0);
                 lista.Add(pasatiempo);
             }
 
