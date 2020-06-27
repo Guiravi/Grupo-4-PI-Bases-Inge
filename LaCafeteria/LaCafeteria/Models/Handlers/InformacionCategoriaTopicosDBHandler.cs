@@ -17,7 +17,8 @@ namespace LaCafeteria.Models.Handlers
             {
 
                 string sqlString = @"SELECT nombreCategoriaPK, nombreTopicoPK
-									FROM CategoriaTopico";
+									FROM CategoriaTopico
+                                    ORDER BY nombreCategoriaPK, nombreTopicoPK";
 
                 sqlConnection.Open();
                 using ( SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection) )
