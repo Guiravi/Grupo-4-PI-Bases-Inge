@@ -16,7 +16,7 @@ namespace LaCafeteria.Pages
 {
     public class SubirArticuloModel : PageModel
     {
-		public List<TopicoModel> listaTopicos { set; get; }
+		public List<CategoriaTopicoModel> listaTopicos { set; get; }
 
 		public List<MiembroModel> listaMiembros { set; get; }
 
@@ -34,7 +34,6 @@ namespace LaCafeteria.Pages
 
         public List<string[]> autoresViejos { get; set; }
 
-        //public TopicoController topicoController;
         //public CorreoController correoController;
 
         private BuscadorMiembrosController buscadorMiembrosController;
@@ -42,6 +41,7 @@ namespace LaCafeteria.Pages
         private DocumentosArticuloController documentosArticuloController;
         private AlmacenadorArticuloController almacenadorArticuloController;
         private EditorArticuloController editorArticuloController;
+        private InformacionCategoriaTopicoController informacionCategoriaTopicoController;
 
         [BindProperty(SupportsGet = true)]
         public int idArticuloPK { get; set; }
@@ -53,16 +53,15 @@ namespace LaCafeteria.Pages
 
         public SubirArticuloModel(IHostingEnvironment env)
 		{
-            //topicoController = new TopicoController();
             //correoController = new CorreoController(env);
-
+            informacionCategoriaTopicoController = new InformacionCategoriaTopicoController();
             buscadorMiembrosController = new BuscadorMiembrosController();
             informacionArticuloController = new InformacionArticuloController();
             documentosArticuloController = new DocumentosArticuloController();
             almacenadorArticuloController = new AlmacenadorArticuloController();
             editorArticuloController = new EditorArticuloController();
 
-            listaTopicos = topicoController.GetListaTopicos();
+            listaTopicos = informacionCategoriaTopicoController.GetCategoriasYTopicos();
 			listaMiembros = buscadorMiembrosController.GetListaMiembrosModel();
             listaMiembrosAutores = new List<string>();
             listaTopicosArticulo = new List<string>();
