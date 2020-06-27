@@ -49,7 +49,7 @@ namespace LaCafeteria.Models.Handlers
             {
                 connection.Open();
 
-                SqlCommand cmd = new SqlCommand("SELECT * FROM Articulo WHERE Articulo.idArticuloPK = @id", connection);
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Articulo WHERE Articulo.articuloAID = @id", connection);
                 cmd.Parameters.AddWithValue("@id", id);
 
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -89,8 +89,8 @@ namespace LaCafeteria.Models.Handlers
                     "JOIN NucleoRevisaArticulo NRA " +
                     "ON M.usernamePK = NRA.usernameMiemFK " +
                     "JOIN Articulo A " +
-                    "ON NRA.idArticuloFK = A.idArticuloPK " +
-                    "WHERE A.idArticuloPK = @id", connection);
+                    "ON NRA.idArticuloFK = A.articuloAID " +
+                    "WHERE A.articuloAID = @id", connection);
 
                 cmd.Parameters.AddWithValue("@id", id);
 
@@ -124,8 +124,8 @@ namespace LaCafeteria.Models.Handlers
                     "JOIN NucleoRevisaArticulo NRA " +
                     "ON M.usernamePK = NRA.usernameMiemFK " +
                     "JOIN Articulo A " +
-                    "ON NRA.idArticuloFK = A.idArticuloPK " +
-                    "WHERE A.idArticuloPK = @id", connection);
+                    "ON NRA.idArticuloFK = A.articuloAID " +
+                    "WHERE A.articuloAID = @id", connection);
 
                 cmd.Parameters.AddWithValue("@id", id);
 
@@ -155,7 +155,7 @@ namespace LaCafeteria.Models.Handlers
 
                 cmd = new SqlCommand("SELECT contenido " +
                     " FROM [dbo].[Articulo] " +
-                    " WHERE idArticuloPK = @idArticulo;", connection);
+                    " WHERE articuloAID = @idArticulo;", connection);
 
                 cmd.Parameters.AddWithValue("@idArticulo", idArticulo);
 
@@ -214,7 +214,7 @@ namespace LaCafeteria.Models.Handlers
                     "JOIN MiembroCalificaArticulo MCA " +
                         "ON M.usernamePK = MCA.usernameMiemFK " +
                     "JOIN Articulo A " +
-                        "ON MCA.idArticuloFK = A.idArticuloPK " +
+                        "ON MCA.idArticuloFK = A.articuloAID " +
                     "WHERE MCA.usernameMiemFK = @user " +
                         "AND MCA.idArticuloFK = @id;";
 
