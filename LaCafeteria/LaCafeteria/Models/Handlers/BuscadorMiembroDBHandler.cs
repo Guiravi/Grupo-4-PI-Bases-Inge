@@ -16,8 +16,8 @@ namespace LaCafeteria.Models.Handlers
             using ( SqlConnection sqlConnection = new SqlConnection(connectionString) )
             {
 
-                string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, pais, estado, ciudad, rutaImagenPerfil, 
-											hobbies, habilidades, idiomas, informacionLaboral, meritos, activo, nombreRolFK
+                string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, paisFK, estado, ciudad, rutaImagenPerfil, 
+											informacionLaboral, meritos, activo, nombreRolFK
 									FROM Miembro";
 
                 sqlConnection.Open();
@@ -34,14 +34,11 @@ namespace LaCafeteria.Models.Handlers
                                 nombre = (string) dataReader["nombre"],
                                 apellido1 = (string) dataReader["apellido1"],
                                 apellido2 = (string) dataReader["apellido2"],
-                                fechaNacimiento = (string) dataReader["fechaNacimiento"].ToString().Remove(dataReader["fechaNacimiento"].ToString().Length - 12, 12),
-                                pais = (!DBNull.Value.Equals(dataReader["pais"])) ? (string) dataReader["pais"] : null,
+                                fechaNacimiento = (!DBNull.Value.Equals(dataReader["fechaNacimiento"])) ? (string) dataReader["fechaNacimiento"].ToString().Remove(dataReader["fechaNacimiento"].ToString().Length - 12, 12) : null,
+                                paisFK = (string) dataReader["paisFK"],
                                 estado = (!DBNull.Value.Equals(dataReader["estado"])) ? (string) dataReader["estado"] : null,
                                 ciudad = (!DBNull.Value.Equals(dataReader["ciudad"])) ? (string) dataReader["ciudad"] : null,
                                 rutaImagenPerfil = (string) dataReader["rutaImagenPerfil"],
-                                hobbies = (!DBNull.Value.Equals(dataReader["hobbies"])) ? (string) dataReader["hobbies"] : null,
-                                habilidades = (!DBNull.Value.Equals(dataReader["habilidades"])) ? (string) dataReader["habilidades"] : null,
-                                idiomas = (!DBNull.Value.Equals(dataReader["idiomas"])) ? (string) dataReader["idiomas"] : null,
                                 informacionLaboral = (!DBNull.Value.Equals(dataReader["informacionLaboral"])) ? (string) dataReader["informacionLaboral"] : null,
                                 meritos = (!DBNull.Value.Equals(dataReader["meritos"])) ? (int) dataReader["meritos"] : 0,
                                 activo = (bool) dataReader["activo"],
@@ -65,7 +62,7 @@ namespace LaCafeteria.Models.Handlers
             {
 
                 string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, pais, estado, ciudad, rutaImagenPerfil, 
-											hobbies, habilidades, idiomas, informacionLaboral, meritos, activo, nombreRolFK
+											informacionLaboral, meritos, activo, nombreRolFK
 									FROM Miembro WHERE nombreRolFK = 'Núcleo'";
 
                 sqlConnection.Open();
@@ -82,14 +79,11 @@ namespace LaCafeteria.Models.Handlers
                                 nombre = (string) dataReader["nombre"],
                                 apellido1 = (string) dataReader["apellido1"],
                                 apellido2 = (string) dataReader["apellido2"],
-                                fechaNacimiento = (string) dataReader["fechaNacimiento"].ToString().Remove(dataReader["fechaNacimiento"].ToString().Length - 12, 12),
-                                pais = (!DBNull.Value.Equals(dataReader["pais"])) ? (string) dataReader["pais"] : null,
+                                fechaNacimiento = (!DBNull.Value.Equals(dataReader["fechaNaciemiento"])) ? (string) dataReader["fechaNacimiento"].ToString().Remove(dataReader["fechaNacimiento"].ToString().Length - 12, 12) : null,
+                                paisFK = (string) dataReader["paisFK"],
                                 estado = (!DBNull.Value.Equals(dataReader["estado"])) ? (string) dataReader["estado"] : null,
                                 ciudad = (!DBNull.Value.Equals(dataReader["ciudad"])) ? (string) dataReader["ciudad"] : null,
                                 rutaImagenPerfil = (string) dataReader["rutaImagenPerfil"],
-                                hobbies = (!DBNull.Value.Equals(dataReader["hobbies"])) ? (string) dataReader["hobbies"] : null,
-                                habilidades = (!DBNull.Value.Equals(dataReader["habilidades"])) ? (string) dataReader["habilidades"] : null,
-                                idiomas = (!DBNull.Value.Equals(dataReader["idiomas"])) ? (string) dataReader["idiomas"] : null,
                                 informacionLaboral = (!DBNull.Value.Equals(dataReader["informacionLaboral"])) ? (string) dataReader["informacionLaboral"] : null,
                                 meritos = (!DBNull.Value.Equals(dataReader["meritos"])) ? (int) dataReader["meritos"] : 0,
                                 activo = (bool) dataReader["activo"],
@@ -114,7 +108,7 @@ namespace LaCafeteria.Models.Handlers
             {
 
                 string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, pais, estado, ciudad, rutaImagenPerfil, 
-											hobbies, habilidades, idiomas, informacionLaboral, meritos, activo, nombreRolFK
+											informacionLaboral, meritos, activo, nombreRolFK
 									FROM Miembro
 									WHERE @usernamePK =  usernamePK";
 
@@ -135,14 +129,11 @@ namespace LaCafeteria.Models.Handlers
                                     nombre = (string) dataReader["nombre"],
                                     apellido1 = (string) dataReader["apellido1"],
                                     apellido2 = (string) dataReader["apellido2"],
-                                    fechaNacimiento = (string) dataReader["fechaNacimiento"].ToString().Remove(dataReader["fechaNacimiento"].ToString().Length - 12, 12),
-                                    pais = (!DBNull.Value.Equals(dataReader["pais"])) ? (string) dataReader["pais"] : null,
+                                    fechaNacimiento = (!DBNull.Value.Equals(dataReader["fechaNaciemiento"])) ? (string) dataReader["fechaNacimiento"].ToString().Remove(dataReader["fechaNacimiento"].ToString().Length - 12, 12) : null,
+                                    paisFK = (string) dataReader["paisFK"],
                                     estado = (!DBNull.Value.Equals(dataReader["estado"])) ? (string) dataReader["estado"] : null,
                                     ciudad = (!DBNull.Value.Equals(dataReader["ciudad"])) ? (string) dataReader["ciudad"] : null,
                                     rutaImagenPerfil = (string) dataReader["rutaImagenPerfil"],
-                                    hobbies = (!DBNull.Value.Equals(dataReader["hobbies"])) ? (string) dataReader["hobbies"] : null,
-                                    habilidades = (!DBNull.Value.Equals(dataReader["habilidades"])) ? (string) dataReader["habilidades"] : null,
-                                    idiomas = (!DBNull.Value.Equals(dataReader["idiomas"])) ? (string) dataReader["idiomas"] : null,
                                     informacionLaboral = (!DBNull.Value.Equals(dataReader["informacionLaboral"])) ? (string) dataReader["informacionLaboral"] : null,
                                     meritos = (int) dataReader["meritos"],
                                     activo = (bool) dataReader["activo"],
@@ -150,12 +141,101 @@ namespace LaCafeteria.Models.Handlers
                                 };
 
                             }
+                            miembro.idiomas = GetIdiomasMiembro(miembro.usernamePK);
+                            miembro.pasatiempos = GetPasatiemposMiembro(miembro.usernamePK);
+                            miembro.habilidades = GetHabilidadesMiembro(miembro.usernamePK);
                         }
                     }
                 }
             }
 
             return miembro;
+        }
+
+        private List<string> GetIdiomasMiembro(string username) {
+            List<string> idiomasMiembro = new List<string>();
+
+            string connectionString = AppSettings.GetConnectionString();
+            using ( SqlConnection sqlConnection = new SqlConnection(connectionString) )
+            {
+
+                string sqlString = @"SELECT idiomaFK
+									FROM MiembroIdioma
+									WHERE @usernameFK =  usernameFK";
+
+                sqlConnection.Open();
+                using ( SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection) )
+                {
+                    sqlCommand.Parameters.AddWithValue("@usernameFK", username);
+                    using ( SqlDataReader dataReader = sqlCommand.ExecuteReader() )
+                    {
+                        while ( dataReader.Read() )
+                        {
+                            idiomasMiembro.Add((string) dataReader["idiomaFK"]);
+                        }
+
+                    }
+                }
+
+            }
+            return idiomasMiembro;
+        }
+
+        private List<string> GetPasatiemposMiembro(string username) {
+            List<string> pasatiemposMiembro = new List<string>();
+
+            string connectionString = AppSettings.GetConnectionString();
+            using ( SqlConnection sqlConnection = new SqlConnection(connectionString) )
+            {
+
+                string sqlString = @"SELECT pasatiempo
+									FROM MiembroPasatiempo
+									WHERE @usernameFK =  usernameFK";
+
+                sqlConnection.Open();
+                using ( SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection) )
+                {
+                    sqlCommand.Parameters.AddWithValue("@usernameFK", username);
+                    using ( SqlDataReader dataReader = sqlCommand.ExecuteReader() )
+                    {
+                        while ( dataReader.Read() )
+                        {
+                            pasatiemposMiembro.Add((string) dataReader["pasatiempo"]);
+                        }
+
+                    }
+                }
+
+            }
+            return pasatiemposMiembro;
+        }
+
+        private List<string> GetHabilidadesMiembro(string username) {
+            List<string> habilidadesMiembro = new List<string>();
+
+            string connectionString = AppSettings.GetConnectionString();
+            using ( SqlConnection sqlConnection = new SqlConnection(connectionString) )
+            {
+
+                string sqlString = @"SELECT habilidad
+									FROM MiembroHabilidad
+									WHERE @usernameFK =  usernameFK";
+
+                sqlConnection.Open();
+                using ( SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection) )
+                {
+                    sqlCommand.Parameters.AddWithValue("@usernameFK", username);
+                    using ( SqlDataReader dataReader = sqlCommand.ExecuteReader() )
+                    {
+                        while ( dataReader.Read() )
+                        {
+                            habilidadesMiembro.Add((string) dataReader["habilidad"]);
+                        }
+
+                    }
+                }
+            }
+            return habilidadesMiembro;
         }
     }
 }

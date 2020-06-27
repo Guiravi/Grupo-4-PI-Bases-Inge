@@ -37,7 +37,7 @@ namespace LaCafeteria.Models.Handlers
             }
         }
 
-        public void EditarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<string> nombreTopicoPKTopicos) {
+        public void EditarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<CategoriaTopicoModel> listaCategoriaTopico) {
             string connectionString = AppSettings.GetConnectionString();
 
             using ( SqlConnection sqlConnection = new SqlConnection(connectionString) )
@@ -69,12 +69,9 @@ namespace LaCafeteria.Models.Handlers
                     //Borrar los registros de relacion de MiembrosAutores con su Articulo, ya que puedieron haber agregado nuevos autores o eliminado otros
                     sqlCommand.CommandText = "DELETE FROM MiembroAutorDeArticulo WHERE idArticuloFK = @idArticuloFK";
 
-                    foreach ( string usernamePK in usernamePKMiembrosAutores )
-                    {
-                        sqlCommand.Parameters.Clear();
-                        sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.articuloAID);
-                        sqlCommand.ExecuteNonQuery();
-                    }
+                    sqlCommand.Parameters.Clear();
+                    sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.articuloAID);
+                    sqlCommand.ExecuteNonQuery();
 
                     //Guardar registros de relacion de MiembrosAutores con su Articulo
                     sqlCommand.CommandText = "INSERT INTO MiembroAutorDeArticulo VALUES(@usernameMiemFK, @idArticuloFK)";
@@ -90,20 +87,18 @@ namespace LaCafeteria.Models.Handlers
                     //Borrar los registros de relacion del Articulo con sus Tópicos, ya que puedieron haber agregado nuevos tópicos o eliminado otros
                     sqlCommand.CommandText = "DELETE FROM ArticuloTrataTopico WHERE idArticuloFK = @idArticuloFK";
 
-                    foreach ( string nombreTopicoPK in nombreTopicoPKTopicos )
-                    {
-                        sqlCommand.Parameters.Clear();
-                        sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.articuloAID);
-                        sqlCommand.ExecuteNonQuery();
-                    }
+                    sqlCommand.Parameters.Clear();
+                    sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.articuloAID);
+                    sqlCommand.ExecuteNonQuery();
 
                     //Guardar registro de relaciones de Articulo con sus Topicos
-                    sqlCommand.CommandText = "INSERT INTO ArticuloTrataTopico VALUES(@nombreTopicoFK, @idArticuloFK)";
+                    sqlCommand.CommandText = "INSERT INTO ArticuloTrataTopico VALUES(@nombreCategoriaFK, @nombreTopicoFK, @idArticuloFK)";
 
-                    foreach ( string nombreTopicoPK in nombreTopicoPKTopicos )
+                    foreach ( CategoriaTopicoModel categoriaTopico in listaCategoriaTopico )
                     {
                         sqlCommand.Parameters.Clear();
-                        sqlCommand.Parameters.AddWithValue("@nombreTopicoFK", nombreTopicoPK);
+                        sqlCommand.Parameters.AddWithValue("@nombreCategoriaFK", categoriaTopico.nombreCategoriaPK);
+                        sqlCommand.Parameters.AddWithValue("@nombreTopicoFK", categoriaTopico.nombreTopicoPK);
                         sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.articuloAID);
                         sqlCommand.ExecuteNonQuery();
                     }

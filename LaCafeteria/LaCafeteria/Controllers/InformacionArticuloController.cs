@@ -7,8 +7,7 @@ using LaCafeteria.Models.Handlers;
 
 namespace LaCafeteria.Controllers
 {
-    public class InformacionArticuloController
-    {
+    public class InformacionArticuloController {
         private InformacionArticuloDBHandler informacionArticuloDBHandler;
 
         public InformacionArticuloController() {
@@ -57,33 +56,8 @@ namespace LaCafeteria.Controllers
             return revisores;
         }
 
-        public string GetTopicosArticuloString(int id) {
-            List<TopicoModel> topicos = informacionArticuloDBHandler.GetTopicosArticulo(id);
-
-            string msjTopicos = "";
-
-            for ( int i = 0; i < topicos.Count - 1; ++i )
-            {
-                msjTopicos = msjTopicos + topicos[i].nombre + ", ";
-            }
-
-            msjTopicos = msjTopicos + topicos[topicos.Count - 1].nombre;
-
-            return msjTopicos;
-        }
-
-
-        public List<string> GetTopicosArticuloListaString(int id) {
-            string topicos = GetTopicosArticuloString(id);
-
-            List<string> lista = topicos.Split(",").ToList();
-
-            for ( int i = 1; i < lista.Count; i++ )
-            {
-                lista[i] = lista[i].Remove(0, 1);
-            }
-
-            return lista;
+        public List<CategoriaTopicoModel> GetCategoriaTopicosArticulo(int id) {
+            return informacionArticuloDBHandler.GetCategoriasTopicosArticulo(id);
         }
 
         public int GetCalificacionMiembro(string username, int idArticulo) {

@@ -68,4 +68,22 @@ namespace LaCafeteria.Models
 			return nombre + " " + apellido1 + " " + apellido2;
 		}
 	}
+
+    public class EdicionMiembroModel {
+        [BindProperty]
+        public string apellido2 { get; set; }
+
+        [BindProperty]
+        public string fechaNacimiento { get; set; }
+
+        [BindProperty]
+        public string estado { get; set; }
+
+        [BindProperty]
+        public string ciudad { get; set; }
+
+        [BindProperty]
+        public string informacionLaboral { get; set; }
+    }
 }
+

@@ -15,8 +15,8 @@ namespace LaCafeteria.Controllers
             almacenadorArticuloDBHandler = new AlmacenadorArticuloDBHandler();
         }
 
-        public void GuardarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<string> nombreTopicoPKTopicos) {
-            almacenadorArticuloDBHandler.GuardarArticulo(articulo, usernamePKMiembrosAutores, nombreTopicoPKTopicos);
+        public void GuardarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<CategoriaTopicoModel> categoriaTopicoModels) {
+            almacenadorArticuloDBHandler.GuardarArticulo(articulo, usernamePKMiembrosAutores, categoriaTopicoModels);
         }
     }
 }
