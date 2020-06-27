@@ -38,27 +38,27 @@ namespace LaCafeteria.Models.Handlers
                     sqlCommand.ExecuteNonQuery();
 
                     //Guardar registros de relacion de MiembrosAutores con su Articulo
-                    articulo.idArticuloPK = ObtenerSiguienteId();
+                    articulo.articuloAID = ObtenerSiguienteId();
                     sqlCommand.CommandText = "INSERT INTO MiembroAutorDeArticulo VALUES(@usernameMiemFK, @idArticuloFK)";
 
                     foreach ( string usernamePK in usernamePKMiembrosAutores )
                     {
                         sqlCommand.Parameters.Clear();
                         sqlCommand.Parameters.AddWithValue("@usernameMiemFK", usernamePK);
-                        sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.idArticuloPK);
+                        sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.articuloAID);
                         sqlCommand.ExecuteNonQuery();
                     }
 
                     //Guardar registro de relaciones de Articulo con sus Topicos
 
-                    articulo.idArticuloPK = ObtenerSiguienteId();
+                    articulo.articuloAID = ObtenerSiguienteId();
                     sqlCommand.CommandText = "INSERT INTO ArticuloTrataTopico VALUES(@nombreTopicoFK, @idArticuloFK)";
 
                     foreach ( string nombreTopicoPK in nombreTopicoPKTopicos )
                     {
                         sqlCommand.Parameters.Clear();
                         sqlCommand.Parameters.AddWithValue("@nombreTopicoFK", nombreTopicoPK);
-                        sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.idArticuloPK);
+                        sqlCommand.Parameters.AddWithValue("@idArticuloFK", articulo.articuloAID);
                         sqlCommand.ExecuteNonQuery();
                     }
                 }
