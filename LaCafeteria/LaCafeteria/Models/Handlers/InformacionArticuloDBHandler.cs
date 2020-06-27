@@ -173,7 +173,7 @@ namespace LaCafeteria.Models.Handlers
             return System.Convert.FromBase64String(contenido);
         }
 
-        public List<CategoriaTopicoModel> GetTopicosArticulo(int id) {
+        public List<CategoriaTopicoModel> GetCategoriasTopicosArticulo(int id) {
             List<CategoriaTopicoModel> categoriaTopicos = new List<CategoriaTopicoModel>();
 
             String connectionString = AppSettings.GetConnectionString();

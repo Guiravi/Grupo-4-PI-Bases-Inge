@@ -86,6 +86,10 @@ namespace LaCafeteria.Controllers
             return lista;
         }
 
+        public List<CategoriaTopicoModel> GetCategoriaTopicosArticulo(int id) {
+            return informacionArticuloDBHandler.GetCategoriasTopicosArticulo(id);
+        }
+
         public int GetCalificacionMiembro(string username, int idArticulo) {
             return informacionArticuloDBHandler.GetCalificacionMiembro(username, idArticulo);
         }
