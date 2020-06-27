@@ -27,7 +27,7 @@ namespace LaCafeteria.Pages
 		public IFormFile archivoArticulo { get; set; }
 
 		[BindProperty]
-		public List<string> listaTopicosArticulo { get; set; }
+		public List<CategoriaTopicoModel> listaTopicosArticulo { get; set; }
 
 		[BindProperty]
 		public List<string> listaMiembrosAutores { set; get; }
@@ -64,7 +64,7 @@ namespace LaCafeteria.Pages
             listaTopicos = informacionCategoriaTopicoController.GetCategoriasYTopicos();
 			listaMiembros = buscadorMiembrosController.GetListaMiembrosModel();
             listaMiembrosAutores = new List<string>();
-            listaTopicosArticulo = new List<string>();
+            listaTopicosArticulo = new List<CategoriaTopicoModel>();
             autoresViejos = new List<string[]>();
             articulo = new ArticuloModel();
 
@@ -83,7 +83,7 @@ namespace LaCafeteria.Pages
 
                     articulo.fechaPublicacion = Convertidor.CambiarFormatoFechaAMD(articulo.fechaPublicacion);
 
-                    listaTopicosArticulo = informacionArticuloController.GetTopicosArticuloListaString(idArticuloPK);
+                    listaTopicosArticulo = informacionArticuloController.GetCategoriaTopicosArticulo(idArticuloPK);
 
                     autoresViejos = informacionArticuloController.GetAutoresArticuloListaStringArray(idArticuloPK);
                     foreach (string[] item in autoresViejos)
