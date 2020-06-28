@@ -22,12 +22,21 @@ namespace LaCafeteria.Pages
 		public List<string> listaSolicitados { set; get; }
 
 		private BuscadorMiembrosController buscadorMiembroController;
+		private CreadorSolicitudRevisionController creadorSolicitudRevisionController;
 
 		public AsignarRevisorModel()
 		{
+			listaMiembrosInteresados = new List<MiembroModel>();
 			listaMiembrosParaSolicitudRevision = new List<MiembroModel>();
-			buscadorMiembroController = new BuscadorMiembrosController();
+			listaMiembrosParaAsignarRevision = new List<MiembroModel>();
 
+			buscadorMiembroController = new BuscadorMiembrosController();
+			creadorSolicitudRevisionController = new CreadorSolicitudRevisionController();
+
+		}
+
+		public void OnGet()
+        {
 			listaMiembrosInteresados = buscadorMiembroController.GetListaMiembrosInteresados(articuloAID);
 
 			listaMiembrosParaSolicitudRevision = buscadorMiembroController.GetListaMiembrosParaSolicitudRevision(articuloAID);
@@ -35,19 +44,20 @@ namespace LaCafeteria.Pages
 			listaMiembrosParaAsignarRevision = buscadorMiembroController.GetlistaMiembrosParaAsignarRevision(articuloAID);
 		}
 
-		public void OnGet()
-        {	
-			
+		public IActionResult OnPostCancelarColaboracion()
+		{
+			return Redirect("/AsignarRevisor/" + articuloAID);
 		}
 
-		public void OnPostCancelarColaboracion()
+		public IActionResult OnPostSolicitarColaboracion()
 		{
+			// Crear solicitud para todas las cobinaciones
+			foreach(string usernameMiemFK in listaSolicitados)
+			{
+				creadorSolicitudRevisionController.CrearSolicitudRevision(usernameMiemFK, articuloAID, CreadorSolicitudRevisionController.Solicitado);
+			}
 
-		}
-
-		public void OnPostSolicitarColaboracion()
-		{
-			// Crear solicitud
+			return Redirect("/AsignarRevisor/" + articuloAID);
 		}
 		
     }

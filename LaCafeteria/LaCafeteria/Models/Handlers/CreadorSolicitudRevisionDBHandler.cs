@@ -9,11 +9,7 @@ namespace LaCafeteria.Models.Handlers
 {
 	public class CreadorSolicitudRevisionDBHandler
 	{
-		public const string Interesa = "Interesa";
-
-		public const string Solicitado = "Solicitado";
-
-		public void CrearSolicitudRevision(string usernameMiemFK, string idArticuloFK, string estado)
+		public void CrearSolicitudRevision(string usernameMiemFK, int idArticuloFK, string estado)
 		{
 			string connectionString = AppSettings.GetConnectionString();
 			using (SqlConnection sqlConnection = new SqlConnection(connectionString))
@@ -25,7 +21,7 @@ namespace LaCafeteria.Models.Handlers
 				using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
 				{
 					sqlCommand.Parameters.AddWithValue("@usernameMiemFK", usernameMiemFK);
-					sqlCommand.Parameters.AddWithValue("@dArticuloFK", idArticuloFK);
+					sqlCommand.Parameters.AddWithValue("@idArticuloFK", idArticuloFK);
 					sqlCommand.Parameters.AddWithValue("@estado", estado);
 
 					sqlCommand.ExecuteNonQuery();
