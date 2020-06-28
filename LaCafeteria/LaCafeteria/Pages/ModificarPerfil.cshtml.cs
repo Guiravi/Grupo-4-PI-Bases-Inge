@@ -14,8 +14,16 @@ namespace LaCafeteria.Pages
     {
         [BindProperty]
         public MiembroModel miembro { set; get; }
+        public EdicionMiembroModel edicionMiembroModel { get; set; }
 
-        public MiembroController miembroController { set; get; }
+        private BuscadorMiembrosController buscadorMiembrosController;
+        private EditorMiembroController editorArticuloController;
+        private InformacionCatalogosController informacionCatalogosController;
+
+        public List<string> listaPasatiempos;
+        public string listaPasatiemposCSV;
+        public List<string> listaHabilidades;
+        public string listaHabilidadesCSV;
 
         public List<string> listaIdiomasElegidos { set; get; }
 
@@ -25,60 +33,29 @@ namespace LaCafeteria.Pages
         public List<string> listaIdiomasDisponibles { set; get; }
         public ModificarPerfilModel()
         {
-            miembroController = new MiembroController();
+            buscadorMiembrosController = new BuscadorMiembrosController();
+            editorArticuloController = new EditorMiembroController();
+            informacionCatalogosController = new InformacionCatalogosController();
+
             listaIdiomasElegidos = new List<string>();
-            listaIdiomasDisponibles = new List<string>();
+            listaIdiomasDisponibles = informacionCatalogosController.GetIdiomasCatalogo();
         }
 
         public void OnGet()
         {
-            miembro = miembroController.GetMiembro(Request.Cookies["usernamePK"]);
-            listaIdiomasDisponibles.Add("Español");
-            listaIdiomasDisponibles.Add("Inglés");
-            listaIdiomasDisponibles.Add("Árabe");
-            listaIdiomasDisponibles.Add("Chino");
-            listaIdiomasDisponibles.Add("Ruso");
-
-            //string idiomas = "Español,Chino,Inglés";
-            /*
-            if (idiomas != null)
-            {
-                listaIdiomasElegidos = idiomas.Split(',').ToList();
-                while (listaIdiomasElegidos.Count() < listaIdiomasDisponibles.Count())
-                {
-                    listaIdiomasElegidos.Add("");
-                }
-            }
-            */
+            miembro = buscadorMiembrosController.GetMiembro(Request.Cookies["usernamePK"]);
+            listaIdiomasElegidos = miembro.idiomas;
         }
         
         public IActionResult OnPostActualizar()
         {
-            /*
-            miembro.idiomas = ObtenerIdiomasCSV();
-            miembroController.ActualizarMiembro(Request.Cookies["usernamePK"], miembro);
-            */
-             Notificaciones.Set(this, "Actualizado", "Su perfil se ha actualizado satifactoriamente", Notificaciones.TipoNotificacion.Exito);
+            miembro.idiomas = listaIdiomas;
+            listaHabilidades.AddRange(listaHabilidadesCSV.Split(',').ToList());
+            listaPasatiempos.AddRange(listaPasatiemposCSV.Split(',').ToList());
+            editorArticuloController.ActualizarMiembro(Request.Cookies["usernamePK"], edicionMiembroModel, listaIdiomas, listaHabilidades, listaPasatiempos);
+            Notificaciones.Set(this, "Actualizado", "Su perfil se ha actualizado satifactoriamente", Notificaciones.TipoNotificacion.Exito);
             return Redirect("/MiPerfil");
 
         }
-
-        public string ObtenerIdiomasCSV()
-        {
-            string idiomas = null;
-
-            if (listaIdiomas.Count > 0)
-            {
-                idiomas = "";
-                foreach (string idioma in listaIdiomas)
-                {
-                    idiomas += idioma + ",";
-                }
-                idiomas = idiomas.TrimEnd(',');
-            }
-
-            return idiomas;
-        }
-
     }
 }

@@ -27,15 +27,14 @@ namespace LaCafeteria.Models
 		public string apellido1 { get; set; }
 
 		[BindProperty]
-		[Required(ErrorMessage = "Debe introducir su segundo apellido")]
 		public string apellido2 { get; set; }
 
 		[BindProperty]
-		[Required(ErrorMessage = "Debe introducir su fecha de nacimiento")]
 		public string fechaNacimiento { get; set; }
 
 		[BindProperty]
-		public string paisFK { get; set; }
+        [Required(ErrorMessage = "Debe introducir su país")]
+        public string paisFK { get; set; }
 
 		[BindProperty]
 		public string estado { get; set; }
@@ -45,6 +44,14 @@ namespace LaCafeteria.Models
 
 		public string rutaImagenPerfil { get; set; }
 
+		[BindProperty]
+		public List<string> pasatiempos { get; set; }
+
+		[BindProperty]
+		public List<string> habilidades { get; set; }
+
+		[BindProperty]
+		public List<string> idiomas { get; set; }
 
 		[BindProperty]
 		public string informacionLaboral { get; set; }
@@ -61,4 +68,22 @@ namespace LaCafeteria.Models
 			return nombre + " " + apellido1 + " " + apellido2;
 		}
 	}
+
+    public class EdicionMiembroModel {
+        [BindProperty]
+        public string apellido2 { get; set; }
+
+        [BindProperty]
+        public string fechaNacimiento { get; set; }
+
+        [BindProperty]
+        public string estado { get; set; }
+
+        [BindProperty]
+        public string ciudad { get; set; }
+
+        [BindProperty]
+        public string informacionLaboral { get; set; }
+    }
 }
+

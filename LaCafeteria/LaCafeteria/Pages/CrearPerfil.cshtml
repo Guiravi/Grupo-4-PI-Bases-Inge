@@ -80,6 +80,19 @@
 					@Html.Raw(Notificaciones.Get(Model, "formatoInvalido"));
 				}
 
+			</div>
+
+			<div class="form-group">
+				<label for="txtHobbies">Hobbies</label>
+				<textarea id="txtHobbies" class="form-control" asp-for="miembro.pasatiempos"></textarea>
+				<span asp-validation-for="miembro.pasatiempos"></span>
+			</div>
+
+			<div class="form-group">
+				<label for="txtHobbies">Habilidades</label>
+				<textarea id="txtHabilidades" class="form-control" asp-for="miembro.habilidades"></textarea>
+				<span asp-validation-for="miembro.habilidades"></span>
+			</div>
 
 			<div class="form-group">
 				<label for="txtInfoLaboral">Información laboral</label>
