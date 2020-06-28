@@ -34,6 +34,8 @@ namespace LaCafeteria.Pages
 
         public List<string[]> autoresViejos { get; set; }
 
+        
+
         //public CorreoController correoController;
         private InformacionCategoriaTopicoController informacionCategoriaTopicoController;
         private BuscadorMiembrosController buscadorMiembrosController;
@@ -101,6 +103,11 @@ namespace LaCafeteria.Pages
                             "document.getElementById('autores').appendChild(div);" + "\n" +
                             "div.appendChild(button);" + "\n" +
                             "}\n";
+                    }
+
+                    if ( articulo.estado == EstadoArticulo.EnCorrecciones )
+                    {
+                        
                     }
                 }
                 else
