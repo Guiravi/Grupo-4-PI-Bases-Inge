@@ -11,7 +11,7 @@ namespace LaCafeteria.Models.Handlers
     {
         public RevisorArticuloHandler() { }
 
-        public void ActualizarEstadoRevisionArticulo(double merito, RevisionModel revision) {
+        public void ActualizarEstadoRevisionArticulo(RevisionModel revision) {
             string connectionString = AppSettings.GetConnectionString();
 
             using ( SqlConnection connection = new SqlConnection(connectionString) )
