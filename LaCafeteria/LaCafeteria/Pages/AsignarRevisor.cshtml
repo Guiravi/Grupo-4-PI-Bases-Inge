@@ -41,7 +41,7 @@
 	}
 </style>
 
-<h2 class="text-center">Título de artículo</h2>
+<h2 class="text-center">Título: @Model.articulo.titulo</h2>
 
 <div class="panel">
 	<div class="panel-heading panel-default">
@@ -82,7 +82,7 @@
 				<div id="nucleosSolicitados">
 				</div>
 				<div class="container text-center">
-					<input type="submit" name="cancelar" class="btn btn-danger" value="Solicitar colaboración" asp-page-handler="cancelarcolaboracion" />
+					<input type="submit" name="cancelar" class="btn btn-danger" value="Cancelar" asp-page-handler="cancelarcolaboracion" />
 					<input type="submit" name="solicitar" class="btn btn-success" value="Solicitar colaboración" asp-page-handler="solicitarcolaboracion" />
 				</div>
 		</form>
