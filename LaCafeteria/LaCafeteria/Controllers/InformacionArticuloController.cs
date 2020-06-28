@@ -87,5 +87,10 @@ namespace LaCafeteria.Controllers
         {
             return informacionArticuloDBHandler.GetArticulosPorRol();
         }
+
+        public List<DatosTablaCategoriaTopicos> GetDatosTablaCategoriaTopicosPorRol(string rol)
+        {
+            return informacionArticuloDBHandler.GetDatosTablaCategoriaTopicosPorRol(rol);
+        }
     }
 }
