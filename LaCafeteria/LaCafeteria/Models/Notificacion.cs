@@ -25,7 +25,7 @@ namespace LaCafeteria.Models
 		{
 			notificacionAID = -1;
 			this.usernameFK = usernameFK;
-			this.fechaCreacion = DateTime.Now.ToString("yyyyMMdd");
+			this.fechaCreacion = DateTime.Now.ToString("yyyy/MM/dd");
 			this.mensaje = mensaje;
 			this.estado = Nueva;
 			this.url = url;

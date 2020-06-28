@@ -32,7 +32,7 @@ namespace LaCafeteria.Models.Handlers
 						{
 							notificacionAID = (int)dataReader["notificacionAID"],
 							usernameFK = (string)dataReader["usernameFK"],
-							fechaCreacion = (string)dataReader["fechaCreacion"].ToString().Remove(dataReader["fechaCreacion"].ToString().Length - 12, 12),
+							fechaCreacion = (string)Convert.ToDateTime(dataReader["fechaCreacion"]).ToString("yyyy/MM/dd"),
 							mensaje = (string)dataReader["mensaje"],
 							estado = (string)dataReader["estado"],
 							url = (!DBNull.Value.Equals(dataReader["url"])) ? (string)dataReader["url"] : null
