@@ -18,9 +18,19 @@ namespace LaCafeteria.Pages
         public List<DatosGraficoBarrasApilado> pasatiemposPorPais;
         public List<DatosGraficoDona> miembrosPorRol;
         public List<DatosGraficoDona> articulosPorRol;
+        public List<DatosTablaCategoriaTopicos> datosCatTopTodosRoles;
+        public List<DatosTablaCategoriaTopicos> datosCatTopNucleo;
+        public List<DatosTablaCategoriaTopicos> datosCatTopActivo;
+        public List<DatosTablaCategoriaTopicos> datosCatTopPeriferico;
+        public List<CategoriaTopicoModel> datosCatTopNoAsociadosTodos;
+        public List<CategoriaTopicoModel> datosCatTopNoAsociadosNucleo;
+        public List<CategoriaTopicoModel> datosCatTopNoAsociadosActivo;
+        public List<CategoriaTopicoModel> datosCatTopNoAsociadosPeriferico;
+
 
         private InformacionMiembroController informacionMiembroController;
         private InformacionArticuloController informacionArticuloController;
+        private InformacionCategoriaTopicoController informacionCategoriaTopicoController;
 
         public VerReporteFiltrableModel()
         {
@@ -31,9 +41,18 @@ namespace LaCafeteria.Pages
             pasatiemposPorIdioma = new List<DatosGraficoBarrasApilado>();
             miembrosPorPais = new List<DatosGraficoDona>();
             articulosPorRol = new List<DatosGraficoDona>();
+            datosCatTopTodosRoles = new List<DatosTablaCategoriaTopicos>();
+            datosCatTopNucleo = new List<DatosTablaCategoriaTopicos>();
+            datosCatTopActivo = new List<DatosTablaCategoriaTopicos>();
+            datosCatTopPeriferico = new List<DatosTablaCategoriaTopicos>();
+            datosCatTopNoAsociadosTodos = new List<CategoriaTopicoModel>();
+            datosCatTopNoAsociadosNucleo = new List<CategoriaTopicoModel>();
+            datosCatTopNoAsociadosActivo = new List<CategoriaTopicoModel>();
+            datosCatTopNoAsociadosPeriferico = new List<CategoriaTopicoModel>();
 
             informacionMiembroController = new InformacionMiembroController();
             informacionArticuloController = new InformacionArticuloController();
+            informacionCategoriaTopicoController = new InformacionCategoriaTopicoController();
            
         }
 
@@ -46,6 +65,15 @@ namespace LaCafeteria.Pages
             pasatiemposPorIdioma = informacionMiembroController.GetPasatiemposPorIdioma();
             miembrosPorRol = informacionMiembroController.GetMiembrosPorRol();
             articulosPorRol = informacionArticuloController.GetArticulosPorRol();
+            datosCatTopTodosRoles = informacionArticuloController.GetDatosTablaCategoriaTopicosPorRol("");
+            datosCatTopNucleo = informacionArticuloController.GetDatosTablaCategoriaTopicosPorRol("Núcleo");
+            datosCatTopActivo = informacionArticuloController.GetDatosTablaCategoriaTopicosPorRol("Activo");
+            datosCatTopPeriferico = informacionArticuloController.GetDatosTablaCategoriaTopicosPorRol("Periférico");
+            datosCatTopNoAsociadosTodos = informacionCategoriaTopicoController.GetCategoriasTopicosNoAsociadosRol("");
+            datosCatTopNoAsociadosNucleo = informacionCategoriaTopicoController.GetCategoriasTopicosNoAsociadosRol("Núcleo");
+            datosCatTopNoAsociadosActivo = informacionCategoriaTopicoController.GetCategoriasTopicosNoAsociadosRol("Activo");
+            datosCatTopNoAsociadosPeriferico = informacionCategoriaTopicoController.GetCategoriasTopicosNoAsociadosRol("Periférico");
+
         }      
        
     }
