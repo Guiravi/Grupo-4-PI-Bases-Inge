@@ -1,12 +1,12 @@
-﻿using System;
+﻿using LaCafeteria.Controllers;
+using LaCafeteria.Models;
+using LaCafeteria.Utilidades;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using LaCafeteria.Utilidades;
-using LaCafeteria.Models;
-using LaCafeteria.Controllers;
 
 namespace LaCafeteria.Pages
 {
