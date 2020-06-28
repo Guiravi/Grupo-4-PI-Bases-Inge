@@ -113,7 +113,8 @@ namespace LaCafeteria.Models.Handlers
 				string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, paisFK, estado, ciudad, rutaImagenPerfil, informacionLaboral, 
 											meritos, activo, nombreRolFK
 									FROM Miembro
-									WHERE NOT EXISTS
+									WHERE nombreRolFK = 'Núcleo' AND
+									NOT EXISTS
 									(SELECT 1 FROM NucleoRevisaArticulo WHERE usernamePK = usernameMiemFK AND @articuloAID = idArticuloFK) AND
 									NOT EXISTS
 									(SELECT 1 FROM NucleoPuedeSerRevisorDeArticulo WHERE usernamePK = usernameMiemFK AND @articuloAID = idArticuloFK)";
@@ -165,7 +166,8 @@ namespace LaCafeteria.Models.Handlers
 				string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, paisFK, estado, ciudad, rutaImagenPerfil, informacionLaboral, 
 											meritos, activo, nombreRolFK
 									FROM Miembro
-									WHERE NOT EXISTS
+									WHERE nombreRolFK = 'Núcleo' AND 
+									NOT EXISTS
 									(SELECT 1 FROM NucleoRevisaArticulo WHERE usernamePK = usernameMiemFK AND @articuloAID = idArticuloFK)";
 
 				sqlConnection.Open();
@@ -213,10 +215,11 @@ namespace LaCafeteria.Models.Handlers
 
 				string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, paisFK, estado, ciudad, rutaImagenPerfil, 
 											informacionLaboral, meritos, activo, nombreRolFK
-									FROM Miembro WHERE EXISTS (SELECT 1 FROM NucleoPuedeSerRevisorDeArticulo
-															   WHERE usernamePK = usernameMiemFK AND
-															   idArticuloFK = @articuloAID AND
-															   estado = 'Interesa')";
+									FROM Miembro WHERE nombreRolFK = 'Núcleo' AND
+												 EXISTS (SELECT 1 FROM NucleoPuedeSerRevisorDeArticulo
+													WHERE usernamePK = usernameMiemFK AND
+													idArticuloFK = @articuloAID AND
+													estado = 'Interesa')";
 								
 
 				sqlConnection.Open();
