@@ -77,8 +77,8 @@ namespace LaCafeteria.Models.Handlers
             return articulo;
         }
 
-        public List<Tuple<string, string, double, double, string>> GetRevisiones(int id) {
-            List<Tuple<string, string, double, double, string>> revisiones = new List<Tuple<string, string, double, double, string>>();
+        public List<Tuple<string, string, double, double, string, string>> GetRevisiones(int id) {
+            List<Tuple<string, string, double, double, string, string>> revisiones = new List<Tuple<string, string, double, double, string, string>>();
 
             String connectionString = AppSettings.GetConnectionString();
 
@@ -86,7 +86,7 @@ namespace LaCafeteria.Models.Handlers
             {
                 connection.Open();
 
-                SqlCommand cmd = new SqlCommand("SELECT M.usernamePK, M.nombre, M.apellido1, M.apellido2, M.meritos, NRA.puntaje, NRA.comentarios FROM Miembro M " +
+                SqlCommand cmd = new SqlCommand("SELECT M.usernamePK, M.nombre, M.apellido1, M.apellido2, M.meritos, NRA.puntaje, NRA.comentarios, NRA.recomendacion FROM Miembro M " +
                     "JOIN NucleoRevisaArticulo NRA " +
                     "ON M.usernamePK = NRA.usernameMiemFK " +
                     "JOIN Articulo A " +
@@ -104,7 +104,8 @@ namespace LaCafeteria.Models.Handlers
                     double meritos = (double)reader["meritos"];
                     double puntaje = (double) reader["puntaje"];
                     string comentarios = reader["comentarios"].ToString();
-                    revisiones.Add(Tuple.Create(username, nombreRevisor, meritos, puntaje, comentarios));
+                    string recomendacion = reader["recomendacion"].ToString();
+                    revisiones.Add(Tuple.Create(username, nombreRevisor, meritos, puntaje, comentarios, recomendacion));
                 }
 
                 reader.Close();

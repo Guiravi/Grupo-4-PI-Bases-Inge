@@ -29,7 +29,7 @@ namespace LaCafeteria.Pages
         [BindProperty]
         public ArticuloModel articulo { get; set; }
 
-        public List<Tuple<string, string, double, double, string>> revisiones { get; set; }
+        public List<Tuple<string, string, double, double, string, string>> revisiones { get; set; }
 
         public string articuloPDF = "";
 
@@ -59,7 +59,7 @@ namespace LaCafeteria.Pages
                 puntaje += revisiones[i].Item4;
             }
 
-            ponderado = Convert((puntaje / meritos), string);
+            ponderado = Convert.ToString(puntaje / meritos);
         }
 
         public IActionResult OnPostRechazar() {
