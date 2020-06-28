@@ -51,12 +51,11 @@ namespace LaCafeteria.Pages
 
 		public IActionResult OnPostSolicitarColaboracion()
 		{
-			// Crear solicitud para todas las cobinaciones
 			foreach(string usernameMiemFK in listaSolicitados)
 			{
 				creadorSolicitudRevisionController.CrearSolicitudRevision(usernameMiemFK, articuloAID, CreadorSolicitudRevisionController.Solicitado);
 			}
-
+	
 			return Redirect("/AsignarRevisor/" + articuloAID);
 		}
 		

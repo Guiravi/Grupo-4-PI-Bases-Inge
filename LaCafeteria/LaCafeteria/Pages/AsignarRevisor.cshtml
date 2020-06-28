@@ -62,29 +62,30 @@
 		@* Solicitar colaboracion a miembros de nucleo que no esten asignados (Revisa) o solicitados (PuedeSerRevisor "Solicitado")*@
 		@if (Model.listaMiembrosParaSolicitudRevision.Count > 0)
 		{
-			<form method="post" enctype="multipart/form-data">
+		<form method="post" enctype="multipart/form-data">
 
-				<label for="slctNucleoColab">Miembros Núcleo</label>
-
-					<div class="col-xs-4">
-						<select id="slctNucleo" class="form-control">
-							@foreach (MiembroModel miembro in Model.listaMiembrosParaSolicitudRevision)
-							{
-								<option value="@miembro.usernamePK">@miembro.GetNombreCompleto()</option>
-							}
-						</select>
-					</div>
-					<div>
-						<input type="button" class="btn" value="Agregar a lista" onclick="agregarSolicitudMiembro()" />
-					</div>
-					@* Lista de nucleos solicitados*@
-					<div id="nucleosSolicitados">
-					</div>
-					<div class="container text-center">
-						<input type="submit" name="cancelar" class="btn btn-danger" value="Solicitar colaboración" asp-page-handler="cancelarcolaboracion" />
-						<input type="submit" name="solicitar" class="btn btn-success" value="Solicitar colaboración" asp-page-handler="solicitarcolaboracion" />
-					</div>
-			</form>
+			<label for="slctNucleo">Miembros Núcleo</label>
+			<div class="container row">
+				<div class="col-xs-4">
+					<select id="slctNucleo" class="form-control">
+						@foreach (MiembroModel miembro in Model.listaMiembrosParaSolicitudRevision)
+						{
+							<option value="@miembro.usernamePK">@miembro.GetNombreCompleto()</option>
+						}
+					</select>
+				</div>
+				<div>
+					<input type="button" class="btn" value="Agregar a lista" onclick="agregarSolicitudMiembro()" />
+				</div>
+				</div>
+				@* Lista de nucleos solicitados*@
+				<div id="nucleosSolicitados">
+				</div>
+				<div class="container text-center">
+					<input type="submit" name="cancelar" class="btn btn-danger" value="Solicitar colaboración" asp-page-handler="cancelarcolaboracion" />
+					<input type="submit" name="solicitar" class="btn btn-success" value="Solicitar colaboración" asp-page-handler="solicitarcolaboracion" />
+				</div>
+		</form>
 		}
 		else
 		{	
