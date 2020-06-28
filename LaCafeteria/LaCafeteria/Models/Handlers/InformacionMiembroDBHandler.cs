@@ -70,7 +70,7 @@ namespace LaCafeteria.Models.Handlers
             return merito;
         }
 
-
+        
         public List<string> GetIdiomasMiembro(string username) {
             List<string> idiomasMiembro = new List<string>();
 
@@ -98,6 +98,35 @@ namespace LaCafeteria.Models.Handlers
 
             }
             return idiomasMiembro;
+        }
+
+        private List<string> GetPasatiemposMiembro(string username) {
+            List<string> pasatiemposMiembro = new List<string>();
+
+            string connectionString = AppSettings.GetConnectionString();
+            using ( SqlConnection sqlConnection = new SqlConnection(connectionString) )
+            {
+
+                string sqlString = @"SELECT pasatiempo
+									FROM MiembroPasatiempo
+									WHERE @usernameFK =  usernameFK";
+
+                sqlConnection.Open();
+                using ( SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection) )
+                {
+                    sqlCommand.Parameters.AddWithValue("@usernameFK", username);
+                    using ( SqlDataReader dataReader = sqlCommand.ExecuteReader() )
+                    {
+                        while ( dataReader.Read() )
+                        {
+                            pasatiemposMiembro.Add((string) dataReader["pasatiempo"]);
+                        }
+
+                    }
+                }
+
+            }
+            return pasatiemposMiembro;
         }
     }
 }
