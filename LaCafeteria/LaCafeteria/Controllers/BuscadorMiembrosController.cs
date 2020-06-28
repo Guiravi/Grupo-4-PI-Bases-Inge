@@ -11,15 +11,23 @@ namespace LaCafeteria.Controllers
     {
         private BuscadorMiembroDBHandler buscadorMiembroDBHandler;
 
-        public BuscadorMiembrosController() {
+        public BuscadorMiembrosController()
+		{
             buscadorMiembroDBHandler = new BuscadorMiembroDBHandler();
         }
 
-        public List<MiembroModel> GetListaMiembrosModel() {
+		public MiembroModel GetMiembro(string usernamePK)
+		{
+			return buscadorMiembroDBHandler.GetMiembro(usernamePK);
+		}
+
+		public List<MiembroModel> GetListaMiembrosModel()
+		{
             return buscadorMiembroDBHandler.GetListaMiembros();
         }
 
-        public List<string> GetListaMiembrosString() {
+        public List<string> GetListaMiembrosString()
+		{
             List<string> stringMiembros = new List<string>();
             List<MiembroModel> listaMiembros = buscadorMiembroDBHandler.GetListaMiembros();
 
@@ -31,7 +39,8 @@ namespace LaCafeteria.Controllers
             return stringMiembros;
         }
 
-        public List<MiembroModel> GetListaMiembrosNucleoModel() {
+        public List<MiembroModel> GetListaMiembrosNucleoModel()
+		{
             return buscadorMiembroDBHandler.GetListaNucleos();
         }
 
@@ -40,9 +49,14 @@ namespace LaCafeteria.Controllers
 			return buscadorMiembroDBHandler.GetListaMiembrosParaSolicitudRevision(articuloAID);
 		}
 
-		public MiembroModel GetMiembro(string usernamePK) {
-            return buscadorMiembroDBHandler.GetMiembro(usernamePK);
-        }
+		public List<MiembroModel> GetlistaMiembrosParaAsignarRevision(int articuloAID)
+		{
+			return buscadorMiembroDBHandler.GetlistaMiembrosParaAsignarRevision(articuloAID);
+		}
 
-    }
+		public List<MiembroModel> GetListaMiembrosInteresados(int articuloAID)
+		{
+			return buscadorMiembroDBHandler.GetListaMiembrosInteresados(articuloAID);
+		}
+	}
 }

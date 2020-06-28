@@ -17,13 +17,17 @@ namespace LaCafeteria.Pages
 
 		public AsignarRevisorModel()
 		{
+			listaMiembrosParaSolicitudRevision = new List<MiembroModel>();
 			buscadorMiembroController = new BuscadorMiembrosController();
 		}
 
 		public void OnGet()
         {
+			//listaMiembrosInteresados = buscadorMiembroController.GetListaMiembrosInteresados(articuloAID)
 
-			//listaMiembrosParaSolicitudRevision = buscadorMiembroController.GetListaMiembrosParaSolicitudRevision();
+			//listaMiembrosParaSolicitudRevision = buscadorMiembroController.GetListaMiembrosParaSolicitudRevision(articuloAID);
+		
+			//listaMiembrosParaAsignarRevision = buscadorMiembroController.GetlistaMiembrosParaAsignarRevision(artiucloAID)
 		}
     }
 }
