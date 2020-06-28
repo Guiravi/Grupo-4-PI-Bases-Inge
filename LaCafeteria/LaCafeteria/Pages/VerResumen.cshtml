@@ -48,7 +48,24 @@
         <div class="col-md-12">
             <p><b>Autor(es): </b>@Model.autores</p>
             <p><b>Fecha de publicación: </b>@Convertidor.CambiarFormatoFechaDMA(Model.articulo.fechaPublicacion)</p>
-            <p><b>Tópicos: </b>@Model.topicos</p>
+            <p>
+            <b>Tópicos: </b>
+            @for (int i = 0; i < Model.topicos.Count; i++)
+            {
+                if (i != Model.topicos.Count - 1)
+                {
+                    <text>
+                        @Model.topicos[i],
+                    </text>
+                }
+                else
+                {
+                    <text>
+                        @Model.topicos[i]
+                    </text>
+                }
+            }
+            </p>
             <p><b>Resumen: </b></p>
             <p>@Model.articulo.resumen</p>
         </div>
