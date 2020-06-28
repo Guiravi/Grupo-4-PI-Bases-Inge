@@ -347,7 +347,7 @@ namespace LaCafeteria.Models.Handlers
                 SqlCommand cmd = new SqlCommand("SELECT DISTINCT A.articuloAID, A.titulo, A.tipo " +
                     "FROM Articulo A JOIN NucleoRevisaArticulo NRA " +
                     "ON A.articuloAID = NRA.idArticuloFK " +
-                    "WHERE A.estado != 'Publicado' AND (SELECT COUNT(*) FROM NucleoRevisaArticulo NRA WHERE NRA.estadoRevision = 'Finalizado'  " +
+                    "WHERE A.estado != 'Publicado' AND (SELECT COUNT(*) FROM NucleoRevisaArticulo NRA WHERE NRA.estadoRevision = 'Finalizada'  " +
                     "AND A.articuloAID = NRA.idArticuloFK) = " +
                     "(SELECT COUNT(*) FROM NucleoRevisaArticulo NRA " +
                     "WHERE A.articuloAID = NRA.idArticuloFK)", connection);

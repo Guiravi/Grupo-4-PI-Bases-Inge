@@ -9,6 +9,12 @@ namespace LaCafeteria.Models.Handlers
 {
     public class BuscadorMiembroDBHandler
     {
+        private InformacionMiembroDBHandler informacionMiembroDBHandler;
+
+        public BuscadorMiembroDBHandler() {
+            informacionMiembroDBHandler = new InformacionMiembroDBHandler();
+        }
+
         public List<MiembroModel> GetListaMiembros()
         {
             List<MiembroModel> listaMiembros = new List<MiembroModel>();
@@ -295,9 +301,9 @@ namespace LaCafeteria.Models.Handlers
                                 };
 
                             }
-                            miembro.idiomas = GetIdiomasMiembro(miembro.usernamePK);
-                            miembro.pasatiempos = GetPasatiemposMiembro(miembro.usernamePK);
-                            miembro.habilidades = GetHabilidadesMiembro(miembro.usernamePK);
+                            miembro.idiomas = informacionMiembroDBHandler.GetIdiomasMiembro(miembro.usernamePK);
+                            miembro.pasatiempos = informacionMiembroDBHandler.GetPasatiemposMiembro(miembro.usernamePK);
+                            miembro.habilidades = informacionMiembroDBHandler.GetHabilidadesMiembro(miembro.usernamePK);
                         }
                     }
                 }
@@ -306,94 +312,54 @@ namespace LaCafeteria.Models.Handlers
             return miembro;
         }
 
-        private List<string> GetIdiomasMiembro(string username)
-        {
-            List<string> idiomasMiembro = new List<string>();
+        public MiembroModel GetMiembroCoordinador() {
+            MiembroModel miembro = null;
 
             string connectionString = AppSettings.GetConnectionString();
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            using ( SqlConnection sqlConnection = new SqlConnection(connectionString) )
             {
 
-                string sqlString = @"SELECT idiomaFK
-									FROM MiembroIdioma
-									WHERE @usernameFK =  usernameFK";
+                string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, paisFK, estado, ciudad, rutaImagenPerfil, 
+											informacionLaboral, meritos, activo, nombreRolFK
+									FROM Miembro
+									WHERE nombreRolFK =  'Coordinador'";
 
                 sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+                using ( SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection) )
                 {
-                    sqlCommand.Parameters.AddWithValue("@usernameFK", username);
-                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
+                    using ( SqlDataReader dataReader = sqlCommand.ExecuteReader() )
                     {
-                        while (dataReader.Read())
+                        if ( dataReader.HasRows )
                         {
-                            idiomasMiembro.Add((string)dataReader["idiomaFK"]);
+                            while ( dataReader.Read() )
+                            {
+                                miembro = new MiembroModel()
+                                {
+                                    usernamePK = (string) dataReader["usernamePK"],
+                                    email = (string) dataReader["email"],
+                                    nombre = (string) dataReader["nombre"],
+                                    apellido1 = (string) dataReader["apellido1"],
+                                    apellido2 = (!DBNull.Value.Equals(dataReader["apellido2"])) ? (string) dataReader["apellido2"] : null,
+                                    fechaNacimiento = (!DBNull.Value.Equals(dataReader["fechaNacimiento"])) ? (string) dataReader["fechaNacimiento"].ToString().Remove(dataReader["fechaNacimiento"].ToString().Length - 12, 12) : null,
+                                    paisFK = (string) dataReader["paisFK"],
+                                    estado = (!DBNull.Value.Equals(dataReader["estado"])) ? (string) dataReader["estado"] : null,
+                                    ciudad = (!DBNull.Value.Equals(dataReader["ciudad"])) ? (string) dataReader["ciudad"] : null,
+                                    rutaImagenPerfil = (string) dataReader["rutaImagenPerfil"],
+                                    informacionLaboral = (!DBNull.Value.Equals(dataReader["informacionLaboral"])) ? (string) dataReader["informacionLaboral"] : null,
+                                    meritos = (double) dataReader["meritos"],
+                                    activo = (bool) dataReader["activo"],
+                                    nombreRolFK = (string) dataReader["nombreRolFK"]
+                                };
+
+                            }
+                            miembro.idiomas = informacionMiembroDBHandler.GetIdiomasMiembro(miembro.usernamePK);
+                            miembro.pasatiempos = informacionMiembroDBHandler.GetPasatiemposMiembro(miembro.usernamePK);
+                            miembro.habilidades = informacionMiembroDBHandler.GetHabilidadesMiembro(miembro.usernamePK);
                         }
-
-                    }
-                }
-
-            }
-            return idiomasMiembro;
-        }
-
-        private List<string> GetPasatiemposMiembro(string username)
-        {
-            List<string> pasatiemposMiembro = new List<string>();
-
-            string connectionString = AppSettings.GetConnectionString();
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-
-                string sqlString = @"SELECT pasatiempo
-									FROM MiembroPasatiempo
-									WHERE @usernameFK =  usernameFK";
-
-                sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
-                {
-                    sqlCommand.Parameters.AddWithValue("@usernameFK", username);
-                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
-                    {
-                        while (dataReader.Read())
-                        {
-                            pasatiemposMiembro.Add((string)dataReader["pasatiempo"]);
-                        }
-
-                    }
-                }
-
-            }
-            return pasatiemposMiembro;
-        }
-
-        private List<string> GetHabilidadesMiembro(string username)
-        {
-            List<string> habilidadesMiembro = new List<string>();
-
-            string connectionString = AppSettings.GetConnectionString();
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-
-                string sqlString = @"SELECT habilidad
-									FROM MiembroHabilidad
-									WHERE @usernameFK =  usernameFK";
-
-                sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
-                {
-                    sqlCommand.Parameters.AddWithValue("@usernameFK", username);
-                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
-                    {
-                        while (dataReader.Read())
-                        {
-                            habilidadesMiembro.Add((string)dataReader["habilidad"]);
-                        }
-
                     }
                 }
             }
-            return habilidadesMiembro;
+            return miembro;
         }
-
     }
 }
