@@ -96,19 +96,16 @@
                         @Model.revisiones[i].Item2
                     </td>
                     <td>
-                        @Model.revisiones[i].Item3
-                    </td>
-                    <td>
                         @Model.revisiones[i].Item4
                     </td>
+                    <td>
+                        @Model.revisiones[i].Item5
+                    </td>
                 </tr>
-            }@
-
-            <tr>
-                <td colspan="2"> Puntaje total </td>
-            </tr>
+            }
         </tbody>
     </table>
+    <label asp-for="ponderado"> </label>
 </div>
 
 <div class="container text-center">

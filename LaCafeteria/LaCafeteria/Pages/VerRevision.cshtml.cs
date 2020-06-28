@@ -16,6 +16,9 @@ namespace LaCafeteria.Pages
         public int idArticuloPK { get; set; }
 
         [BindProperty(SupportsGet = true)]
+        public string ponderado { get; set; }
+
+        [BindProperty(SupportsGet = true)]
         public string tipoArticulo { get; set; }
 
         //public ArticuloController articuloController { get; set; }
@@ -41,25 +44,37 @@ namespace LaCafeteria.Pages
         }
 
         public void OnGet() {
-
             articulo = informacionArticuloController.GetInformacionArticuloModel(idArticuloPK);
             revisiones = informacionArticuloController.GetRevisiones(idArticuloPK);
-            if ( tipoArticulo == "Largo" )
+            double meritos = 0.0;
+            double puntaje = 0.0;
+            if (tipoArticulo == "Largo")
             {
                 documentosArticuloController.CargarArticuloPDF(idArticuloPK, rutaCarpeta);
                 articuloPDF = Convert.ToString(idArticuloPK) + ".pdf";
             }
             for (int i = 0; i < revisiones.Count; i++)
             {
-
+                meritos += revisiones[i].Item3;
+                puntaje += revisiones[i].Item4;
             }
-        }
-        public IActionResult OnPostRechazar() {
-            return Page();
 
+            ponderado = Convert((puntaje / meritos), string);
+        }
+
+        public IActionResult OnPostRechazar() {
+            string estadoArticulo = EstadoArticulo.Rechazado;
+            editorArticuloController.ActualizarEstadoArticulo(idArticuloPK, estadoArticulo);
+
+            Notificaciones.Set(this, "Aceptar", "El artículo ha sido rechazado", Notificaciones.TipoNotificacion.Exito);
+            return Redirect("/VerRevision/" + idArticuloPK + "/" + tipoArticulo);
         }
         public IActionResult OnPostAceptarConModificaciones() {
-            return Page();
+            string estadoArticulo = EstadoArticulo.EnCorrecciones;
+            editorArticuloController.ActualizarEstadoArticulo(idArticuloPK, estadoArticulo);
+
+            Notificaciones.Set(this, "Aceptar", "El artículo ha sido aceptado con correcciones", Notificaciones.TipoNotificacion.Exito);
+            return Redirect("/VerRevision/" + idArticuloPK + "/" + tipoArticulo);
         }
         public IActionResult OnPostAceptar() {
             string estadoArticulo = EstadoArticulo.Publicado;
@@ -67,7 +82,6 @@ namespace LaCafeteria.Pages
 
             Notificaciones.Set(this, "Aceptar", "El artículo ha sido aceptado", Notificaciones.TipoNotificacion.Exito);
             return Redirect("/VerRevision/" + idArticuloPK + "/" + tipoArticulo);
-            //return Page();
         }
     }
 }
