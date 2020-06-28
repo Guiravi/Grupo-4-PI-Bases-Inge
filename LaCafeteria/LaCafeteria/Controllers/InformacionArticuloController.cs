@@ -20,9 +20,9 @@ namespace LaCafeteria.Controllers
 
             foreach ( string[] miembro in listaAutores )
             {
-                autores = autores + ", " + miembro[1];
+                autores = autores + miembro[1] + ", ";
             }
-            autores = autores.Remove(autores.Length - 2);
+            autores = autores.Remove(autores.Length-2);
 
             return autores;
         }

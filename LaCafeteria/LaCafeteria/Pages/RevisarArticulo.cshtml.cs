@@ -28,6 +28,9 @@ namespace LaCafeteria.Pages
         [BindProperty]
         public ArticuloModel articulo { get; set; }
 
+        [BindProperty]
+        public List<string> topicos { get; set; }
+
         public string articuloPDF = "";
 
         public string rutaCarpeta = "";
@@ -62,13 +65,13 @@ namespace LaCafeteria.Pages
             recomendacion = -1;
             comentario = "";
 
-            autores = informacionArticuloController.GetAutoresDeArticuloString(idArticuloPK);
-
             rutaCarpeta = env.WebRootPath;
         }
 
         public void OnGet() {
             articulo = informacionArticuloController.GetInformacionArticuloModel(idArticuloPK);
+            autores = informacionArticuloController.GetAutoresDeArticuloString(idArticuloPK);
+            topicos = informacionArticuloController.GetCategoriaTopicosArticuloString(idArticuloPK);
             if ( tipoArticulo == "Largo" )
             {
                 documentosArticuloController.CargarArticuloPDF(idArticuloPK, rutaCarpeta);
@@ -78,11 +81,6 @@ namespace LaCafeteria.Pages
 
         public IActionResult OnPostEnviar()
         {
-            if (opinion < 0 || contribucion < 0 || forma < 0 || recomendacion < 0 || comentario == "")
-            {
-                Notificaciones.Set(this, "revision", "Debe realizar todas las calificaciones", Notificaciones.TipoNotificacion.Error);
-                return Page();
-            }
             string recomend_final = "Rechazar";
             if (recomendacion == 0)
             {
@@ -97,7 +95,7 @@ namespace LaCafeteria.Pages
 
             /* Crear nuevo controlador de revisor de artículo */
             revisorArticulosController.ActualizarRevisionArticulo(merito,opinion,contribucion, forma, "Finalizada", 
-                comentario,recomend_final,Request.Cookies["usernamePK"],0);
+                comentario,recomend_final,Request.Cookies["usernamePK"], idArticuloPK);
 
 
             Notificaciones.Set(this, "revisionExitosa", "Su revisión se ha efectuado exitosamente", Notificaciones.TipoNotificacion.Exito);
