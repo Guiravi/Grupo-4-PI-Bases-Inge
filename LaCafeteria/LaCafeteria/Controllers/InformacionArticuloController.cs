@@ -82,5 +82,15 @@ namespace LaCafeteria.Controllers
             ArticuloModel articulo = informacionArticuloDBHandler.GetInformacionArticuloModel(id);
             return articulo;
         }
+
+        public List<DatosGraficoDona> GetArticulosPorRol()
+        {
+            return informacionArticuloDBHandler.GetArticulosPorRol();
+        }
+
+        public List<DatosTablaCategoriaTopicos> GetDatosTablaCategoriaTopicosPorRol(string rol)
+        {
+            return informacionArticuloDBHandler.GetDatosTablaCategoriaTopicosPorRol(rol);
+        }
     }
 }

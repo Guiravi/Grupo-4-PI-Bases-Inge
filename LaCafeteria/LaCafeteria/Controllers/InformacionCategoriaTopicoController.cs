@@ -18,5 +18,10 @@ namespace LaCafeteria.Controllers
         public List<CategoriaTopicoModel> GetCategoriasYTopicos() {
             return informacionCategoriaTopicosDBHandler.GetCategoriasYTopicos();
         }
+
+        public List<CategoriaTopicoModel> GetCategoriasTopicosNoAsociadosRol(string rol)
+        {
+            return informacionCategoriaTopicosDBHandler.GetCategoriasTopicosNoAsociadosRol(rol);
+        }
     }
 }
