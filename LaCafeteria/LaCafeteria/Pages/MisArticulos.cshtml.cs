@@ -34,7 +34,11 @@ namespace LaCafeteria.Pages
         public void OnGet()
         {	
 			string usernamePK = Request.Cookies["usernamePK"];
-			misArticulos = buscadorArticuloController.GetArticulosPorMiembro(usernamePK);
+			misArticulos = buscadorArticuloController.GetArticulosPorMiembro(usernamePK); 
+            misArticulosRevision = buscadorArticuloController.GetArticulosPorMiembroEstado(usernamePK,EstadoArticulo.EnRevision);
+            misArticulosProgreso = buscadorArticuloController.GetArticulosPorMiembroEstado(usernamePK, EstadoArticulo.EnProgreso);
+            misArticulosPublicados = buscadorArticuloController.GetArticulosPorMiembroEstado(usernamePK, EstadoArticulo.Publicado);
+            misArticulosCorregir = buscadorArticuloController.GetArticulosPorMiembroEstado(usernamePK, EstadoArticulo.EnCorrecciones);
         }
     }
 }
