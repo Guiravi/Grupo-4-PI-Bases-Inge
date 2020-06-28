@@ -49,9 +49,10 @@ namespace LaCafeteria.Pages
 				}
 
 				miembro.rutaImagenPerfil = "images/ImagenesPerfil/" + miembro.usernamePK + "." + imagenDePerfil.ContentType.Split('/')[1];
-
+                /*
 				miembro.idiomas = ObtenerIdiomasCSV();
-				miembroController.CrearMiembro(miembro);
+				*/
+                miembroController.CrearMiembro(miembro);
 				Response.Cookies.Append("usernamePK", miembro.usernamePK);
 				Notificaciones.Set(this, "sesionIniciada", "Sesión iniciada", Notificaciones.TipoNotificacion.Exito);
 				return Redirect("/Index");

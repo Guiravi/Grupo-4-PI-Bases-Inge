@@ -1,12 +1,12 @@
-﻿using System;
+﻿using LaCafeteria.Controllers;
+using LaCafeteria.Models;
+using LaCafeteria.Utilidades;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using LaCafeteria.Utilidades;
-using LaCafeteria.Models;
-using LaCafeteria.Controllers;
 
 namespace LaCafeteria.Pages
 {
@@ -38,8 +38,9 @@ namespace LaCafeteria.Pages
             listaIdiomasDisponibles.Add("Árabe");
             listaIdiomasDisponibles.Add("Chino");
             listaIdiomasDisponibles.Add("Ruso");
-            string idiomas = miembro.idiomas;
+
             //string idiomas = "Español,Chino,Inglés";
+            /*
             if (idiomas != null)
             {
                 listaIdiomasElegidos = idiomas.Split(',').ToList();
@@ -48,14 +49,16 @@ namespace LaCafeteria.Pages
                     listaIdiomasElegidos.Add("");
                 }
             }
-            
+            */
         }
         
         public IActionResult OnPostActualizar()
         {
+            /*
             miembro.idiomas = ObtenerIdiomasCSV();
             miembroController.ActualizarMiembro(Request.Cookies["usernamePK"], miembro);
-            Notificaciones.Set(this, "Actualizado", "Su perfil se ha actualizado satifactoriamente", Notificaciones.TipoNotificacion.Exito);
+            */
+             Notificaciones.Set(this, "Actualizado", "Su perfil se ha actualizado satifactoriamente", Notificaciones.TipoNotificacion.Exito);
             return Redirect("/MiPerfil");
 
         }
