@@ -11,6 +11,8 @@ namespace LaCafeteria.Pages
 {
     public class AsignarRevisorModel : PageModel
     {
+		public List<MiembroModel> listaMiembrosInteresados{ set; get; }
+		public List<MiembroModel> listaMiembrosParaAsignarRevision{ set; get; }
 		public List<MiembroModel> listaMiembrosParaSolicitudRevision { set; get; }
 
 		private BuscadorMiembrosController buscadorMiembroController;
@@ -22,8 +24,8 @@ namespace LaCafeteria.Pages
 		}
 
 		public void OnGet()
-        {
-			//listaMiembrosInteresados = buscadorMiembroController.GetListaMiembrosInteresados(articuloAID)
+        {	
+			//listaMiembrosInteresados = buscadorMiembroController.GetListaMiembrosInteresados(articuloAID);
 
 			//listaMiembrosParaSolicitudRevision = buscadorMiembroController.GetListaMiembrosParaSolicitudRevision(articuloAID);
 		
