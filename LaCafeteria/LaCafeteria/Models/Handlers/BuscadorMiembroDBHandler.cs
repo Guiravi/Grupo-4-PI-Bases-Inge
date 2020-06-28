@@ -9,11 +9,12 @@ namespace LaCafeteria.Models.Handlers
 {
     public class BuscadorMiembroDBHandler
     {
-        public List<MiembroModel> GetListaMiembros() {
+        public List<MiembroModel> GetListaMiembros()
+        {
             List<MiembroModel> listaMiembros = new List<MiembroModel>();
 
             string connectionString = AppSettings.GetConnectionString();
-            using ( SqlConnection sqlConnection = new SqlConnection(connectionString) )
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
 
                 string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, paisFK, estado, ciudad, rutaImagenPerfil, 
@@ -21,11 +22,11 @@ namespace LaCafeteria.Models.Handlers
 									FROM Miembro";
 
                 sqlConnection.Open();
-                using ( SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection) )
+                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
                 {
-                    using ( SqlDataReader dataReader = sqlCommand.ExecuteReader() )
+                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
                     {
-                        while ( dataReader.Read() )
+                        while (dataReader.Read())
                         {
                             MiembroModel miembroAutor = new MiembroModel()
                             {
@@ -54,11 +55,12 @@ namespace LaCafeteria.Models.Handlers
             return listaMiembros;
         }
 
-        public List<MiembroModel> GetListaNucleos() {
+        public List<MiembroModel> GetListaNucleos()
+        {
             List<MiembroModel> listaMiembros = new List<MiembroModel>();
 
             string connectionString = AppSettings.GetConnectionString();
-            using ( SqlConnection sqlConnection = new SqlConnection(connectionString) )
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
 
                 string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, pais, estado, ciudad, rutaImagenPerfil, 
@@ -66,11 +68,11 @@ namespace LaCafeteria.Models.Handlers
 									FROM Miembro WHERE nombreRolFK = 'Núcleo'";
 
                 sqlConnection.Open();
-                using ( SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection) )
+                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
                 {
-                    using ( SqlDataReader dataReader = sqlCommand.ExecuteReader() )
+                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
                     {
-                        while ( dataReader.Read() )
+                        while (dataReader.Read())
                         {
                             MiembroModel miembroAutor = new MiembroModel()
                             {
@@ -256,7 +258,7 @@ namespace LaCafeteria.Models.Handlers
             MiembroModel miembro = null;
 
             string connectionString = AppSettings.GetConnectionString();
-            using ( SqlConnection sqlConnection = new SqlConnection(connectionString) )
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
 
                 string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, paisFK, estado, ciudad, rutaImagenPerfil, 
@@ -265,14 +267,14 @@ namespace LaCafeteria.Models.Handlers
 									WHERE @usernamePK =  usernamePK";
 
                 sqlConnection.Open();
-                using ( SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection) )
+                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
                 {
                     sqlCommand.Parameters.AddWithValue("@usernamePK", usernamePK);
-                    using ( SqlDataReader dataReader = sqlCommand.ExecuteReader() )
+                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
                     {
-                        if ( dataReader.HasRows )
+                        if (dataReader.HasRows)
                         {
-                            while ( dataReader.Read() )
+                            while (dataReader.Read())
                             {
                                 miembro = new MiembroModel()
                                 {
@@ -304,11 +306,12 @@ namespace LaCafeteria.Models.Handlers
             return miembro;
         }
 
-        private List<string> GetIdiomasMiembro(string username) {
+        private List<string> GetIdiomasMiembro(string username)
+        {
             List<string> idiomasMiembro = new List<string>();
 
             string connectionString = AppSettings.GetConnectionString();
-            using ( SqlConnection sqlConnection = new SqlConnection(connectionString) )
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
 
                 string sqlString = @"SELECT idiomaFK
@@ -316,14 +319,14 @@ namespace LaCafeteria.Models.Handlers
 									WHERE @usernameFK =  usernameFK";
 
                 sqlConnection.Open();
-                using ( SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection) )
+                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
                 {
                     sqlCommand.Parameters.AddWithValue("@usernameFK", username);
-                    using ( SqlDataReader dataReader = sqlCommand.ExecuteReader() )
+                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
                     {
-                        while ( dataReader.Read() )
+                        while (dataReader.Read())
                         {
-                            idiomasMiembro.Add((string) dataReader["idiomaFK"]);
+                            idiomasMiembro.Add((string)dataReader["idiomaFK"]);
                         }
 
                     }
@@ -333,11 +336,12 @@ namespace LaCafeteria.Models.Handlers
             return idiomasMiembro;
         }
 
-        private List<string> GetPasatiemposMiembro(string username) {
+        private List<string> GetPasatiemposMiembro(string username)
+        {
             List<string> pasatiemposMiembro = new List<string>();
 
             string connectionString = AppSettings.GetConnectionString();
-            using ( SqlConnection sqlConnection = new SqlConnection(connectionString) )
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
 
                 string sqlString = @"SELECT pasatiempo
@@ -345,14 +349,14 @@ namespace LaCafeteria.Models.Handlers
 									WHERE @usernameFK =  usernameFK";
 
                 sqlConnection.Open();
-                using ( SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection) )
+                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
                 {
                     sqlCommand.Parameters.AddWithValue("@usernameFK", username);
-                    using ( SqlDataReader dataReader = sqlCommand.ExecuteReader() )
+                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
                     {
-                        while ( dataReader.Read() )
+                        while (dataReader.Read())
                         {
-                            pasatiemposMiembro.Add((string) dataReader["pasatiempo"]);
+                            pasatiemposMiembro.Add((string)dataReader["pasatiempo"]);
                         }
 
                     }
@@ -362,11 +366,12 @@ namespace LaCafeteria.Models.Handlers
             return pasatiemposMiembro;
         }
 
-        private List<string> GetHabilidadesMiembro(string username) {
+        private List<string> GetHabilidadesMiembro(string username)
+        {
             List<string> habilidadesMiembro = new List<string>();
 
             string connectionString = AppSettings.GetConnectionString();
-            using ( SqlConnection sqlConnection = new SqlConnection(connectionString) )
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
 
                 string sqlString = @"SELECT habilidad
@@ -374,14 +379,14 @@ namespace LaCafeteria.Models.Handlers
 									WHERE @usernameFK =  usernameFK";
 
                 sqlConnection.Open();
-                using ( SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection) )
+                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
                 {
                     sqlCommand.Parameters.AddWithValue("@usernameFK", username);
-                    using ( SqlDataReader dataReader = sqlCommand.ExecuteReader() )
+                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
                     {
-                        while ( dataReader.Read() )
+                        while (dataReader.Read())
                         {
-                            habilidadesMiembro.Add((string) dataReader["habilidad"]);
+                            habilidadesMiembro.Add((string)dataReader["habilidad"]);
                         }
 
                     }

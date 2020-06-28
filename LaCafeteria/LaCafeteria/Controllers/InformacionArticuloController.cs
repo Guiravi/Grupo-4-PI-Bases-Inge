@@ -60,6 +60,19 @@ namespace LaCafeteria.Controllers
             return informacionArticuloDBHandler.GetCategoriasTopicosArticulo(id);
         }
 
+        public List<string> GetCategoriaTopicosArticuloString(int id)
+        {
+            List<string> listaString = new List<string>();
+            List<CategoriaTopicoModel> listaModel = informacionArticuloDBHandler.GetCategoriasTopicosArticulo(id);
+
+            foreach (CategoriaTopicoModel catTop in listaModel)
+            {
+                listaString.Add(catTop.ToString());
+            }
+
+            return listaString;
+
+        }
         public int GetCalificacionMiembro(string username, int idArticulo) {
             return informacionArticuloDBHandler.GetCalificacionMiembro(username, idArticulo);
         }

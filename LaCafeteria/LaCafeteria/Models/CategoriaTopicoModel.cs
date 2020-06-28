@@ -9,5 +9,12 @@ namespace LaCafeteria.Models
     {
         public string nombreCategoriaPK { get; set; }
         public string nombreTopicoPK { get; set; }
+
+        public string ToString()
+        {
+            return nombreCategoriaPK + ": " + nombreTopicoPK;
+        }
     }
+
+
 }

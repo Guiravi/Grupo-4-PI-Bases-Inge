@@ -31,7 +31,7 @@ namespace LaCafeteria.Controllers
             List<string> stringMiembros = new List<string>();
             List<MiembroModel> listaMiembros = buscadorMiembroDBHandler.GetListaMiembros();
 
-            foreach ( MiembroModel miembro in listaMiembros )
+            foreach (MiembroModel miembro in listaMiembros)
             {
                 stringMiembros.Add(miembro.nombre + " " + miembro.apellido1 + " " + miembro.apellido2 + " (" + miembro.usernamePK + ")");
             }

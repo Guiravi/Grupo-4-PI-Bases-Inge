@@ -130,7 +130,7 @@ namespace LaCafeteria.Pages
 			{
 				articulo.tipo = TipoArticulo.Largo;
 				articulo.estado = EstadoArticulo.EnProgreso;
-                almacenadorArticuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
+                //almacenadorArticuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
 				Notificaciones.Set(this, "articuloGuardado", "Su artículo se guardó correctamente", Notificaciones.TipoNotificacion.Exito);
 
                 return Redirect("/MiPerfil");
@@ -146,7 +146,7 @@ namespace LaCafeteria.Pages
                 articulo.tipo = TipoArticulo.Largo;
                 articulo.estado = EstadoArticulo.EnProgreso;
                 articulo.articuloAID = (int)TempData["idArticulo"];
-                editorArticuloController.EditarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo, rutaCarpeta);
+                //editorArticuloController.EditarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo, rutaCarpeta);
                 Notificaciones.Set(this, "articuloEditado", "Su artículo se editó correctamente", Notificaciones.TipoNotificacion.Exito);
 
                 return Redirect("/MiPerfil");
@@ -167,11 +167,11 @@ namespace LaCafeteria.Pages
                 }
                 if (articulo.articuloAID ==  -1)
                 {
-                    almacenadorArticuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
+                    //almacenadorArticuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
                 }
                 else
                 {
-                    editorArticuloController.EditarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo, rutaCarpeta);
+                    //editorArticuloController.EditarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo, rutaCarpeta);
                 }
 
                 //correoController.sendNecesitaRevision(articulo.titulo);
