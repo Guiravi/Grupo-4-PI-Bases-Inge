@@ -33,14 +33,14 @@ namespace LaCafeteria.Models.Handlers
                                 email = (string) dataReader["email"],
                                 nombre = (string) dataReader["nombre"],
                                 apellido1 = (string) dataReader["apellido1"],
-                                apellido2 = (string) dataReader["apellido2"],
+                                apellido2 = (!DBNull.Value.Equals(dataReader["apellido2"])) ? (string) dataReader["apellido2"] : null,
                                 fechaNacimiento = (!DBNull.Value.Equals(dataReader["fechaNacimiento"])) ? (string) dataReader["fechaNacimiento"].ToString().Remove(dataReader["fechaNacimiento"].ToString().Length - 12, 12) : null,
                                 paisFK = (string) dataReader["paisFK"],
                                 estado = (!DBNull.Value.Equals(dataReader["estado"])) ? (string) dataReader["estado"] : null,
                                 ciudad = (!DBNull.Value.Equals(dataReader["ciudad"])) ? (string) dataReader["ciudad"] : null,
                                 rutaImagenPerfil = (string) dataReader["rutaImagenPerfil"],
                                 informacionLaboral = (!DBNull.Value.Equals(dataReader["informacionLaboral"])) ? (string) dataReader["informacionLaboral"] : null,
-                                meritos = (!DBNull.Value.Equals(dataReader["meritos"])) ? (int) dataReader["meritos"] : 0,
+                                meritos = (!DBNull.Value.Equals(dataReader["meritos"])) ? (double) dataReader["meritos"] : 0,
                                 activo = (bool) dataReader["activo"],
                                 nombreRolFK = (string) dataReader["nombreRolFK"]
                             };
@@ -78,8 +78,8 @@ namespace LaCafeteria.Models.Handlers
                                 email = (string) dataReader["email"],
                                 nombre = (string) dataReader["nombre"],
                                 apellido1 = (string) dataReader["apellido1"],
-                                apellido2 = (string) dataReader["apellido2"],
-                                fechaNacimiento = (!DBNull.Value.Equals(dataReader["fechaNaciemiento"])) ? (string) dataReader["fechaNacimiento"].ToString().Remove(dataReader["fechaNacimiento"].ToString().Length - 12, 12) : null,
+                                apellido2 = (!DBNull.Value.Equals(dataReader["apellido2"])) ? (string)dataReader["apellido2"] : null,
+                                fechaNacimiento = (!DBNull.Value.Equals(dataReader["fechaNacimiento"])) ? (string) dataReader["fechaNacimiento"].ToString().Remove(dataReader["fechaNacimiento"].ToString().Length - 12, 12) : null,
                                 paisFK = (string) dataReader["paisFK"],
                                 estado = (!DBNull.Value.Equals(dataReader["estado"])) ? (string) dataReader["estado"] : null,
                                 ciudad = (!DBNull.Value.Equals(dataReader["ciudad"])) ? (string) dataReader["ciudad"] : null,
@@ -99,15 +99,167 @@ namespace LaCafeteria.Models.Handlers
             return listaMiembros;
         }
 
+		public List<MiembroModel> GetListaMiembrosParaSolicitudRevision(int articuloAID)
+		{
+			List<MiembroModel> listaMiembrosParaSolictudRevision = new List<MiembroModel>();
 
-        public MiembroModel GetMiembro(string usernamePK) {
+
+			string connectionString = AppSettings.GetConnectionString();
+			using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+			{
+
+				string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, pais, estado, ciudad, rutaImagenPerfil, informacionLaboral, 
+											meritos, activo, nombreRolFK
+									FROM Miembro
+									WHERE NOT EXISTS
+									(SELECT 1 FROM NucleoRevisaArticulo WHERE usernamePK = usernameMiemFK AND @articuloAID = idArticuloFK) AND
+									NOT EXISTS
+									(SELECT 1 FROM NucleoPuedeSerRevisorDeArticulo WHERE usernamePK = usernameMiemFK AND @articuloAID = idArticuloFK)";
+
+				sqlConnection.Open();
+				using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+				{
+					sqlCommand.Parameters.AddWithValue("@articuloAID", articuloAID);
+					using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
+					{
+						while (dataReader.Read())
+						{
+							MiembroModel miembroAutor = new MiembroModel()
+							{
+								usernamePK = (string)dataReader["usernamePK"],
+								email = (string)dataReader["email"],
+								nombre = (string)dataReader["nombre"],
+								apellido1 = (string)dataReader["apellido1"],
+								apellido2 = (!DBNull.Value.Equals(dataReader["apellido2"])) ? (string)dataReader["apellido2"] : null,
+								fechaNacimiento = (!DBNull.Value.Equals(dataReader["fechaNacimiento"])) ? (string)dataReader["fechaNacimiento"].ToString().Remove(dataReader["fechaNacimiento"].ToString().Length - 12, 12) : null,
+								paisFK = (string)dataReader["paisFK"],
+								estado = (!DBNull.Value.Equals(dataReader["estado"])) ? (string)dataReader["estado"] : null,
+								ciudad = (!DBNull.Value.Equals(dataReader["ciudad"])) ? (string)dataReader["ciudad"] : null,
+								rutaImagenPerfil = (string)dataReader["rutaImagenPerfil"],
+								informacionLaboral = (!DBNull.Value.Equals(dataReader["informacionLaboral"])) ? (string)dataReader["informacionLaboral"] : null,
+								meritos = (!DBNull.Value.Equals(dataReader["meritos"])) ? (int)dataReader["meritos"] : 0,
+								activo = (bool)dataReader["activo"],
+								nombreRolFK = (string)dataReader["nombreRolFK"]
+							};
+
+							listaMiembrosParaSolictudRevision.Add(miembroAutor);
+						}
+					}
+				}
+			}
+
+			return listaMiembrosParaSolictudRevision;
+		}
+
+		public List<MiembroModel> GetlistaMiembrosParaAsignarRevision(int articuloAID)
+		{
+			List<MiembroModel> listaMiembrosParaSolictudRevision = new List<MiembroModel>();
+
+
+			string connectionString = AppSettings.GetConnectionString();
+			using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+			{
+
+				string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, pais, estado, ciudad, rutaImagenPerfil, informacionLaboral, 
+											meritos, activo, nombreRolFK
+									FROM Miembro
+									WHERE NOT EXISTS
+									(SELECT 1 FROM NucleoRevisaArticulo WHERE usernamePK = usernameMiemFK AND @articuloAID = idArticuloFK)";
+
+				sqlConnection.Open();
+				using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+				{
+					sqlCommand.Parameters.AddWithValue("@articuloAID", articuloAID);
+					using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
+					{
+						while (dataReader.Read())
+						{
+							MiembroModel miembroAutor = new MiembroModel()
+							{
+								usernamePK = (string)dataReader["usernamePK"],
+								email = (string)dataReader["email"],
+								nombre = (string)dataReader["nombre"],
+								apellido1 = (string)dataReader["apellido1"],
+								apellido2 = (!DBNull.Value.Equals(dataReader["apellido2"])) ? (string)dataReader["apellido2"] : null,
+								fechaNacimiento = (!DBNull.Value.Equals(dataReader["fechaNacimiento"])) ? (string)dataReader["fechaNacimiento"].ToString().Remove(dataReader["fechaNacimiento"].ToString().Length - 12, 12) : null,
+								paisFK = (string)dataReader["paisFK"],
+								estado = (!DBNull.Value.Equals(dataReader["estado"])) ? (string)dataReader["estado"] : null,
+								ciudad = (!DBNull.Value.Equals(dataReader["ciudad"])) ? (string)dataReader["ciudad"] : null,
+								rutaImagenPerfil = (string)dataReader["rutaImagenPerfil"],
+								informacionLaboral = (!DBNull.Value.Equals(dataReader["informacionLaboral"])) ? (string)dataReader["informacionLaboral"] : null,
+								meritos = (!DBNull.Value.Equals(dataReader["meritos"])) ? (int)dataReader["meritos"] : 0,
+								activo = (bool)dataReader["activo"],
+								nombreRolFK = (string)dataReader["nombreRolFK"]
+							};
+
+							listaMiembrosParaSolictudRevision.Add(miembroAutor);
+						}
+					}
+				}
+			}
+
+			return listaMiembrosParaSolictudRevision;
+		}
+
+		public List<MiembroModel> GetListaMiembrosInteresados(int articuloAID)
+		{
+			List<MiembroModel> listaMiembrosInteresados = new List<MiembroModel>();
+
+			string connectionString = AppSettings.GetConnectionString();
+			using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+			{
+
+				string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, pais, estado, ciudad, rutaImagenPerfil, 
+											informacionLaboral, meritos, activo, nombreRolFK
+									FROM Miembro WHERE EXISTS (SELECT 1 FROM NucleoPuedeSerRevisorDeArticulo
+															   WHERE usernamePK = userMiemFK AND
+															   idArticuloFK = @articuloAID AND
+															   estado = 'Interesa')";
+								
+
+				sqlConnection.Open();
+				using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+				{	
+					sqlCommand.Parameters.AddWithValue("@articuloAID", articuloAID);
+					using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
+					{
+						while (dataReader.Read())
+						{
+							MiembroModel miembroAutor = new MiembroModel()
+							{
+								usernamePK = (string)dataReader["usernamePK"],
+								email = (string)dataReader["email"],
+								nombre = (string)dataReader["nombre"],
+								apellido1 = (string)dataReader["apellido1"],
+								apellido2 = (!DBNull.Value.Equals(dataReader["apellido2"])) ? (string)dataReader["apellido2"] : null,
+								fechaNacimiento = (!DBNull.Value.Equals(dataReader["fechaNacimiento"])) ? (string)dataReader["fechaNacimiento"].ToString().Remove(dataReader["fechaNacimiento"].ToString().Length - 12, 12) : null,
+								paisFK = (string)dataReader["paisFK"],
+								estado = (!DBNull.Value.Equals(dataReader["estado"])) ? (string)dataReader["estado"] : null,
+								ciudad = (!DBNull.Value.Equals(dataReader["ciudad"])) ? (string)dataReader["ciudad"] : null,
+								rutaImagenPerfil = (string)dataReader["rutaImagenPerfil"],
+								informacionLaboral = (!DBNull.Value.Equals(dataReader["informacionLaboral"])) ? (string)dataReader["informacionLaboral"] : null,
+								meritos = (!DBNull.Value.Equals(dataReader["meritos"])) ? (int)dataReader["meritos"] : 0,
+								activo = (bool)dataReader["activo"],
+								nombreRolFK = (string)dataReader["nombreRolFK"]
+							};
+
+							listaMiembrosInteresados.Add(miembroAutor);
+						}
+					}
+				}
+			}
+
+			return listaMiembrosInteresados;
+		}
+
+		public MiembroModel GetMiembro(string usernamePK) {
             MiembroModel miembro = null;
 
             string connectionString = AppSettings.GetConnectionString();
             using ( SqlConnection sqlConnection = new SqlConnection(connectionString) )
             {
 
-                string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, pais, estado, ciudad, rutaImagenPerfil, 
+                string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, paisFK, estado, ciudad, rutaImagenPerfil, 
 											informacionLaboral, meritos, activo, nombreRolFK
 									FROM Miembro
 									WHERE @usernamePK =  usernamePK";
@@ -128,14 +280,14 @@ namespace LaCafeteria.Models.Handlers
                                     email = (string) dataReader["email"],
                                     nombre = (string) dataReader["nombre"],
                                     apellido1 = (string) dataReader["apellido1"],
-                                    apellido2 = (string) dataReader["apellido2"],
-                                    fechaNacimiento = (!DBNull.Value.Equals(dataReader["fechaNaciemiento"])) ? (string) dataReader["fechaNacimiento"].ToString().Remove(dataReader["fechaNacimiento"].ToString().Length - 12, 12) : null,
+                                    apellido2 = (!DBNull.Value.Equals(dataReader["apellido2"])) ? (string)dataReader["apellido2"] : null,
+                                    fechaNacimiento = (!DBNull.Value.Equals(dataReader["fechaNacimiento"])) ? (string) dataReader["fechaNacimiento"].ToString().Remove(dataReader["fechaNacimiento"].ToString().Length - 12, 12) : null,
                                     paisFK = (string) dataReader["paisFK"],
                                     estado = (!DBNull.Value.Equals(dataReader["estado"])) ? (string) dataReader["estado"] : null,
                                     ciudad = (!DBNull.Value.Equals(dataReader["ciudad"])) ? (string) dataReader["ciudad"] : null,
                                     rutaImagenPerfil = (string) dataReader["rutaImagenPerfil"],
                                     informacionLaboral = (!DBNull.Value.Equals(dataReader["informacionLaboral"])) ? (string) dataReader["informacionLaboral"] : null,
-                                    meritos = (int) dataReader["meritos"],
+                                    meritos = (double) dataReader["meritos"],
                                     activo = (bool) dataReader["activo"],
                                     nombreRolFK = (string) dataReader["nombreRolFK"]
                                 };
@@ -237,5 +389,6 @@ namespace LaCafeteria.Models.Handlers
             }
             return habilidadesMiembro;
         }
+
     }
 }

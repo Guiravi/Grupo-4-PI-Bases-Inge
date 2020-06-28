@@ -1,137 +1,141 @@
 ﻿@page
 @model LaCafeteria.Pages.AsignarRevisorModel
+@using LaCafeteria.Models;
 @{
-    ViewData["Title"] = "AsignarRevisor";
+	ViewData["Title"] = "AsignarRevisor";
 }
 
 <style>
-    .btn {
-        display: inline-block;
-        margin-bottom: 0;
-        font-weight: normal;
-        text-align: center;
-        white-space: nowrap;
-        vertical-align: middle;
-        -ms-touch-action: manipulation;
-        touch-action: manipulation;
-        cursor: pointer;
-        background-image: none;
-        border: 1px solid transparent;
-        padding: 6px 12px;
-        font-size: 14px;
-        line-height: 1.42857143;
-        border-radius: 4px;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
+	.btn {
+		display: inline-block;
+		margin-bottom: 0;
+		font-weight: normal;
+		text-align: center;
+		white-space: nowrap;
+		vertical-align: middle;
+		-ms-touch-action: manipulation;
+		touch-action: manipulation;
+		cursor: pointer;
+		background-image: none;
+		border: 1px solid transparent;
+		padding: 6px 12px;
+		font-size: 14px;
+		line-height: 1.42857143;
+		border-radius: 4px;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
 
-    .btn-success {
-        color: #fff;
-        background-color: #259959;
-        border-color: #259959;
-    }
+	.btn-success {
+		color: #fff;
+		background-color: #259959;
+		border-color: #259959;
+	}
 
-    .btn-danger {
-        color: #fff;
-        background-color: #992525;
-        border-color: #992525;
-    }
+	.btn-danger {
+		color: #fff;
+		background-color: #992525;
+		border-color: #992525;
+	}
 </style>
 
 <h2 class="text-center">Título de artículo</h2>
 
 <div class="panel">
-    <div class="panel-heading panel-default">
-        <h3 class="panel-title">Miembros núcleos interesados en revisar el artículo</h3>
-    </div>
+	<div class="panel-heading panel-default">
+		<h3 class="panel-title">Miembros núcleos interesados en revisar el artículo</h3>
+	</div>
 
-    <div class="panel-body">
-        <p class="text-center">No hay interesados en revisar el artículo</p>
-    </div>
+	<div class="panel-body">
+		@* foreach listaMiembrosInteresados y boton para aceptar o rechazar la solicitud de revision (PuedeSerRevisor "Interesa)"*@
+		<p class="text-center">No hay interesados en revisar el artículo</p>
+	</div>
 </div>
 
 <div class="panel">
-    <div class="panel-heading panel-default">
-        <h3 class="panel-title">Solicitar colaboración a miembros núcleo</h3>
-    </div>
+	<div class="panel-heading panel-default">
+		<h3 class="panel-title">Solicitar colaboración a miembros núcleo</h3>
+	</div>
+	<div class="panel-body">
+		@* Solicitar colaboracion a miembros de nucleo que no esten asignados (Revisa) o solicitados (PuedeSerRevisor "Solicitado")*@
+		<form method="post">
+			<label for="slctNucleoColab">Miembros Núcleo</label>
+			<div class="container row">
+				<div class="col-xs-3">
+					@foreach (MiembroModel miembro in Model.listaMiembrosParaSolicitudRevision)
+					{
+						<option value="@miembro.usernamePK">@miembro.GetNombreCompleto()</option>
+					}
+				</div>
+				<div>
+					<input type="button" class="btn" value="Agregar a lista" />
+				</div>
+			</div>
+		</form>
 
-    <div class="panel-body">
-        <form method="post">
-            <label for="slctNucleoColab">Miembros Núcleo</label>
-            <div class="container row">
-                <div class="col-xs-3">
-                    <select id="slctNucleoColab" class="form-control">
-                        <option value="Nucleo">Nucleos</option>
-                    </select>
-                </div>
-                <div>
-                    <input type="button" class="btn" value="Agregar a lista" />
+		<p class="text-center">Lista vacía</p>
 
-                </div>
-            </div>
-        </form>
+		<div class="container text-center">
+			<form method="post" style="display:inline-block">
 
-        <p class="text-center">Lista vacía</p>
+				<input type="button" class="btn btn-danger" value="Cancelar" />
+			</form>
 
-        <div class="container text-center">
-            <form method="post" style="display:inline-block">
+			<form method="post" style="display:inline-block">
 
-                <input type="button" class="btn btn-danger" value="Cancelar" />
-            </form>
-
-            <form method="post" style="display:inline-block">
-
-                <input type="button" class="btn btn-success" value="Solicitar colaboración" />
-            </form>
-        </div>
-    </div>
+				<input type="button" class="btn btn-success" value="Solicitar colaboración" />
+			</form>
+		</div>
+	</div>
 </div>
 
 <div class="panel">
-    <div class="panel-heading panel-default">
-        <h3 class="panel-title">Lista de miembros núcleo asignados como revisores</h3>
-    </div>
+	<div class="panel-heading panel-default">
+		<h3 class="panel-title">Lista de miembros núcleo asignados como revisores</h3>
+	</div>
 
-    <div class="panel-body">
-        <p class="text-center">No hay ningún miembro asignado</p>
-    </div>
+	@* foreach listaMiembrosAsignados (Revisa) y boton para aceptar o rechazar la solicitud de revision*@
+	<div class="panel-body">
+		<p class="text-center">No hay ningún miembro asignado</p>
+	</div>
 </div>
 
 <div class="panel">
-    <div class="panel-heading panel-default">
-        <h3 class="panel-title">Asignar revisores</h3>
-    </div>
+	<div class="panel-heading panel-default">
+		<h3 class="panel-title">Asignar revisores</h3>
+	</div>
 
-    <div class="panel-body">
-        <form method="post">
-            <label for="slctNucleo">Miembros Núcleo</label>
-            <div class="container row">
-                <div class="col-xs-3">
-                    <select id="slctNucleo" class="form-control">
-                        <option value="Nucleo">Nucleos</option>
-                    </select>
-                </div>
-                <div>
-                    <input type="button" class="btn" value="Agregar a lista" />
+	<div class="panel-body">
+		@* Asignar revisores a la fuerza (Agrega a Revisa)*@
+		<form method="post">
+			<label for="slctNucleo">Miembros Núcleo</label>
+			<div class="container row">
+				<div class="col-xs-3">
+					<select id="slctNucleo" class="form-control">					
+					 Lista vacia					
+					</select>
+				</div>
+				<div>
+					<input type="button" class="btn" value="Agregar a lista" />
 
-                </div>
-            </div>
-        </form>
+				</div>
+			</div>
+		</form>
 
-        <p class="text-center">Lista vacía</p>
+		<p class="text-center">Lista vacía</p>
 
-        <div class="container text-center">
-            <form method="post" style="display:inline-block">
+		<div class="container text-center">
+			<form method="post" style="display:inline-block">
 
-                <input type="button" class="btn btn-danger" value="Cancelar" />
-            </form>
+				<input type="button" class="btn btn-danger" value="Cancelar" />
+			</form>
 
-            <form method="post" style="display:inline-block">
+			<form method="post" style="display:inline-block">
 
-                <input type="button" class="btn btn-success" value="Asignar revisores" />
-            </form>
-        </div>
-    </div>
+				<input type="button" class="btn btn-success" value="Asignar revisores" />
+			</form>
+		</div>
+	</div>
 </div>

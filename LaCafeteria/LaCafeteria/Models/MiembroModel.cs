@@ -56,7 +56,7 @@ namespace LaCafeteria.Models
 		[BindProperty]
 		public string informacionLaboral { get; set; }
 
-		public float meritos { get; set; }
+		public double meritos { get; set; }
 
 		public bool activo { get; set; }
 

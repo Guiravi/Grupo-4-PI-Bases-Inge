@@ -40,7 +40,10 @@ namespace LaCafeteria.Pages
 			{	
 				//Cargar perfil del miembro
 				miembro = buscadorMiembrosController.GetMiembro(usernamePK);
-				miembro.fechaNacimiento = Convertidor.CambiarFormatoFechaDMA(miembro.fechaNacimiento);
+				if(miembro.fechaNacimiento != null)
+				{
+					miembro.fechaNacimiento = Convertidor.CambiarFormatoFechaDMA(miembro.fechaNacimiento);
+				}
 
 				// Cargar articulos
 				articulosResultado = buscadorArticuloController.GetArticulosPorMiembro(usernamePK);
