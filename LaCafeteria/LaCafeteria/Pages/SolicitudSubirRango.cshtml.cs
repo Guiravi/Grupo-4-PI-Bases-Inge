@@ -14,16 +14,18 @@ namespace LaCafeteria.Pages
     {
         string usernamePK;
         string nombreRolFK;
-        public MiembroController miembroController;
+        public BuscadorMiembrosController buscadorMiembrosController;
         public EditorMiembroSolicitaSubirRangoNucleoController miembroSolicitaSubirRangoNucleoEnviadaController;
         public RevisionSolicitudesPreviasMiembroSubirRangoNucleoController revisionSolicitudesPreviasMiembroSubirRangoNucleoController;
+        public CreadorNotificacionController creadorNotificacionController;
         public List<MiembroModel> miembros { get; set; }
         public SolicitudSubirRangoModel()
         {
 
-            miembroController = new MiembroController();
+            buscadorMiembrosController = new BuscadorMiembrosController();
             miembroSolicitaSubirRangoNucleoEnviadaController = new EditorMiembroSolicitaSubirRangoNucleoController();
             revisionSolicitudesPreviasMiembroSubirRangoNucleoController = new RevisionSolicitudesPreviasMiembroSubirRangoNucleoController();
+            creadorNotificacionController = new CreadorNotificacionController();
         }
         public void OnGet()
         {
@@ -34,9 +36,9 @@ namespace LaCafeteria.Pages
         {
             if (Request.Cookies["usernamePK"] != null)
             {
-                miembros = miembroController.GetListaNucleosSolicitud();
+                miembros = buscadorMiembrosController.GetListaNucleosSolicitud();
                 usernamePK = Request.Cookies["usernamePK"];
-                nombreRolFK = miembroController.GetRango(usernamePK);
+                nombreRolFK = buscadorMiembrosController.GetRango(usernamePK);
                 if (nombreRolFK != "Periférico" && nombreRolFK != "Activo" )
                 {
                     Notificaciones.Set(this, "rangoInvalido", "El rango de este miembro no califica para la solicitud", Notificaciones.TipoNotificacion.Error);
@@ -49,6 +51,11 @@ namespace LaCafeteria.Pages
                     {
                         miembroSolicitaSubirRangoNucleoEnviadaController.SolicitarSubirRango(usernamePK, miembros);
                         Notificaciones.Set(this, "exitoSolicitud", "La solicitud se envió con éxito", Notificaciones.TipoNotificacion.Exito);
+                        foreach (var miembro in miembros) {
+                            string mensaje = "Hay que revisar la solicitud para subir de rango del miembro "+ usernamePK;
+                            Notificacion notificacion = new Notificacion(miembro.usernamePK, mensaje, null);
+                            creadorNotificacionController.CrearNotificacion(notificacion);
+                        }
                     }
                     else
                     {

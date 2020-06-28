@@ -15,7 +15,25 @@ namespace LaCafeteria.Models.Handlers
             actualizarHabilidades(usernamePK, habilidades);
             actualizarPasatiempos(usernamePK, pasatiempos);
         }
+        public void ModificarMiembro(string usernamePK, string nombreRolFK)
+        {
+            string connectionString = AppSettings.GetConnectionString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                string consulta = "UPDATE Miembro Set nombreRolFK = @nombreRolFK WHERE usernamePK = @usernamePK;";
 
+                sqlConnection.Open();
+                using (SqlCommand cmd = new SqlCommand(consulta, sqlConnection))
+                {
+                    cmd.Parameters.AddWithValue("@nombreRolFK", nombreRolFK);
+                    cmd.Parameters.AddWithValue("@usernamePK", usernamePK);
+
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+
+        }
         public void SetRolMiembro() {
         }
 

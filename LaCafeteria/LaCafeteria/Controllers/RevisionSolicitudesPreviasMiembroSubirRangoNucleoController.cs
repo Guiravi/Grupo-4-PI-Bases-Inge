@@ -21,6 +21,10 @@ namespace LaCafeteria.Controllers
         public int VerTodosSolicitadosAceptados(string usernamePK) {
             return revisionSolicitudesPreviasMiembroSubirRangoNucleoDBHandler.VerTodosSolicitadosAceptados(usernamePK);
         }
+        public int VerTodosSolicitadosRechazados(string usernamePK)
+        {
+            return revisionSolicitudesPreviasMiembroSubirRangoNucleoDBHandler.VerTodosSolicitadosRechazados(usernamePK);
+        }
     }
     
 }

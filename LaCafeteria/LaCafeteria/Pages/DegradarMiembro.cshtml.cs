@@ -17,13 +17,15 @@ namespace LaCafeteria.Pages
         public string nombreRolFK { get; set; }
 
         public List<MiembroModel> miembros { get; set; }
-        public MiembroController miembroController;
-
+        public EditorMiembroController miembroController;
+        public BuscadorMiembrosController buscadorMiembrosController;
+        public CreadorNotificacionController creadorNotificacionController;
         public DegradarMiembroModel()
         {
             
-            miembroController = new MiembroController();
-           
+            miembroController = new EditorMiembroController();
+            buscadorMiembrosController = new BuscadorMiembrosController();
+            creadorNotificacionController = new CreadorNotificacionController();
         }
 
         public void OnGet()
@@ -31,7 +33,7 @@ namespace LaCafeteria.Pages
             if (nombreRolFK != "nulo") {
                 Degradar();
             }
-            miembros = miembroController.GetListaMiembros();
+            miembros = buscadorMiembrosController.GetListaMiembrosDegradarModel();
         }
 
         public void Degradar()
@@ -46,10 +48,13 @@ namespace LaCafeteria.Pages
                     Notificaciones.Set(this, "rangoPeriferico", "El rango de este miembro no se puede degradar más", Notificaciones.TipoNotificacion.Error);
                 }
                  else
-                {
+                 {
                     miembroController.DegradarMiembro(usernamePK,nombreRolFK);
                     Notificaciones.Set(this, "exitoDegradar", "El rango de este miembro fue degradado exitosamente", Notificaciones.TipoNotificacion.Exito);
-                }
+                    string mensaje = "Su rango ha sido degradado";
+                    Notificacion notificacion = new Notificacion(usernamePK, mensaje, null);
+                    creadorNotificacionController.CrearNotificacion(notificacion);
+                 }
             }
 
 

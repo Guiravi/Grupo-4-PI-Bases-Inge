@@ -30,5 +30,6 @@ namespace LaCafeteria.Models
 			this.estado = Nueva;
 			this.url = url;
 		}
-	}
+       
+    }
 }

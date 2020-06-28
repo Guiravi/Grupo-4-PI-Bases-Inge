@@ -20,23 +20,26 @@ namespace LaCafeteria.Pages
         public string usernameMiembroFK { get; set; }
         public string rolNucleoFK { get; set; }
         public List<MiembroModel> miembros { get; set; }
-        public MiembroController miembroController;
+        public EditorMiembroController miembroController;
+        public BuscadorMiembrosController buscadorMiembroController;
         public  EditorMiembroSolicitaSubirRangoNucleoController editorMiembroSolicitaSubirRangoNucleoController;
         public RevisionSolicitudesPreviasMiembroSubirRangoNucleoController revisionSolicitudesPreviasMiembroSubirRangoNucleoController;
+        public CreadorNotificacionController creadorNotificacionController;
         public PromoverMiembroModel()
         {
 
             editorMiembroSolicitaSubirRangoNucleoController = new EditorMiembroSolicitaSubirRangoNucleoController();
             revisionSolicitudesPreviasMiembroSubirRangoNucleoController = new RevisionSolicitudesPreviasMiembroSubirRangoNucleoController();
-            miembroController = new MiembroController();
-           
+            buscadorMiembroController = new BuscadorMiembrosController();
+            creadorNotificacionController = new CreadorNotificacionController();
+            miembroController = new EditorMiembroController();
         }
 
         public void OnGet()
         {
             usernameMiembroFK = Request.Cookies["usernamePK"];
             if (nombreRolFK != "nulo") {
-                rolNucleoFK = miembroController.GetRango(usernameMiembroFK);
+                rolNucleoFK = buscadorMiembroController.GetRango(usernameMiembroFK);
                 if (aceptar == 1)
                 {
                     VotarPromover();
@@ -46,7 +49,7 @@ namespace LaCafeteria.Pages
                 }
 
             }
-            miembros = miembroController.GetListaMiembrosSolicitud(usernameMiembroFK);
+            miembros = buscadorMiembroController.GetListaMiembrosSolicitud(usernameMiembroFK);
         }
 
         public void VotarPromover()
@@ -103,20 +106,50 @@ namespace LaCafeteria.Pages
             int votosTotales = revisionSolicitudesPreviasMiembroSubirRangoNucleoController.VerSiSolicitado(usernamePK);
             int votosAceptados = revisionSolicitudesPreviasMiembroSubirRangoNucleoController.VerTodosSolicitadosAceptados(usernamePK);
             double porcentajeAceptacion = ((double)votosAceptados / (double)votosTotales) * (double)100;
-            if (porcentajeAceptacion > 50 || (nombreRolFK == "Activo" && rolNucleoFK == "Coordinador")) {
+            if (porcentajeAceptacion > 50 || (nombreRolFK == "Activo" && rolNucleoFK == "Coordinador"))
+            {
                 miembroController.AscenderMiembro(usernamePK, nombreRolFK);
                 editorMiembroSolicitaSubirRangoNucleoController.BorrarSolicitudes(usernamePK);
+                string mensaje = "Su rango ha sido promovido satisfactoriamente";
+                Notificacion notificacion = new Notificacion(usernamePK, mensaje, null);
+                creadorNotificacionController.CrearNotificacion(notificacion);
                 /*Notid=ficacion Aceptacion*/
+            }
+            else {
+                int votosRechazados = revisionSolicitudesPreviasMiembroSubirRangoNucleoController.VerTodosSolicitadosRechazados(usernamePK);
+                double porcentajeRechazados = ((double)votosRechazados / (double)votosTotales) * (double)100;
+                if (porcentajeRechazados == 50 && porcentajeAceptacion == 50) {
+                    string mensaje = "Su rango no pudo ser promovdio dado un empate de votos";
+                    Notificacion notificacion = new Notificacion(usernamePK, mensaje, null);
+                    creadorNotificacionController.CrearNotificacion(notificacion);
+                }
             }
         }
 
         public void revisarVotosRechazo()
         {
-          
-            if (nombreRolFK == "Activo" && rolNucleoFK == "Coordinador")
+            int votosTotales = revisionSolicitudesPreviasMiembroSubirRangoNucleoController.VerSiSolicitado(usernamePK);
+            int votosRechazados = revisionSolicitudesPreviasMiembroSubirRangoNucleoController.VerTodosSolicitadosRechazados(usernamePK);
+            double porcentajeRechazados = ((double)votosRechazados / (double)votosTotales) * (double)100;
+            if (porcentajeRechazados > 50 || (nombreRolFK == "Activo" && rolNucleoFK == "Coordinador"))
             {
+
                 editorMiembroSolicitaSubirRangoNucleoController.BorrarSolicitudes(usernamePK);
+                string mensaje = "Su rango ha sido promovido ya que no tuvo la aprobación mínima";
+                Notificacion notificacion = new Notificacion(usernamePK, mensaje, null);
+                creadorNotificacionController.CrearNotificacion(notificacion);
                 /*Notificacion Rechazo*/
+            }
+            else
+            {
+                int votosAceptados = revisionSolicitudesPreviasMiembroSubirRangoNucleoController.VerTodosSolicitadosAceptados(usernamePK);
+                double porcentajeAceptacion = ((double)votosAceptados / (double)votosTotales) * (double)100;
+                if (porcentajeRechazados == 50 && porcentajeAceptacion == 50)
+                {
+                    string mensaje = "Su rango no pudo ser promovdio dado un empate de votos";
+                    Notificacion notificacion = new Notificacion(usernamePK, mensaje, null);
+                    creadorNotificacionController.CrearNotificacion(notificacion);
+                }
             }
         }
     }
