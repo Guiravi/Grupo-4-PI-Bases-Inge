@@ -128,5 +128,33 @@ namespace LaCafeteria.Models.Handlers
             }
             return pasatiemposMiembro;
         }
+
+        private List<string> GetHabilidadesMiembro(string username) {
+            List<string> habilidadesMiembro = new List<string>();
+
+            string connectionString = AppSettings.GetConnectionString();
+            using ( SqlConnection sqlConnection = new SqlConnection(connectionString) )
+            {
+
+                string sqlString = @"SELECT habilidad
+									FROM MiembroHabilidad
+									WHERE @usernameFK =  usernameFK";
+
+                sqlConnection.Open();
+                using ( SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection) )
+                {
+                    sqlCommand.Parameters.AddWithValue("@usernameFK", username);
+                    using ( SqlDataReader dataReader = sqlCommand.ExecuteReader() )
+                    {
+                        while ( dataReader.Read() )
+                        {
+                            habilidadesMiembro.Add((string) dataReader["habilidad"]);
+                        }
+
+                    }
+                }
+            }
+            return habilidadesMiembro;
+        }
     }
 }
