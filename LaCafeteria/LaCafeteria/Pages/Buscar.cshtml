@@ -85,7 +85,6 @@
                                 }
                             }
 
-                            <li style="margin: 10px 5px"><button type="button" id="selecTodos" class="btn">Seleccionar todos</button></li>
                         </ul>
 
                     </div>
@@ -181,11 +180,29 @@
                             <li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.articulosResultado[articuloActual].fechaPublicacion)</li>
                             <li><strong>Tipo: </strong>@Model.articulosResultado[articuloActual].tipo</li>
                             <li><strong>Autor(es): </strong>@Model.informacionArticuloController.GetAutoresDeArticuloString(Model.articulosResultado[articuloActual].articuloAID)</li>
-                            <li><strong>Tópico(s): </strong>@Model.informacionArticuloController.GetCategoriaTopicosArticulo(Model.articulosResultado[articuloActual].articuloAID)</li>
+                            <li><strong>Tópico(s): </strong>
+                            @{List<string> lista = Model.informacionArticuloController.GetCategoriaTopicosArticuloString(Model.articulosResultado[articuloActual].articuloAID);
+                                for(int i = 0 ; i < lista.Count ; i++)
+                                {
+                                    if (i != lista.Count - 1)
+                                    {
+                                        <text>
+                                        @lista[i], 
+                                        </text>
+                                    }
+                                    else
+                                    {
+                                        <text>
+                                        @lista[i]
+                                        </text>
+                                    }
+                                }
+                            }
+                            </li>
                         </ul>
                     </div>
                 </div>
-            }
+             }
         </div>
 
     </div>
