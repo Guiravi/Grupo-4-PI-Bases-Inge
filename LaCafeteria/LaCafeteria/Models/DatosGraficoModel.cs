@@ -33,4 +33,29 @@ namespace LaCafeteria.Models
             cantidad = cant;
         }
     }
+
+    public class DatosTablaCategoriaTopicos
+    {
+        public string nombreRolFK { get; set; }
+
+        public string nombreCategoriaFK { get; set; }
+
+        public string nombreTopicoFK { get; set; }
+
+        public int cantidad { get; set; }
+
+        public int visitas { get; set; }
+
+        public double puntajeProm { get; set; }
+
+        public DatosTablaCategoriaTopicos(string nomRol, string nomCat, string nomTop, int cant, int visit, double punt)
+        {
+            nombreRolFK = nomRol;
+            nombreCategoriaFK = nomCat;
+            nombreTopicoFK = nomTop;
+            cantidad = cant;
+            visitas = visit;
+            puntajeProm = punt;
+        }
+    }
 }
