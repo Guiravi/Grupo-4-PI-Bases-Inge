@@ -15,7 +15,7 @@ namespace LaCafeteria.Controllers
 
         }
 
-        public void ActualizarRevisionArticulo(float merito, int opinion, int contribucion, int forma, string estadoRevision,
+        public void ActualizarRevisionArticulo(double merito, int opinion, int contribucion, int forma, string estadoRevision,
                                                     string comentarios, string recomendacion, string username, int idArticulo)
         {
             revisorArticuloHandler.ActualizarEstadoRevisionArticulo(merito, opinion, contribucion, forma, estadoRevision,

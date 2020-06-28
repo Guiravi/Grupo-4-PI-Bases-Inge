@@ -96,14 +96,15 @@ namespace LaCafeteria.Pages
                 recomend_final = "Aceptar con Modificaciones";
             }
 
-            float merito = informacionMiembroController.GetMeritos(Request.Cookies["usernamePK"]);
+            double merito = informacionMiembroController.GetMeritos(Request.Cookies["usernamePK"]);
 
             /* Crear nuevo controlador de revisor de artículo */
             revisorArticulosController.ActualizarRevisionArticulo(merito,opinion,contribucion, forma, "Finalizada", 
                 comentario,recomend_final,Request.Cookies["usernamePK"],0);
 
 
-            return Page();
+            Notificaciones.Set(this, "revisionExitosa", "Su revisión se ha efectuado exitosamente", Notificaciones.TipoNotificacion.Exito);
+            return Redirect("MisArticulosPorRevisar");
         }
     }
 }
