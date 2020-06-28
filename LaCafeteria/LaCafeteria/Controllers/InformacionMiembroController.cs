@@ -23,5 +23,10 @@ namespace LaCafeteria.Controllers
 
 			return listaNotificaciones;
 		}
+
+        public double GetMeritos(string username)
+        {
+            return informacionMiembroDBHandler.GetMeritos(username);
+        }
 	}
 }

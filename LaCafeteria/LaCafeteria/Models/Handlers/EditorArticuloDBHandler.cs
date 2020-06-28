@@ -30,7 +30,7 @@ namespace LaCafeteria.Models.Handlers
             using ( SqlConnection connection = new SqlConnection(connectionString) )
             {
                 connection.Open();
-                string cmdString = "UPDATE Articulo SET Articulo.visitas = Articulo.visitas + 1 WHERE Articulo.articuloAID = @id";
+                string cmdString = "UPDATE Articulo SET Articulo.visitas = Articulo.visitas + 1 WHERE Articulo.articuloAID = @id AND Articulo.estado = 'Publicado'";
                 SqlCommand command = new SqlCommand(cmdString, connection);
                 command.Parameters.AddWithValue("@id", id);
                 command.ExecuteNonQuery();
