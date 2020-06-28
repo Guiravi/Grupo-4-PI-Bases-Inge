@@ -23,9 +23,13 @@ namespace LaCafeteria.Pages
 		[BindProperty]
 		public List<string> listaSolicitados { set; get; }
 
+		[BindProperty]
+		public List<string> listaAsignados { set; get; }
+
 		private BuscadorMiembrosController buscadorMiembroController;
 		private CreadorSolicitudRevisionController creadorSolicitudRevisionController;
 		private InformacionArticuloController informacionArticuloController;
+		private AsignadorRevisoresController asignadorRevisoresController;
 
 		public AsignarRevisorModel()
 		{
@@ -36,7 +40,7 @@ namespace LaCafeteria.Pages
 			buscadorMiembroController = new BuscadorMiembrosController();
 			creadorSolicitudRevisionController = new CreadorSolicitudRevisionController();
 			informacionArticuloController = new InformacionArticuloController();
-
+			asignadorRevisoresController = new AsignadorRevisoresController();
 		}
 
 		public void OnGet()
@@ -70,7 +74,17 @@ namespace LaCafeteria.Pages
 	
 			return Redirect("/AsignarRevisor/" + articuloAID);
 		}
-		
+
+		public IActionResult OnPostAsignarRevisor()
+		{
+			foreach (string usernameMiemFK in listaAsignados)
+			{
+				asignadorRevisoresController.AsignarRevisor(usernameMiemFK, articuloAID);
+			}
+
+			return Redirect("/AsignarRevisor/" + articuloAID);
+		}
+
 		private bool EsValidoGet()
 		{
 			bool valido = false;
