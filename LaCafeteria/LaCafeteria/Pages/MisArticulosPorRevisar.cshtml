@@ -20,13 +20,7 @@
 		<tbody>
 			@if (Model.artList.Count > 0)
 			{
-				string linkPagina = "Index";
-				string mensajeLink = "<span class=\"glyphicon glyphicon-eye-open\" aria-hidden=\"true\" style=\"color: black; \"></span>";
-				@if(Request.Cookies["nombreRolFK"].Equals("Coordinador"))
-				{
-					linkPagina = "AsignarRevisor";
-					mensajeLink = "Asignar revisores";
-				}
+				string linkPagina = "RevisarArticulo";
 				for (int i = 0; i < Model.artList.Count; ++i)
 				{
 					<tr>
@@ -34,7 +28,7 @@
 						<td>@Model.dictAutores[Model.artList[i]]</td>
 						<td>@Model.dictTopicos[Model.artList[i]]</td>
 						<td>@Model.artList[i].tipo</td>
-						<td><a href="/@linkPagina/@Model.artList[i].articuloAID" class="btn btn-lg">@Html.Raw(mensajeLink)</a></td>
+						<td><a href="/@linkPagina/@Model.artList[i].articuloAID/@Model.artList[i].tipo" class="btn btn-lg">Revisar Artículo</a></td>
 					</tr>
 				}
 			}
