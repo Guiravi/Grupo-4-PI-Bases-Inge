@@ -15,6 +15,9 @@ namespace LaCafeteria.Pages
 		public List<MiembroModel> listaMiembrosParaAsignarRevision{ set; get; }
 		public List<MiembroModel> listaMiembrosParaSolicitudRevision { set; get; }
 
+		[BindProperty(SupportsGet = true)]
+		public int articuloAID { get; set; }
+
 		private BuscadorMiembrosController buscadorMiembroController;
 
 		public AsignarRevisorModel()
@@ -25,11 +28,11 @@ namespace LaCafeteria.Pages
 
 		public void OnGet()
         {	
-			//listaMiembrosInteresados = buscadorMiembroController.GetListaMiembrosInteresados(articuloAID);
+			listaMiembrosInteresados = buscadorMiembroController.GetListaMiembrosInteresados(articuloAID);
 
-			//listaMiembrosParaSolicitudRevision = buscadorMiembroController.GetListaMiembrosParaSolicitudRevision(articuloAID);
-		
-			//listaMiembrosParaAsignarRevision = buscadorMiembroController.GetlistaMiembrosParaAsignarRevision(artiucloAID)
+			listaMiembrosParaSolicitudRevision = buscadorMiembroController.GetListaMiembrosParaSolicitudRevision(articuloAID);
+
+			listaMiembrosParaAsignarRevision = buscadorMiembroController.GetlistaMiembrosParaAsignarRevision(articuloAID);
 		}
     }
 }
