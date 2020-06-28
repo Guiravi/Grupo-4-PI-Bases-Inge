@@ -48,6 +48,119 @@ namespace LaCafeteria.Models.Handlers
 			return listaNotificaciones;
 		}
 
+        public double GetMeritos(string username)
+        {
+            double merito;
+            string connectionString = AppSettings.GetConnectionString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+
+                string sqlString = @"SELECT meritos
+								     FROM Miembro 
+                                     WHERE @username = usernamePK";
+
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+                {
+                    sqlCommand.Parameters.AddWithValue("@usernamePK", username);
+                    SqlDataReader dataReader = sqlCommand.ExecuteReader();
+                    dataReader.Read();
+                    merito = (float)dataReader["meritos"];
+                }
+            }
+            return merito;
+        }
+
+
+        public List<string> GetIdiomasMiembro(string username)
+        {
+            List<string> idiomasMiembro = new List<string>();
+
+            string connectionString = AppSettings.GetConnectionString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+
+                string sqlString = @"SELECT idiomaFK
+									FROM MiembroIdioma
+									WHERE @usernameFK =  usernameFK";
+
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+                {
+                    sqlCommand.Parameters.AddWithValue("@usernameFK", username);
+                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            idiomasMiembro.Add((string)dataReader["idiomaFK"]);
+                        }
+
+                    }
+                }
+
+            }
+            return idiomasMiembro;
+        }
+
+        public List<string> GetPasatiemposMiembro(string username)
+        {
+            List<string> pasatiemposMiembro = new List<string>();
+
+            string connectionString = AppSettings.GetConnectionString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+
+                string sqlString = @"SELECT pasatiempo
+									FROM MiembroPasatiempo
+									WHERE @usernameFK =  usernameFK";
+
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+                {
+                    sqlCommand.Parameters.AddWithValue("@usernameFK", username);
+                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            pasatiemposMiembro.Add((string)dataReader["pasatiempo"]);
+                        }
+
+                    }
+                }
+
+            }
+            return pasatiemposMiembro;
+        }
+
+        public List<string> GetHabilidadesMiembro(string username)
+        {
+            List<string> habilidadesMiembro = new List<string>();
+
+            string connectionString = AppSettings.GetConnectionString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+
+                string sqlString = @"SELECT habilidad
+									FROM MiembroHabilidad
+									WHERE @usernameFK =  usernameFK";
+
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+                {
+                    sqlCommand.Parameters.AddWithValue("@usernameFK", username);
+                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            habilidadesMiembro.Add((string)dataReader["habilidad"]);
+                        }
+
+                    }
+                }
+            }
+            return habilidadesMiembro;
+        }
+
         public List<DatosGraficoDona> GetMiembrosPorPais()
         {
             List<DatosGraficoDona> lista = new List<DatosGraficoDona>();
