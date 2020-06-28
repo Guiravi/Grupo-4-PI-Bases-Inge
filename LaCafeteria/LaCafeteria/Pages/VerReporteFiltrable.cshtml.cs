@@ -20,6 +20,7 @@ namespace LaCafeteria.Pages
         public List<DatosGraficoDona> articulosPorRol;
 
         private InformacionMiembroController informacionMiembroController;
+        private InformacionArticuloController informacionArticuloController;
 
         public VerReporteFiltrableModel()
         {
@@ -32,6 +33,7 @@ namespace LaCafeteria.Pages
             articulosPorRol = new List<DatosGraficoDona>();
 
             informacionMiembroController = new InformacionMiembroController();
+            informacionArticuloController = new InformacionArticuloController();
            
         }
 
@@ -43,6 +45,7 @@ namespace LaCafeteria.Pages
             pasatiemposPorPais = informacionMiembroController.GetPasatiemposPorPais();
             pasatiemposPorIdioma = informacionMiembroController.GetPasatiemposPorIdioma();
             miembrosPorRol = informacionMiembroController.GetMiembrosPorRol();
+            articulosPorRol = informacionArticuloController.GetArticulosPorRol();
         }      
        
     }
