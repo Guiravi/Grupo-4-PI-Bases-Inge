@@ -73,10 +73,7 @@ namespace LaCafeteria.Pages
             {
                 documentosArticuloController.CargarArticuloPDF(idArticuloPK, rutaCarpeta);
                 articuloPDF = Convert.ToString(idArticuloPK) + ".pdf";
-            } else
-            {
-
-            }
+            } 
         }
 
         public IActionResult OnPostEnviar()
