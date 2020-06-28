@@ -100,7 +100,7 @@ namespace LaCafeteria.Models.Handlers
             return idiomasMiembro;
         }
 
-        private List<string> GetPasatiemposMiembro(string username) {
+        public List<string> GetPasatiemposMiembro(string username) {
             List<string> pasatiemposMiembro = new List<string>();
 
             string connectionString = AppSettings.GetConnectionString();
@@ -129,7 +129,7 @@ namespace LaCafeteria.Models.Handlers
             return pasatiemposMiembro;
         }
 
-        private List<string> GetHabilidadesMiembro(string username) {
+        public List<string> GetHabilidadesMiembro(string username) {
             List<string> habilidadesMiembro = new List<string>();
 
             string connectionString = AppSettings.GetConnectionString();

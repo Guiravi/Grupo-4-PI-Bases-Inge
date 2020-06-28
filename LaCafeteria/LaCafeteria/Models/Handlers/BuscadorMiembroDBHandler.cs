@@ -9,6 +9,12 @@ namespace LaCafeteria.Models.Handlers
 {
     public class BuscadorMiembroDBHandler
     {
+        private InformacionMiembroDBHandler informacionMiembroDBHandler;
+
+        public BuscadorMiembroDBHandler() {
+            informacionMiembroDBHandler = new InformacionMiembroDBHandler();
+        }
+
         public List<MiembroModel> GetListaMiembros()
         {
             List<MiembroModel> listaMiembros = new List<MiembroModel>();
@@ -295,9 +301,9 @@ namespace LaCafeteria.Models.Handlers
                                 };
 
                             }
-                            miembro.idiomas = GetIdiomasMiembro(miembro.usernamePK);
-                            miembro.pasatiempos = GetPasatiemposMiembro(miembro.usernamePK);
-                            miembro.habilidades = GetHabilidadesMiembro(miembro.usernamePK);
+                            miembro.idiomas = informacionMiembroDBHandler.GetIdiomasMiembro(miembro.usernamePK);
+                            miembro.pasatiempos = informacionMiembroDBHandler.GetPasatiemposMiembro(miembro.usernamePK);
+                            miembro.habilidades = informacionMiembroDBHandler.GetHabilidadesMiembro(miembro.usernamePK);
                         }
                     }
                 }
@@ -346,105 +352,14 @@ namespace LaCafeteria.Models.Handlers
                                 };
 
                             }
-                            miembro.idiomas = GetIdiomasMiembro(miembro.usernamePK);
-                            miembro.pasatiempos = GetPasatiemposMiembro(miembro.usernamePK);
-                            miembro.habilidades = GetHabilidadesMiembro(miembro.usernamePK);
+                            miembro.idiomas = informacionMiembroDBHandler.GetIdiomasMiembro(miembro.usernamePK);
+                            miembro.pasatiempos = informacionMiembroDBHandler.GetPasatiemposMiembro(miembro.usernamePK);
+                            miembro.habilidades = informacionMiembroDBHandler.GetHabilidadesMiembro(miembro.usernamePK);
                         }
                     }
                 }
             }
-
             return miembro;
         }
-
-        private List<string> GetIdiomasMiembro(string username)
-        {
-            List<string> idiomasMiembro = new List<string>();
-
-            string connectionString = AppSettings.GetConnectionString();
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-
-                string sqlString = @"SELECT idiomaFK
-									FROM MiembroIdioma
-									WHERE @usernameFK =  usernameFK";
-
-                sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
-                {
-                    sqlCommand.Parameters.AddWithValue("@usernameFK", username);
-                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
-                    {
-                        while (dataReader.Read())
-                        {
-                            idiomasMiembro.Add((string)dataReader["idiomaFK"]);
-                        }
-
-                    }
-                }
-
-            }
-            return idiomasMiembro;
-        }
-
-        private List<string> GetPasatiemposMiembro(string username)
-        {
-            List<string> pasatiemposMiembro = new List<string>();
-
-            string connectionString = AppSettings.GetConnectionString();
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-
-                string sqlString = @"SELECT pasatiempo
-									FROM MiembroPasatiempo
-									WHERE @usernameFK =  usernameFK";
-
-                sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
-                {
-                    sqlCommand.Parameters.AddWithValue("@usernameFK", username);
-                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
-                    {
-                        while (dataReader.Read())
-                        {
-                            pasatiemposMiembro.Add((string)dataReader["pasatiempo"]);
-                        }
-
-                    }
-                }
-
-            }
-            return pasatiemposMiembro;
-        }
-
-        private List<string> GetHabilidadesMiembro(string username)
-        {
-            List<string> habilidadesMiembro = new List<string>();
-
-            string connectionString = AppSettings.GetConnectionString();
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-
-                string sqlString = @"SELECT habilidad
-									FROM MiembroHabilidad
-									WHERE @usernameFK =  usernameFK";
-
-                sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
-                {
-                    sqlCommand.Parameters.AddWithValue("@usernameFK", username);
-                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
-                    {
-                        while (dataReader.Read())
-                        {
-                            habilidadesMiembro.Add((string)dataReader["habilidad"]);
-                        }
-
-                    }
-                }
-            }
-            return habilidadesMiembro;
-        }
-
     }
 }
