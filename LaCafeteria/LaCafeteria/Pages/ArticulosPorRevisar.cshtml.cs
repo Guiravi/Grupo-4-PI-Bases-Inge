@@ -37,9 +37,17 @@ namespace LaCafeteria.Pages
             }
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+			string usernameFK = Request.Cookies["usernamePK"];
+			string nombreRolFK = Request.Cookies["nombreRolFK"];
+			if (usernameFK == null || !(nombreRolFK.Equals("Coordinador") || nombreRolFK.Equals("Núcleo")))
+			{	
+				//TODO: Desplegar notificacion de error
+				return Redirect("Index");
+			}
 
+			return Page();
         }
     }
 }
