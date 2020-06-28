@@ -77,8 +77,8 @@ namespace LaCafeteria.Models.Handlers
             return articulo;
         }
 
-        public List<Tuple<string, string, double, double, string, string>> GetRevisiones(int id) {
-            List<Tuple<string, string, double, double, string, string>> revisiones = new List<Tuple<string, string, double, double, string, string>>();
+        public List<RevisionModel> GetRevisiones(int id) {
+            List<RevisionModel> revisiones = new List<RevisionModel>();
 
             String connectionString = AppSettings.GetConnectionString();
 
@@ -86,7 +86,10 @@ namespace LaCafeteria.Models.Handlers
             {
                 connection.Open();
 
-                SqlCommand cmd = new SqlCommand("SELECT M.usernamePK, M.nombre, M.apellido1, M.apellido2, M.meritos, NRA.puntaje, NRA.comentarios, NRA.recomendacion FROM Miembro M " +
+                SqlCommand cmd = new SqlCommand("SELECT M.usernamePK, M.nombre, M.apellido1, M.apellido2, " +
+                    "NRA.estadoRevision, NRA.puntaje, NRA.opinion, NRA.contribucion, NRA.forma, " +
+                    "NRA.comentarios, NRA.recomendacion" +
+                    "FROM Miembro M " +
                     "JOIN NucleoRevisaArticulo NRA " +
                     "ON M.usernamePK = NRA.usernameMiemFK " +
                     "JOIN Articulo A " +
@@ -99,13 +102,20 @@ namespace LaCafeteria.Models.Handlers
 
                 while ( reader.Read() )
                 {
-                    string username = reader["usernamePK"].ToString();
-                    string nombreRevisor = reader["nombre"].ToString() + " " + reader["apellido1"].ToString() + " " + ((!DBNull.Value.Equals(reader["apellido2"])) ? (string)reader["apellido2"] : null);
-                    double meritos = (double)reader["meritos"];
-                    double puntaje = (double) reader["puntaje"];
-                    string comentarios = reader["comentarios"].ToString();
-                    string recomendacion = reader["recomendacion"].ToString();
-                    revisiones.Add(Tuple.Create(username, nombreRevisor, meritos, puntaje, comentarios, recomendacion));
+                    RevisionModel revision = new RevisionModel()
+                    {
+                        usernameMiemFK = reader["usernamePK"].ToString(),
+                        nombreRevisor = reader["nombre"].ToString() + " " + reader["apellido1"].ToString() + " " + ((!DBNull.Value.Equals(reader["apellido2"])) ? (string) reader["apellido2"] : null),
+                        estadoRevision = reader["estadoRevision"].ToString(),
+                        puntaje = (double) reader["puntaje"],
+                        opinion = (int) reader["opinion"],
+                        contribucion = (int) reader["contribucion"],
+                        forma = (int) reader["forma"],
+                        comentarios = reader["comentarios"].ToString(),
+                        recomendacion = reader["recomendacion"].ToString(),
+                    };
+
+                    revisiones.Add(revision);
                 }
 
                 reader.Close();
