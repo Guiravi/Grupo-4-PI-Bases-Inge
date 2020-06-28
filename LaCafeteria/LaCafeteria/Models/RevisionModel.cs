@@ -8,7 +8,7 @@ namespace LaCafeteria.Models
     public class RevisionModel
     {
         public string usernameMiemFK { get; set; }
-        public int idArticuolFK { get; set; }
+        public int idArticuloFK { get; set; }
         public string estadoRevision { get; set; }
         public double puntaje { get; set; }
         public int opinion { get; set; }
