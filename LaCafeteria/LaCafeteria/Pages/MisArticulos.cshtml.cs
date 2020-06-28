@@ -14,6 +14,14 @@ namespace LaCafeteria.Pages
     {
         public List<ArticuloModel> misArticulos { set; get; }
 
+        public List<ArticuloModel> misArticulosRevision { set; get; }
+
+        public List<ArticuloModel> misArticulosProgreso { set; get; }
+
+        public List<ArticuloModel> misArticulosPublicados { set; get; }
+
+        public List<ArticuloModel> misArticulosCorregir { set; get; }
+
         public int cantResultados { set; get; }
 
         private BuscadorArticuloController buscadorArticuloController;

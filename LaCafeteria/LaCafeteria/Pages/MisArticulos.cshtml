@@ -9,11 +9,16 @@
 <h2>Mis Artículos</h2>
 
 <div class="container">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#todosArticulos"> Todos mis artículos </a></li>
+        <li><a data-toggle="tab" href="#enRevision"> Mis artículos en revisión </a></li>
+        <li><a data-toggle="tab" href="#enProgreso"> Mis artículos en progreso </a></li>
+        <li><a data-toggle="tab" href="#Publicados"> Mis artículos publicados </a></li>
+        <li><a data-toggle="tab" href="#porCorregir"> Mis artículos por corregir </a></li>
+    </ul>
 
-    <div class="row">
-
-        <div class="col-md-12">
-
+    <div class="tab-content">
+        <div id="todosArticulos" class="tab-pane fade in active">
             @for (int articuloActual = 0; articuloActual < Model.cantResultados; articuloActual++)
             {
 
@@ -32,28 +37,198 @@
                                     </h3>
                                 </div>
                             </div>
-                        </div>                                 
-                    </div>
-                        <div class="panel-body">
-                            <ul style="list-style: none;">
-                                <li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.misArticulos[articuloActual].fechaPublicacion)</li>
-                                <li><strong>Tipo: </strong>@Model.misArticulos[articuloActual].tipo</li>
-                                <li><strong>Autor(es): </strong>@Model.informacionArticuloController.GetAutoresDeArticuloString(Model.misArticulos[articuloActual].articuloAID)</li>
-                                <li><strong>Tópico(s): </strong>@Model.informacionArticuloController.GetCategoriaTopicosArticulo(Model.misArticulos[articuloActual].articuloAID)</li>
-                                @if (Model.misArticulos[articuloActual].tipo == "Corto")
-                                {
-                                    <li style="margin-top: 20px"><a href="/EscribirArticulo/@Model.misArticulos[articuloActual].articuloAID" class="btn">Editar</a></li>
-                                }
-                                else if (Model.misArticulos[articuloActual].tipo == "Largo")
-                                {
-                                    <li style="margin-top: 20px"><a href="/SubirArticulo/@Model.misArticulos[articuloActual].articuloAID" class="btn">Editar</a></li>
-                                }
-                            </ul>
                         </div>
                     </div>
+                    <div class="panel-body">
+                        <ul style="list-style: none;">
+                            <li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.misArticulos[articuloActual].fechaPublicacion)</li>
+                            <li><strong>Tipo: </strong>@Model.misArticulos[articuloActual].tipo</li>
+                            <li><strong>Autor(es): </strong>@Model.informacionArticuloController.GetAutoresDeArticuloString(Model.misArticulos[articuloActual].articuloAID)</li>
+                            <li><strong>Tópico(s): </strong>@Model.informacionArticuloController.GetCategoriaTopicosArticulo(Model.misArticulos[articuloActual].articuloAID)</li>
+                            @if (Model.misArticulos[articuloActual].tipo == "Corto")
+                            {
+                                <li style="margin-top: 20px"><a href="/EscribirArticulo/@Model.misArticulos[articuloActual].articuloAID" class="btn">Editar</a></li>
+                            }
+                            else if (Model.misArticulos[articuloActual].tipo == "Largo")
+                            {
+                                <li style="margin-top: 20px"><a href="/SubirArticulo/@Model.misArticulos[articuloActual].articuloAID" class="btn">Editar</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
             }
         </div>
+    </div>
 
+    <div class="tab-content">
+        <div id="enRevision" class="tab-pane fade in active">
+            @for (int articuloActual = 0; articuloActual < Model.cantResultados; articuloActual++)
+            {
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <h2 class="panel-title" style="font-size: 125%;">
+                                        <a href="/VerResumen/@Model.misArticulosRevision[articuloActual].articuloAID/@Model.misArticulosRevision[articuloActual].tipo">@Model.misArticulosRevision[articuloActual].titulo</a>
+                                    </h2>
+                                </div>
+                                <div class="col-md-3">
+                                    <h3 class="panel-title" style="text-align: right;">
+                                        Estado: @Model.misArticulosRevision[articuloActual].estado
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <ul style="list-style: none;">
+                            <li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.misArticulosRevision[articuloActual].fechaPublicacion)</li>
+                            <li><strong>Tipo: </strong>@Model.misArticulosRevision[articuloActual].tipo</li>
+                            <li><strong>Autor(es): </strong>@Model.informacionArticuloController.GetAutoresDeArticuloString(Model.misArticulosRevision[articuloActual].articuloAID)</li>
+                            <li><strong>Tópico(s): </strong>@Model.informacionArticuloController.GetCategoriaTopicosArticulo(Model.misArticulosRevision[articuloActual].articuloAID)</li>
+                            @if (Model.misArticulosRevision[articuloActual].tipo == "Corto")
+                            {
+                                <li style="margin-top: 20px"><a href="/EscribirArticulo/@Model.misArticulosRevision[articuloActual].articuloAID" class="btn">Editar</a></li>
+                            }
+                            else if (Model.misArticulosRevision[articuloActual].tipo == "Largo")
+                            {
+                                <li style="margin-top: 20px"><a href="/SubirArticulo/@Model.misArticulosRevision[articuloActual].articuloAID" class="btn">Editar</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="tab-content">
+        <div id="enProgreso" class="tab-pane fade in active">
+            @for (int articuloActual = 0; articuloActual < Model.cantResultados; articuloActual++)
+            {
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <h2 class="panel-title" style="font-size: 125%;">
+                                        <a href="/VerResumen/@Model.misArticulosProgreso[articuloActual].articuloAID/@Model.misArticulosProgreso[articuloActual].tipo">@Model.misArticulosProgreso[articuloActual].titulo</a>
+                                    </h2>
+                                </div>
+                                <div class="col-md-3">
+                                    <h3 class="panel-title" style="text-align: right;">
+                                        Estado: @Model.misArticulosProgreso[articuloActual].estado
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <ul style="list-style: none;">
+                            <li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.misArticulosProgreso[articuloActual].fechaPublicacion)</li>
+                            <li><strong>Tipo: </strong>@Model.misArticulosProgreso[articuloActual].tipo</li>
+                            <li><strong>Autor(es): </strong>@Model.informacionArticuloController.GetAutoresDeArticuloString(Model.misArticulosProgreso[articuloActual].articuloAID)</li>
+                            <li><strong>Tópico(s): </strong>@Model.informacionArticuloController.GetCategoriaTopicosArticulo(Model.misArticulosProgreso[articuloActual].articuloAID)</li>
+                            @if (Model.misArticulosProgreso[articuloActual].tipo == "Corto")
+                            {
+                                <li style="margin-top: 20px"><a href="/EscribirArticulo/@Model.misArticulosProgreso[articuloActual].articuloAID" class="btn">Editar</a></li>
+                            }
+                            else if (Model.misArticulosProgreso[articuloActual].tipo == "Largo")
+                            {
+                                <li style="margin-top: 20px"><a href="/SubirArticulo/@Model.misArticulosProgreso[articuloActual].articuloAID" class="btn">Editar</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="tab-content">
+        <div id="Publicados" class="tab-pane fade in active">
+            @for (int articuloActual = 0; articuloActual < Model.cantResultados; articuloActual++)
+            {
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <h2 class="panel-title" style="font-size: 125%;">
+                                        <a href="/VerResumen/@Model.misArticulosPublicados[articuloActual].articuloAID/@Model.misArticulosPublicados[articuloActual].tipo">@Model.misArticulosPublicados[articuloActual].titulo</a>
+                                    </h2>
+                                </div>
+                                <div class="col-md-3">
+                                    <h3 class="panel-title" style="text-align: right;">
+                                        Estado: @Model.misArticulosPublicados[articuloActual].estado
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <ul style="list-style: none;">
+                            <li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.misArticulosPublicados[articuloActual].fechaPublicacion)</li>
+                            <li><strong>Tipo: </strong>@Model.misArticulosPublicados[articuloActual].tipo</li>
+                            <li><strong>Autor(es): </strong>@Model.informacionArticuloController.GetAutoresDeArticuloString(Model.misArticulosPublicados[articuloActual].articuloAID)</li>
+                            <li><strong>Tópico(s): </strong>@Model.informacionArticuloController.GetCategoriaTopicosArticulo(Model.misArticulosPublicados[articuloActual].articuloAID)</li>
+                            @if (Model.misArticulosPublicados[articuloActual].tipo == "Corto")
+                            {
+                                <li style="margin-top: 20px"><a href="/EscribirArticulo/@Model.misArticulosPublicados[articuloActual].articuloAID" class="btn">Editar</a></li>
+                            }
+                            else if (Model.misArticulosPublicados[articuloActual].tipo == "Largo")
+                            {
+                                <li style="margin-top: 20px"><a href="/SubirArticulo/@Model.misArticulosPublicados[articuloActual].articuloAID" class="btn">Editar</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    
+    <div class="tab-content">
+        <div id="porCorregir" class="tab-pane fade in active">
+            @for (int articuloActual = 0; articuloActual < Model.cantResultados; articuloActual++)
+            {
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <h2 class="panel-title" style="font-size: 125%;">
+                                        <a href="/VerResumen/@Model.misArticulosCorregir[articuloActual].articuloAID/@Model.misArticulosCorregir[articuloActual].tipo">@Model.misArticulosCorregir[articuloActual].titulo</a>
+                                    </h2>
+                                </div>
+                                <div class="col-md-3">
+                                    <h3 class="panel-title" style="text-align: right;">
+                                        Estado: @Model.misArticulosCorregir[articuloActual].estado
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <ul style="list-style: none;">
+                            <li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.misArticulosCorregir[articuloActual].fechaPublicacion)</li>
+                            <li><strong>Tipo: </strong>@Model.misArticulosCorregir[articuloActual].tipo</li>
+                            <li><strong>Autor(es): </strong>@Model.informacionArticuloController.GetAutoresDeArticuloString(Model.misArticulosCorregir[articuloActual].articuloAID)</li>
+                            <li><strong>Tópico(s): </strong>@Model.informacionArticuloController.GetCategoriaTopicosArticulo(Model.misArticulosCorregir[articuloActual].articuloAID)</li>
+                            @if (Model.misArticulosCorregir[articuloActual].tipo == "Corto")
+                            {
+                                <li style="margin-top: 20px"><a href="/EscribirArticulo/@Model.misArticulosCorregir[articuloActual].articuloAID" class="btn">Editar</a></li>
+                            }
+                            else if (Model.misArticulosCorregir[articuloActual].tipo == "Largo")
+                            {
+                                <li style="margin-top: 20px"><a href="/SubirArticulo/@Model.misArticulosCorregir[articuloActual].articuloAID" class="btn">Editar</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 
 </div>
