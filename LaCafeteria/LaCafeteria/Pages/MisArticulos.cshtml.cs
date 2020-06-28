@@ -22,8 +22,6 @@ namespace LaCafeteria.Pages
 
         public List<ArticuloModel> misArticulosCorregir { set; get; }
 
-        public int cantResultados { set; get; }
-
         private BuscadorArticuloController buscadorArticuloController;
         public InformacionArticuloController informacionArticuloController;
 
@@ -37,7 +35,6 @@ namespace LaCafeteria.Pages
         {	
 			string usernamePK = Request.Cookies["usernamePK"];
 			misArticulos = buscadorArticuloController.GetArticulosPorMiembro(usernamePK);
-            cantResultados = misArticulos.Count;
         }
     }
 }

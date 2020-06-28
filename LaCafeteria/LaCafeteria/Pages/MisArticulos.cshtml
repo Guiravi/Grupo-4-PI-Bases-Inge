@@ -19,7 +19,7 @@
 
     <div class="tab-content">
         <div id="todosArticulos" class="tab-pane fade in active">
-            @for (int articuloActual = 0; articuloActual < Model.cantResultados; articuloActual++)
+            @for (int articuloActual = 0; articuloActual < Model.misArticulos.Count; articuloActual++)
             {
 
                 <div class="panel panel-info">
@@ -62,7 +62,7 @@
 
     <div class="tab-content">
         <div id="enRevision" class="tab-pane fade in active">
-            @for (int articuloActual = 0; articuloActual < Model.cantResultados; articuloActual++)
+            @for (int articuloActual = 0; articuloActual < Model.misArticulosRevision.Count; articuloActual++)
             {
 
                 <div class="panel panel-info">
@@ -105,7 +105,7 @@
 
     <div class="tab-content">
         <div id="enProgreso" class="tab-pane fade in active">
-            @for (int articuloActual = 0; articuloActual < Model.cantResultados; articuloActual++)
+            @for (int articuloActual = 0; articuloActual < Model.misArticulosProgreso.Count; articuloActual++)
             {
                 <div class="panel panel-info">
                     <div class="panel-heading">
@@ -147,7 +147,7 @@
 
     <div class="tab-content">
         <div id="Publicados" class="tab-pane fade in active">
-            @for (int articuloActual = 0; articuloActual < Model.cantResultados; articuloActual++)
+            @for (int articuloActual = 0; articuloActual < Model.misArticulosPublicados.Count; articuloActual++)
             {
 
                 <div class="panel panel-info">
@@ -190,7 +190,7 @@
     
     <div class="tab-content">
         <div id="porCorregir" class="tab-pane fade in active">
-            @for (int articuloActual = 0; articuloActual < Model.cantResultados; articuloActual++)
+            @for (int articuloActual = 0; articuloActual < Model.misArticulosCorregir.Count; articuloActual++)
             {
 
                 <div class="panel panel-info">
