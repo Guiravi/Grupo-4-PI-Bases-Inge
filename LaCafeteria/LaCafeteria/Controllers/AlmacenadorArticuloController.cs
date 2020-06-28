@@ -15,8 +15,23 @@ namespace LaCafeteria.Controllers
             almacenadorArticuloDBHandler = new AlmacenadorArticuloDBHandler();
         }
 
-        public void GuardarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<CategoriaTopicoModel> categoriaTopicoModels) {
-            almacenadorArticuloDBHandler.GuardarArticulo(articulo, usernamePKMiembrosAutores, categoriaTopicoModels);
+        public void GuardarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<string> categoriaTopicoStrings) {
+            List<CategoriaTopicoModel> listaModels = new List<CategoriaTopicoModel>();
+
+            foreach (string catTop in categoriaTopicoStrings)
+            {
+                string[] separacion = catTop.Split(": ");
+
+                CategoriaTopicoModel modelo = new CategoriaTopicoModel()
+                {
+                    nombreCategoriaPK = separacion[0],
+                    nombreTopicoPK = separacion[1]
+                };
+
+                listaModels.Add(modelo);
+            }
+
+            almacenadorArticuloDBHandler.GuardarArticulo(articulo, usernamePKMiembrosAutores, listaModels);
         }
     }
 }
