@@ -271,5 +271,86 @@ namespace LaCafeteria.Models.Handlers
 
             return lista;
         }
+
+        public List<DatosTablaCategoriaTopicos> GetDatosTablaCategoriaTopicosPorRol(string rol)
+        {
+            List<DatosTablaCategoriaTopicos> listaDatos = new List<DatosTablaCategoriaTopicos>();
+
+            if (rol == "") //Todos los roles
+            {
+                string connectionString = AppSettings.GetConnectionString();
+                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+                {
+
+                    string sqlString = @"SELECT ATT.nombreCategoriaFK, ATT.nombreTopicoFK, COUNT(DISTINCT MAA.idArticuloFK) AS cantidad, SUM(DISTINCT A.visitas) AS visitas, AVG(DISTINCT A.puntajeTotalRev) AS puntajeProm
+                                        FROM [dbo].[Miembro] M
+                                        JOIN [dbo].[MiembroAutorDeArticulo] MAA
+	                                        ON M.usernamePK = MAA.usernameMiemFK
+                                        JOIN [dbo].[Articulo] A
+	                                        ON MAA.idArticuloFK = A.articuloAID
+                                        JOIN [dbo].[ArticuloTrataTopico] ATT
+	                                        ON A.articuloAID = ATT.idArticuloFK
+                                        WHERE A.estado = 'Publicado'
+                                        GROUP BY ATT.nombreCategoriaFK, ATT.nombreTopicoFK
+                                        ORDER BY ATT.nombreCategoriaFK, ATT.nombreTopicoFK";
+
+                    sqlConnection.Open();
+                    using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+                    {
+                        SqlDataReader dataReader = sqlCommand.ExecuteReader();
+                        while (dataReader.Read())
+                        {
+                            DatosTablaCategoriaTopicos datos = new DatosTablaCategoriaTopicos("", 
+                                (string)dataReader["nombreCategoriaFK"], 
+                                (string)dataReader["nombreTopicoFK"], 
+                                (int)dataReader["cantidad"], 
+                                (int)dataReader["visitas"], 
+                                (double)dataReader["puntajeProm"]);
+                            listaDatos.Add(datos);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                string connectionString = AppSettings.GetConnectionString();
+                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+                {
+
+                    string sqlString = @"SELECT M.nombreRolFK, ATT.nombreCategoriaFK, ATT.nombreTopicoFK, COUNT(DISTINCT MAA.idArticuloFK) AS cantidad, SUM(DISTINCT A.visitas) AS visitas, AVG(DISTINCT A.puntajeTotalRev) AS puntajeProm
+                                        FROM [dbo].[Miembro] M
+                                        JOIN [dbo].[MiembroAutorDeArticulo] MAA
+	                                        ON M.usernamePK = MAA.usernameMiemFK
+                                        JOIN [dbo].[Articulo] A
+	                                        ON MAA.idArticuloFK = A.articuloAID
+                                        JOIN [dbo].[ArticuloTrataTopico] ATT
+	                                        ON A.articuloAID = ATT.idArticuloFK
+                                        WHERE A.estado = 'Publicado'
+		                                        AND M.nombreRolFK = @rol
+                                        GROUP BY M.nombreRolFK, ATT.nombreCategoriaFK, ATT.nombreTopicoFK
+                                        ORDER BY M.nombreRolFK, ATT.nombreCategoriaFK, ATT.nombreTopicoFK";
+
+                    sqlConnection.Open();
+                    using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+                    {
+                        sqlCommand.Parameters.AddWithValue("@rol", rol);
+                        SqlDataReader dataReader = sqlCommand.ExecuteReader();
+                        while (dataReader.Read())
+                        {
+                            DatosTablaCategoriaTopicos datos = new DatosTablaCategoriaTopicos((string)dataReader["nombreRolFK"], 
+                                (string)dataReader["nombreCategoriaFK"],
+                                (string)dataReader["nombreTopicoFK"],
+                                (int)dataReader["cantidad"],
+                                (int)dataReader["visitas"],
+                                (double)dataReader["puntajeProm"]);
+                            listaDatos.Add(datos);
+                        }
+                    }
+                }
+            }
+
+
+            return listaDatos;
+        }
     }
 }
