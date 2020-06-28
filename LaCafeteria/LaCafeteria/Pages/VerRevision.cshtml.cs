@@ -25,11 +25,12 @@ namespace LaCafeteria.Pages
         private InformacionArticuloController informacionArticuloController;
         private DocumentosArticuloController documentosArticuloController;
         private EditorArticuloController editorArticuloController;
+        private InformacionMiembroController informacionMiembroController;
 
         [BindProperty]
         public ArticuloModel articulo { get; set; }
 
-        public List<Tuple<string, string, double, double, string, string>> revisiones { get; set; }
+        public List<RevisionModel> revisiones { get; set; }
 
         public string articuloPDF = "";
 
@@ -39,6 +40,7 @@ namespace LaCafeteria.Pages
             //articuloController = new ArticuloController();
             informacionArticuloController = new InformacionArticuloController();
             documentosArticuloController = new DocumentosArticuloController();
+            informacionMiembroController = new InformacionMiembroController();
 
             rutaCarpeta = env.WebRootPath;
         }
@@ -53,10 +55,11 @@ namespace LaCafeteria.Pages
                 documentosArticuloController.CargarArticuloPDF(idArticuloPK, rutaCarpeta);
                 articuloPDF = Convert.ToString(idArticuloPK) + ".pdf";
             }
+
             for (int i = 0; i < revisiones.Count; i++)
             {
-                meritos += revisiones[i].Item3;
-                puntaje += revisiones[i].Item4;
+                meritos += informacionMiembroController.GetMeritos(revisiones[i].usernameMiemFK);
+                puntaje += revisiones[i].puntaje;
             }
 
             ponderado = Convert.ToString(puntaje / meritos);

@@ -86,6 +86,7 @@
                 <th>Revisor</th>
                 <th>Calificación</th>
                 <th>Comentarios</th>
+                <th>Recomendación</th>
             </tr>
         </thead>
         <tbody>
@@ -93,16 +94,16 @@
             {
             <tr>
                 <td>
-                    @Model.revisiones[i].Item2
+                    @Model.revisiones[i].nombreRevisor
                 </td>
                 <td>
-                    @Model.revisiones[i].Item4
+                    @Model.revisiones[i].puntaje
                 </td>
                 <td>
-                    @Model.revisiones[i].Item5
+                    @Model.revisiones[i].comentarios
                 </td>
                 <td>
-                    @Model.revisiones[i].Item6
+                    @Model.revisiones[i].recomendacion
                 </td>
             </tr>
             }
