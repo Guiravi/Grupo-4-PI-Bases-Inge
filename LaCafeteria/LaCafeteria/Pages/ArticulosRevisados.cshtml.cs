@@ -12,7 +12,7 @@ namespace LaCafeteria.Pages
     public class ArticulosRevisadosModel : PageModel
     {
         private BuscadorArticuloController buscadorArticuloController;
-        private InformacionArticuloController informacionArticuloController;
+        public InformacionArticuloController informacionArticuloController;
 
         public List<ArticuloModel> artList { get; set; }
 
