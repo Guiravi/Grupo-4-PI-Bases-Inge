@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using LaCafeteria.Models;
 using LaCafeteria.Utilidades;
 using LaCafeteria.Controllers;
-using System;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Hosting;
 
 namespace LaCafeteria.Pages
 {
@@ -15,6 +16,23 @@ namespace LaCafeteria.Pages
     {
         private RevisorArticulosController revisorArticulosController;
         private InformacionMiembroController informacionMiembroController;
+        private InformacionArticuloController informacionArticuloController;
+        private DocumentosArticuloController documentosArticuloController;
+
+        [BindProperty(SupportsGet = true)]
+        public int idArticuloPK { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string tipoArticulo { get; set; }
+
+        [BindProperty]
+        public ArticuloModel articulo { get; set; }
+
+        public string articuloPDF = "";
+
+        public string rutaCarpeta = "";
+
+        public string autores = "";
 
         [BindProperty]
         public int opinion { get; set; }
@@ -31,16 +49,34 @@ namespace LaCafeteria.Pages
         [BindProperty]
         public string comentario { get; set; }
 
-        public RevisarArticuloModel()
+        public RevisarArticuloModel(IHostingEnvironment env)
         {
             revisorArticulosController = new RevisorArticulosController();
             informacionMiembroController = new InformacionMiembroController();
+            informacionArticuloController = new InformacionArticuloController();
+            documentosArticuloController = new DocumentosArticuloController();
 
             forma = -1;
             opinion = -1;
             contribucion = -1;
             recomendacion = -1;
             comentario = "";
+
+            autores = informacionArticuloController.GetAutoresDeArticuloString(idArticuloPK);
+
+            rutaCarpeta = env.WebRootPath;
+        }
+
+        public void OnGet() {
+            articulo = informacionArticuloController.GetInformacionArticuloModel(idArticuloPK);
+            if ( tipoArticulo == "Largo" )
+            {
+                documentosArticuloController.CargarArticuloPDF(idArticuloPK, rutaCarpeta);
+                articuloPDF = Convert.ToString(idArticuloPK) + ".pdf";
+            } else
+            {
+
+            }
         }
 
         public IActionResult OnPostEnviar()

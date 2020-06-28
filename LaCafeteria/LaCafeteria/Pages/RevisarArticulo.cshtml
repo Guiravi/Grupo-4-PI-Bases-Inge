@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{idArticuloPK}/{tipoArticulo}"
 @model LaCafeteria.Pages.RevisarArticuloModel
 @using LaCafeteria.Utilidades
 @{
@@ -44,17 +44,17 @@
     }
 </style>
 
-<h2 class="text-center" style="font-size:30px; font-weight: bold;">Revisar: Título de Artículo</h2>
+<h2 class="text-center" style="font-size:30px; font-weight: bold;">Revisar: @Model.articulo.titulo</h2>
 
-<p>Autores:</p>
+<p><b>Autores:</b> @Model.autores</p>
 <p>Tópicos:</p>
 <p>Resumen:</p>
 <p>Contenido:</p>
 
-@*<div class="container">
+<div class="container">
         @if ( Model.tipoArticulo == "Corto" )
         {
-            <div class="row" id="contenidoCorto">
+            <div style="padding-bottom:20px" class="row" id="contenidoCorto">
                 <div class="col-lg-1"></div>
                 <div class="col-lg-10" id="divContent" style="background-color: white;"> @Html.Raw(Model.articulo.contenido) </div>
                 <div class="col-lg-1"></div>
@@ -67,7 +67,7 @@
                 <div class="col-md-1"></div>
             </div>
         }
-    </div>*@
+    </div>
 
 
 <div class="panel">
@@ -194,7 +194,7 @@
             </div>
 
             <div class="container text-center">
-                <button class="btn btn-danger" asp-page="ArticulosPorRevisar"> Cancelar </button>
+                <button class="btn btn-danger" type="reset" asp-page="ArticulosPorRevisar"> Cancelar </button>
                 <button class="btn btn-success" type="submit" asp-page-handler="enviar"> Enviar a Revisión </button>
             </div>
         </form>
