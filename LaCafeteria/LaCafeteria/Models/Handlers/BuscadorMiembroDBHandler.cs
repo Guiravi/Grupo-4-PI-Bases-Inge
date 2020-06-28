@@ -306,6 +306,57 @@ namespace LaCafeteria.Models.Handlers
             return miembro;
         }
 
+        public MiembroModel GetMiembroCoordinador() {
+            MiembroModel miembro = null;
+
+            string connectionString = AppSettings.GetConnectionString();
+            using ( SqlConnection sqlConnection = new SqlConnection(connectionString) )
+            {
+
+                string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, paisFK, estado, ciudad, rutaImagenPerfil, 
+											informacionLaboral, meritos, activo, nombreRolFK
+									FROM Miembro
+									WHERE nombreRolFK =  'Coordinador'";
+
+                sqlConnection.Open();
+                using ( SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection) )
+                {
+                    using ( SqlDataReader dataReader = sqlCommand.ExecuteReader() )
+                    {
+                        if ( dataReader.HasRows )
+                        {
+                            while ( dataReader.Read() )
+                            {
+                                miembro = new MiembroModel()
+                                {
+                                    usernamePK = (string) dataReader["usernamePK"],
+                                    email = (string) dataReader["email"],
+                                    nombre = (string) dataReader["nombre"],
+                                    apellido1 = (string) dataReader["apellido1"],
+                                    apellido2 = (!DBNull.Value.Equals(dataReader["apellido2"])) ? (string) dataReader["apellido2"] : null,
+                                    fechaNacimiento = (!DBNull.Value.Equals(dataReader["fechaNacimiento"])) ? (string) dataReader["fechaNacimiento"].ToString().Remove(dataReader["fechaNacimiento"].ToString().Length - 12, 12) : null,
+                                    paisFK = (string) dataReader["paisFK"],
+                                    estado = (!DBNull.Value.Equals(dataReader["estado"])) ? (string) dataReader["estado"] : null,
+                                    ciudad = (!DBNull.Value.Equals(dataReader["ciudad"])) ? (string) dataReader["ciudad"] : null,
+                                    rutaImagenPerfil = (string) dataReader["rutaImagenPerfil"],
+                                    informacionLaboral = (!DBNull.Value.Equals(dataReader["informacionLaboral"])) ? (string) dataReader["informacionLaboral"] : null,
+                                    meritos = (double) dataReader["meritos"],
+                                    activo = (bool) dataReader["activo"],
+                                    nombreRolFK = (string) dataReader["nombreRolFK"]
+                                };
+
+                            }
+                            miembro.idiomas = GetIdiomasMiembro(miembro.usernamePK);
+                            miembro.pasatiempos = GetPasatiemposMiembro(miembro.usernamePK);
+                            miembro.habilidades = GetHabilidadesMiembro(miembro.usernamePK);
+                        }
+                    }
+                }
+            }
+
+            return miembro;
+        }
+
         private List<string> GetIdiomasMiembro(string username)
         {
             List<string> idiomasMiembro = new List<string>();
