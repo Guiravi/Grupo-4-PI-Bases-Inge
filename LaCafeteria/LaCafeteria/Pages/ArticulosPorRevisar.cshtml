@@ -23,7 +23,25 @@
                 <tr>
                     <td>@Model.artList[i].titulo</td>
                     <td>@Model.dictAutores[Model.artList[i]]</td>
-                    <td>@Model.dictTopicos[Model.artList[i]]</td>
+                    <td>
+                    @{List<string> lista = Model.informacionArticuloController.GetCategoriaTopicosArticuloString(Model.artList[i].articuloAID);
+                                for(int j = 0 ; j < lista.Count ; j++)
+                                {
+                                    if (j != lista.Count - 1)
+                                    {
+                                        <text>
+                                        @lista[j], 
+                                        </text>
+                                    }
+                                    else
+                                    {
+                                        <text>
+                                        @lista[j]
+                                        </text>
+                                    }
+                                }
+                            }
+                    </td>
                     <td>@Model.artList[i].tipo</td>
                     <td>@Model.artList[i].estado</td>
                 </tr>
