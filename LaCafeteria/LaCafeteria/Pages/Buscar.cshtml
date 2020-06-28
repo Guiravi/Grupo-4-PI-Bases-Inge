@@ -66,9 +66,23 @@
                             <span class="sr-only">Desplegar</span>
                         </button>
                         <ul class="dropdown-menu" id="topicosList">
-                            @for (int topicoActual = 0; topicoActual < Model.listaTopicos.Count; ++topicoActual)
-                            {
-                                <li style="margin: 5px 5px"><input type="checkbox" name="listaTopicosSelec" value="@Model.listaTopicos[topicoActual].nombreTopicoPK"><span class="text-primary checkbox-inline">@Model.listaTopicos[topicoActual].nombreTopicoPK</span></li>
+                            @{ string categoriaActual = "";
+                                for (int topicoActual = 0; topicoActual < Model.listaTopicos.Count; ++topicoActual)
+                                {
+                                    if (categoriaActual != Model.listaTopicos[topicoActual].nombreCategoriaPK)
+                                    {
+                                        categoriaActual = Model.listaTopicos[topicoActual].nombreCategoriaPK;
+
+                                        <li role="separator" class="divider"></li>
+                                        <li class="dropdown-header">@Html.Raw(Model.listaTopicos[topicoActual].nombreCategoriaPK)</li>
+                                        <li role="separator" class="divider"></li>
+                                        <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaTopicosSelec" value="@Model.listaTopicos[topicoActual].ToString()"> @Model.listaTopicos[topicoActual].nombreTopicoPK</li>
+                                    }
+                                    else
+                                    {
+                                        <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaTopicosSelec" value="@Model.listaTopicos[topicoActual].ToString()"> @Model.listaTopicos[topicoActual].nombreTopicoPK</li>
+                                    }
+                                }
                             }
 
                             <li style="margin: 10px 5px"><button type="button" id="selecTodos" class="btn">Seleccionar todos</button></li>
