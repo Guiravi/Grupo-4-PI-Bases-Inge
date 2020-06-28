@@ -1,0 +1,34 @@
+﻿@page
+@using LaCafeteria.Utilidades
+@model LaCafeteria.Pages.SolicitudSubirRangoModel
+@{
+    ViewData["Title"] = "SolicitudSubirRango";
+}
+
+
+<h3 class="text-center">Solicitar Subir de Rango</h3>
+@if (Notificaciones.Existe(Model, "exitoSolicitud"))
+{
+    @Html.Raw(Notificaciones.Get(Model, "exitoSolicitud"));
+}
+@if (Notificaciones.Existe(Model, "fracasoSolicitud"))
+{
+    @Html.Raw(Notificaciones.Get(Model, "fracasoSolicitud"));
+}
+
+@if (Notificaciones.Existe(Model, "rangoInvalido"))
+{
+    @Html.Raw(Notificaciones.Get(Model, "rangoInvalido"));
+}
+<form method="post">
+
+    <p style="text-align:center">
+        <input class="actionButtons"  type="submit" value="Solicitar" asp-page-handler="solicitar"  />
+    </p>
+
+
+
+
+
+</form>
+
