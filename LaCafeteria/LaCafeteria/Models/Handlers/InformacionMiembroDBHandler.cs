@@ -69,5 +69,35 @@ namespace LaCafeteria.Models.Handlers
             }
             return merito;
         }
-	}
+
+
+        public List<string> GetIdiomasMiembro(string username) {
+            List<string> idiomasMiembro = new List<string>();
+
+            string connectionString = AppSettings.GetConnectionString();
+            using ( SqlConnection sqlConnection = new SqlConnection(connectionString) )
+            {
+
+                string sqlString = @"SELECT idiomaFK
+									FROM MiembroIdioma
+									WHERE @usernameFK =  usernameFK";
+
+                sqlConnection.Open();
+                using ( SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection) )
+                {
+                    sqlCommand.Parameters.AddWithValue("@usernameFK", username);
+                    using ( SqlDataReader dataReader = sqlCommand.ExecuteReader() )
+                    {
+                        while ( dataReader.Read() )
+                        {
+                            idiomasMiembro.Add((string) dataReader["idiomaFK"]);
+                        }
+
+                    }
+                }
+
+            }
+            return idiomasMiembro;
+        }
+    }
 }
