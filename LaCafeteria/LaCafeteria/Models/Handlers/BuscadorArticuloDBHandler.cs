@@ -249,7 +249,7 @@ namespace LaCafeteria.Models.Handlers
             }
         }
 
-        public List<ArticuloModel> GetArticulosPorTopico(String topico, int tipos) {
+        public List<ArticuloModel> GetArticulosPorTopico(CategoriaTopicoModel catTop, int tipos) {
             String connectionString = AppSettings.GetConnectionString();
 
             using ( SqlConnection connection = new SqlConnection(connectionString) )
@@ -261,47 +261,52 @@ namespace LaCafeteria.Models.Handlers
                 switch ( tipos )
                 {
                     case 1:
-                        cmd = new SqlCommand("SELECT  DISTINCT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
-                        " FROM  Articulo A JOIN ArticuloTrataTopico ATT " +
-                            " ON A.articuloAID = ATT.idArticuloFK " +
-                        " JOIN Topico T " +
-                            " ON ATT.nombreTopicoFK = @topico " +
-                        " WHERE A.tipo = 'Corto' " +
-                            " AND A.estado = 'Publicado' " +
-                        " ORDER BY A.fechaPublicacion DESC;", connection);
+                        cmd = new SqlCommand("SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                                                " FROM  Articulo A " +
+                                                " JOIN ArticuloTrataTopico ATT " +
+                                                    " ON A.articuloAID = ATT.idArticuloFK " +
+                                                " WHERE ATT.nombreCategoriaFK = @categoria " +
+                                                    " AND ATT.nombreTopicoFK = @topico " +
+                                                    " AND A.tipo = 'Corto' " +
+                                                    " AND A.estado = 'Publicado' " +
+                                                    " ORDER BY A.fechaPublicacion DESC; ", connection);
                         break;
                     case 2:
-                        cmd = new SqlCommand("SELECT  DISTINCT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
-                        " FROM  Articulo A JOIN ArticuloTrataTopico ATT " +
-                            " ON A.articuloAID = ATT.idArticuloFK " +
-                        " JOIN Topico T " +
-                            " ON ATT.nombreTopicoFK = @topico " +
-                        " WHERE A.tipo = 'Largo' " +
-                            " AND A.estado = 'Publicado' " +
-                        " ORDER BY A.fechaPublicacion DESC;", connection);
+                        cmd = new SqlCommand("SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                                                " FROM  Articulo A " +
+                                                " JOIN ArticuloTrataTopico ATT " +
+                                                    " ON A.articuloAID = ATT.idArticuloFK " +
+                                                " WHERE ATT.nombreCategoriaFK = @categoria " +
+                                                    " AND ATT.nombreTopicoFK = @topico " +
+                                                    " AND A.tipo = 'Largo' " +
+                                                    " AND A.estado = 'Publicado' " +
+                                                    " ORDER BY A.fechaPublicacion DESC; ", connection);
                         break;
                     case 3:
-                        cmd = new SqlCommand("SELECT  DISTINCT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
-                        " FROM  Articulo A JOIN ArticuloTrataTopico ATT " +
-                            " ON A.articuloAID = ATT.idArticuloFK " +
-                        " JOIN Topico T " +
-                            " ON ATT.nombreTopicoFK = @topico " +
-                        " WHERE A.tipo = 'Link' " +
-                            " AND A.estado = 'Publicado' " +
-                        " ORDER BY A.fechaPublicacion DESC;", connection);
+                        cmd = new SqlCommand("SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                                                " FROM  Articulo A " +
+                                                " JOIN ArticuloTrataTopico ATT " +
+                                                    " ON A.articuloAID = ATT.idArticuloFK " +
+                                                " WHERE ATT.nombreCategoriaFK = @categoria " +
+                                                    " AND ATT.nombreTopicoFK = @topico " +
+                                                    " AND A.tipo = 'Link' " +
+                                                    " AND A.estado = 'Publicado' " +
+                                                    " ORDER BY A.fechaPublicacion DESC; ", connection);
                         break;
                     default:
-                        cmd = new SqlCommand("SELECT  DISTINCT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
-                        " FROM  Articulo A JOIN ArticuloTrataTopico ATT " +
-                            " ON A.articuloAID = ATT.idArticuloFK " +
-                        " JOIN Topico T " +
-                            " ON ATT.nombreTopicoFK = @topico " +
-                        " WHERE A.estado = 'Publicado' " +
-                        " ORDER BY A.fechaPublicacion DESC;", connection);
+                        cmd = new SqlCommand("SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
+                                                " FROM  Articulo A " +
+                                                " JOIN ArticuloTrataTopico ATT " +
+                                                    " ON A.articuloAID = ATT.idArticuloFK " +
+                                                " WHERE ATT.nombreCategoriaFK = @categoria " +
+                                                    " AND ATT.nombreTopicoFK = @topico " +
+                                                    " AND A.estado = 'Publicado' " +
+                                                    " ORDER BY A.fechaPublicacion DESC; ", connection);
                         break;
                 }
 
-                cmd.Parameters.AddWithValue("@topico", topico);
+                cmd.Parameters.AddWithValue("@categoria", catTop.nombreCategoriaPK);
+                cmd.Parameters.AddWithValue("@topico", catTop.nombreTopicoPK);
 
                 SqlDataReader reader = cmd.ExecuteReader();
 
