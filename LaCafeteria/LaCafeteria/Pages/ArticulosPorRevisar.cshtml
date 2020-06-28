@@ -14,20 +14,58 @@
                 <th>Autores</th>
                 <th>Tópicos</th>
                 <th>Tipo</th>
-                <th>Estado</th>
+                <th></th>
             </tr>
         </thead>
-        <tbody>
-            @for ( int i = 0; i < Model.artList.Count; ++i )
-            {
-                <tr>
-                    <td>@Model.artList[i].titulo</td>
-                    <td>@Model.dictAutores[Model.artList[i]]</td>
-                    <td>@Model.dictTopicos[Model.artList[i]]</td>
-                    <td>@Model.artList[i].tipo</td>
-                    <td>@Model.artList[i].estado</td>
-                </tr>
-            }
-        </tbody>
+		<tbody>
+			@if (Model.artList.Count > 0)
+			{
+				string linkPagina = "Index";
+				string mensajeLink = "<span class=\"glyphicon glyphicon-eye-open\" aria-hidden=\"true\" style=\"color: black; \"></span>";
+				@if(Request.Cookies["nombreRolFK"].Equals("Coordinador"))
+				{
+					linkPagina = "AsignarRevisor";
+					mensajeLink = "Asignar revisores";
+				}
+				for (int i = 0; i < Model.artList.Count; ++i)
+				{
+					<tr>
+						<td>@Model.artList[i].titulo</td>
+						<td>@Model.dictAutores[Model.artList[i]]</td>
+                        <td>
+                        @{List<string> lista = Model.informacionArticuloController.GetCategoriaTopicosArticuloString(Model.artList[i].articuloAID);
+                            for(int j = 0 ; j < lista.Count ; j++)
+                            {
+                                if (j != lista.Count - 1)
+                                {
+                                    <text>
+                                    @lista[j],
+                                    </text>
+                                }
+                                else
+                                {
+                                    <text>
+                                    @lista[j]
+                                    </text>
+                                }
+                            }
+                        }
+                        </td>
+						<td>@Model.artList[i].tipo</td>
+						<td><a href="/@linkPagina/@Model.artList[i].articuloAID" class="btn btn-lg">@Html.Raw(mensajeLink)</a></td>
+					</tr>
+				}
+			}
+			else
+			{
+					<tr>
+						<td></td>
+						<td></td>
+						<td><p class="text-center">No hay articulos que requieran revisión</p></td>
+						<td></td>
+						<td></td>
+					</tr>
+			}
+			</tbody>
     </table>
 </div>

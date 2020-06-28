@@ -16,7 +16,7 @@ namespace LaCafeteria.Pages
 {
     public class SubirArticuloModel : PageModel
     {
-		public List<CategoriaTopicoModel> listaTopicos { set; get; }
+		public List<CategoriaTopicoModel> listaCategoriaTopicos { set; get; }
 
 		public List<MiembroModel> listaMiembros { set; get; }
 
@@ -27,7 +27,7 @@ namespace LaCafeteria.Pages
 		public IFormFile archivoArticulo { get; set; }
 
 		[BindProperty]
-		public List<CategoriaTopicoModel> listaTopicosArticulo { get; set; }
+		public List<string> listaCategoriaTopicosArticulo { get; set; }
 
 		[BindProperty]
 		public List<string> listaMiembrosAutores { set; get; }
@@ -36,12 +36,12 @@ namespace LaCafeteria.Pages
 
         //public CorreoController correoController;
 
+        private InformacionCategoriaTopicoController informacionCategoriaTopicoController;
         private BuscadorMiembrosController buscadorMiembrosController;
         private InformacionArticuloController informacionArticuloController;
         private DocumentosArticuloController documentosArticuloController;
         private AlmacenadorArticuloController almacenadorArticuloController;
-        private EditorArticuloController editorArticuloController;
-        private InformacionCategoriaTopicoController informacionCategoriaTopicoController;
+        private EditorArticuloController editorArticuloController;        
 
         [BindProperty(SupportsGet = true)]
         public int idArticuloPK { get; set; }
@@ -61,10 +61,10 @@ namespace LaCafeteria.Pages
             almacenadorArticuloController = new AlmacenadorArticuloController();
             editorArticuloController = new EditorArticuloController();
 
-            listaTopicos = informacionCategoriaTopicoController.GetCategoriasYTopicos();
+            listaCategoriaTopicos = informacionCategoriaTopicoController.GetCategoriasYTopicos();
 			listaMiembros = buscadorMiembrosController.GetListaMiembrosModel();
             listaMiembrosAutores = new List<string>();
-            listaTopicosArticulo = new List<CategoriaTopicoModel>();
+            listaCategoriaTopicosArticulo = new List<string>();
             autoresViejos = new List<string[]>();
             articulo = new ArticuloModel();
 
@@ -83,7 +83,7 @@ namespace LaCafeteria.Pages
 
                     articulo.fechaPublicacion = Convertidor.CambiarFormatoFechaAMD(articulo.fechaPublicacion);
 
-                    listaTopicosArticulo = informacionArticuloController.GetCategoriaTopicosArticulo(idArticuloPK);
+                    listaCategoriaTopicosArticulo = informacionArticuloController.GetCategoriaTopicosArticuloString(idArticuloPK);
 
                     autoresViejos = informacionArticuloController.GetAutoresArticuloListaStringArray(idArticuloPK);
                     foreach (string[] item in autoresViejos)
@@ -100,20 +100,24 @@ namespace LaCafeteria.Pages
                     for (int i = 0; i < autoresViejos.Count; i++)
                     {
                         inyeccion += "var select = document.getElementById('slctAutor');" + "\n" +
-                            "var option = select[select.selectedIndex];" + "\n"+
-                            "if (!miembrosAutores.includes('"+ autoresViejos[i][0] + "')) {" + "\n" +
+                            "var option = select[select.selectedIndex];" + "\n" +
+                            "if (!miembrosAutores.includes('" + autoresViejos[i][0] + "')) {" + "\n" +
                             "const div = document.createElement('div');" +
                             "const button = document.createElement('input');" + "\n" +
                             "button.type = \"button\";" + "\n" +
                             "button.value = \"x\";" + "\n" +
                             "button.toDelete = '" + autoresViejos[i][0] + "';" + "\n" +
                             "button.onclick = borrar;" + "\n" +
-                            "miembrosAutores.push('" + autoresViejos[i][0] +"')" + "\n" +
-                            "div.innerHTML = '<label>' + \'" + autoresViejos[i][1] +"\' + '</label><input type=\"hidden\" name=\"listaMiembrosAutores\" value=\"' + \'"+ autoresViejos[i][0] + "\' + '\"/>';" + "\n" +
+                            "miembrosAutores.push('" + autoresViejos[i][0] + "')" + "\n" +
+                            "div.innerHTML = '<label>' + \'" + autoresViejos[i][1] + "\' + '</label><input type=\"hidden\" name=\"listaMiembrosAutores\" value=\"' + \'" + autoresViejos[i][0] + "\' + '\"/>';" + "\n" +
                             "document.getElementById('autores').appendChild(div);" + "\n" +
                             "div.appendChild(button);" + "\n" +
                             "}\n";
                     }
+                }
+                else
+                {
+                    TempData["idArticulo"] = -1;
                 }
             }
             else
@@ -130,7 +134,7 @@ namespace LaCafeteria.Pages
 			{
 				articulo.tipo = TipoArticulo.Largo;
 				articulo.estado = EstadoArticulo.EnProgreso;
-                almacenadorArticuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
+                almacenadorArticuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo);
 				Notificaciones.Set(this, "articuloGuardado", "Su artículo se guardó correctamente", Notificaciones.TipoNotificacion.Exito);
 
                 return Redirect("/MiPerfil");
@@ -143,10 +147,10 @@ namespace LaCafeteria.Pages
         {
             if (EsValido())
             {
+                articulo.articuloAID = idArticuloPK;
                 articulo.tipo = TipoArticulo.Largo;
                 articulo.estado = EstadoArticulo.EnProgreso;
-                articulo.articuloAID = (int)TempData["idArticulo"];
-                editorArticuloController.EditarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo, rutaCarpeta);
+                editorArticuloController.EditarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo, rutaCarpeta);
                 Notificaciones.Set(this, "articuloEditado", "Su artículo se editó correctamente", Notificaciones.TipoNotificacion.Exito);
 
                 return Redirect("/MiPerfil");
@@ -167,11 +171,11 @@ namespace LaCafeteria.Pages
                 }
                 if (articulo.articuloAID ==  -1)
                 {
-                    almacenadorArticuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo);
+                    almacenadorArticuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo);
                 }
                 else
                 {
-                    editorArticuloController.EditarArticulo(articulo, listaMiembrosAutores, listaTopicosArticulo, rutaCarpeta);
+                    editorArticuloController.EditarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo, rutaCarpeta);
                 }
 
                 //correoController.sendNecesitaRevision(articulo.titulo);
@@ -202,7 +206,7 @@ namespace LaCafeteria.Pages
 			}
 
 
-			if (listaTopicosArticulo.Count == 0)
+			if (listaCategoriaTopicosArticulo.Count == 0)
 			{
 				Notificaciones.Set(this, "listaTopicosArticulo", "Debe seleccionar al menos un tópico para su artículo", Notificaciones.TipoNotificacion.Error);
 				esValido = false;

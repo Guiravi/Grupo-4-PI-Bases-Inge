@@ -16,7 +16,7 @@ namespace LaCafeteria.Models.Handlers
             using ( SqlConnection connection = new SqlConnection(connectionString) )
             {
                 connection.Open();
-                string cmdString = "SELECT M.nombre, M.apellido1, M.apellido2 " +
+                string cmdString = "SELECT M.usernamePK, M.nombre, M.apellido1, M.apellido2 " +
                     " FROM Miembro M JOIN MiembroAutorDeArticulo MAA " +
                     " ON M.usernamePK = MAA.usernameMiemFK " +
                     " WHERE MAA.idArticuloFK = @id;";
@@ -28,9 +28,10 @@ namespace LaCafeteria.Models.Handlers
                 {
                     MiembroModel autor = new MiembroModel()
                     {
+                        usernamePK = (string) reader["usernamePK"],
                         nombre = (string) reader["nombre"],
                         apellido1 = (string) reader["apellido1"],
-                        apellido2 = (string) reader["apellido2"],
+                        apellido2 = (!DBNull.Value.Equals(reader["apellido2"])) ? (string)reader["apellido2"] : null,
                     };
                     autores.Add(autor);
                 }

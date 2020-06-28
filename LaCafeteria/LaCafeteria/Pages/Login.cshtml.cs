@@ -54,9 +54,10 @@ namespace LaCafeteria.Pages
 		public IActionResult OnPost()
 		{
 			if(EsValido())
-			{	
-
-				Response.Cookies.Append("usernamePK", usernamePK);
+			{
+				MiembroModel miembro = buscadorMiembrosController.GetMiembro(usernamePK);
+				Response.Cookies.Append("usernamePK", miembro.usernamePK);
+				Response.Cookies.Append("nombreRolFK", miembro.nombreRolFK);
 				List<Notificacion> listaNotificaciones = informacionMiembroController.GetNotificaciones(usernamePK);
 				HttpContext.Session.SetComplexData("listaNotificaciones", listaNotificaciones);
 				HttpContext.Session.SetInt32("cantidadNotificacionesNuevas", GetCantidadNotificacionesNuevas(listaNotificaciones));
@@ -71,7 +72,7 @@ namespace LaCafeteria.Pages
 		{
 			bool esValido = true;
 
-			if(buscadorMiembrosController.GetMiembro(usernamePK) != null)
+			if(buscadorMiembrosController.GetMiembro(usernamePK) == null)
 			{
 				esValido = false;
 				Notificaciones.Set(this, "usernameNoExiste", "Ingrese con un nombre de usuario valido", Notificaciones.TipoNotificacion.Error);

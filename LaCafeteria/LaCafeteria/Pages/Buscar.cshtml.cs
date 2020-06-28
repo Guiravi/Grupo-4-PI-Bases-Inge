@@ -33,7 +33,7 @@ namespace LaCafeteria.Pages
         public InformacionArticuloController informacionArticuloController;
 
 
-        public int cantResultados { set; get; }  
+        public int cantResultados { set; get; }
 
         [BindProperty(SupportsGet = true)]
         public int indice { set; get; }
@@ -68,12 +68,12 @@ namespace LaCafeteria.Pages
                     articulosResultado = buscadorArticuloController.GetTodosArticulos();
                     cantResultados = articulosResultado.Count;
                     articulosResultado = PaginarResultados(articulosResultado, indice, articulosPorPagina);
-                    totalPaginas = (int)Math.Ceiling(decimal.Divide(cantResultados, articulosPorPagina));                  
+                    totalPaginas = (int)Math.Ceiling(decimal.Divide(cantResultados, articulosPorPagina));
                 }
                 else
                 {
                     tipoBusqueda = (string)TempData["tipoBusqueda"];
-                    string topicosSelec = (string)TempData["topicos"];
+                    List<string> topicosSelec = ParsearStringTopicosDeTempData((string)TempData["topicos"]);
                     tiposArticulo = (int)TempData["tiposArticulo"];
 
                     if (tipoBusqueda == "topicos")
@@ -85,8 +85,7 @@ namespace LaCafeteria.Pages
                         textoBusqueda = (string)TempData["textoBusqueda"];
                     }
 
-                    SolicitudBusquedaModel solicitud = new SolicitudBusquedaModel(tipoBusqueda, topicosSelec,
-                    tiposArticulo, textoBusqueda);
+                    SolicitudBusquedaModel solicitud = new SolicitudBusquedaModel(tipoBusqueda, topicosSelec, tiposArticulo, textoBusqueda);
 
                     articulosResultado = buscadorArticuloController.BuscarArticulo(solicitud);
                     cantResultados = articulosResultado.Count;
@@ -94,17 +93,17 @@ namespace LaCafeteria.Pages
                     totalPaginas = (int)Math.Ceiling(decimal.Divide(cantResultados, articulosPorPagina));
 
                     TempData["tipoBusqueda"] = solicitud.tipoBusqueda;
-                    TempData["topicos"] = solicitud.topicos;
+                    TempData["topicos"] = CrearStringTopicosParaTempData(solicitud.topicos);
                     TempData["tiposArticulo"] = solicitud.tiposArticulo;
                     TempData["textoBusqueda"] = solicitud.textoBusqueda;
-                }                              
+                }
             }
         }
 
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public IActionResult OnPost()
         {
-            
+
             SolicitudBusquedaModel solicitud;
             if (tipoBusqueda == "topicos")
             {
@@ -116,16 +115,7 @@ namespace LaCafeteria.Pages
                     return Page();
                 }
 
-                for (int i = 0; i < listaTopicosSelec.Count; i++)
-                {
-                    if (i != listaTopicosSelec.Count - 1)
-                        topicosSelec += listaTopicosSelec[i] + ",";
-                    else
-                        topicosSelec += listaTopicosSelec[i];
-                    
-                }
-                
-                solicitud = new SolicitudBusquedaModel(tipoBusqueda, topicosSelec, tiposArticulo, "");
+                solicitud = new SolicitudBusquedaModel(tipoBusqueda, listaTopicosSelec, tiposArticulo, "");
             }
             else
             {
@@ -136,13 +126,14 @@ namespace LaCafeteria.Pages
                 }
                 else
                 {
-                    solicitud = new SolicitudBusquedaModel(tipoBusqueda, "", tiposArticulo, textoBusqueda);
-                }               
-               
-            }      
-            
+                    List<string> vacia = new List<string>();
+                    solicitud = new SolicitudBusquedaModel(tipoBusqueda, vacia, tiposArticulo, textoBusqueda);
+                }
+
+            }
+
             TempData["tipoBusqueda"] = solicitud.tipoBusqueda;
-            TempData["topicos"] = solicitud.topicos;
+            TempData["topicos"] = CrearStringTopicosParaTempData(solicitud.topicos);
             TempData["tiposArticulo"] = solicitud.tiposArticulo;
             TempData["textoBusqueda"] = solicitud.textoBusqueda;
 
@@ -160,19 +151,43 @@ namespace LaCafeteria.Pages
             return resultados.OrderBy(d => d.fechaPublicacion).Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
         }
 
+        private string CrearStringTopicosParaTempData(List<string> lista)
+        {
+            string topicosString = "";
+
+            for (int i = 0; i < lista.Count; i++)
+            {
+                if (i != lista.Count - 1)
+                {
+                    topicosString += lista[i] + ", ";
+                }
+                else
+                {
+                    topicosString += lista[i];
+                }
+            }
+
+            return topicosString;
+        }
+
+        private List<string> ParsearStringTopicosDeTempData(string topicosString)
+        {
+            return topicosString.Split(", ").ToList();
+        }
+
     }
 
     public class SolicitudBusquedaModel
     {
         public string tipoBusqueda { get; set; }
 
-        public string topicos { get; set; }
+        public List<string> topicos { get; set; }
 
         public int tiposArticulo { get; set; }
 
         public string textoBusqueda { get; set; }
 
-        public SolicitudBusquedaModel(string tipoBus, string tops, int tiposArt, string textB)
+        public SolicitudBusquedaModel(string tipoBus, List<string> tops, int tiposArt, string textB)
         {
             tipoBusqueda = tipoBus;
 

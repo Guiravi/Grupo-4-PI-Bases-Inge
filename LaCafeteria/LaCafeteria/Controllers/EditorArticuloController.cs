@@ -25,8 +25,25 @@ namespace LaCafeteria.Controllers
             editorArticuloDBHandler.AgregarVisita(id);
         }
 
-        public void EditarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<CategoriaTopicoModel> listaCategoriaTopicos, string rutaCarpeta) {
-            editorArticuloDBHandler.EditarArticulo(articulo, usernamePKMiembrosAutores, listaCategoriaTopicos);
+        public void EditarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<string> listaCategoriaTopicoStrings, string rutaCarpeta) {
+
+            List<CategoriaTopicoModel> listaModels = new List<CategoriaTopicoModel>();
+
+            foreach (string catTop in listaCategoriaTopicoStrings)
+            {
+                string[] separacion = catTop.Split(": ");
+
+                CategoriaTopicoModel modelo = new CategoriaTopicoModel()
+                {
+                    nombreCategoriaPK = separacion[0],
+                    nombreTopicoPK = separacion[1]
+                };
+
+                listaModels.Add(modelo);
+            }
+
+            editorArticuloDBHandler.EditarArticulo(articulo, usernamePKMiembrosAutores, listaModels);
+
             if ( articulo.tipo == "Largo" )
             {
                 administradorDeArchivosFSHandler.BorrarViejoArchivo(articulo.articuloAID, rutaCarpeta);
