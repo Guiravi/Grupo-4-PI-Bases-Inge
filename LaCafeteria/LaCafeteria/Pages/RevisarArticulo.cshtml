@@ -5,6 +5,9 @@
     ViewData["Title"] = "RevisarArticulo";
 }
 
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+
 <style>
     .btn {
         display: inline-block;
@@ -71,12 +74,12 @@
     <div class="panel-heading panel-default">
         <h3 class="panel-title text-center" style="font-size:25px; font-weight: bold;">Formulario de Revisión de Artículo</h3>
     </div>
-    @if (Notificaciones.Existe(Model, "revision"))
+    @if ( Notificaciones.Existe(Model, "revision") )
     {
         @Html.Raw(Notificaciones.Get(Model, "revision"));
     }
     <div class="panel-body">
-        <form method="post">
+        <form method="post" data-toggle="validator" data-disable="false">
 
             <div class="panel panel-default">
                 <div class="panel-heading text-center" style="background-color:#bee3db; font-size:15px; font-weight: bold;">Opinión General del artículo:</div>
@@ -183,7 +186,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading" style="background-color:#bee3db; font-size:15px; font-weight: bold;">Comentarios:</div>
                 <div class="panel-body">
-                    <textarea asp-for="comentario" placeholder="Escriba sus comentarios sobre el artículo" rows="5" cols="100" style="border-radius:5px"></textarea>
+                    <div class="form-group">
+                        <textarea required data-error="Por favor escriba sus comentarios" class="form-control" asp-for="comentario" placeholder="Escriba sus comentarios sobre el artículo" rows="5" cols="100" style="border-radius:5px"></textarea>
+                        <div class="help-block with-errors"></div>
+                    </div>
                 </div>
             </div>
 
