@@ -74,6 +74,38 @@ namespace LaCafeteria.Pages
             datosCatTopNoAsociadosActivo = informacionCategoriaTopicoController.GetCategoriasTopicosNoAsociadosRol("Activo");
             datosCatTopNoAsociadosPeriferico = informacionCategoriaTopicoController.GetCategoriasTopicosNoAsociadosRol("Periférico");
 
+            foreach (CategoriaTopicoModel catTop in datosCatTopNoAsociadosTodos)
+            {
+                DatosTablaCategoriaTopicos datoVacio = new DatosTablaCategoriaTopicos("", catTop.nombreCategoriaPK, catTop.nombreTopicoPK, 0, 0, 0);
+                datosCatTopTodosRoles.Add(datoVacio);
+            }
+
+            datosCatTopTodosRoles.Sort((p, q) => p.nombreCategoriaFK.CompareTo(q.nombreCategoriaFK));
+
+            foreach (CategoriaTopicoModel catTop in datosCatTopNoAsociadosNucleo)
+            {
+                DatosTablaCategoriaTopicos datoVacio = new DatosTablaCategoriaTopicos("", catTop.nombreCategoriaPK, catTop.nombreTopicoPK, 0, 0, 0);
+                datosCatTopNucleo.Add(datoVacio);
+            }
+
+            datosCatTopNucleo.Sort((p, q) => p.nombreCategoriaFK.CompareTo(q.nombreCategoriaFK));
+
+            foreach (CategoriaTopicoModel catTop in datosCatTopNoAsociadosActivo)
+            {
+                DatosTablaCategoriaTopicos datoVacio = new DatosTablaCategoriaTopicos("", catTop.nombreCategoriaPK, catTop.nombreTopicoPK, 0, 0, 0);
+                datosCatTopActivo.Add(datoVacio);
+            }
+
+            datosCatTopActivo.Sort((p, q) => p.nombreCategoriaFK.CompareTo(q.nombreCategoriaFK));
+
+            foreach (CategoriaTopicoModel catTop in datosCatTopNoAsociadosPeriferico)
+            {
+                DatosTablaCategoriaTopicos datoVacio = new DatosTablaCategoriaTopicos("", catTop.nombreCategoriaPK, catTop.nombreTopicoPK, 0, 0, 0);
+                datosCatTopPeriferico.Add(datoVacio);
+            }
+
+            datosCatTopPeriferico.Sort((p, q) => p.nombreCategoriaFK.CompareTo(q.nombreCategoriaFK));
+
         }      
        
     }

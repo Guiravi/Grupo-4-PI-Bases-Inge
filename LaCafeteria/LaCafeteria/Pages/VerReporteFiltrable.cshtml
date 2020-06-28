@@ -41,6 +41,10 @@
             vertical-align: middle !important; 
             text-align: center;
         }
+
+        .tablaCatTop > tbody > tr:nth-of-type(odd) {
+            background-color: #f0fff8;
+        }
     </style>
 
     <script src="~/lib/amcharts4/core.js"></script>
@@ -136,7 +140,7 @@
             </div>
             <div class="row" id="panelTablaCatTop">
 
-                <table class="table table-bordered">
+                <table class="table table-bordered tablaCatTop" id="tablaTodos">
                     <thead>
                         <tr style="font-size: 125%">
                             <th class="text-center">Categorías</th>
@@ -146,60 +150,289 @@
                             <th class="text-center">Puntaje promedio</th>
                         </tr>
                     </thead>
-                    <tbody id="tablaMiembros" class="text-center">
-                        <tr>
-                            <th rowspan="4" scope="rowgroup" class="categorias">Física</th>
-                            <th>Física cuántica</th>
-                            <td>A</td>
-                            <td>B</td>
-                            <td>C</td>
-                        </tr>
-                        <tr>
-                            <th>Física clásica</th>
-                            <td>A</td>
-                            <td>B</td>
-                            <td>C</td>
-                        </tr>
-                        <tr>
-                            <th>Física computacional</th>
-                            <td>A</td>
-                            <td>B</td>
-                            <td>C</td>
-                        </tr>
-                        <tr style="font-weight: bolder; font-size: 115%;">
-                            <th class="text-center">Total</th>
-                            <td>A</td>
-                            <td>B</td>
-                            <td>C</td>
-                        </tr>
-                        <tr>
-                            <th rowspan="4" scope="rowgroup" class="categorias">Computación</th>
-                            <th>Bases de datos</th>
-                            <td>A</td>
-                            <td>B</td>
-                            <td>C</td>
-                        </tr>
-                        <tr>
-                            <th>Ingeniería de Software</th>
-                            <td>A</td>
-                            <td>B</td>
-                            <td>C</td>
-                        </tr>
-                        <tr>
-                            <th>Inteligencia Artificial</th>
-                            <td>A</td>
-                            <td>B</td>
-                            <td>C</td>
-                        </tr>
-                        <tr style="font-weight: bolder; font-size: 115%;">
-                            <th class="text-center">Total</th>
-                            <td>A</td>
-                            <td>B</td>
-                            <td>C</td>
-                        </tr>
+                    <tbody class="text-center">
+                        @{
+                            string catTopActual = "";
+                            int indiceCambio = -1;
+                            int cantTotal = 0;
+                            int visitasTotal = 0;
+                            double promTotal = 0.0;
+                            int rowspanActual = 0;
+                        }
+                        @for (int i = 0; i < Model.datosCatTopTodosRoles.Count; i++)
+                        {
+
+                            if (catTopActual != Model.datosCatTopTodosRoles[i].nombreCategoriaFK)
+                            {
+                                catTopActual = Model.datosCatTopTodosRoles[i].nombreCategoriaFK;
+                                indiceCambio = i;
+                                cantTotal = 0;
+                                visitasTotal = 0;
+                                promTotal = 0.0;
+                                rowspanActual = 1;
+                                int contador = i;
+                                while (contador < Model.datosCatTopTodosRoles.Count && catTopActual == Model.datosCatTopTodosRoles[contador].nombreCategoriaFK)
+                                {
+                                    cantTotal += Model.datosCatTopTodosRoles[contador].cantidad;
+                                    visitasTotal += Model.datosCatTopTodosRoles[contador].visitas;
+                                    promTotal += Model.datosCatTopTodosRoles[contador].puntajeProm;
+                                    rowspanActual++;
+                                    contador++;
+                                }
+
+
+                                <tr>
+                                    <th rowspan="@rowspanActual" scope="rowgroup" class="categorias">@catTopActual</th>
+                                    <th>@Model.datosCatTopTodosRoles[i].nombreTopicoFK</th>
+                                    <td>@Model.datosCatTopTodosRoles[i].cantidad</td>
+                                    <td>@Model.datosCatTopTodosRoles[i].visitas</td>
+                                    <td>@Model.datosCatTopTodosRoles[i].puntajeProm</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <th>@Model.datosCatTopTodosRoles[i].nombreTopicoFK</th>
+                                    <td>@Model.datosCatTopTodosRoles[i].cantidad</td>
+                                    <td>@Model.datosCatTopTodosRoles[i].visitas</td>
+                                    <td>@Model.datosCatTopTodosRoles[i].puntajeProm</td>
+                                </tr>
+                            }
+
+                            if (i + 2 - rowspanActual == indiceCambio)
+                            {
+                                promTotal = promTotal / rowspanActual;
+
+                                <tr style="font-weight: bolder; font-size: 115%;">
+                                    <th class="text-center">Total de categoría</th>
+                                    <td>@cantTotal</td>
+                                    <td>@visitasTotal</td>
+                                    <td>@promTotal</td>
+                                </tr>
+                            }
+                        }
                     </tbody>
                 </table>
-                
+                <table class="table table-bordered tablaCatTop" id="tablaNucleo" style="display: none;">
+                    <thead>
+                        <tr style="font-size: 125%">
+                            <th class="text-center">Categorías</th>
+                            <th class="text-center">Tópicos</th>
+                            <th class="text-center">Cantidad de artículos</th>
+                            <th class="text-center">Visitas</th>
+                            <th class="text-center">Puntaje promedio</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        @{
+                            catTopActual = "";
+                            indiceCambio = -1;
+                            cantTotal = 0;
+                            visitasTotal = 0;
+                            promTotal = 0.0;
+                            rowspanActual = 0;
+                        }
+                        @for (int i = 0; i < Model.datosCatTopNucleo.Count; i++)
+                        {
+
+                            if (catTopActual != Model.datosCatTopNucleo[i].nombreCategoriaFK)
+                            {
+                                catTopActual = Model.datosCatTopNucleo[i].nombreCategoriaFK;
+                                indiceCambio = i;
+                                cantTotal = 0;
+                                visitasTotal = 0;
+                                promTotal = 0.0;
+                                rowspanActual = 1;
+                                int contador = i;
+                                while (contador < Model.datosCatTopNucleo.Count && catTopActual == Model.datosCatTopNucleo[contador].nombreCategoriaFK)
+                                {
+                                    cantTotal += Model.datosCatTopNucleo[contador].cantidad;
+                                    visitasTotal += Model.datosCatTopNucleo[contador].visitas;
+                                    promTotal += Model.datosCatTopNucleo[contador].puntajeProm;
+                                    rowspanActual++;
+                                    contador++;
+                                }
+
+
+                                <tr>
+                                    <th rowspan="@rowspanActual" scope="rowgroup" class="categorias">@catTopActual</th>
+                                    <th>@Model.datosCatTopNucleo[i].nombreTopicoFK</th>
+                                    <td>@Model.datosCatTopNucleo[i].cantidad</td>
+                                    <td>@Model.datosCatTopNucleo[i].visitas</td>
+                                    <td>@Model.datosCatTopNucleo[i].puntajeProm</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <th>@Model.datosCatTopNucleo[i].nombreTopicoFK</th>
+                                    <td>@Model.datosCatTopNucleo[i].cantidad</td>
+                                    <td>@Model.datosCatTopNucleo[i].visitas</td>
+                                    <td>@Model.datosCatTopNucleo[i].puntajeProm</td>
+                                </tr>
+                            }
+
+                            if (i + 2 - rowspanActual == indiceCambio)
+                            {
+                                promTotal = promTotal / rowspanActual;
+
+                                <tr style="font-weight: bolder; font-size: 115%;">
+                                    <th class="text-center">Total de categoría</th>
+                                    <td>@cantTotal</td>
+                                    <td>@visitasTotal</td>
+                                    <td>@promTotal</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <table class="table table-bordered tablaCatTop" id="tablaActivo" style="display: none;">
+                    <thead>
+                        <tr style="font-size: 125%">
+                            <th class="text-center">Categorías</th>
+                            <th class="text-center">Tópicos</th>
+                            <th class="text-center">Cantidad de artículos</th>
+                            <th class="text-center">Visitas</th>
+                            <th class="text-center">Puntaje promedio</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        @{
+                            catTopActual = "";
+                            indiceCambio = -1;
+                            cantTotal = 0;
+                            visitasTotal = 0;
+                            promTotal = 0.0;
+                            rowspanActual = 0;
+                        }
+                        @for (int i = 0; i < Model.datosCatTopActivo.Count; i++)
+                        {
+
+                            if (catTopActual != Model.datosCatTopActivo[i].nombreCategoriaFK)
+                            {
+                                catTopActual = Model.datosCatTopActivo[i].nombreCategoriaFK;
+                                indiceCambio = i;
+                                cantTotal = 0;
+                                visitasTotal = 0;
+                                promTotal = 0.0;
+                                rowspanActual = 1;
+                                int contador = i;
+                                while (contador < Model.datosCatTopActivo.Count && catTopActual == Model.datosCatTopActivo[contador].nombreCategoriaFK)
+                                {
+                                    cantTotal += Model.datosCatTopActivo[contador].cantidad;
+                                    visitasTotal += Model.datosCatTopActivo[contador].visitas;
+                                    promTotal += Model.datosCatTopActivo[contador].puntajeProm;
+                                    rowspanActual++;
+                                    contador++;
+                                }
+
+
+                                <tr>
+                                    <th rowspan="@rowspanActual" scope="rowgroup" class="categorias">@catTopActual</th>
+                                    <th>@Model.datosCatTopActivo[i].nombreTopicoFK</th>
+                                    <td>@Model.datosCatTopActivo[i].cantidad</td>
+                                    <td>@Model.datosCatTopActivo[i].visitas</td>
+                                    <td>@Model.datosCatTopActivo[i].puntajeProm</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <th>@Model.datosCatTopActivo[i].nombreTopicoFK</th>
+                                    <td>@Model.datosCatTopActivo[i].cantidad</td>
+                                    <td>@Model.datosCatTopActivo[i].visitas</td>
+                                    <td>@Model.datosCatTopActivo[i].puntajeProm</td>
+                                </tr>
+                            }
+
+                            if (i + 2 - rowspanActual == indiceCambio)
+                            {
+                                promTotal = promTotal / rowspanActual;
+
+                                <tr style="font-weight: bolder; font-size: 115%;">
+                                    <th class="text-center">Total de categoría</th>
+                                    <td>@cantTotal</td>
+                                    <td>@visitasTotal</td>
+                                    <td>@promTotal</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <table class="table table-bordered tablaCatTop" id="tablaPeriferico" style="display: none;">
+                    <thead>
+                        <tr style="font-size: 125%">
+                            <th class="text-center">Categorías</th>
+                            <th class="text-center">Tópicos</th>
+                            <th class="text-center">Cantidad de artículos</th>
+                            <th class="text-center">Visitas</th>
+                            <th class="text-center">Puntaje promedio</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        @{
+                            catTopActual = "";
+                            indiceCambio = -1;
+                            cantTotal = 0;
+                            visitasTotal = 0;
+                            promTotal = 0.0;
+                            rowspanActual = 0;
+                        }
+                        @for (int i = 0; i < Model.datosCatTopPeriferico.Count; i++)
+                        {
+
+                            if (catTopActual != Model.datosCatTopPeriferico[i].nombreCategoriaFK)
+                            {
+                                catTopActual = Model.datosCatTopPeriferico[i].nombreCategoriaFK;
+                                indiceCambio = i;
+                                cantTotal = 0;
+                                visitasTotal = 0;
+                                promTotal = 0.0;
+                                rowspanActual = 1;
+                                int contador = i;
+                                while (contador < Model.datosCatTopPeriferico.Count && catTopActual == Model.datosCatTopPeriferico[contador].nombreCategoriaFK)
+                                {
+                                    cantTotal += Model.datosCatTopPeriferico[contador].cantidad;
+                                    visitasTotal += Model.datosCatTopPeriferico[contador].visitas;
+                                    promTotal += Model.datosCatTopPeriferico[contador].puntajeProm;
+                                    rowspanActual++;
+                                    contador++;
+                                }
+
+
+                                <tr>
+                                    <th rowspan="@rowspanActual" scope="rowgroup" class="categorias">@catTopActual</th>
+                                    <th>@Model.datosCatTopPeriferico[i].nombreTopicoFK</th>
+                                    <td>@Model.datosCatTopPeriferico[i].cantidad</td>
+                                    <td>@Model.datosCatTopPeriferico[i].visitas</td>
+                                    <td>@Model.datosCatTopPeriferico[i].puntajeProm</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <th>@Model.datosCatTopPeriferico[i].nombreTopicoFK</th>
+                                    <td>@Model.datosCatTopPeriferico[i].cantidad</td>
+                                    <td>@Model.datosCatTopPeriferico[i].visitas</td>
+                                    <td>@Model.datosCatTopPeriferico[i].puntajeProm</td>
+                                </tr>
+                            }
+
+                            if (i + 2 - rowspanActual == indiceCambio)
+                            {
+                                promTotal = promTotal / rowspanActual;
+
+                                <tr style="font-weight: bolder; font-size: 115%;">
+                                    <th class="text-center">Total de categoría</th>
+                                    <td>@cantTotal</td>
+                                    <td>@visitasTotal</td>
+                                    <td>@promTotal</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+
             </div>
         </div>
     </div>
@@ -1085,7 +1318,49 @@
         var as2 = chart.legend.valueLabels.template.states.getKey("active");
         as2.properties.textDecoration = "line-through";
         as2.properties.fill = am4core.color("#000");
-
-
     }); // end am4core.ready()
+
+    let tablaTodos = document.getElementById("tablaTodos");
+    let tablaNucleo = document.getElementById("tablaNucleo");
+    let tablaActivo = document.getElementById("tablaActivo");
+    let tablaPerif = document.getElementById("tablaPeriferico");
+    let todosRad = document.getElementById("todosRad");
+    let nucleoRad = document.getElementById("nucleoRad");
+    let activoRad = document.getElementById("activoRad");
+    let perifRad = document.getElementById("perifRad");
+
+    function mostrarTablaTodos()
+    {
+        tablaTodos.style.display = 'table';
+        tablaNucleo.style.display = 'none';
+        tablaActivo.style.display = 'none';
+        tablaPerif.style.display = 'none';
+    }
+
+    function mostrarTablaNucleo() {
+        tablaTodos.style.display = 'none';
+        tablaNucleo.style.display = 'table';
+        tablaActivo.style.display = 'none';
+        tablaPerif.style.display = 'none';
+    }
+
+    function mostrarTablaActivo() {
+        tablaTodos.style.display = 'none';
+        tablaNucleo.style.display = 'none';
+        tablaActivo.style.display = 'table';
+        tablaPerif.style.display = 'none';
+    }
+
+    function mostrarTablaPerif() {
+        tablaTodos.style.display = 'none';
+        tablaNucleo.style.display = 'none';
+        tablaActivo.style.display = 'none';
+        tablaPerif.style.display = 'table';
+    }
+
+    todosRad.addEventListener('click', mostrarTablaTodos);
+    nucleoRad.addEventListener('click', mostrarTablaNucleo);
+    activoRad.addEventListener('click', mostrarTablaActivo);
+    perifRad.addEventListener('click', mostrarTablaPerif);
+
 </script>
