@@ -12,6 +12,7 @@ namespace LaCafeteria.Pages
     public class AsignarRevisorModel : PageModel
     {
 		public List<MiembroModel> listaMiembrosInteresados { set; get; }
+		public List<MiembroModel> listaMiembrosRevisores { set; get; }
 		public List<MiembroModel> listaMiembrosParaAsignarRevision { set; get; }
 		public List<MiembroModel> listaMiembrosParaSolicitudRevision { set; get; }
 
@@ -36,6 +37,7 @@ namespace LaCafeteria.Pages
 			listaMiembrosInteresados = new List<MiembroModel>();
 			listaMiembrosParaSolicitudRevision = new List<MiembroModel>();
 			listaMiembrosParaAsignarRevision = new List<MiembroModel>();
+			listaMiembrosRevisores = new List<MiembroModel>();
 
 			buscadorMiembroController = new BuscadorMiembrosController();
 			creadorSolicitudRevisionController = new CreadorSolicitudRevisionController();
@@ -53,16 +55,13 @@ namespace LaCafeteria.Pages
 
 			listaMiembrosParaAsignarRevision = buscadorMiembroController.GetlistaMiembrosParaAsignarRevision(articuloAID);
 
+			listaMiembrosRevisores = buscadorMiembroController.GetListaMiembrosRevisores(articuloAID);
+
 			if(!EsValidoGet())
 			{	
 				//TODO: Setear notificacion de error
 				Redirect("/ArticulosPorRevisar");
 			}
-		}
-
-		public IActionResult OnPostCancelarColaboracion()
-		{
-			return Redirect("/AsignarRevisor/" + articuloAID);
 		}
 
 		public IActionResult OnPostSolicitarColaboracion()
@@ -82,6 +81,11 @@ namespace LaCafeteria.Pages
 				asignadorRevisoresController.AsignarRevisor(usernameMiemFK, articuloAID);
 			}
 
+			return Redirect("/AsignarRevisor/" + articuloAID);
+		}
+
+		public IActionResult OnPostCancelar()
+		{
 			return Redirect("/AsignarRevisor/" + articuloAID);
 		}
 

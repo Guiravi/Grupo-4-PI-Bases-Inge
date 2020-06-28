@@ -82,7 +82,7 @@
 				<div id="nucleosSolicitados">
 				</div>
 				<div class="container text-center">
-					<input type="submit" name="cancelar" class="btn btn-danger" value="Cancelar" asp-page-handler="cancelarcolaboracion" />
+					<input type="submit" name="cancelar" class="btn btn-danger" value="Cancelar" asp-page-handler="cancelar" />
 					<input type="submit" name="solicitar" class="btn btn-success" value="Solicitar colaboración" asp-page-handler="solicitarcolaboracion" />
 				</div>
 		</form>
@@ -99,10 +99,39 @@
 		<h3 class="panel-title">Lista de miembros núcleo asignados como revisores</h3>
 	</div>
 
-	@* foreach listaMiembrosAsignados (Revisa) y boton para aceptar o rechazar la solicitud de revision*@
+	@* foreach listaMiembrosAsignados (Revisa)*@
 	<div class="panel-body">
-		<p class="text-center">No hay ningún miembro asignado</p>
-	</div>
+
+		@if (Model.listaMiembrosRevisores.Count > 0)
+		{
+			<table class="table table-hover table-striped">
+				<thead>
+					<tr>
+						<th>Nombre</th>
+						<th>Primer apellido</th>
+						<th>Segundo apellido</th>
+						<th>Nombre de usuario</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (MiembroModel miembro in Model.listaMiembrosRevisores)
+					{
+						<tr>
+							<td>@miembro.nombre</td>
+							<td>@miembro.apellido1</td>
+							<td>@miembro.apellido2</td>
+							<td>@miembro.usernamePK</td>
+						</tr>
+					}
+				</tbody>
+				</table>
+				}
+				else
+				{
+				<p class="text-center">No hay ningún miembro asignado</p>
+				}
+		</div>
 </div>
 
 <div class="panel">
@@ -134,7 +163,7 @@
 				<div id="nucleosAsignados">
 				</div>
 				<div class="container text-center">
-					<input type="submit" name="cancelar" class="btn btn-danger" value="Cancelar" asp-page-handler="cancelarcolaboracion" />
+					<input type="submit" name="cancelar" class="btn btn-danger" value="Cancelar" asp-page-handler="cancelar" />
 					<input type="submit" name="solicitar" class="btn btn-success" value="Asignar Revisor" asp-page-handler="asignarrevisor" />
 				</div>
 			</form>
