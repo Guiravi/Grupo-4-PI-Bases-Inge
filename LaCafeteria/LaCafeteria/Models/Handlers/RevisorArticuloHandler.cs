@@ -11,19 +11,16 @@ namespace LaCafeteria.Models.Handlers
     {
         public RevisorArticuloHandler() { }
 
-        public void ActualizarEstadoRevisionArticulo(double merito, RevisionModel revision)
-        {
-            double puntaje = merito*(revision.opinion+revision.contribucion+revision.forma);
+        public void ActualizarEstadoRevisionArticulo(double merito, RevisionModel revision) {
             string connectionString = AppSettings.GetConnectionString();
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
             {
                 connection.Open();
-                string cmdString = "UPDATE NucleoRevisaArticulo SET puntaje = @puntaje, opinionGeneral = @opinionGeneral, " +
+                string cmdString = "UPDATE NucleoRevisaArticulo SET puntaje = opinionGeneral = @opinionGeneral, " +
                     "contribucion = @contribucion, forma = @forma, estadoRevision = @estadoRevision,  comentarios = @comentarios " +
                     "recomendacion = @recomendacion WHERE usernameMiemFK = @username AND idArticuloFK = @idArticulo";
                 SqlCommand command = new SqlCommand(cmdString, connection);
-                command.Parameters.AddWithValue("@puntaje", puntaje);
                 command.Parameters.AddWithValue("@opinion", revision.opinion);
                 command.Parameters.AddWithValue("@contribucion", revision.contribucion);
                 command.Parameters.AddWithValue("@forma", revision.forma);
