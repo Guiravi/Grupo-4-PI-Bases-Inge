@@ -11,10 +11,10 @@ namespace LaCafeteria.Models.Handlers
     {
         public RevisorArticuloHandler() { }
 
-        public void ActualizarEstadoRevisionArticulo(float merito,int opinion, int contribucion, int forma, string estadoRevision, 
+        public void ActualizarEstadoRevisionArticulo(double merito,int opinion, int contribucion, int forma, string estadoRevision, 
                                                     string comentarios, string recomendacion, string username, int idArticulo)
         {
-            float puntaje = merito*(opinion+contribucion+forma);
+            double puntaje = merito*(opinion+contribucion+forma);
             string connectionString = AppSettings.GetConnectionString();
 
             using (SqlConnection connection = new SqlConnection(connectionString))

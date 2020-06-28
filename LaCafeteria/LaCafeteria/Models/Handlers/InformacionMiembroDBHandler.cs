@@ -47,16 +47,16 @@ namespace LaCafeteria.Models.Handlers
 			return listaNotificaciones;
 		}
 
-        public float GetMeritos(string username)
+        public double GetMeritos(string username)
         {
-            float merito;
+            double merito;
             string connectionString = AppSettings.GetConnectionString();
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
 
                 string sqlString = @"SELECT meritos
 								     FROM Miembro 
-                                        WHERE @username = usernamePK";
+                                     WHERE @username = usernamePK";
 
                 sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
