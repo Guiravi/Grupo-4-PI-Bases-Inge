@@ -54,9 +54,10 @@ namespace LaCafeteria.Pages
 		public IActionResult OnPost()
 		{
 			if(EsValido())
-			{	
-
-				Response.Cookies.Append("usernamePK", usernamePK);
+			{
+				MiembroModel miembro = buscadorMiembrosController.GetMiembro(usernamePK);
+				Response.Cookies.Append("usernamePK", miembro.usernamePK);
+				Response.Cookies.Append("nombreRolFK", miembro.nombreRolFK);
 				List<Notificacion> listaNotificaciones = informacionMiembroController.GetNotificaciones(usernamePK);
 				HttpContext.Session.SetComplexData("listaNotificaciones", listaNotificaciones);
 				HttpContext.Session.SetInt32("cantidadNotificacionesNuevas", GetCantidadNotificacionesNuevas(listaNotificaciones));

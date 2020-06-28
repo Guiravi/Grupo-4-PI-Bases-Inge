@@ -30,7 +30,7 @@ namespace LaCafeteria.Models.Handlers
                     {
                         nombre = (string) reader["nombre"],
                         apellido1 = (string) reader["apellido1"],
-                        apellido2 = (string) reader["apellido2"],
+                        apellido2 = (!DBNull.Value.Equals(reader["apellido2"])) ? (string)reader["apellido2"] : null,
                     };
                     autores.Add(autor);
                 }
