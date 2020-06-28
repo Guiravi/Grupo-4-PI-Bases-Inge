@@ -36,5 +36,28 @@ namespace LaCafeteria.Models.Handlers
                 command.ExecuteNonQuery();
             }
         }
+
+        public bool ArticuloConRevisionFinalizada(int id) {
+            bool finalizada = false;
+            string connectionString = AppSettings.GetConnectionString();
+
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            {
+                connection.Open();
+
+                string cmdString = "SELECT COUNT(*) AS 'Cantidad' FROM NucleoRevisaArticulo WHERE idArticuloFK = @id AND estadoRevision = 'En Revisión'";
+                SqlCommand command = new SqlCommand(cmdString, connection);
+                SqlDataReader reader = command.ExecuteReader();
+
+                reader.Read();
+                int articulosEnRevision = (int) reader["Cantidad"];
+
+                if ( articulosEnRevision == 0)
+                {
+                    finalizada = true;
+                }
+            }
+            return finalizada;
+        }
     }
 }
