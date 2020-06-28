@@ -60,7 +60,7 @@
 	</div>
 	<div class="panel-body">
 		@* Solicitar colaboracion a miembros de nucleo que no esten asignados (Revisa) o solicitados (PuedeSerRevisor "Solicitado")*@
-		<form method="post">
+		<form method="post" enctype="multipart/form-data">
 			<label for="slctNucleoColab">Miembros Núcleo</label>
 			<div class="container">
 				<div class="col-xs-4">
@@ -73,14 +73,14 @@
 				</div>
 				<div>
 					<input type="button" class="btn" value="Agregar a lista" onclick="agregarSolicitudMiembro()" />
-				</div>
 			</div>
 			@* Lista de nucleos solicitados*@
 			<div id="nucleosSolicitados">
 			</div>
 			<div class="container text-center">
-				<input type="button" class="btn btn-danger" value="Cancelar"/>
-				<input type="button" class="btn btn-success" value="Solicitar colaboración"/>
+				<input type="submit" name="cancelar" class="btn btn-danger" value="Solicitar colaboración" asp-page-handler="cancelarcolaboracion"/>
+				<input type="submit" name="solicitar" class="btn btn-success" value="Solicitar colaboración" asp-page-handler="solicitarcolaboracion"/>
+			</div>
 		</form>
 		</div>
 	</div>
@@ -148,7 +148,7 @@
             button.toDelete = option.value;
             button.onclick = borrar;
             miembrosAutores.push(option.value)
-            div.innerHTML = '<label>' + option.text + '</label><input type="hidden" name="listaMiembrosAutores" value=\"' + option.value + '\"/>';
+			div.innerHTML = '<label>' + option.text + '</label><input type="hidden" name="listaSolicitados" value=\"' + option.value + '\"/>';
 			document.getElementById('nucleosSolicitados').appendChild(div);
             div.appendChild(button);
         }

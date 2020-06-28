@@ -27,10 +27,7 @@ namespace LaCafeteria.Pages
 		{
 			listaMiembrosParaSolicitudRevision = new List<MiembroModel>();
 			buscadorMiembroController = new BuscadorMiembrosController();
-		}
 
-		public void OnGet()
-        {	
 			listaMiembrosInteresados = buscadorMiembroController.GetListaMiembrosInteresados(articuloAID);
 
 			listaMiembrosParaSolicitudRevision = buscadorMiembroController.GetListaMiembrosParaSolicitudRevision(articuloAID);
@@ -38,9 +35,19 @@ namespace LaCafeteria.Pages
 			listaMiembrosParaAsignarRevision = buscadorMiembroController.GetlistaMiembrosParaAsignarRevision(articuloAID);
 		}
 
-		public void OnPostSolicitarColaboracion()
+		public void OnGet()
+        {	
+			
+		}
+
+		public void OnPostCancelarColaboracion()
 		{
 
+		}
+
+		public void OnPostSolicitarColaboracion()
+		{
+			// Crear solicitud
 		}
 		
     }
