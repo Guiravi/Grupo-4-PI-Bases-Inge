@@ -13,7 +13,7 @@ namespace LaCafeteria.Models.Handlers
             List<MiembroModel> autores = new List<MiembroModel>();
             string connectionString = AppSettings.GetConnectionString();
 
-            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 string cmdString = "SELECT M.usernamePK, M.nombre, M.apellido1, M.apellido2 " +
@@ -24,13 +24,13 @@ namespace LaCafeteria.Models.Handlers
                 command.Parameters.AddWithValue("@id", id);
 
                 SqlDataReader reader = command.ExecuteReader();
-                while ( reader.Read() )
+                while (reader.Read())
                 {
                     MiembroModel autor = new MiembroModel()
                     {
-                        usernamePK = (string) reader["usernamePK"],
-                        nombre = (string) reader["nombre"],
-                        apellido1 = (string) reader["apellido1"],
+                        usernamePK = (string)reader["usernamePK"],
+                        nombre = (string)reader["nombre"],
+                        apellido1 = (string)reader["apellido1"],
                         apellido2 = (!DBNull.Value.Equals(reader["apellido2"])) ? (string)reader["apellido2"] : null,
                     };
                     autores.Add(autor);
@@ -46,7 +46,7 @@ namespace LaCafeteria.Models.Handlers
 
             ArticuloModel articulo = null;
 
-            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
@@ -55,20 +55,20 @@ namespace LaCafeteria.Models.Handlers
 
                 SqlDataReader reader = cmd.ExecuteReader();
 
-                while ( reader.Read() )
+                while (reader.Read())
                 {
                     articulo = new ArticuloModel()
                     {
                         articuloAID = id,
-                        titulo = (string) reader["titulo"],
-                        tipo = (string) reader["tipo"],
+                        titulo = (string)reader["titulo"],
+                        tipo = (string)reader["tipo"],
                         fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
-                        resumen = (string) reader["resumen"],
-                        contenido = (string) reader["contenido"],
-                        estado = (string) reader["estado"],
-                        visitas = (int) reader["visitas"],
-                        puntajeTotalRev = (!DBNull.Value.Equals(reader["puntajeTotalRev"])) ? (double?) reader["puntajeTotalRev"] : null,
-                        calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
+                        resumen = (string)reader["resumen"],
+                        contenido = (string)reader["contenido"],
+                        estado = (string)reader["estado"],
+                        visitas = (int)reader["visitas"],
+                        puntajeTotalRev = (!DBNull.Value.Equals(reader["puntajeTotalRev"])) ? (double?)reader["puntajeTotalRev"] : null,
+                        calificacionTotalMiem = (int)reader["calificacionTotalMiem"]
                     };
                 }
 
@@ -82,7 +82,7 @@ namespace LaCafeteria.Models.Handlers
 
             String connectionString = AppSettings.GetConnectionString();
 
-            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
@@ -97,11 +97,11 @@ namespace LaCafeteria.Models.Handlers
 
                 SqlDataReader reader = cmd.ExecuteReader();
 
-                while ( reader.Read() )
+                while (reader.Read())
                 {
                     string username = reader["usernamePK"].ToString();
                     string nombreRevisor = reader["nombre"].ToString() + " " + reader["apellido1"].ToString() + " " + reader["apellido2"].ToString();
-                    double puntaje = (double) reader["puntaje"];
+                    double puntaje = (double)reader["puntaje"];
                     string comentarios = reader["comentarios"].ToString();
                     revisiones.Add(Tuple.Create(username, nombreRevisor, puntaje, comentarios));
                 }
@@ -117,7 +117,7 @@ namespace LaCafeteria.Models.Handlers
 
             String connectionString = AppSettings.GetConnectionString();
 
-            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
@@ -132,7 +132,7 @@ namespace LaCafeteria.Models.Handlers
 
                 SqlDataReader reader = cmd.ExecuteReader();
 
-                while ( reader.Read() )
+                while (reader.Read())
                 {
                     string nombreRevisor = reader["nombre"].ToString() + " " + reader["apellido1"].ToString() + " " + reader["apellido2"].ToString();
                     listaRevisores.Add(nombreRevisor);
@@ -149,7 +149,7 @@ namespace LaCafeteria.Models.Handlers
             SqlCommand cmd;
             string contenido = "";
 
-            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
 
                 connection.Open();
@@ -162,7 +162,7 @@ namespace LaCafeteria.Models.Handlers
 
                 SqlDataReader reader = cmd.ExecuteReader();
 
-                while ( reader.Read() )
+                while (reader.Read())
                 {
                     contenido = Convert.ToString(reader.GetValue(0));
                 }
@@ -181,21 +181,21 @@ namespace LaCafeteria.Models.Handlers
 
             String sqlString = "SELECT ArticuloTrataTopico.nombreCategoriaFK ,ArticuloTrataTopico.nombreTopicoFK FROM ArticuloTrataTopico WHERE ArticuloTrataTopico.idArticuloFK = @id";
 
-            using ( SqlConnection connection = new SqlConnection(connectionString) )
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                using ( SqlCommand command = new SqlCommand(sqlString, connection) )
+                using (SqlCommand command = new SqlCommand(sqlString, connection))
                 {
                     connection.Open();
                     command.Parameters.AddWithValue("@id", id);
 
                     SqlDataReader reader = command.ExecuteReader();
 
-                    while ( reader.Read() )
+                    while (reader.Read())
                     {
                         CategoriaTopicoModel categoriaTopico = new CategoriaTopicoModel()
                         {
-                            nombreCategoriaPK = (string) reader["nombreCategoriaFK"],
-                            nombreTopicoPK = (string) reader["nombreTopicoFK"]
+                            nombreCategoriaPK = (string)reader["nombreCategoriaFK"],
+                            nombreTopicoPK = (string)reader["nombreTopicoFK"]
                         };
                         categoriaTopicos.Add(categoriaTopico);
                     }
@@ -209,7 +209,7 @@ namespace LaCafeteria.Models.Handlers
 
             string connectionString = AppSettings.GetConnectionString();
 
-            using ( SqlConnection sqlConnection = new SqlConnection(connectionString) )
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 string consulta = "SELECT MCA.calificacion " +
                     "FROM Miembro M " +
@@ -221,14 +221,14 @@ namespace LaCafeteria.Models.Handlers
                         "AND MCA.idArticuloFK = @id;";
 
                 sqlConnection.Open();
-                using ( SqlCommand cmd = new SqlCommand(consulta, sqlConnection) )
+                using (SqlCommand cmd = new SqlCommand(consulta, sqlConnection))
                 {
 
                     cmd.Parameters.AddWithValue("@user", username);
                     cmd.Parameters.AddWithValue("@id", idArticulo);
-                    using ( SqlDataReader reader = cmd.ExecuteReader() )
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        if ( reader.HasRows )
+                        if (reader.HasRows)
                         {
                             reader.Read();
                             calificacion = reader.GetInt32(0);
@@ -238,6 +238,38 @@ namespace LaCafeteria.Models.Handlers
             }
 
             return calificacion;
+        }
+
+        public List<DatosGraficoDona> GetArticulosPorRol()
+        {
+            List<DatosGraficoDona> lista = new List<DatosGraficoDona>();
+
+            string connectionString = AppSettings.GetConnectionString();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+
+                string sqlString = @"SELECT M.nombreRolFK, COUNT(DISTINCT MAA.idArticuloFK) AS cantidad
+                                    FROM [dbo].[Miembro] M
+                                    JOIN [dbo].[MiembroAutorDeArticulo] MAA
+	                                    ON M.usernamePK = MAA.usernameMiemFK
+                                    JOIN [dbo].[Articulo] A
+	                                    ON MAA.idArticuloFK = A.articuloAID
+                                    WHERE A.estado = 'Publicado'
+                                    GROUP BY M.nombreRolFK";
+
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+                {
+                    SqlDataReader dataReader = sqlCommand.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        DatosGraficoDona datos = new DatosGraficoDona((string)dataReader["nombreRolFK"], (int)dataReader["cantidad"]);
+                        lista.Add(datos);
+                    }
+                }
+            }
+
+            return lista;
         }
     }
 }
