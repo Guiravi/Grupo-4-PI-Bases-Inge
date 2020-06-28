@@ -4,8 +4,17 @@
 @{
     ViewData["Title"] = "EscribirArticulo";
 }
+@using LaCafeteria.Models;
 
-<h2>Escribir Articulo</h2>
+@{ if ( Model.articulo.estado == EstadoArticulo.EnCorrecciones )
+    {
+        <h2>Corregir Articulo</h2>
+    } else
+    {
+        <h2>Escribir Articulo</h2>
+    }
+}
+
 @if ( Notificaciones.Existe(Model, "articuloGuardado") )
 {
     @Html.Raw(Notificaciones.Get(Model, "articuloGuardado"));
@@ -126,9 +135,34 @@
                         </ul>
                     </div>
                 </div>
-                <div style="margin-top:20px;border:solid black 1px" class="row">
-                    @foreach()
-                </div>foreach
+                @{ if ( Model.articulo.estado == EstadoArticulo.EnCorrecciones )
+                    {
+                        <div style="margin-top:20px;border-radius:10px" class="row">
+                            <div style="max-height:500px;overflow:scroll" class="panel panel-default">
+                                <div class="panel-heading">
+                                    Revisiones
+                                </div>
+                                <div class="panel-body">
+                                    @for ( int i = 0; i < Model.revisiones.Count; ++i )
+                                    {
+                                        <div class="panel panel-default">
+
+                                            <div class="panel-heading">Revisor @(i + 1)</div>
+                                            <div class="panel-body">
+                                                <p><b>Opinion:</b> @Model.revisiones[i].opinion</p>
+                                                <p><b>Contribucion:</b> @Model.revisiones[i].contribucion</p>
+                                                <p><b>Forma:</b> @Model.revisiones[i].forma</p>
+
+                                                <p>Comentarios:</p>
+                                                <p>@Model.revisiones[i].comentarios</p>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
             </div>
         </div>
     </div>
@@ -158,7 +192,7 @@
         paste_data_images: true,
         automatic_uploads: false,
         convert_urls: false,
-        height: 500,
+        height: 551,
         plugins: [
             "advlist autolink lists link image charmap print preview anchor",
             "searchreplace visualblocks code fullscreen",
