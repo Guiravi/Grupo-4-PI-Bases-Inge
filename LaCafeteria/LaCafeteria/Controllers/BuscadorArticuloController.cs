@@ -21,10 +21,18 @@ namespace LaCafeteria.Controllers
 
             if ( solicitud.tipoBusqueda == "topicos" )
             {
-                string[] topicosSep = solicitud.topicos.Split(",");
-                for ( int i = 0; i < topicosSep.Length; i++ )
+
+                foreach (string catTop in solicitud.topicos)
                 {
-                    articulos.AddRange(buscadorArticuloDBHandler.GetArticulosPorTopico(topicosSep[i], solicitud.tiposArticulo));
+                    string[] separacion = catTop.Split(": ");
+
+                    CategoriaTopicoModel modelo = new CategoriaTopicoModel()
+                    {
+                        nombreCategoriaPK = separacion[0],
+                        nombreTopicoPK = separacion[1]
+                    };
+
+                    articulos.AddRange(buscadorArticuloDBHandler.GetArticulosPorTopico(modelo, solicitud.tiposArticulo));
                 }
 
                 articulos = articulos.Distinct(new ItemEqualityComparer()).ToList();

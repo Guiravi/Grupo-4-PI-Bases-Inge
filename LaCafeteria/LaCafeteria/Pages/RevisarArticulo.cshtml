@@ -1,0 +1,219 @@
+﻿@page "{idArticuloPK}/{tipoArticulo}"
+@model LaCafeteria.Pages.RevisarArticuloModel
+@using LaCafeteria.Utilidades
+@{
+    ViewData["Title"] = "RevisarArticulo";
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+
+<style>
+    .btn {
+        display: inline-block;
+        margin-bottom: 0;
+        font-weight: normal;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        background-image: none;
+        border: 1px solid transparent;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        border-radius: 4px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .btn-success {
+        color: #fff;
+        background-color: #259959;
+        border-color: #259959;
+    }
+
+    .btn-danger {
+        color: #fff;
+        background-color: #992525;
+        border-color: #992525;
+    }
+</style>
+
+<h2 class="text-center" style="font-weight: bold;">Revisar: @Model.articulo.titulo</h2>
+
+<p><b>Autores:</b> @Model.autores</p>
+<p>
+    <b>Tópicos:</b>
+    @for ( int i = 0; i < Model.topicos.Count; i++ )
+    {
+        if ( i != Model.topicos.Count - 1 )
+        {
+            <text>
+                @Model.topicos[i],
+            </text>
+        } else
+        {
+            <text>
+                @Model.topicos[i]
+            </text>
+        }
+    }
+</p>
+<p><b>Resumen:</b></p>
+<p>@Model.articulo.resumen</p>
+<p><b>Contenido:</b></p>
+
+<div class="container">
+    @if ( Model.tipoArticulo == "Corto" )
+    {
+        <div style="padding-bottom:20px" class="row" id="contenidoCorto">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10" id="divContent" style="background-color: white;"> @Html.Raw(Model.articulo.contenido) </div>
+            <div class="col-lg-1"></div>
+        </div>
+    } else
+    {
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10"><embed src="~/ArticulosPDF/@Model.articuloPDF" type="application/pdf" style="width:100%; height: 800px" /></div>
+            <div class="col-md-1"></div>
+        </div>
+    }
+</div>
+
+
+<div class="panel">
+    <div class="panel-heading panel-default">
+        <h3 class="panel-title text-center" style="font-size:25px; font-weight: bold;">Formulario de Revisión de Artículo</h3>
+    </div>
+    <div class="panel-body">
+        <form method="post" data-toggle="validator" data-disable="false">
+
+            <div class="panel panel-default">
+                <div class="panel-heading text-center" style="background-color:#bee3db; font-size:15px; font-weight: bold;">Opinión General del artículo:</div>
+                <div class="panel-body" style="padding-left:0; padding-right:0;">
+                    <div class="container">
+                        <div style="padding-right:7%" class="form-group text-center" data-toggle="buttons" id="tipoOpinion" role="group" aria-label="Opinion del artículo">
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input required data-error="Selecciona una nota" type="radio" asp-for="opinion" value="0"> 0
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="opinion" value="1"> 1
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="opinion" value="2"> 2
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="opinion" value="3"> 3
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="opinion" value="4"> 4
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="opinion" value="5"> 5
+                            </label>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading text-center" style="background-color:#bee3db; font-size:15px; font-weight: bold;">Contribución del artículo</div>
+                <div class="panel-body" style="padding-left:0; padding-right:0;">
+                    <div class="container">
+                        <div style="padding-right:7%" class="form-group row text-center" data-toggle="buttons" id="tipoContribucion" role="group" aria-label="Contribución del artículo">
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input required data-error="Selecciona una nota" type="radio" asp-for="contribucion" value="0"> 0
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="contribucion" value="1"> 1
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="contribucion" value="2"> 2
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="contribucion" value="3"> 3
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="contribucion" value="4"> 4
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="contribucion" value="5"> 5
+                            </label>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading  text-center" style="background-color:#bee3db; font-size:15px; font-weight: bold;">Forma del artículo</div>
+                <div class="panel-body" style="padding-left:0; padding-right:0;">
+                    <div class="container">
+                        <div style="padding-right:7%" class="form-group row text-center" data-toggle="buttons" id="tipoForma" role="group" aria-label="Forma del artículo">
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input required data-error="Selecciona una nota" type="radio" asp-for="forma" value="0"> 0
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="forma" value="1"> 1
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="forma" value="2"> 2
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="forma" value="3"> 3
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="forma" value="4"> 4
+                            </label>
+                            <label class="btn  btn-default" style="padding-left: 24px;padding-right: 24px;">
+                                <input type="radio" asp-for="forma" value="5"> 5
+                            </label>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading text-center" style="background-color:#bee3db; font-size:15px; font-weight: bold;">Recomendación</div>
+                <div class="panel-body" style="padding-left:0; padding-right:0;">
+                    <div class="container">
+                        <div class="form-group row text-center" style="padding-right:7%;padding:0; margin:0;" data-toggle="buttons" id="tipoRecomendacion" role="group" aria-label="Recomendacion del artículo">
+                            <label class="btn  btn-default">
+                                <input required data-error="Seleccione una recomendacion" type="radio" asp-for="recomendacion" value="0"> Aceptar
+                            </label>
+                            <label class="btn  btn-default">
+                                <input type="radio" asp-for="recomendacion" value="1"> Aceptar con Modificaciones
+                            </label>
+                            <label class="btn  btn-default">
+                                <input type="radio" asp-for="recomendacion" value="2"> Rechazar
+                            </label>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading" style="background-color:#bee3db; font-size:15px; font-weight: bold;">Comentarios:</div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <textarea required data-error="Por favor escriba sus comentarios" class="form-control" asp-for="comentario" placeholder="Escriba sus comentarios sobre el artículo" rows="5" cols="100" style="border-radius:5px"></textarea>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container text-center">
+                <button class="btn btn-danger" type="reset" asp-page="ArticulosPorRevisar"> Cancelar </button>
+                <button class="btn btn-success" type="submit" asp-page-handler="enviar"> Enviar a Revisión </button>
+            </div>
+        </form>
+    </div>
+</div>

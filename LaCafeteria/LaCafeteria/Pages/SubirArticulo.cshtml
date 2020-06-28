@@ -84,17 +84,27 @@
                         <ul class="dropdown-menu">
                             @if (Model.idArticuloPK != -1)
                             {
-                                for (int topicoActual = 0; topicoActual < Model.listaTopicos.Count; ++topicoActual)
+                                string categoriaActual = "";
+                                for (int topicoActual = 0; topicoActual < Model.listaCategoriaTopicos.Count; ++topicoActual)
                                 {
+                                    if (categoriaActual != Model.listaCategoriaTopicos[topicoActual].nombreCategoriaPK)
+                                    {
+                                        categoriaActual = Model.listaCategoriaTopicos[topicoActual].nombreCategoriaPK;
+
+                                        <li role="separator" class="divider"></li>
+                                        <li class="dropdown-header">@Html.Raw(Model.listaCategoriaTopicos[topicoActual].nombreCategoriaPK)</li>
+                                        <li role="separator" class="divider"></li>
+                                    }
+
                                     int contador = 0;
                                     bool encontrado = false;
-                                    while (!encontrado && contador < Model.listaTopicosArticulo.Count)
+                                    while (!encontrado && contador < Model.listaCategoriaTopicosArticulo.Count)
                                     {
-                                        if (Model.listaTopicos[topicoActual].nombreTopicoPK == Model.listaTopicosArticulo[contador].nombreTopicoPK)
+                                        if (Model.listaCategoriaTopicos[topicoActual].ToString().Equals(Model.listaCategoriaTopicosArticulo[contador]))
                                         {
                                             encontrado = true;
 
-                                            <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaTopicosArticulo" value="@Model.listaTopicos[topicoActual].nombreTopicoPK" checked="checked"> @Model.listaTopicos[topicoActual].nombreTopicoPK</li>
+                                            <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaCategoriaTopicosArticulo" value="@Model.listaCategoriaTopicos[topicoActual].ToString()" checked="checked"> @Model.listaCategoriaTopicos[topicoActual].nombreTopicoPK</li>
                                         }
 
                                         contador++;
@@ -102,16 +112,29 @@
 
                                     if (!encontrado)
                                     {
-                                        <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaTopicosArticulo" value="@Model.listaTopicos[topicoActual].nombreTopicoPK"> @Model.listaTopicos[topicoActual].nombreTopicoPK</li>
+                                        <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaCategoriaTopicosArticulo" value="@Model.listaCategoriaTopicos[topicoActual].ToString()"> @Model.listaCategoriaTopicos[topicoActual].nombreTopicoPK</li>
                                     }
 
                                 }
                             }
                             else
                             {
-                                for (int topicoActual = 0; topicoActual < Model.listaTopicos.Count; ++topicoActual)
+                                string categoriaActual = "";
+                                for (int topicoActual = 0; topicoActual < Model.listaCategoriaTopicos.Count; ++topicoActual)
                                 {
-                                    <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaTopicosArticulo" value="@Model.listaTopicos[topicoActual].nombreTopicoPK"> @Model.listaTopicos[topicoActual].nombreTopicoPK</li>
+                                    if (categoriaActual != Model.listaCategoriaTopicos[topicoActual].nombreCategoriaPK)
+                                    {
+                                        categoriaActual = Model.listaCategoriaTopicos[topicoActual].nombreCategoriaPK;
+
+                                        <li role="separator" class="divider"></li>
+                                        <li class="dropdown-header">@Html.Raw(Model.listaCategoriaTopicos[topicoActual].nombreCategoriaPK)</li>
+                                        <li role="separator" class="divider"></li>
+                                        <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaCategoriaTopicosArticulo" value="@Model.listaCategoriaTopicos[topicoActual].ToString()"> @Model.listaCategoriaTopicos[topicoActual].nombreTopicoPK</li>
+                                    }
+                                    else
+                                    {
+                                        <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaCategoriaTopicosArticulo" value="@Model.listaCategoriaTopicos[topicoActual].ToString()"> @Model.listaCategoriaTopicos[topicoActual].nombreTopicoPK</li>
+                                    }
                                 }
                             }
                         </ul>

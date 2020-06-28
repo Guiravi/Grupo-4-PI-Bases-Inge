@@ -16,13 +16,13 @@ namespace LaCafeteria.Controllers
 
         public String GetAutoresDeArticuloString(int id) {
             String autores = "";
-            List<MiembroModel> listaAutores = informacionArticuloDBHandler.GetAutoresDeArticulo(id);
+            List<string[]> listaAutores = GetAutoresArticuloListaStringArray(id);
 
-            for ( int i = 0; i < listaAutores.Count - 1; ++i )
+            foreach ( string[] miembro in listaAutores )
             {
-                autores = autores + listaAutores[i].nombre + " " + listaAutores[i].apellido1 + " " + listaAutores[i].apellido2 + ", ";
+                autores = autores + miembro[1] + ", ";
             }
-            autores = autores + listaAutores[listaAutores.Count - 1].nombre + " " + listaAutores[listaAutores.Count - 1].apellido1 + " " + listaAutores[listaAutores.Count - 1].apellido2;
+            autores = autores.Remove(autores.Length-2);
 
             return autores;
         }
