@@ -110,7 +110,7 @@ namespace LaCafeteria.Models.Handlers
 			using (SqlConnection sqlConnection = new SqlConnection(connectionString))
 			{
 
-				string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, pais, estado, ciudad, rutaImagenPerfil, informacionLaboral, 
+				string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, paisFK, estado, ciudad, rutaImagenPerfil, informacionLaboral, 
 											meritos, activo, nombreRolFK
 									FROM Miembro
 									WHERE NOT EXISTS
