@@ -35,11 +35,23 @@ namespace LaCafeteria.Controllers
 			return miembroDBHandler.GetMiembro(usernamePK);
 		}
 
-		public List<MiembroModel> GetListaMiembros()
+		public List<MiembroModel> GetListaNucleos()
 		{
-			return miembroDBHandler.GetListaMiembros();
+			return miembroDBHandler.GetListaNucleos();
 		}
+        public List<MiembroModel> GetListaNucleosSolicitud()
+        {
+            return miembroDBHandler.GetListaNucleosSolicitud();
+        }
+        public List<MiembroModel> GetListaMiembros()
+        {
+            return miembroDBHandler.GetListaMiembros();
+        }
 
+        public List<MiembroModel> GetListaMiembrosSolicitud(string usernameMiembroFK)
+        {
+            return miembroDBHandler.GetListaMiembrosSolicitud(usernameMiembroFK);
+        }
         public void DegradarMiembro(string usernamePK, string nombreRolFK) {
             
 
@@ -52,9 +64,29 @@ namespace LaCafeteria.Controllers
                 nombreRolFK = "Activo";
             }
 
-            miembroDBHandler.DegradarMiembro(usernamePK,nombreRolFK);
+            miembroDBHandler.ModificarMiembro(usernamePK,nombreRolFK);
             
         }
+
+        public void AscenderMiembro(string usernamePK, string nombreRolFK)
+        {
+
+
+
+
+            if (nombreRolFK == "Activo")
+            {
+                nombreRolFK = "Núcleo";
+            }
+            else
+            {
+                nombreRolFK = "Activo";
+            }
+
+            miembroDBHandler.ModificarMiembro(usernamePK, nombreRolFK);
+
+        }
+
         public int GetCalificacionMiembro(string username, int idArticulo)
         {
             return miembroDBHandler.GetCalificacionMiembro(username, idArticulo);
@@ -78,6 +110,11 @@ namespace LaCafeteria.Controllers
 
             return listaAutores;
         }
+        public string GetRango(string usernamePK)
+        {
 
+            return miembroDBHandler.GetRango(usernamePK);
+
+        }
     }	
 }
