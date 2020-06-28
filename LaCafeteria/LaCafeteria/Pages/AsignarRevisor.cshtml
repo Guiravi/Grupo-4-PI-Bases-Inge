@@ -62,31 +62,26 @@
 		@* Solicitar colaboracion a miembros de nucleo que no esten asignados (Revisa) o solicitados (PuedeSerRevisor "Solicitado")*@
 		<form method="post">
 			<label for="slctNucleoColab">Miembros Núcleo</label>
-			<div class="container row">
-				<div class="col-xs-3">
-					@foreach (MiembroModel miembro in Model.listaMiembrosParaSolicitudRevision)
-					{
-						<option value="@miembro.usernamePK">@miembro.GetNombreCompleto()</option>
-					}
+			<div class="container">
+				<div class="col-xs-4">
+					<select id="slctNucleo" class="form-control">
+						@foreach (MiembroModel miembro in Model.listaMiembrosParaSolicitudRevision)
+						{
+							<option value="@miembro.usernamePK">@miembro.GetNombreCompleto()</option>
+						}
+					</select>
 				</div>
 				<div>
-					<input type="button" class="btn" value="Agregar a lista" />
+					<input type="button" class="btn" value="Agregar a lista" onclick="agregarSolicitudMiembro()" />
 				</div>
 			</div>
+			@* Lista de nucleos solicitados*@
+			<div id="nucleosSolicitados">
+			</div>
+			<div class="container text-center">
+				<input type="button" class="btn btn-danger" value="Cancelar"/>
+				<input type="button" class="btn btn-success" value="Solicitar colaboración"/>
 		</form>
-
-		<p class="text-center">Lista vacía</p>
-
-		<div class="container text-center">
-			<form method="post" style="display:inline-block">
-
-				<input type="button" class="btn btn-danger" value="Cancelar" />
-			</form>
-
-			<form method="post" style="display:inline-block">
-
-				<input type="button" class="btn btn-success" value="Solicitar colaboración" />
-			</form>
 		</div>
 	</div>
 </div>
@@ -139,3 +134,27 @@
 		</div>
 	</div>
 </div>
+<script>
+    var miembrosAutores = new Array();
+    function agregarSolicitudMiembro() {
+		let select = document.getElementById('slctNucleo');
+        let option = select[select.selectedIndex];
+
+        if (!miembrosAutores.includes(option.value)) {
+            const div = document.createElement('div');
+            const button = document.createElement('input');
+            button.type = "button";
+            button.value = "x";
+            button.toDelete = option.value;
+            button.onclick = borrar;
+            miembrosAutores.push(option.value)
+            div.innerHTML = '<label>' + option.text + '</label><input type="hidden" name="listaMiembrosAutores" value=\"' + option.value + '\"/>';
+			document.getElementById('nucleosSolicitados').appendChild(div);
+            div.appendChild(button);
+        }
+    }
+    function borrar() {
+        miembrosAutores.splice(miembrosAutores.indexOf(this.toDelete), 1);
+		document.getElementById('nucleosSolicitados').removeChild(this.parentNode);
+    }
+</script>
