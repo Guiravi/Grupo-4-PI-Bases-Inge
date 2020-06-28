@@ -1,0 +1,53 @@
+﻿@page
+@model LaCafeteria.Pages.ArticulosPorRevisarModel
+@{
+    ViewData["Title"] = "ArticulosPorRevisar";
+}
+
+<h2 class="text-center">Artículos que requieren revisión</h2>
+
+<div class="container">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Titulo</th>
+                <th>Autores</th>
+                <th>Tópicos</th>
+                <th>Tipo</th>
+                <th></th>
+            </tr>
+        </thead>
+		<tbody>
+			@if (Model.artList.Count > 0)
+			{
+				string linkPagina = "Index";
+				string mensajeLink = "<span class=\"glyphicon glyphicon-eye-open\" aria-hidden=\"true\" style=\"color: black; \"></span>";
+				@if(Request.Cookies["nombreRolFK"].Equals("Coordinador"))
+				{
+					linkPagina = "AsignarRevisor";
+					mensajeLink = "Asignar revisores";
+				}
+				for (int i = 0; i < Model.artList.Count; ++i)
+				{
+					<tr>
+						<td>@Model.artList[i].titulo</td>
+						<td>@Model.dictAutores[Model.artList[i]]</td>
+						<td>@Model.dictTopicos[Model.artList[i]]</td>
+						<td>@Model.artList[i].tipo</td>
+						<td><a href="/@linkPagina/@Model.artList[i].articuloAID" class="btn btn-lg">@Html.Raw(mensajeLink)</a></td>
+					</tr>
+				}
+			}
+			else
+			{
+					<tr>
+						<td></td>
+						<td></td>
+						<td><p class="text-center">No hay articulos que requieran revisión</p></td>
+						<td></td>
+						<td></td>
+					</tr>
+			}
+			</tbody>
+    </table>
+</div>
