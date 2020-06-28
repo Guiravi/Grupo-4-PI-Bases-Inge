@@ -24,7 +24,7 @@ namespace LaCafeteria.Controllers
 			return listaNotificaciones;
 		}
 
-        public float GetMeritos(string username)
+        public double GetMeritos(string username)
         {
             return informacionMiembroDBHandler.GetMeritos(username);
         }
