@@ -26,7 +26,7 @@ namespace LaCafeteria.Pages
         [BindProperty]
         public ArticuloModel articulo { get; set; }
 
-        public List<Tuple<string, string, double, string>> revisiones { get; set; }
+        public List<Tuple<string, string, double, double, string>> revisiones { get; set; }
 
         public string articuloPDF = "";
 
@@ -48,7 +48,8 @@ namespace LaCafeteria.Pages
             {
                 documentosArticuloController.CargarArticuloPDF(idArticuloPK, rutaCarpeta);
                 articuloPDF = Convert.ToString(idArticuloPK) + ".pdf";
-            } else
+            }
+            for (int i = 0; i < revisiones.Count; i++)
             {
 
             }
