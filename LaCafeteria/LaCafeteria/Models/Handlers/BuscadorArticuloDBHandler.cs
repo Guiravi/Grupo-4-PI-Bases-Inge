@@ -108,8 +108,8 @@ namespace LaCafeteria.Models.Handlers
                         " FROM  Articulo A " +
                         " JOIN MiembroAutorDeArticulo MAA " +
                             " ON A.articuloAID = MAA.idArticuloFK " +
-                        " WHERE usernameMiemFK = @username;" +
-                        "ORDER BY A.fechaPublicacion DESC", connection);
+                        " WHERE usernameMiemFK = @username " +
+                        "ORDER BY A.fechaPublicacion DESC;", connection);
 
                 cmd.Parameters.AddWithValue("@username", username);
 
