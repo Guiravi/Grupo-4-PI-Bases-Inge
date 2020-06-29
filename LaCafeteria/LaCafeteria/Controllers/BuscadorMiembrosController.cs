@@ -81,5 +81,10 @@ namespace LaCafeteria.Controllers
         public MiembroModel GetMiembroCoordinador() {
             return buscadorMiembroDBHandler.GetMiembroCoordinador();
         }
+
+		public List<MiembroModel> GetListaMiembrosRevisores(int articuloAID)
+		{
+			return buscadorMiembroDBHandler.GetListaMiembrosRevisores(articuloAID);
+		}
 	}
 }
