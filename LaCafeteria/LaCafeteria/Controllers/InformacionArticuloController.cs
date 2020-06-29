@@ -40,7 +40,7 @@ namespace LaCafeteria.Controllers
             return listaAutores;
         }
 
-        public List<Tuple<string, string, double, double, string, string>> GetRevisiones(int id) {
+        public List<RevisionModel> GetRevisiones(int id) {
             return informacionArticuloDBHandler.GetRevisiones(id);
         }
 

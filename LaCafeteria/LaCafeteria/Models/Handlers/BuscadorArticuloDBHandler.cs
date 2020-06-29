@@ -222,6 +222,42 @@ namespace LaCafeteria.Models.Handlers
             }
         }
 
+        public List<ArticuloModel> GetArticulosPorEstadoAsignaMiem(string estadoArticulo, string username)
+        {
+            String connectionString = AppSettings.GetConnectionString();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand cmd = new SqlCommand("SELECT articuloAID, titulo, tipo, estado" +
+                        " FROM Articulo JOIN NucleoRevisaArticulo ON idArticuloFK = articuloAID " +
+                        "WHERE estado = @estadoArticulo AND @username = usernameMiemFK", connection);
+                cmd.Parameters.AddWithValue("@estadoArticulo", estadoArticulo);
+                cmd.Parameters.AddWithValue("@username", username);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                List<ArticuloModel> artList = new List<ArticuloModel>();
+
+                while (reader.Read())
+                {
+                    ArticuloModel articuloActual = new ArticuloModel()
+                    {
+                        articuloAID = (int)reader["articuloAID"],
+                        titulo = (String)reader["titulo"],
+                        tipo = (String)reader["tipo"],
+                        estado = (String)reader["estado"],
+                    };
+                    artList.Add(articuloActual);
+                }
+
+                reader.Close();
+
+                return artList;
+            }
+        }
+
         public List<ArticuloModel> GetArticulosPorTitulo(String titulo, int tipos) {
             String connectionString = AppSettings.GetConnectionString();
 

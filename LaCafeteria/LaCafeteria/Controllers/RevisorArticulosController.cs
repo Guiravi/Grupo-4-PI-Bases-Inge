@@ -9,26 +9,24 @@ namespace LaCafeteria.Controllers
 {
     public class RevisorArticulosController
     {
-        private RevisorArticuloHandler revisorArticuloHandler;
+        private RevisorArticuloDBHandler revisorArticuloHandler;
         private CreadorNotificacionController creadorNotificacionController;
         private BuscadorMiembrosController buscadorMiembrosController;
         private InformacionArticuloController informacionArticuloController;
         
         public RevisorArticulosController()
         {
-            revisorArticuloHandler = new RevisorArticuloHandler();
+            revisorArticuloHandler = new RevisorArticuloDBHandler();
             creadorNotificacionController = new CreadorNotificacionController();
             buscadorMiembrosController = new BuscadorMiembrosController();
             informacionArticuloController = new InformacionArticuloController();
         }
 
-        public void ActualizarRevisionArticulo(double merito, int opinion, int contribucion, int forma, string estadoRevision,
-                                                    string comentarios, string recomendacion, string username, int idArticulo)
+        public void ActualizarRevisionArticulo(RevisionModel revision)
         {
-            revisorArticuloHandler.ActualizarEstadoRevisionArticulo(merito, opinion, contribucion, forma, estadoRevision,
-                                                    comentarios, recomendacion, username, idArticulo);
+            revisorArticuloHandler.ActualizarEstadoRevisionArticulo(revision);
 
-            NotificarCoordinadorRevisionFinalizada(idArticulo);
+            NotificarCoordinadorRevisionFinalizada(revision.idArticuloFK);
         }
 
         private void NotificarCoordinadorRevisionFinalizada(int id) {
