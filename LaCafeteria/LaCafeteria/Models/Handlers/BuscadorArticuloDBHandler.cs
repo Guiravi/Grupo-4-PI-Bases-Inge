@@ -7,7 +7,7 @@ using LaCafeteria.Utilidades;
 
 namespace LaCafeteria.Models.Handlers
 {
-    public class BuscadorArticuloDBHandler
+    public class BuscadorArticuloDBHandler : IBuscadorArticuloDBHandler
     {
         public List<ArticuloModel> GetArticulosPorAutorYTipo(String autores, int tipos) {
             String connectionString = AppSettings.GetConnectionString();

@@ -8,7 +8,7 @@ using LaCafeteria.Utilidades;
 
 namespace LaCafeteria.Models.Handlers
 {
-    public class InformacionArticuloDBHandler
+    public class InformacionArticuloDBHandler : IInformacionArticuloDBHandler
     {
         public List<MiembroModel> GetAutoresDeArticulo(int id) {
             List<MiembroModel> autores = new List<MiembroModel>();
