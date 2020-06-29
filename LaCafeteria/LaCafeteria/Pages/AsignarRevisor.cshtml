@@ -41,7 +41,7 @@
 	}
 </style>
 
-<h2 class="text-center">Título de artículo</h2>
+<h2 class="text-center">Título: @Model.articulo.titulo</h2>
 
 <div class="panel">
 	<div class="panel-heading panel-default">
@@ -60,46 +60,78 @@
 	</div>
 	<div class="panel-body">
 		@* Solicitar colaboracion a miembros de nucleo que no esten asignados (Revisa) o solicitados (PuedeSerRevisor "Solicitado")*@
-		<form method="post">
-			<label for="slctNucleoColab">Miembros Núcleo</label>
+		@if (Model.listaMiembrosParaSolicitudRevision.Count > 0)
+		{
+		<form method="post" enctype="multipart/form-data">
+
+			<label for="slctNucleo">Miembros Núcleo</label>
 			<div class="container row">
-				<div class="col-xs-3">
-					@foreach (MiembroModel miembro in Model.listaMiembrosParaSolicitudRevision)
-					{
-						<option value="@miembro.usernamePK">@miembro.GetNombreCompleto()</option>
-					}
+				<div class="col-xs-4">
+					<select id="slctNucleo" class="form-control">
+						@foreach (MiembroModel miembro in Model.listaMiembrosParaSolicitudRevision)
+						{
+							<option value="@miembro.usernamePK">@miembro.GetNombreCompleto()</option>
+						}
+					</select>
 				</div>
 				<div>
-					<input type="button" class="btn" value="Agregar a lista" />
+					<input type="button" class="btn" value="Agregar a lista" onclick="agregarSolicitudMiembro()" />
 				</div>
-			</div>
+				</div>
+				@* Lista de nucleos solicitados para colaboracion*@
+				<div id="nucleosSolicitados">
+				</div>
+				<div class="container text-center">
+					<input type="submit" name="cancelar" class="btn btn-danger" value="Cancelar" asp-page-handler="cancelar" />
+					<input type="submit" name="solicitar" class="btn btn-success" value="Solicitar colaboración" asp-page-handler="solicitarcolaboracion" />
+				</div>
 		</form>
-
-		<p class="text-center">Lista vacía</p>
-
-		<div class="container text-center">
-			<form method="post" style="display:inline-block">
-
-				<input type="button" class="btn btn-danger" value="Cancelar" />
-			</form>
-
-			<form method="post" style="display:inline-block">
-
-				<input type="button" class="btn btn-success" value="Solicitar colaboración" />
-			</form>
+		}
+		else
+		{	
+			<p class="text-center">No hay miembros disponibles para solicitar colaboración</p>
+		}
 		</div>
 	</div>
-</div>
 
 <div class="panel">
 	<div class="panel-heading panel-default">
 		<h3 class="panel-title">Lista de miembros núcleo asignados como revisores</h3>
 	</div>
 
-	@* foreach listaMiembrosAsignados (Revisa) y boton para aceptar o rechazar la solicitud de revision*@
+	@* foreach listaMiembrosAsignados (Revisa)*@
 	<div class="panel-body">
-		<p class="text-center">No hay ningún miembro asignado</p>
-	</div>
+
+		@if (Model.listaMiembrosRevisores.Count > 0)
+		{
+			<table class="table table-hover table-striped">
+				<thead>
+					<tr>
+						<th>Nombre</th>
+						<th>Primer apellido</th>
+						<th>Segundo apellido</th>
+						<th>Nombre de usuario</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (MiembroModel miembro in Model.listaMiembrosRevisores)
+					{
+						<tr>
+							<td>@miembro.nombre</td>
+							<td>@miembro.apellido1</td>
+							<td>@miembro.apellido2</td>
+							<td>@miembro.usernamePK</td>
+						</tr>
+					}
+				</tbody>
+				</table>
+				}
+				else
+				{
+				<p class="text-center">No hay ningún miembro asignado</p>
+				}
+		</div>
 </div>
 
 <div class="panel">
@@ -109,33 +141,83 @@
 
 	<div class="panel-body">
 		@* Asignar revisores a la fuerza (Agrega a Revisa)*@
-		<form method="post">
-			<label for="slctNucleo">Miembros Núcleo</label>
-			<div class="container row">
-				<div class="col-xs-3">
-					<select id="slctNucleo" class="form-control">
-						Lista vacia
-					</select>
+		@if (Model.listaMiembrosParaAsignarRevision.Count > 0)
+		{
+			<form method="post" enctype="multipart/form-data">
+
+				<label for="slctAsgnados">Miembros Núcleo</label>
+				<div class="container row">
+					<div class="col-xs-4">
+						<select id="slctAsignados" class="form-control">
+							@foreach (MiembroModel miembro in Model.listaMiembrosParaAsignarRevision)
+							{
+								<option value="@miembro.usernamePK">@miembro.GetNombreCompleto()</option>
+							}
+						</select>
+					</div>
+					<div>
+						<input type="button" class="btn" value="Agregar a lista" onclick="agregarAsignacionMiembro()" />
+					</div>
 				</div>
-				<div>
-					<input type="button" class="btn" value="Agregar a lista" />
-
+				@* Lista de nucleos seleccionados para mandar a revision*@
+				<div id="nucleosAsignados">
 				</div>
-			</div>
-		</form>
-
-		<p class="text-center">Lista vacía</p>
-
-		<div class="container text-center">
-			<form method="post" style="display:inline-block">
-
-				<input type="button" class="btn btn-danger" value="Cancelar" />
+				<div class="container text-center">
+					<input type="submit" name="cancelar" class="btn btn-danger" value="Cancelar" asp-page-handler="cancelar" />
+					<input type="submit" name="solicitar" class="btn btn-success" value="Asignar Revisor" asp-page-handler="asignarrevisor" />
+				</div>
 			</form>
-
-			<form method="post" style="display:inline-block">
-
-				<input type="button" class="btn btn-success" value="Asignar revisores" />
-			</form>
-		</div>
+		}
+		else
+		{
+			<p class="text-center">No hay miembros disponibles para solicitar asignar</p>
+		}
 	</div>
 </div>
+<script>
+    var miembrosAutores = new Array();
+    function agregarSolicitudMiembro() {
+		let select = document.getElementById('slctNucleo');
+        let option = select[select.selectedIndex];
+
+        if (!miembrosAutores.includes(option.value)) {
+            const div = document.createElement('div');
+            const button = document.createElement('input');
+            button.type = "button";
+            button.value = "x";
+            button.toDelete = option.value;
+            button.onclick = borrarNucleoSolicitado;
+            miembrosAutores.push(option.value)
+			div.innerHTML = '<label>' + option.text + '</label><input type="hidden" name="listaSolicitados" value=\"' + option.value + '\"/>';
+			document.getElementById('nucleosSolicitados').appendChild(div);
+            div.appendChild(button);
+        }
+    }
+    function borrarNucleoSolicitado() {
+        miembrosAutores.splice(miembrosAutores.indexOf(this.toDelete), 1);
+		document.getElementById('nucleosSolicitados').removeChild(this.parentNode);
+	}
+
+	var nucleosAsignados = new Array();
+	function agregarAsignacionMiembro() {
+		let select = document.getElementById('slctAsignados');
+		let option = select[select.selectedIndex];
+
+		if (!nucleosAsignados.includes(option.value)) {
+			const div = document.createElement('div');
+			const button = document.createElement('input');
+			button.type = "button";
+			button.value = "x";
+			button.toDelete = option.value;
+			button.onclick = borrarAsignado;
+			nucleosAsignados.push(option.value)
+			div.innerHTML = '<label>' + option.text + '</label><input type="hidden" name="listaAsignados" value=\"' + option.value + '\"/>';
+			document.getElementById('nucleosAsignados').appendChild(div);
+			div.appendChild(button);
+		}
+	}
+	function borrarAsignado() {
+		nucleosAsignados.splice(nucleosAsignados.indexOf(this.toDelete), 1);
+		document.getElementById('nucleosAsignados').removeChild(this.parentNode);
+	}
+</script>
