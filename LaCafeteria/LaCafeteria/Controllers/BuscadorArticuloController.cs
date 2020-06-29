@@ -66,6 +66,11 @@ namespace LaCafeteria.Controllers
         public List<ArticuloModel> GetArticulosPorMiembro(string username) {
             return buscadorArticuloDBHandler.GetArticulosPorMiembro(username);
         }
+
+        public List<ArticuloModel> GetArticulosPorMiembroEstado(string username, string estadoArticulo)
+        {
+            return buscadorArticuloDBHandler.GetArticulosPorMiembroEstado(username, estadoArticulo);
+        }
     }
 
     class ItemEqualityComparer : IEqualityComparer<ArticuloModel>
