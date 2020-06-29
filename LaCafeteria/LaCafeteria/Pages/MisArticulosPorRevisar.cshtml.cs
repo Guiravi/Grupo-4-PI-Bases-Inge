@@ -9,10 +9,10 @@ using LaCafeteria.Models;
 
 namespace LaCafeteria.Pages
 {
-    public class ArticulosPorRevisarModel : PageModel
+    public class MisArticulosPorRevisarModel : PageModel
     {
         private BuscadorArticuloController buscadorArticuloController { get; set; }
-        public InformacionArticuloController informacionArticuloController { get; set; }
+        private InformacionArticuloController informacionArticuloController { get; set; }
 
         public List<ArticuloModel> artList { get; set; }
 
@@ -20,12 +20,12 @@ namespace LaCafeteria.Pages
 
         public Dictionary<ArticuloModel, string> dictAutores { get; set; } 
 
-        public ArticulosPorRevisarModel() {
+        public MisArticulosPorRevisarModel() {
 
             buscadorArticuloController = new BuscadorArticuloController();
             informacionArticuloController = new InformacionArticuloController();
 
-            artList = buscadorArticuloController.GetArticulosPorEstado(EstadoArticulo.RequiereRevision);
+            artList = buscadorArticuloController.GetArticulosPorEstadoAsignaMiem(EstadoArticulo.RequiereRevision, Request.Cookies["usernamePK"]);
 
             dictTopicos = new Dictionary<ArticuloModel, List<CategoriaTopicoModel>>();
             dictAutores = new Dictionary<ArticuloModel, string>();
@@ -37,17 +37,9 @@ namespace LaCafeteria.Pages
             }
         }
 
-        public IActionResult OnGet()
+        public void OnGet()
         {
-			string usernameFK = Request.Cookies["usernamePK"];
-			string nombreRolFK = Request.Cookies["nombreRolFK"];
-			if (usernameFK == null || !(nombreRolFK.Equals("Coordinador") || nombreRolFK.Equals("Núcleo")))
-			{	
-				//TODO: Desplegar notificacion de error
-				return Redirect("Index");
-			}
 
-			return Page();
         }
     }
 }

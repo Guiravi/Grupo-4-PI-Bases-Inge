@@ -7,32 +7,28 @@ using LaCafeteria.Utilidades;
 
 namespace LaCafeteria.Models.Handlers
 {
-    public class RevisorArticuloHandler
+    public class RevisorArticuloDBHandler
     {
-        public RevisorArticuloHandler() { }
+        public RevisorArticuloDBHandler() { }
 
-        public void ActualizarEstadoRevisionArticulo(double merito,int opinion, int contribucion, int forma, string estadoRevision, 
-                                                    string comentarios, string recomendacion, string username, int idArticulo)
-        {
-            double puntaje = merito*(opinion+contribucion+forma);
+        public void ActualizarEstadoRevisionArticulo(RevisionModel revision) {
             string connectionString = AppSettings.GetConnectionString();
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using ( SqlConnection connection = new SqlConnection(connectionString) )
             {
                 connection.Open();
-                string cmdString = "UPDATE NucleoRevisaArticulo SET puntaje = @puntaje, opinionGeneral = @opinionGeneral, " +
+                string cmdString = "UPDATE NucleoRevisaArticulo SET puntaje = opinionGeneral = @opinionGeneral, " +
                     "contribucion = @contribucion, forma = @forma, estadoRevision = @estadoRevision,  comentarios = @comentarios " +
                     "recomendacion = @recomendacion WHERE usernameMiemFK = @username AND idArticuloFK = @idArticulo";
                 SqlCommand command = new SqlCommand(cmdString, connection);
-                command.Parameters.AddWithValue("@puntaje", puntaje);
-                command.Parameters.AddWithValue("@opinion", opinion);
-                command.Parameters.AddWithValue("@contribucion", contribucion);
-                command.Parameters.AddWithValue("@forma", forma);
-                command.Parameters.AddWithValue("@estadoRevision", estadoRevision);
-                command.Parameters.AddWithValue("@comentarios", comentarios);
-                command.Parameters.AddWithValue("@recomendacion", recomendacion);
-                command.Parameters.AddWithValue("@username", username);
-                command.Parameters.AddWithValue("@idArticulo", idArticulo);
+                command.Parameters.AddWithValue("@opinion", revision.opinion);
+                command.Parameters.AddWithValue("@contribucion", revision.contribucion);
+                command.Parameters.AddWithValue("@forma", revision.forma);
+                command.Parameters.AddWithValue("@estadoRevision", revision.estadoRevision);
+                command.Parameters.AddWithValue("@comentarios", revision.comentarios);
+                command.Parameters.AddWithValue("@recomendacion", revision.recomendacion);
+                command.Parameters.AddWithValue("@username", revision.usernameMiemFK);
+                command.Parameters.AddWithValue("@idArticulo", revision.idArticuloFK);
                 command.ExecuteNonQuery();
             }
         }

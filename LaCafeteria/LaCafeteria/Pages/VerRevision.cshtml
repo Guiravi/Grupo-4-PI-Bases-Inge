@@ -86,23 +86,36 @@
                 <th>Revisor</th>
                 <th>Calificación</th>
                 <th>Comentarios</th>
+                <th>Recomendación</th>
             </tr>
         </thead>
         <tbody>
             @for (int i = 0; i < Model.revisiones.Count; ++i)
             {
-                <tr>
-                    <td>
-                        @Model.revisiones[i].Item2
-                    </td>
-                    <td>
-                        @Model.revisiones[i].Item3
-                    </td>
-                    <td>
-                        @Model.revisiones[i].Item4
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @Model.revisiones[i].nombreRevisor
+                </td>
+                <td>
+                    @Model.revisiones[i].puntaje
+                </td>
+                <td>
+                    @Model.revisiones[i].comentarios
+                </td>
+                <td>
+                    @Model.revisiones[i].recomendacion
+                </td>
+            </tr>
             }
+
+            <tr>
+                <td colspan="2" style="font-weight:bold">
+                    Ponderado total:
+                </td>
+                <td>
+                    @Model.ponderado
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>
