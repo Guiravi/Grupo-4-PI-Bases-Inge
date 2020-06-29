@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using System.Data;
 using LaCafeteria.Utilidades;
 
 namespace LaCafeteria.Models.Handlers
@@ -447,14 +448,12 @@ namespace LaCafeteria.Models.Handlers
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
 
-                string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, paisFK, estado, ciudad, rutaImagenPerfil, 
-											informacionLaboral, meritos, activo, nombreRolFK
-									FROM Miembro
-									WHERE @usernamePK =  usernamePK";
-
+                string nombreUSP = "USP_GetMiembro";
+            
                 sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+                using (SqlCommand sqlCommand = new SqlCommand(nombreUSP, sqlConnection))
                 {
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
                     sqlCommand.Parameters.AddWithValue("@usernamePK", usernamePK);
                     using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
                     {

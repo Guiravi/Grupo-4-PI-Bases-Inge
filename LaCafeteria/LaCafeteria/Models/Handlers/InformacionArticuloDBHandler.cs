@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using LaCafeteria.Utilidades;
@@ -16,12 +17,10 @@ namespace LaCafeteria.Models.Handlers
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string cmdString = "SELECT M.usernamePK, M.nombre, M.apellido1, M.apellido2 " +
-                    " FROM Miembro M JOIN MiembroAutorDeArticulo MAA " +
-                    " ON M.usernamePK = MAA.usernameMiemFK " +
-                    " WHERE MAA.idArticuloFK = @id;";
-                SqlCommand command = new SqlCommand(cmdString, connection);
-                command.Parameters.AddWithValue("@id", id);
+                string nombreUSP = "USP_GetAutoresDeArticulo";
+                SqlCommand command = new SqlCommand(nombreUSP, connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@idArticuloPK", id);
 
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -191,14 +190,16 @@ namespace LaCafeteria.Models.Handlers
 
             String connectionString = AppSettings.GetConnectionString();
 
-            String sqlString = "SELECT ArticuloTrataTopico.nombreCategoriaFK ,ArticuloTrataTopico.nombreTopicoFK FROM ArticuloTrataTopico WHERE ArticuloTrataTopico.idArticuloFK = @id";
+            String nombreUSP = "USP_GetCategoriasTopicosArticulo";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                using (SqlCommand command = new SqlCommand(sqlString, connection))
+                using (SqlCommand command = new SqlCommand(nombreUSP, connection))
                 {
                     connection.Open();
-                    command.Parameters.AddWithValue("@id", id);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@idArticuloPK", id);
+
 
                     SqlDataReader reader = command.ExecuteReader();
 
