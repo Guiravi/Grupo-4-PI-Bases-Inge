@@ -32,14 +32,14 @@ namespace LaCafeteria.Controllers
                         nombreTopicoPK = separacion[1]
                     };
 
-                    articulos.AddRange(buscadorArticuloDBHandler.GetArticulosPorTopico(modelo, solicitud.tiposArticulo));
+                    articulos.AddRange(buscadorArticuloDBHandler.GetArticulosPorTopicoYTipo(modelo, solicitud.tiposArticulo));
                 }
 
                 articulos = articulos.Distinct(new ItemEqualityComparer()).ToList();
 
             } else if ( solicitud.tipoBusqueda == "titulos" )
             {
-                articulos = buscadorArticuloDBHandler.GetArticulosPorTitulo(solicitud.textoBusqueda, solicitud.tiposArticulo);
+                articulos = buscadorArticuloDBHandler.GetArticulosPorTituloYTipo(solicitud.textoBusqueda, solicitud.tiposArticulo);
             } else
             {
                 articulos = buscadorArticuloDBHandler.GetArticulosPorAutorYTipo(solicitud.textoBusqueda, solicitud.tiposArticulo).Distinct(new ItemEqualityComparer()).ToList();
