@@ -412,5 +412,61 @@ namespace LaCafeteria.Models.Handlers
                 return artList;
             }
         }
+
+		public List<ArticuloModel> GetArticulosParaRevisarNucleo(string usernamePK)
+		{
+			List<ArticuloModel> listaArticulosParaRevisarNucleo = new List<ArticuloModel>();
+
+
+			string connectionString = AppSettings.GetConnectionString();
+			using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+			{
+
+				string sqlString = @"SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, 
+								            A.puntajeTotalRev, A.calificacionTotalMiem
+									FROM Articulo AS A, MiembroAutorDeArticulo AS MADA
+									WHERE @usernamePK = MADA.usernameMiemFK AND
+									estado = 'Requiere Revisión' AND
+									NOT EXISTS(SELECT 1 
+											   FROM NucleoPuedeSerRevisorDeArticulo
+											   WHERE @usernamePK = usernameMiemFK AND
+											   A.articuloAID = idArticuloFK) AND
+									NOT EXISTS(SELECT 1
+											   FROM NucleoRevisaArticulo
+											   WHERE @usernamePK = usernameMiemFK AND
+											   A.articuloAID = idArticuloFK)";
+
+				sqlConnection.Open();
+				using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+				{
+					sqlCommand.Parameters.AddWithValue("@usernamePK", usernamePK);
+					using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
+					{
+						while (dataReader.Read())
+						{
+							
+							 ArticuloModel articulo = new ArticuloModel()
+							{
+								articuloAID = (int) dataReader["articuloAID"],
+								titulo = (String) dataReader["titulo"],
+								tipo = (String) dataReader["tipo"],
+								fechaPublicacion = dataReader["fechaPublicacion"].ToString().Remove(dataReader["fechaPublicacion"].ToString().Length - 12, 12),
+								resumen = (String) dataReader["resumen"],
+								contenido = (String)dataReader["contenido"],
+								estado = (String)dataReader["estado"],
+								visitas = (int)dataReader["visitas"],
+								puntajeTotalRev = (!DBNull.Value.Equals(dataReader["puntajeTotalRev"])) ? (double?)dataReader["puntajeTotalRev"] : null,
+								calificacionTotalMiem = (int) dataReader["calificacionTotalMiem"]
+							};
+
+
+							listaArticulosParaRevisarNucleo.Add(articulo);
+						}
+					}
+				}
+			}
+
+			return listaArticulosParaRevisarNucleo;
+		}
     }
 }
