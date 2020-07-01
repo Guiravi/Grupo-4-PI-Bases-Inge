@@ -16,18 +16,29 @@ namespace LaCafeteria.Pages
 {
     public class CrearPerfilModel : PageModel
     {
-		[BindProperty]
-		public MiembroModel miembro { set; get; }
+        [BindProperty]
+        public MiembroModel miembro { set; get; }
 
-		[BindProperty]
-		[Required(ErrorMessage = "Debe subir una imagen de perfil")]
-		public IFormFile imagenDePerfil { set; get; }
+        [BindProperty]
+        public IFormFile imagenDePerfil { set; get; }
 
-		[BindProperty]
-		public List<string> listaIdiomas { set; get; }
-       
+        public List<string> listaHabilidadesEstandar { set; get; }
+        public List<string> listaPasatiempoEstandar { set; get; }
+        public List<string> listaIdiomasEstandar { set; get; }
+        public List<string> listaPaises { set; get; }
+
+        [BindProperty]
+        public List<string> listaHabilidadesSelec { set; get; }
+
+        [BindProperty]
+        public List<string> listaPasatiemposSelec { set; get; }
+
+        [BindProperty]
+        public List<string> listaIdiomasSelec { set; get; }
+
         private CreadorMiembrosController creadorMiembrosController;
         private BuscadorMiembrosController buscadorMiembrosController;
+        private InformacionCatalogosController informacionCatalogosController;
 
 		public string rutaCarpeta;
 
@@ -35,8 +46,16 @@ namespace LaCafeteria.Pages
 		{
             creadorMiembrosController = new CreadorMiembrosController();
             buscadorMiembrosController = new BuscadorMiembrosController();
+            informacionCatalogosController = new InformacionCatalogosController();
 
-			listaIdiomas = new List<string>();
+            listaHabilidadesEstandar = informacionCatalogosController.GetHabilidadesCatalogo();
+            listaPasatiempoEstandar = informacionCatalogosController.GetPasatiemposCatalogo();
+            listaIdiomasEstandar = informacionCatalogosController.GetIdiomasCatalogo();
+            listaPaises = informacionCatalogosController.GetPaisesCatalogo();
+
+            listaHabilidadesSelec = new List<string>();
+            listaPasatiemposSelec = new List<string>();
+            listaIdiomasSelec = new List<string>();
 			rutaCarpeta = env.WebRootPath;
 		}
 
@@ -44,16 +63,26 @@ namespace LaCafeteria.Pages
         {
 			if(EsValido())
 			{
-				var filePath = rutaCarpeta + "/images/ImagenesPerfil/" + miembro.usernamePK + "." + imagenDePerfil.ContentType.Split('/')[1];
+                if (imagenDePerfil != null)
+                {
+                    var filePath = rutaCarpeta + "/images/ImagenesPerfil/" + miembro.usernamePK + "." + imagenDePerfil.ContentType.Split('/')[1];
 
-				using (var stream = System.IO.File.Create(filePath))
-				{
-					imagenDePerfil.CopyTo(stream);
-				}
+                    using (var stream = System.IO.File.Create(filePath))
+                    {
+                        imagenDePerfil.CopyTo(stream);
+                    }
 
-				miembro.rutaImagenPerfil = "images/ImagenesPerfil/" + miembro.usernamePK + "." + imagenDePerfil.ContentType.Split('/')[1];
+                    miembro.rutaImagenPerfil = "images/ImagenesPerfil/" + miembro.usernamePK + "." + imagenDePerfil.ContentType.Split('/')[1];
+                }
+                else
+                {
+                    miembro.rutaImagenPerfil = "images/ImagenesPerfil/default_avatar.png";
+                }
+				
 
-				miembro.idiomas = listaIdiomas;
+				miembro.idiomas = listaIdiomasSelec;
+                miembro.habilidades = listaHabilidadesSelec;
+                miembro.pasatiempos = listaPasatiemposSelec;
                 creadorMiembrosController.CrearMiembro(miembro);
 				Response.Cookies.Append("usernamePK", miembro.usernamePK);
 				AvisosInmediatos.Set(this, "sesionIniciada", "Sesión iniciada", AvisosInmediatos.TipoAviso.Exito);
@@ -86,6 +115,11 @@ namespace LaCafeteria.Pages
 					esValido = false;
 					AvisosInmediatos.Set(this, "usernamePKInvalido", "Nombre de usuario ya existe. Seleccione otro nombre de usuario", AvisosInmediatos.TipoAviso.Error);
 				}
+                if (!buscadorMiembrosController.CorreoValido(miembro.email))
+                {
+                    esValido = false;
+                    AvisosInmediatos.Set(this, "emailInvalido", "El correo electrónico ya está asociado a otro usuario. Ingrese otro correo electrónico", AvisosInmediatos.TipoAviso.Error);
+                }
 			}
 
 			return esValido;
