@@ -29,7 +29,7 @@ namespace LaCafeteria.Pages
 			string usernamePK = Request.Cookies["usernamePK"];
 			listaArticulosParaRevisonNucleo = buscadorArticuloController.GetArticulosParaRevisarNucleo(usernamePK);
 			listaArticulosNucleoEsSolicitado = buscadorArticuloController.GetArticulosNucleoEsSolicitado(usernamePK);
-
+			listaArticulosNucleoLeInteresa = buscadorArticuloController.GetArticulosNucleoLeInteresa(usernamePK);
 		}
     }
 }

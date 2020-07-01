@@ -76,8 +76,12 @@ namespace LaCafeteria.Controllers
 		{
 			return buscadorArticuloDBHandler.GetArticulosNucleoEsSolicitado(usernamePK);
 		}
-	}
 
+		public List<ArticuloModel> GetArticulosNucleoLeInteresa(string usernamePK)
+		{
+			return buscadorArticuloDBHandler.GetArticulosNucleoLeInteresa(usernamePK);
+		}
+	}
 
 	class ItemEqualityComparer : IEqualityComparer<ArticuloModel>
     {
