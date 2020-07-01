@@ -71,6 +71,11 @@ namespace LaCafeteria.Controllers
 		{
 			return buscadorArticuloDBHandler.GetArticulosParaRevisarNucleo(usernamePK);
 		}
+
+		public List<ArticuloModel> GetArticulosNucleoEsSolicitado(string usernamePK)
+		{
+			return buscadorArticuloDBHandler.GetArticulosNucleoEsSolicitado(usernamePK);
+		}
 	}
 
 

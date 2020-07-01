@@ -45,7 +45,7 @@ namespace LaCafeteria.Pages
 			creadorSolicitudRevisionController = new CreadorSolicitudRevisionController();
 			creadorSolicitudRevisionController.CrearSolicitudRevision(usernamePK, articuloAID, CreadorSolicitudRevisionController.Interesa);
 			//TODO: Notificar a usuario en pantalla
-			return Redirect("/ArticulosPorRevisar");
+			return Redirect("/ArticulosParaRevisionNucleo");
 		}
 	}
 }

@@ -12,6 +12,8 @@ namespace LaCafeteria.Pages
     public class ArticulosParaRevisionNucleoModel : PageModel
     {
 		public List<ArticuloModel> listaArticulosParaRevisonNucleo;
+		public List<ArticuloModel> listaArticulosNucleoEsSolicitado;
+		public List<ArticuloModel> listaArticulosNucleoLeInteresa;
 
 		private BuscadorArticuloController buscadorArticuloController;
 		public InformacionArticuloController informacionArticuloController;
@@ -26,6 +28,8 @@ namespace LaCafeteria.Pages
         {
 			string usernamePK = Request.Cookies["usernamePK"];
 			listaArticulosParaRevisonNucleo = buscadorArticuloController.GetArticulosParaRevisarNucleo(usernamePK);
-        }
+			listaArticulosNucleoEsSolicitado = buscadorArticuloController.GetArticulosNucleoEsSolicitado(usernamePK);
+
+		}
     }
 }
