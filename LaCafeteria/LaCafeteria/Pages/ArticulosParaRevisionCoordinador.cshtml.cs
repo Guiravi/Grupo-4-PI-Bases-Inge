@@ -11,29 +11,31 @@ namespace LaCafeteria.Pages
 {
     public class ArticulosParaRevisionCoordinadorModel : PageModel
     {
-        private BuscadorArticuloController buscadorArticuloController { get; set; }
-        public InformacionArticuloController informacionArticuloController { get; set; }
+        public List<ArticuloModel> listaArticulosRequierenRevision { get; set; }
+		public List<ArticuloModel> listaArticulosEnRevision { get; set; }
 
-        public List<ArticuloModel> artList { get; set; }
+		public Dictionary<ArticuloModel, List<CategoriaTopicoModel>> dictTopicos { get; set; }
 
-        public Dictionary<ArticuloModel, List<CategoriaTopicoModel>> dictTopicos { get; set; }
+        public Dictionary<ArticuloModel, string> dictAutores { get; set; }
+		private BuscadorArticuloController buscadorArticuloController { get; set; }
+		public InformacionArticuloController informacionArticuloController { get; set; }
 
-        public Dictionary<ArticuloModel, string> dictAutores { get; set; } 
-
-        public ArticulosParaRevisionCoordinadorModel() {
+		public ArticulosParaRevisionCoordinadorModel()
+		{
 
             buscadorArticuloController = new BuscadorArticuloController();
             informacionArticuloController = new InformacionArticuloController();
 
-            artList = buscadorArticuloController.GetArticulosPorEstado(EstadoArticulo.RequiereRevision);
+            listaArticulosRequierenRevision = buscadorArticuloController.GetArticulosPorEstado(EstadoArticulo.RequiereRevision);
+			listaArticulosEnRevision = buscadorArticuloController.GetArticulosPorEstado(EstadoArticulo.EnRevision);
 
-            dictTopicos = new Dictionary<ArticuloModel, List<CategoriaTopicoModel>>();
+			dictTopicos = new Dictionary<ArticuloModel, List<CategoriaTopicoModel>>();
             dictAutores = new Dictionary<ArticuloModel, string>();
 
-            for (int i = 0; i< artList.Count(); ++i )
+            for (int i = 0; i< listaArticulosRequierenRevision.Count(); ++i )
             {
-                dictTopicos.Add(artList[i], informacionArticuloController.GetCategoriaTopicosArticulo(artList[i].articuloAID));
-                dictAutores.Add(artList[i], informacionArticuloController.GetAutoresDeArticuloString(artList[i].articuloAID));
+                dictTopicos.Add(listaArticulosRequierenRevision[i], informacionArticuloController.GetCategoriaTopicosArticulo(listaArticulosRequierenRevision[i].articuloAID));
+                dictAutores.Add(listaArticulosRequierenRevision[i], informacionArticuloController.GetAutoresDeArticuloString(listaArticulosRequierenRevision[i].articuloAID));
             }
         }
 
@@ -41,7 +43,7 @@ namespace LaCafeteria.Pages
         {
 			string usernameFK = Request.Cookies["usernamePK"];
 			string nombreRolFK = Request.Cookies["nombreRolFK"];
-			if (usernameFK == null || !(nombreRolFK.Equals("Coordinador") || nombreRolFK.Equals("Núcleo")))
+			if (usernameFK == null || !(nombreRolFK.Equals("Coordinador")))
 			{	
 				//TODO: Desplegar notificacion de error
 				return Redirect("Index");
