@@ -126,11 +126,22 @@ namespace LaCafeteria.Pages
                 var partialPath = rutaCarpeta + "/images/ImagenesPerfil/" + miembro.usernamePK;
                 if (imagenDePerfil != null)
                 {
-                    var filePath = rutaCarpeta + "/images/ImagenesPerfil/" + miembro.usernamePK + "." + imagenDePerfil.ContentType.Split('/')[1];                    
+                    var filePath = rutaCarpeta + "/images/ImagenesPerfil/" + miembro.usernamePK + "." + imagenDePerfil.ContentType.Split('/')[1];
 
-                    if (System.IO.File.Exists(partialPath + ".png") || System.IO.File.Exists(partialPath + ".jpg") || System.IO.File.Exists(partialPath + ".jpeg"))
+                    if (System.IO.File.Exists(partialPath + ".png"))
                     {
-                        System.IO.File.Delete(filePath);
+                        System.IO.File.Delete(partialPath + ".png");
+                    }
+                    else if (System.IO.File.Exists(partialPath + ".jpg") || (System.IO.File.Exists(partialPath + ".jpeg")))
+                    {
+                        if (System.IO.File.Exists(partialPath + ".jpg"))
+                        {
+                            System.IO.File.Delete(partialPath + ".jpg");
+                        }else
+                        {
+                            System.IO.File.Delete(partialPath + ".jpeg");
+
+                        }                                              
                     }
                     
                     using (var stream = System.IO.File.Create(filePath))
@@ -142,9 +153,21 @@ namespace LaCafeteria.Pages
                 }
                 else
                 {
-                    if (System.IO.File.Exists(partialPath + ".png") || System.IO.File.Exists(partialPath + ".jpg") || System.IO.File.Exists(partialPath + ".jpeg"))
+                    if (System.IO.File.Exists(partialPath + ".png"))
                     {
                         //Ya tenía imagen de perfil y no quiso cambiarla
+                        miembro.rutaImagenPerfil = partialPath + ".png";
+                    }
+                    else if (System.IO.File.Exists(partialPath + ".jpg") || (System.IO.File.Exists(partialPath + ".jpeg")))
+                    {
+                        if (System.IO.File.Exists(partialPath + ".jpg"))
+                        {
+                            miembro.rutaImagenPerfil = "images/ImagenesPerfil/" + miembro.usernamePK + ".jpg";
+                        }
+                        else
+                        {
+                            miembro.rutaImagenPerfil = "images/ImagenesPerfil/" + miembro.usernamePK + ".jpeg";
+                        }
                     }
                     else
                     {
