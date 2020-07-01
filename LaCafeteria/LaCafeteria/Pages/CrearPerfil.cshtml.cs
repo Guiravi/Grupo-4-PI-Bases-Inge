@@ -183,8 +183,7 @@ namespace LaCafeteria.Pages
                 AvisosInmediatos.Set(this, "perfilEditado", "Su perfil se ha editado correctamente", AvisosInmediatos.TipoAviso.Exito);
                 return Redirect("/MiPerfil");
             }
-
-            return Page();
+			return Redirect("/MiPerfil");
         }
 
         public bool EsValido()
