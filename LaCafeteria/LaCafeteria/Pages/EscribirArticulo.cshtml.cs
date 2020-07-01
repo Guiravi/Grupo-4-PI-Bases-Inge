@@ -106,7 +106,7 @@ namespace LaCafeteria.Pages
                             "}\n";
                     }
 
-                    if ( articulo.estado == EstadoArticulo.EnCorrecciones )
+                    if ( articulo.estado == EstadoArticulo.EnCorrecciones || articulo.estado == EstadoArticulo.Rechazado)
                     {
                         revisiones = informacionArticuloController.GetRevisiones(idArticuloPK);
                         estadoAnterior = articulo.estado;

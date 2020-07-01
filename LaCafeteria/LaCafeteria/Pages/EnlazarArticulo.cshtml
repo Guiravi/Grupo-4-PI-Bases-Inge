@@ -135,7 +135,7 @@
                 </div>
             </div>
         </div>
-        @{ if ( Model.articulo.estado == EstadoArticulo.EnCorrecciones )
+        @{ if ( Model.articulo.estado == EstadoArticulo.EnCorrecciones || Model.articulo.estado == EstadoArticulo.Rechazado)
             {
                 <div style="margin-top:20px;border-radius:10px" class="row">
                     <div style="max-height:500px;overflow:scroll" class="panel panel-default">

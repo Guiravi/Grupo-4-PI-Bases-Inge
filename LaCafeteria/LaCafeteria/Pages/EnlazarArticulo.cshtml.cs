@@ -38,7 +38,6 @@ namespace LaCafeteria.Pages
 
         public string estadoAnterior { set; get; }
 
-        //public CorreoController correoController;
         private CreadorNotificacionController creadorNotificacionController;
         private InformacionCategoriaTopicoController informacionCategoriaTopicoController;
         private BuscadorMiembrosController buscadorMiembrosController;
@@ -108,7 +107,7 @@ namespace LaCafeteria.Pages
                     }
 
 
-                    if ( articulo.estado == EstadoArticulo.EnCorrecciones )
+                    if ( articulo.estado == EstadoArticulo.EnCorrecciones || articulo.estado == EstadoArticulo.Rechazado)
                     {
                         revisiones = informacionArticuloController.GetRevisiones(idArticuloPK);
                         estadoAnterior = articulo.estado;
