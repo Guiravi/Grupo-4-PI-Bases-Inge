@@ -10,10 +10,15 @@ namespace LaCafeteria.Controllers
 {
     public class BuscadorArticuloController
     {
-        private BuscadorArticuloDBHandler buscadorArticuloDBHandler;
+
+        private IBuscadorArticuloDBHandler buscadorArticuloDBHandler;
 
         public BuscadorArticuloController() {
-            buscadorArticuloDBHandler = new BuscadorArticuloDBHandler();
+            this.buscadorArticuloDBHandler = new BuscadorArticuloDBHandler();
+        }
+
+        public BuscadorArticuloController(IBuscadorArticuloDBHandler buscadorArticuloDBHandler) {
+            this.buscadorArticuloDBHandler = buscadorArticuloDBHandler;
         }
 
         public List<ArticuloModel> BuscarArticulo(SolicitudBusquedaModel solicitud) {

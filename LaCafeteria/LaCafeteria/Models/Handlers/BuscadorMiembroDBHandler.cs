@@ -8,7 +8,7 @@ using LaCafeteria.Utilidades;
 
 namespace LaCafeteria.Models.Handlers
 {
-    public class BuscadorMiembroDBHandler
+    public class BuscadorMiembroDBHandler : IBuscadorMiembroDBHandler
     {
         public List<MiembroModel> GetListaMiembrosSolicitud(string usernameNucleoFK)
         {   

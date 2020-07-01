@@ -8,14 +8,21 @@ namespace LaCafeteria.Controllers
 {
     public class CalificadorDeArticuloController
     {
-        private CalificadorDeArticulosDBHandler calificadorDeArticulosDBHandler;
+        private ICalificadorDeArticulosDBHandler calificadorDeArticulosDBHandler;
+
+        public CalificadorDeArticuloController(ICalificadorDeArticulosDBHandler calificadorDeArticulosDBHandler) {
+            this.calificadorDeArticulosDBHandler = calificadorDeArticulosDBHandler;
+        }
 
         public CalificadorDeArticuloController() {
             calificadorDeArticulosDBHandler = new CalificadorDeArticulosDBHandler();
         }
 
         public void CalificarArticulo(string username, int idArticulo, int valorCalif) {
-            calificadorDeArticulosDBHandler.CalificarArticulo(username, idArticulo, valorCalif);
+            if ( valorCalif >= -1 && valorCalif <= 1 )
+            {
+                calificadorDeArticulosDBHandler.CalificarArticulo(username, idArticulo, valorCalif);
+            }
         }
     }
 }

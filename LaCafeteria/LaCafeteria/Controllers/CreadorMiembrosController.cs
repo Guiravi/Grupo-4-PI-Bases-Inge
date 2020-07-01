@@ -9,14 +9,22 @@ namespace LaCafeteria.Controllers
 {
     public class CreadorMiembrosController
     {
-        private CreadorMiembroDBHandler creadorMiembroDBHandler;
+        private ICreadorMiembroDBHandler creadorMiembroDBHandler;
+
+        public CreadorMiembrosController(ICreadorMiembroDBHandler creadorMiembroDBHandler) {
+            this.creadorMiembroDBHandler = creadorMiembroDBHandler;
+        }
 
         public CreadorMiembrosController() {
             creadorMiembroDBHandler = new CreadorMiembroDBHandler();
         }
 
         public void CrearMiembro(MiembroModel model) {
-            creadorMiembroDBHandler.CrearMiembro(model);
+            if ( model != null )
+            {
+
+                creadorMiembroDBHandler.CrearMiembro(model);
+            }
         }
     }
 }
