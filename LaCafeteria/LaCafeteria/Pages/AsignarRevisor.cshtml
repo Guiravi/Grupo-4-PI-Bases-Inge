@@ -46,13 +46,17 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
-            @if ( AvisosInmediatos.Existe(Model, "listaSolicitadosVacio") )
-            {
-                @Html.Raw(AvisosInmediatos.Get(Model, "listaSolicitadosVacio"));
-            }
-            <h1>Bienvenidos a la comunidad de práctica La Cafetería</h1>
-        </div>
+		<div class="col-md-12">
+			@if (AvisosInmediatos.Existe(Model, "listaSolicitadosVacio"))
+			{
+				@Html.Raw(AvisosInmediatos.Get(Model, "listaSolicitadosVacio"));
+			}
+			@if (AvisosInmediatos.Existe(Model, "listaAsignadosVacio"))
+			{
+				@Html.Raw(AvisosInmediatos.Get(Model, "listaAsignadosVacio"));
+			}
+			<h1>Bienvenidos a la comunidad de práctica La Cafetería</h1>
+		</div>
     </div>
 </div>
 
@@ -85,8 +89,15 @@
                                     <td>@miembro.apellido1</td>
                                     <td>@miembro.apellido2</td>
                                     <td>@miembro.usernamePK</td>
-                                    <td><button type="submit" name="aceptar" class="btn btn-success" value="@miembro.usernamePK" asp-for="@Model.solicitudUsernamePK" asp-page-handler="aceptarsolicitud">Aceptar solicitud</button></td>
-                                    <td><button type="submit" name="rechazar" class="btn btn-danger" value="@miembro.usernamePK" asp-for="@Model.solicitudUsernamePK" asp-page-handler="rechazarsolicitud">Rechazar solicitud</button></td>
+                                    <td>
+									
+										<input type="submit" asp-for="@Model.solicitudUsernamePK" value="@miembro.usernamePK" asp-page-handler="aceptarsolicitud">
+						
+									
+									</td>
+									<td>
+										<input type="submit" asp-for="@Model.solicitudUsernamePK" value="@miembro.usernamePK" asp-page-handler="rechazarsolicitud" />
+									</td>
                                 </tr>
                             }
                         </tbody>
