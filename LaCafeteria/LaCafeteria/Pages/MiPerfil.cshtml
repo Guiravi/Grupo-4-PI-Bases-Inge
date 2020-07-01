@@ -22,6 +22,19 @@
 {
     @Html.Raw(AvisosInmediatos.Get(Model, "Actualizado"))
 }
+@if (AvisosInmediatos.Existe(Model, "exitoSolicitud"))
+{
+    @Html.Raw(AvisosInmediatos.Get(Model, "exitoSolicitud"));
+}
+@if (AvisosInmediatos.Existe(Model, "fracasoSolicitud"))
+{
+    @Html.Raw(AvisosInmediatos.Get(Model, "fracasoSolicitud"));
+}
+
+@if (AvisosInmediatos.Existe(Model, "rangoInvalido"))
+{
+    @Html.Raw(AvisosInmediatos.Get(Model, "rangoInvalido"));
+}
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,7 +58,7 @@
                 <br />
                 <div class="row">
 
-                   
+
                     <div class="col-sm-4">
                         <div class="panel panel-warning">
                             <div class="panel-heading">
@@ -182,6 +195,11 @@
                     <button class="btn" asp-page-handler="modificar" style="margin-top:10px; padding-top: 10px;">
                         Modficar Perfil
                     </button>
+                    @if (Model.nombreRolFK == "Periférico" && Model.nombreRolFK == "Activo")
+                    {
+                        <input class="actionButtons" type="submit" value="Solicitar" asp-page-handler="solicitar" />
+                    }
+
                 </form>
             </div>
         </div>
@@ -218,24 +236,24 @@
                                         <li><strong>Tipo: </strong>@Model.misArticulos[articuloActual].tipo</li>
                                         <li><strong>Autor(es): </strong>@Model.informacionArticuloController.GetAutoresDeArticuloString(Model.misArticulos[articuloActual].articuloAID)</li>
                                         <li>
-                                        <strong>Tópico(s): </strong>
-                                        @{List<string> lista = Model.informacionArticuloController.GetCategoriaTopicosArticuloString(Model.misArticulos[articuloActual].articuloAID);
-                                            for (int i = 0; i < lista.Count; i++)
-                                            {
-                                                if (i != lista.Count - 1)
+                                            <strong>Tópico(s): </strong>
+                                            @{List<string> lista = Model.informacionArticuloController.GetCategoriaTopicosArticuloString(Model.misArticulos[articuloActual].articuloAID);
+                                                for (int i = 0; i < lista.Count; i++)
                                                 {
-                                                    <text>
-                                                        @lista[i],
-                                                    </text>
-                                                }
-                                                else
-                                                {
-                                                    <text>
-                                                        @lista[i]
-                                                    </text>
+                                                    if (i != lista.Count - 1)
+                                                    {
+                                                        <text>
+                                                            @lista[i],
+                                                        </text>
+                                                    }
+                                                    else
+                                                    {
+                                                        <text>
+                                                            @lista[i]
+                                                        </text>
+                                                    }
                                                 }
                                             }
-                                        }
                                         </li>
                                         @if (Model.misArticulos[articuloActual].tipo == "Corto")
                                         {
