@@ -54,16 +54,10 @@
                     </tr>
                 }
             }
-            else
-            {
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td><p class="text-center">No hay articulos que requieran revisión</p></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            }
         </tbody>
     </table>
+    @if (Model.artList.Count == 0)
+    {
+        <h3 class="text-center"> No hay artículos para mostrar </h3>
+    }
 </div>
