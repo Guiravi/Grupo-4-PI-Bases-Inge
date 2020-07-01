@@ -7,7 +7,7 @@ using LaCafeteria.Utilidades;
 
 namespace LaCafeteria.Models.Handlers
 {
-    public class AlmacenadorArticuloDBHandler
+    public class AlmacenadorArticuloDBHandler : IAlmacenadorArticuloDBHandler
     {
         public void GuardarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<CategoriaTopicoModel> listaCategoriaTopicos) {
             string connectionString = AppSettings.GetConnectionString();

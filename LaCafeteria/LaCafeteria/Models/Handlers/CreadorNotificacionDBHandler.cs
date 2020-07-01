@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace LaCafeteria.Models.Handlers
 {
-	public class CreadorNotificacionDBHandler
-	{
+	public class CreadorNotificacionDBHandler : ICreadorNotificacionDBHandler
+    {
 		public void CrearNotificacion(Notificacion notificacion)
 		{
 			string connectionString = AppSettings.GetConnectionString();

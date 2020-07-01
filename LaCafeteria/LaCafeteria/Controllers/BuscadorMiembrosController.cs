@@ -9,14 +9,18 @@ namespace LaCafeteria.Controllers
 {
     public class BuscadorMiembrosController
     {
-        private BuscadorMiembroDBHandler buscadorMiembroDBHandler;
+        private IBuscadorMiembroDBHandler buscadorMiembroDBHandler;
 
         public BuscadorMiembrosController()
 		{
             buscadorMiembroDBHandler = new BuscadorMiembroDBHandler();
         }
 
-		public MiembroModel GetMiembro(string usernamePK)
+        public BuscadorMiembrosController(IBuscadorMiembroDBHandler buscadorMiembroDBHandler) {
+            this.buscadorMiembroDBHandler = buscadorMiembroDBHandler;
+        }
+
+        public MiembroModel GetMiembro(string usernamePK)
 		{
 			return buscadorMiembroDBHandler.GetMiembro(usernamePK);
 		}
@@ -70,7 +74,8 @@ namespace LaCafeteria.Controllers
 
             foreach (MiembroModel miembro in listaMiembros)
             {
-                stringMiembros.Add(miembro.nombre + " " + miembro.apellido1 + " " + miembro.apellido2 + " (" + miembro.usernamePK + ")");
+                stringMiembros.Add(miembro.nombre + " " + miembro.apellido1 + 
+                    (String.IsNullOrEmpty(miembro.apellido2) ? null : " " + miembro.apellido2) + " (" + miembro.usernamePK + ")");
             }
 
             return stringMiembros;

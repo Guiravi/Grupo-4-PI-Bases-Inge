@@ -7,18 +7,24 @@ using LaCafeteria.Models.Handlers;
 
 namespace LaCafeteria.Controllers
 {
-	public class CreadorNotificacionController
-	{
-		private CreadorNotificacionDBHandler creadorNotificacionDBHandler;
+    public class CreadorNotificacionController
+    {
+        private ICreadorNotificacionDBHandler creadorNotificacionDBHandler;
 
-		public CreadorNotificacionController()
-		{
-			creadorNotificacionDBHandler = new CreadorNotificacionDBHandler();
-		}
+        public CreadorNotificacionController(ICreadorNotificacionDBHandler creadorNotificacionDBHandler) {
+            this.creadorNotificacionDBHandler = creadorNotificacionDBHandler;
+        }
 
-		public void CrearNotificacion(Notificacion notificacion)
-		{
-			creadorNotificacionDBHandler.CrearNotificacion(notificacion);
-		}
-	}
+        public CreadorNotificacionController() {
+            creadorNotificacionDBHandler = new CreadorNotificacionDBHandler();
+        }
+
+        public void CrearNotificacion(Notificacion notificacion) {
+            if ( notificacion != null )
+            {
+                creadorNotificacionDBHandler.CrearNotificacion(notificacion);
+
+            }
+        }
+    }
 }

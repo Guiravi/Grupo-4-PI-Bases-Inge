@@ -7,7 +7,7 @@ using LaCafeteria.Utilidades;
 
 namespace LaCafeteria.Models.Handlers
 {
-    public class CreadorMiembroDBHandler
+    public class CreadorMiembroDBHandler : ICreadorMiembroDBHandler
     {
         public void CrearMiembro(MiembroModel miembro) {
             string connectionString = AppSettings.GetConnectionString();
