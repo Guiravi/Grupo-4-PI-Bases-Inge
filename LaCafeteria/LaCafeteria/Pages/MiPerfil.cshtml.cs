@@ -36,6 +36,7 @@ namespace LaCafeteria.Pages
             informacionArticuloController = new InformacionArticuloController();
             miembroSolicitaSubirRangoNucleoEnviadaController = new EditorMiembroSolicitaSubirRangoNucleoController();
             revisionSolicitudesPreviasMiembroSubirRangoNucleoController = new RevisionSolicitudesPreviasMiembroSubirRangoNucleoController();
+            creadorNotificacionController = new CreadorNotificacionController();
         }
 
 		public void OnGet()
@@ -49,7 +50,7 @@ namespace LaCafeteria.Pages
             }
                       
 			// Cargar articulos
-			string usernamePK = Request.Cookies["usernamePK"];
+			usernamePK = Request.Cookies["usernamePK"];
 			misArticulos = buscadorArticuloController.GetArticulosPorMiembro(usernamePK);
 			cantResultados = misArticulos.Count;
 		}
@@ -92,7 +93,7 @@ namespace LaCafeteria.Pages
             }
 
 
-            return Page();
+            return Redirect("/MiPerfil");
         }
 
     }

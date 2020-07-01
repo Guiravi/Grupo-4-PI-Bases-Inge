@@ -18,6 +18,11 @@ namespace LaCafeteria.Controllers
         {
             return revisionSolicitudesPreviasMiembroSubirRangoNucleoDBHandler.VerSiSolicitado(usernamePK);
         }
+
+        public int VerSiRevisar(string usernamePK)
+        {
+            return revisionSolicitudesPreviasMiembroSubirRangoNucleoDBHandler.VerSiRevisar(usernamePK);
+        }
         public int VerTodosSolicitadosAceptados(string usernamePK) {
             return revisionSolicitudesPreviasMiembroSubirRangoNucleoDBHandler.VerTodosSolicitadosAceptados(usernamePK);
         }

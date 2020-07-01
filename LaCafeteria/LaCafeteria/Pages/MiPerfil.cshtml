@@ -78,6 +78,21 @@
                                 @Model.miembro.nombreRolFK
                             </div>
                         </div>
+                        <form method="post">
+                            
+                            @if (Model.nombreRolFK == "Periférico" || Model.nombreRolFK == "Activo")
+                            {
+
+                            <p style="text-align:center">
+                                <button class="btn" asp-page-handler="solicitar" style="margin-top:10px; padding-top: 10px;">
+                                    Solicitar Ascenso de Rango
+                                </button>
+                                
+                            </p>
+                            }
+
+                        </form>
+                    
                     </div>
                     <div class="col-sm-4">
                         <div class="panel panel-warning">
@@ -237,10 +252,7 @@
                     <button class="btn" asp-page-handler="modificar" style="margin-top:10px; padding-top: 10px;">
                         Modficar Perfil
                     </button>
-                    @if (Model.nombreRolFK == "Periférico" && Model.nombreRolFK == "Activo")
-                    {
-                        <input class="actionButtons" type="submit" value="Solicitar" asp-page-handler="solicitar" />
-                    }
+                    
 
                 </form>
             </div>
