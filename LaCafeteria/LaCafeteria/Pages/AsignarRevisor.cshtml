@@ -50,7 +50,19 @@
 
 	<div class="panel-body">
 		@* foreach listaMiembrosInteresados y boton para aceptar o rechazar la solicitud de revision (PuedeSerRevisor "Interesa)"*@
-		<p class="text-center">No hay interesados en revisar el artículo</p>
+		@if(Model.listaMiembrosInteresados.Count > 0)
+		{
+		<form method="post" enctype="multipart/form-data">
+			@foreach (MiembroModel miembro in Model.listaMiembrosInteresados)
+			{
+				<p>@miembro.nombre</p>
+			}
+		</form>
+		}
+		else
+		{
+			<p class="text-center">No hay interesados en revisar el artículo</p>
+		}
 	</div>
 </div>
 
