@@ -91,7 +91,7 @@
 						<tr>
 							<td></td>
 							<td></td>
-							<td><p class="text-center">No hay articulos queen revisión</p></td>
+							<td><p class="text-center">No hay articulos en revisión</p></td>
 							<td></td>
 							<td></td>
 						</tr>
@@ -100,21 +100,21 @@
 					{
 						@foreach (ArticuloModel articulo in Model.listaArticulosEnRevision)
 						{
-						<tr>
-							<td>@articulo.titulo</td>
-							<td>@Model.informacionArticuloController.GetAutoresDeArticuloString(articulo.articuloAID)</td>
-							<td>
-								@{StringBuilder sbCategoriasTopicos = new StringBuilder();}
-								@foreach (string stringCategoriaTopico in Model.informacionArticuloController.GetCategoriaTopicosArticuloString(articulo.articuloAID))
-								{
-									sbCategoriasTopicos.Append(stringCategoriaTopico + ", ");
-								}
-								@sbCategoriasTopicos.ToString().Remove(sbCategoriasTopicos.ToString().Length - 2)
-							</td>
-							<td>@articulo.tipo</td>
-							<td>
-							<td><a href="/AsignarRevisor/@articulo.articuloAID" class="btn btn-lg">Asignar revisores</a></td>
-						</tr>
+							<tr>
+								<td>@articulo.titulo</td>
+								<td>@Model.informacionArticuloController.GetAutoresDeArticuloString(articulo.articuloAID)</td>
+								<td>
+									@{StringBuilder sbCategoriasTopicos = new StringBuilder();}
+									@foreach (string stringCategoriaTopico in Model.informacionArticuloController.GetCategoriaTopicosArticuloString(articulo.articuloAID))
+									{
+										sbCategoriasTopicos.Append(stringCategoriaTopico + ", ");
+									}
+									@sbCategoriasTopicos.ToString().Remove(sbCategoriasTopicos.ToString().Length - 2)
+								</td>
+								<td>@articulo.tipo</td>
+								<td>
+								<td><a href="/AsignarRevisor/@articulo.articuloAID" class="btn btn-lg">Asignar revisores</a></td>
+							</tr>
 						}
 					}
 				</tbody>

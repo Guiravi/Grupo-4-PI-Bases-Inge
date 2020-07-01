@@ -22,6 +22,9 @@ namespace LaCafeteria.Pages
 		public int articuloAID { get; set; }
 
 		[BindProperty]
+		public string solicitudUsernamePK { get; set; }
+
+		[BindProperty]
 		public List<string> listaSolicitados { set; get; }
 
 		[BindProperty]
@@ -88,6 +91,16 @@ namespace LaCafeteria.Pages
 			}
 
 			return Redirect("/AsignarRevisor/" + articuloAID);
+		}
+
+		public IActionResult OnPostAceptarSolicitud()
+		{
+			return Page();
+		}
+
+		public IActionResult OnPostRechazarSolicitud()
+		{
+			return Page();
 		}
 
 		public IActionResult OnPostCancelar()

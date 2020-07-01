@@ -4,7 +4,7 @@
     ViewData["Title"] = "ArticulosRevisados";
 }
 
-<h2 class="text-center">Artículos con revisión finalizada</h2>
+<h2 class="text-center" style="font-weight:bolder">Artículos con revisión finalizada</h2>
 
 <div class="container">
     <table class="table table-hover table-striped">
@@ -17,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-            @for ( int i = 0; i < Model.artList.Count; ++i )
+            @for (int i = 0; i < Model.artList.Count; ++i)
             {
                 <tr onclick="link(@Model.artList[i].articuloAID, '@Model.artList[i].tipo')" class="clickable-row">
                     <td>
@@ -52,6 +52,10 @@
             }
         </tbody>
     </table>
+    @if (Model.artList.Count == 0)
+    {
+        <h3 class="text-center"> No hay artículos para mostrar </h3>
+    }
 </div>
 
 <script>
