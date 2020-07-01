@@ -19,51 +19,47 @@ namespace LaCafeteria.Pages
         public RevisionSolicitudesPreviasMiembroSubirRangoNucleoController revisionSolicitudesPreviasMiembroSubirRangoNucleoController;
         public CreadorNotificacionController creadorNotificacionController;
         public List<MiembroModel> miembros { get; set; }
-        public SolicitudSubirRangoModel()
-        {
+        public SolicitudSubirRangoModel() {
 
             buscadorMiembrosController = new BuscadorMiembrosController();
             miembroSolicitaSubirRangoNucleoEnviadaController = new EditorMiembroSolicitaSubirRangoNucleoController();
             revisionSolicitudesPreviasMiembroSubirRangoNucleoController = new RevisionSolicitudesPreviasMiembroSubirRangoNucleoController();
             creadorNotificacionController = new CreadorNotificacionController();
         }
-        public void OnGet()
-        {
+        public void OnGet() {
 
         }
 
-        public IActionResult OnPostSolicitar()
-        {
-            if (Request.Cookies["usernamePK"] != null)
+        public IActionResult OnPostSolicitar() {
+            if ( Request.Cookies["usernamePK"] != null )
             {
                 miembros = buscadorMiembrosController.GetListaNucleosSolicitud();
                 usernamePK = Request.Cookies["usernamePK"];
                 nombreRolFK = buscadorMiembrosController.GetRango(usernamePK);
-                if (nombreRolFK != "Periférico" && nombreRolFK != "Activo" )
+                if ( nombreRolFK != "Periférico" && nombreRolFK != "Activo" )
                 {
                     AvisosInmediatos.Set(this, "rangoInvalido", "El rango de este miembro no califica para la solicitud", AvisosInmediatos.TipoAviso.Error);
-                }
-                else
+                } else
                 {
                     int puede = revisionSolicitudesPreviasMiembroSubirRangoNucleoController.VerSiSolicitado(usernamePK);
 
-                    if (puede == 0)
+                    if ( puede == 0 )
                     {
                         miembroSolicitaSubirRangoNucleoEnviadaController.SolicitarSubirRango(usernamePK, miembros);
                         AvisosInmediatos.Set(this, "exitoSolicitud", "La solicitud se envió con éxito", AvisosInmediatos.TipoAviso.Exito);
-                        foreach (var miembro in miembros) {
-                            string mensaje = "Hay que revisar la solicitud para subir de rango del miembro "+ usernamePK;
+                        foreach ( var miembro in miembros )
+                        {
+                            string mensaje = "Hay que revisar la solicitud para subir de rango del miembro " + usernamePK;
                             Notificacion notificacion = new Notificacion(miembro.usernamePK, mensaje, null);
                             creadorNotificacionController.CrearNotificacion(notificacion);
                         }
-                    }
-                    else
+                    } else
                     {
                         AvisosInmediatos.Set(this, "fracasoSolicitud", "Usted ha enviado una solicitud que sigue en valoración", AvisosInmediatos.TipoAviso.Error);
                     }
                 }
             }
-                
+
 
             return Page();
         }
