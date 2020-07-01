@@ -77,175 +77,175 @@
 @if ( Model.tipo == "Corto" || Model.tipo == "Link")
 {
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-8"></div>
-        <div class="col-md-4">
-            <h3 class="text-center text-primary" style="display:none; position: relative; left: 135px;" id="txtCal">Calificar:</h3>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8"></div>
+            <div class="col-md-4">
+                <h3 class="text-center text-primary" style="display:none; position: relative; left: 135px;" id="txtCal">Calificar:</h3>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-3">
-            @if (TempData["visto"] == null)
-            {
-                if (Model.tipo == "Corto")
+        <div class="row">
+            <div class="col-lg-3">
+                @if (TempData["visto"] == null)
                 {
-                    <form method="post">
-                        <button type="submit" class="btn btn-info btn-lg" id="mostrarCorto" asp-page-handler="sumar">Ver artículo corto completo</button>
-                    </form>
-                }
-                else
-                {
-                    <form method="post">
-                        <button type="submit" class="btn btn-info btn-lg" id="mostrarCorto" asp-page-handler="sumar">Ver link del artículo</button>
-                    </form>
-                }
-            }
-        </div>
-        <div class="col-lg-1"></div>
-        <div class="col-lg-2 text-primary" style="font-size: 150%;">Visitas: @Model.articulo.visitas</div>
-        <div class="col-lg-3 text-primary" style="font-size: 150%;">Calificación total: @Model.articulo.calificacionTotalMiem</div>
-
-        @if (TempData["visto"] != null)
-        {
-        <div id="calificacion">
-            @if (Model.calificacion == null)
-            {
-                <div class="col-md-1">
-                    <form method="post">
-                        <button type="submit" class="btn btn-info btn-lg" id="like" asp-page-handler="gustar">
-                            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-                        </button>
-                    </form>
-                </div>
-                <div class="col-md-1">
-                    <form method="post">
-                        <button type="submit" class="btn btn-info btn-lg" id="same" asp-page-handler="igual" style="position: relative; right: 40px;">
-                            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                        </button>
-                    </form>
-                </div>
-                <div class="col-md-1">
-                    <form method="post">
-                        <button type="submit" class="btn btn-info btn-lg" id="dislike" asp-page-handler="disgustar" style="position: relative; right: 80px;">
-                            <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-                        </button>
-                    </form>
-                </div>
-            }
-            else
-            {
-                <div class="col-md-1">
-                    @if (Model.calificacion == 1)
+                    if (Model.tipo == "Corto")
                     {
                         <form method="post">
-                            <button type="submit" class="btn btn-info btn-lg" id="like" asp-page-handler="gustar" style="background-color: chartreuse;">
-                                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-                            </button>
+                            <button type="submit" class="btn btn-info btn-lg" id="mostrarCorto" asp-page-handler="sumar">Ver artículo corto completo</button>
                         </form>
                     }
                     else
                     {
+                        <form method="post">
+                            <button type="submit" class="btn btn-info btn-lg" id="mostrarCorto" asp-page-handler="sumar">Ver link del artículo</button>
+                        </form>
+                    }
+                }
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 text-primary" style="font-size: 150%;">Visitas: @Model.articulo.visitas</div>
+            <div class="col-lg-3 text-primary" style="font-size: 150%;">Calificación total: @Model.articulo.calificacionTotalMiem</div>
+
+            @if (TempData["visto"] != null)
+            {
+            <div id="calificacion">
+                @if (Model.calificacion == null)
+                {
+                    <div class="col-md-1">
                         <form method="post">
                             <button type="submit" class="btn btn-info btn-lg" id="like" asp-page-handler="gustar">
                                 <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
                             </button>
                         </form>
-                    }
-                </div>
-                <div class="col-md-1">
-                    @if (Model.calificacion == 0)
-                    {
-                        <form method="post">
-                            <button type="submit" class="btn btn-info btn-lg" id="same" asp-page-handler="igual" style="position: relative; right: 40px; background-color: orange;">
-                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                            </button>
-                        </form>
-                    }
-                    else
-                    {
+                    </div>
+                    <div class="col-md-1">
                         <form method="post">
                             <button type="submit" class="btn btn-info btn-lg" id="same" asp-page-handler="igual" style="position: relative; right: 40px;">
                                 <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                             </button>
                         </form>
-                    }
-                </div>
-                <div class="col-md-1">
-                    @if (Model.calificacion == -1)
-                    {
-                        <form method="post">
-                            <button type="submit" class="btn btn-info btn-lg" id="dislike" asp-page-handler="disgustar" style="position: relative; right: 80px; background-color: darkred;">
-                                <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-                            </button>
-                        </form>
-                    }
-                    else
-                    {
+                    </div>
+                    <div class="col-md-1">
                         <form method="post">
                             <button type="submit" class="btn btn-info btn-lg" id="dislike" asp-page-handler="disgustar" style="position: relative; right: 80px;">
                                 <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
                             </button>
                         </form>
-                    }
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-1">
+                        @if (Model.calificacion == 1)
+                        {
+                            <form method="post">
+                                <button type="submit" class="btn btn-info btn-lg" id="like" asp-page-handler="gustar" style="background-color: chartreuse;">
+                                    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form method="post">
+                                <button type="submit" class="btn btn-info btn-lg" id="like" asp-page-handler="gustar">
+                                    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                                </button>
+                            </form>
+                        }
+                    </div>
+                    <div class="col-md-1">
+                        @if (Model.calificacion == 0)
+                        {
+                            <form method="post">
+                                <button type="submit" class="btn btn-info btn-lg" id="same" asp-page-handler="igual" style="position: relative; right: 40px; background-color: orange;">
+                                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form method="post">
+                                <button type="submit" class="btn btn-info btn-lg" id="same" asp-page-handler="igual" style="position: relative; right: 40px;">
+                                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                </button>
+                            </form>
+                        }
+                    </div>
+                    <div class="col-md-1">
+                        @if (Model.calificacion == -1)
+                        {
+                            <form method="post">
+                                <button type="submit" class="btn btn-info btn-lg" id="dislike" asp-page-handler="disgustar" style="position: relative; right: 80px; background-color: darkred;">
+                                    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form method="post">
+                                <button type="submit" class="btn btn-info btn-lg" id="dislike" asp-page-handler="disgustar" style="position: relative; right: 80px;">
+                                    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                                </button>
+                            </form>
+                        }
+                    </div>
+                }
+            </div>
+            }
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-8"></div>
+            <div class="col-md-4">
+                <p id="textLike" style="visibility: hidden; position: relative; top: 10px" class="text-center text-primary">Me gusta<p>
+                <p id="textSame" style="visibility: hidden; position: relative; bottom: 20px" class="text-center text-primary">Nulo<p>
+                <p id="textDislike" style="visibility: hidden; position: relative; bottom: 50px" class="text-center text-primary">No me gusta<p>
+            </div>
+        </div>
+
+        @if (TempData["visto"] != null)
+        {
+            if (Model.articulo.tipo == "Corto")
+            {
+                <div class="row" id="contenidoCorto">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-10" id="divContent" style="background-color: white;"> @Html.Raw(Model.contenido) </div>
+                    <div class="col-lg-1"></div>
                 </div>
             }
-        </div>
-        }
+            else
+            {
+                <div class="row" id="contenidoCorto">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-10" id="divContent" style="background-color: white;"> <a href="@Model.contenido" target="_blank" class="text-center" style="font-size: 150%">@Model.contenido</a> </div>
+                    <div class="col-lg-1"></div>
+                </div>
+            }
 
-    </div>
-
-    <div class="row">
-        <div class="col-md-8"></div>
-        <div class="col-md-4">
-            <p id="textLike" style="visibility: hidden; position: relative; top: 10px" class="text-center text-primary">Me gusta<p>
-            <p id="textSame" style="visibility: hidden; position: relative; bottom: 20px" class="text-center text-primary">Nulo<p>
-            <p id="textDislike" style="visibility: hidden; position: relative; bottom: 50px" class="text-center text-primary">No me gusta<p>
-        </div>
-    </div>
-
-    @if (TempData["visto"] != null)
-    {
-        if (Model.articulo.tipo == "Corto")
-        {
-            <div class="row" id="contenidoCorto">
-                <div class="col-lg-1"></div>
-                <div class="col-lg-10" id="divContent" style="background-color: white;"> @Html.Raw(Model.contenido) </div>
-                <div class="col-lg-1"></div>
-            </div>
         }
         else
         {
-            <div class="row" id="contenidoCorto">
-                <div class="col-lg-1"></div>
-                <div class="col-lg-10" id="divContent" style="background-color: white;"> <a href="@Model.contenido" target="_blank" class="text-center" style="font-size: 150%">@Model.contenido</a> </div>
-                <div class="col-lg-1"></div>
-            </div>
+            if (Model.articulo.tipo == "Corto")
+            {
+                <div class="row" style="display: none;" id="contenidoCorto">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-10" id="divContent" style="background-color: white;"> @Html.Raw(Model.contenido) </div>
+                    <div class="col-lg-1"></div>
+                </div>
+            }
+            else
+            {
+                <div class="row" style="display: none;" id="contenidoCorto">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-10 text-center" id="divContent" style="background-color: white;"> <a href="@Model.contenido" target="_blank" style="font-size: 200%">@Model.contenido</a> </div>
+                    <div class="col-lg-1"></div>
+                </div>
+            }
+
         }
 
-    }
-    else
-    {
-        if (Model.articulo.tipo == "Corto")
-        {
-            <div class="row" style="display: none;" id="contenidoCorto">
-                <div class="col-lg-1"></div>
-                <div class="col-lg-10" id="divContent" style="background-color: white;"> @Html.Raw(Model.contenido) </div>
-                <div class="col-lg-1"></div>
-            </div>
-        }
-        else
-        {
-            <div class="row" style="display: none;" id="contenidoCorto">
-                <div class="col-lg-1"></div>
-                <div class="col-lg-10 text-center" id="divContent" style="background-color: white;"> <a href="@Model.contenido" target="_blank" style="font-size: 200%">@Model.contenido</a> </div>
-                <div class="col-lg-1"></div>
-            </div>
-        }
-
-    }
-
-</div>
+    </div>
 
 
     <script src="~/js/VerResumen.js" defer></script>
