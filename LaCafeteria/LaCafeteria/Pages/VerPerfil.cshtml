@@ -15,7 +15,7 @@
 <div class="container">
 	<ul class="nav nav-tabs">
 		<li class="active"><a data-toggle="tab" href="#informacionPersonal">Información personal</a></li>
-		<li><a data-toggle="tab" href="#articulosResultado">Articulos</a></li>
+		<li><a data-toggle="tab" href="#articulosResultado">Artículos</a></li>
 	</ul>
 	<div class="tab-content">
 		<div id="informacionPersonal" class="tab-pane fade in active">
@@ -125,17 +125,45 @@
 						<h3 class="panel-title">Habilidades</h3>
 					</div>
                     <div class="panel-body">
-                        @Model.miembro.habilidades @*/for each*@
+                        @for (int i = 0; i < Model.miembro.habilidades.Count; i++)
+                        {
+                            if (i != Model.miembro.habilidades.Count - 1)
+                            {
+                                <text>
+                                    @Html.Raw(Model.miembro.habilidades[i]),
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    @Html.Raw(Model.miembro.habilidades[i])
+                                </text>
+                            }
+                        }
                     </div>
 				</div>
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Hobbies</h3>
+						<h3 class="panel-title">Pasatiempos</h3>
 					</div>
-					<div class="panel-body">
-						@Model.miembro.pasatiempos  @*/for each*@
-					</div>
+                    <div class="panel-body">
+                        @for (int i = 0; i < Model.miembro.pasatiempos.Count; i++)
+                        {
+                            if (i != Model.miembro.pasatiempos.Count - 1)
+                            {
+                                <text>
+                                    @Html.Raw(Model.miembro.pasatiempos[i]),
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    @Html.Raw(Model.miembro.pasatiempos[i])
+                                </text>
+                            }
+                        }
+                    </div>
 				</div>
 
 				<div class="panel panel-default">
@@ -143,7 +171,21 @@
 						<h3 class="panel-title">Idiomas</h3>
 					</div>
                     <div class="panel-body">
-                        @Model.miembro.idiomas @*/for each*@
+                        @for (int i = 0; i < Model.miembro.idiomas.Count; i++)
+                        {
+                            if (i != Model.miembro.idiomas.Count - 1)
+                            {
+                                <text>
+                                    @Html.Raw(Model.miembro.idiomas[i]),
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    @Html.Raw(Model.miembro.idiomas[i])
+                                </text>
+                            }
+                        }
                     </div>
 				</div>
 
@@ -167,33 +209,35 @@
 					<div class="col-md-12">
 
 						@for (int articuloActual = 0; articuloActual < Model.cantResultados; articuloActual++)
-						{
-
-							<div class="panel panel-info">
-								<div class="panel-heading">
-									<div class="container">
-										<div class="row">
-											<div class="col-md-7">
-												<h2 class="panel-title" style="font-size: 125%;"><a href="/VerResumen/@Model.articulosResultado[articuloActual].articuloAID/@Model.articulosResultado[articuloActual].tipo">@Model.articulosResultado[articuloActual].titulo</a></h2>
-											</div>
-											<div class="col-md-3">
-												<h3 class="panel-title" style="text-align: right;">
-													Estado: @Model.articulosResultado[articuloActual].estado
-												</h3>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="panel-body">
-									<ul style="list-style: none;">
-										<li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.articulosResultado[articuloActual].fechaPublicacion)</li>
-										<li><strong>Tipo: </strong>@Model.articulosResultado[articuloActual].tipo</li>
-										<li><strong>Autor(es): </strong>@Model.informacionArticuloController.GetAutoresDeArticuloString(Model.articulosResultado[articuloActual].articuloAID)</li>
-										<li><strong>Tópico(s): </strong>@Model.informacionArticuloController.GetCategoriaTopicosArticulo(Model.articulosResultado[articuloActual].articuloAID)</li>
-									</ul>
-								</div>
-							</div>
-						}
+                        {
+                            if (Model.articulosResultado[articuloActual].estado == "Publicado")
+                            {
+							    <div class="panel panel-info">
+								    <div class="panel-heading">
+									    <div class="container">
+										    <div class="row">
+											    <div class="col-md-7">
+												    <h2 class="panel-title" style="font-size: 125%;"><a href="/VerResumen/@Model.articulosResultado[articuloActual].articuloAID/@Model.articulosResultado[articuloActual].tipo/2/@Model.usernamePK">@Model.articulosResultado[articuloActual].titulo</a></h2>
+											    </div>
+											    <div class="col-md-3">
+												    <h3 class="panel-title" style="text-align: right;">
+													    Estado: @Model.articulosResultado[articuloActual].estado
+												    </h3>
+											    </div>
+										    </div>
+									    </div>
+								    </div>
+								    <div class="panel-body">
+									    <ul style="list-style: none;">
+										    <li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.articulosResultado[articuloActual].fechaPublicacion)</li>
+										    <li><strong>Tipo: </strong>@Model.articulosResultado[articuloActual].tipo</li>
+										    <li><strong>Autor(es): </strong>@Model.informacionArticuloController.GetAutoresDeArticuloString(Model.articulosResultado[articuloActual].articuloAID)</li>
+										    <li><strong>Tópico(s): </strong>@Model.informacionArticuloController.GetCategoriaTopicosArticulo(Model.articulosResultado[articuloActual].articuloAID)</li>
+									    </ul>
+								    </div>
+							    </div>
+                            }
+                        }
 					</div>
 
 				</div>

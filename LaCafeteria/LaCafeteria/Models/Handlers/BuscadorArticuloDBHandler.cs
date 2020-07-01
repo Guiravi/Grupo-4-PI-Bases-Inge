@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using LaCafeteria.Utilidades;
@@ -18,54 +19,28 @@ namespace LaCafeteria.Models.Handlers
 
                 SqlCommand cmd;
 
+                string tipoArt = "";
+                    
                 switch ( tipos )
                 {
                     case 1:
-                        cmd = new SqlCommand("SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
-                        " FROM  Articulo A JOIN MiembroAutorDeArticulo MAA " +
-                            " ON A.articuloAID = MAA.idArticuloFK " +
-                        " JOIN Miembro M " +
-                            " ON MAA.usernameMiemFK = M.usernamePK " +
-                        " WHERE M.nombre +' '+ M.apellido1 +' '+ M.apellido2 LIKE @autor " +
-                            " AND tipo = 'Corto' " +
-                            " AND A.estado = 'Publicado' " +
-                        " ORDER BY fechaPublicacion DESC;", connection);
+                        tipoArt = "Corto";
                         break;
                     case 2:
-                        cmd = new SqlCommand("SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
-                        " FROM  Articulo A JOIN MiembroAutorDeArticulo MAA " +
-                            " ON A.articuloAID = MAA.idArticuloFK " +
-                        " JOIN Miembro M " +
-                            " ON MAA.usernameMiemFK = M.usernamePK " +
-                        " WHERE M.nombre + M.apellido1 + M.apellido2 LIKE @autor " +
-                            " AND tipo = 'Largo' " +
-                            " AND A.estado = 'Publicado' " +
-                        " ORDER BY fechaPublicacion DESC;", connection);
+                        tipoArt = "Largo";
                         break;
                     case 3:
-                        cmd = new SqlCommand("SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
-                        " FROM  Articulo A JOIN MiembroAutorDeArticulo MAA " +
-                            " ON A.articuloAID = MAA.idArticuloFK " +
-                        " JOIN Miembro M " +
-                            " ON MAA.usernameMiemFK = M.usernamePK " +
-                        " WHERE M.nombre + M.apellido1 + M.apellido2 LIKE @autor " +
-                            " AND tipo = 'Link' " +
-                            " AND A.estado = 'Publicado' " +
-                        " ORDER BY fechaPublicacion DESC;", connection);
+                        tipoArt = "Link";
                         break;
                     default:
-                        cmd = new SqlCommand("SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
-                        " FROM  Articulo A JOIN MiembroAutorDeArticulo MAA " +
-                            " ON A.articuloAID = MAA.idArticuloFK " +
-                        " JOIN Miembro M " +
-                            " ON MAA.usernameMiemFK = M.usernamePK " +
-                        " WHERE M.nombre + M.apellido1 + M.apellido2 LIKE @autor " +
-                            " AND A.estado = 'Publicado' " +
-                        " ORDER BY fechaPublicacion DESC;", connection);
-                        break;
+                        tipoArt = "";
+                    break;
                 }
 
-                cmd.Parameters.AddWithValue("@autor", "%" + autores + "%");
+                cmd = new SqlCommand("USP_GetArticulosPorAutorYTipo", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@autores", "%" + autores + "%");
+                cmd.Parameters.AddWithValue("@tipo", tipoArt);
 
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -131,53 +106,6 @@ namespace LaCafeteria.Models.Handlers
                         visitas = (int) reader["visitas"],
                         puntajeTotalRev = (!DBNull.Value.Equals(reader["puntajeTotalRev"])) ? (double?) reader["puntajeTotalRev"] : null,
                         calificacionTotalMiem = (int) reader["calificacionTotalMiem"]
-                    };
-
-                    artList.Add(articuloActual);
-                }
-
-                reader.Close();
-
-                return artList;
-            }
-        }
-
-        public List<ArticuloModel> GetArticulosPorMiembroEstado(string username, string estadoArticulo)
-        {
-            String connectionString = AppSettings.GetConnectionString();
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                SqlCommand cmd = new SqlCommand("SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
-                        " FROM  Articulo A " +
-                        " JOIN MiembroAutorDeArticulo MAA " +
-                            " ON A.articuloAID = MAA.idArticuloFK " +
-                        " WHERE usernameMiemFK = @username AND A.estado = @estadoArticulo" +
-                        "ORDER BY A.fechaPublicacion DESC;", connection);
-
-                cmd.Parameters.AddWithValue("@username", username);
-                cmd.Parameters.AddWithValue("@estadoArticulo", estadoArticulo);
-
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                List<ArticuloModel> artList = new List<ArticuloModel>();
-
-                while (reader.Read())
-                {
-                    ArticuloModel articuloActual = new ArticuloModel()
-                    {
-                        articuloAID = (int)reader["articuloAID"],
-                        titulo = (String)reader["titulo"],
-                        tipo = (String)reader["tipo"],
-                        fechaPublicacion = reader["fechaPublicacion"].ToString().Remove(reader["fechaPublicacion"].ToString().Length - 12, 12),
-                        resumen = (String)reader["resumen"],
-                        contenido = (String)reader["contenido"],
-                        estado = (String)reader["estado"],
-                        visitas = (int)reader["visitas"],
-                        puntajeTotalRev = (!DBNull.Value.Equals(reader["puntajeTotalRev"])) ? (double?)reader["puntajeTotalRev"] : null,
-                        calificacionTotalMiem = (int)reader["calificacionTotalMiem"]
                     };
 
                     artList.Add(articuloActual);
@@ -258,7 +186,7 @@ namespace LaCafeteria.Models.Handlers
             }
         }
 
-        public List<ArticuloModel> GetArticulosPorTitulo(String titulo, int tipos) {
+        public List<ArticuloModel> GetArticulosPorTituloYTipo(String titulo, int tipos) {
             String connectionString = AppSettings.GetConnectionString();
 
             using ( SqlConnection connection = new SqlConnection(connectionString) )
@@ -267,42 +195,28 @@ namespace LaCafeteria.Models.Handlers
 
                 SqlCommand cmd;
 
-                switch ( tipos )
+                string tipoArt = "";
+
+                switch (tipos)
                 {
                     case 1:
-                        cmd = new SqlCommand("SELECT  * " +
-                        " FROM  Articulo " +
-                        " WHERE titulo LIKE @titulo " +
-                            " AND tipo = 'Corto' " +
-                            " AND estado = 'Publicado' " +
-                        " ORDER BY fechaPublicacion DESC;", connection);
+                        tipoArt = "Corto";
                         break;
                     case 2:
-                        cmd = new SqlCommand("SELECT  * " +
-                        " FROM  Articulo " +
-                        " WHERE titulo LIKE @titulo " +
-                            " AND tipo = 'Largo' " +
-                            " AND estado = 'Publicado' " +
-                        " ORDER BY fechaPublicacion DESC;", connection);
+                        tipoArt = "Largo";
                         break;
                     case 3:
-                        cmd = new SqlCommand("SELECT  * " +
-                        " FROM  Articulo " +
-                        " WHERE titulo LIKE @titulo " +
-                            " AND tipo = 'Link' " +
-                            " AND estado = 'Publicado' " +
-                        " ORDER BY fechaPublicacion DESC;", connection);
+                        tipoArt = "Link";
                         break;
                     default:
-                        cmd = new SqlCommand("SELECT  * " +
-                        " FROM  Articulo " +
-                        " WHERE titulo LIKE @titulo " +
-                            " AND estado = 'Publicado' " +
-                        " ORDER BY fechaPublicacion DESC;", connection);
+                        tipoArt = "";
                         break;
                 }
 
+                cmd = new SqlCommand("USP_GetArticulosPorTituloYTipo", connection);
+                cmd.CommandType = CommandType.StoredProcedure;              
                 cmd.Parameters.AddWithValue("@titulo", "%" + titulo + "%");
+                cmd.Parameters.AddWithValue("@tipo", tipoArt);
 
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -333,7 +247,7 @@ namespace LaCafeteria.Models.Handlers
             }
         }
 
-        public List<ArticuloModel> GetArticulosPorTopico(CategoriaTopicoModel catTop, int tipos) {
+        public List<ArticuloModel> GetArticulosPorTopicoYTipo(CategoriaTopicoModel catTop, int tipos) {
             String connectionString = AppSettings.GetConnectionString();
 
             using ( SqlConnection connection = new SqlConnection(connectionString) )
@@ -342,55 +256,29 @@ namespace LaCafeteria.Models.Handlers
 
                 SqlCommand cmd;
 
-                switch ( tipos )
+                string tipoArt = "";
+
+                switch (tipos)
                 {
                     case 1:
-                        cmd = new SqlCommand("SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
-                                                " FROM  Articulo A " +
-                                                " JOIN ArticuloTrataTopico ATT " +
-                                                    " ON A.articuloAID = ATT.idArticuloFK " +
-                                                " WHERE ATT.nombreCategoriaFK = @categoria " +
-                                                    " AND ATT.nombreTopicoFK = @topico " +
-                                                    " AND A.tipo = 'Corto' " +
-                                                    " AND A.estado = 'Publicado' " +
-                                                    " ORDER BY A.fechaPublicacion DESC; ", connection);
+                        tipoArt = "Corto";
                         break;
                     case 2:
-                        cmd = new SqlCommand("SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
-                                                " FROM  Articulo A " +
-                                                " JOIN ArticuloTrataTopico ATT " +
-                                                    " ON A.articuloAID = ATT.idArticuloFK " +
-                                                " WHERE ATT.nombreCategoriaFK = @categoria " +
-                                                    " AND ATT.nombreTopicoFK = @topico " +
-                                                    " AND A.tipo = 'Largo' " +
-                                                    " AND A.estado = 'Publicado' " +
-                                                    " ORDER BY A.fechaPublicacion DESC; ", connection);
+                        tipoArt = "Largo";
                         break;
                     case 3:
-                        cmd = new SqlCommand("SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
-                                                " FROM  Articulo A " +
-                                                " JOIN ArticuloTrataTopico ATT " +
-                                                    " ON A.articuloAID = ATT.idArticuloFK " +
-                                                " WHERE ATT.nombreCategoriaFK = @categoria " +
-                                                    " AND ATT.nombreTopicoFK = @topico " +
-                                                    " AND A.tipo = 'Link' " +
-                                                    " AND A.estado = 'Publicado' " +
-                                                    " ORDER BY A.fechaPublicacion DESC; ", connection);
+                        tipoArt = "Link";
                         break;
                     default:
-                        cmd = new SqlCommand("SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, A.puntajeTotalRev, A.calificacionTotalMiem " +
-                                                " FROM  Articulo A " +
-                                                " JOIN ArticuloTrataTopico ATT " +
-                                                    " ON A.articuloAID = ATT.idArticuloFK " +
-                                                " WHERE ATT.nombreCategoriaFK = @categoria " +
-                                                    " AND ATT.nombreTopicoFK = @topico " +
-                                                    " AND A.estado = 'Publicado' " +
-                                                    " ORDER BY A.fechaPublicacion DESC; ", connection);
+                        tipoArt = "";
                         break;
                 }
 
+                cmd = new SqlCommand("USP_GetArticulosPorTopicoYTipo", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@categoria", catTop.nombreCategoriaPK);
                 cmd.Parameters.AddWithValue("@topico", catTop.nombreTopicoPK);
+                cmd.Parameters.AddWithValue("@tipo", tipoArt);
 
                 SqlDataReader reader = cmd.ExecuteReader();
 

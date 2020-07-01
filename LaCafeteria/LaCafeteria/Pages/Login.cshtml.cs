@@ -35,16 +35,10 @@ namespace LaCafeteria.Pages
         {
 			CreadorNotificacionController creadorNotificacionController = new CreadorNotificacionController();
 			
-			// TODO: Eliminar codigo de prueba
-			creadorNotificacionController.CrearNotificacion( new Notificacion("BadBunny", "Su articulo YHLQMDLG ha sido aceptado", "/Index"));
-			creadorNotificacionController.CrearNotificacion(new Notificacion("BadBunny", "Usted ha sido promovido a Miembro de nucleo!", "#"));
-			creadorNotificacionController.CrearNotificacion(new Notificacion("BadBunny", "Su articulo Bichiyal ha recibido 1 like", "#"));
-			creadorNotificacionController.CrearNotificacion(new Notificacion("BadBunny", "Se solicita su colaboracion para revisar el articulo Oda al mono motorizado", "#"));
-
 			if (cerrarSesion != null)
 			{
 				Response.Cookies.Delete("usernamePK");
-				Notificaciones.Set(this, "cerrarSesion", "Se ha cerrado la sesión", Notificaciones.TipoNotificacion.Exito);
+				AvisosInmediatos.Set(this, "cerrarSesion", "Se ha cerrado la sesión", AvisosInmediatos.TipoAviso.Exito);
 				return Redirect("/Login");
 			}
 
@@ -61,7 +55,7 @@ namespace LaCafeteria.Pages
 				List<Notificacion> listaNotificaciones = informacionMiembroController.GetNotificaciones(usernamePK);
 				HttpContext.Session.SetComplexData("listaNotificaciones", listaNotificaciones);
 				HttpContext.Session.SetInt32("cantidadNotificacionesNuevas", GetCantidadNotificacionesNuevas(listaNotificaciones));
-				Notificaciones.Set(this, "sesionIniciada", "Sesión iniciada", Notificaciones.TipoNotificacion.Exito);
+				AvisosInmediatos.Set(this, "sesionIniciada", "Sesión iniciada", AvisosInmediatos.TipoAviso.Exito);
 				return Redirect("/Index");
 			}
 
@@ -72,10 +66,14 @@ namespace LaCafeteria.Pages
 		{
 			bool esValido = true;
 
-			if(buscadorMiembrosController.GetMiembro(usernamePK) == null)
+            if (usernamePK == null)
+            {
+                esValido = false;
+            }
+            else if (buscadorMiembrosController.GetMiembro(usernamePK) == null)
 			{
 				esValido = false;
-				Notificaciones.Set(this, "usernameNoExiste", "Ingrese con un nombre de usuario valido", Notificaciones.TipoNotificacion.Error);
+				AvisosInmediatos.Set(this, "usernameNoExiste", "Ingrese con un nombre de usuario valido", AvisosInmediatos.TipoAviso.Error);
 			}
 
 			return esValido && ModelState.IsValid;

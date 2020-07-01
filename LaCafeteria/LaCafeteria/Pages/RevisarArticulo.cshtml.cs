@@ -107,7 +107,7 @@ namespace LaCafeteria.Pages
             revisorArticulosController.ActualizarRevisionArticulo(revision);
 
 
-            Notificaciones.Set(this, "revisionExitosa", "Su revisión se ha efectuado exitosamente", Notificaciones.TipoNotificacion.Exito);
+            AvisosInmediatos.Set(this, "revisionExitosa", "Su revisión se ha efectuado exitosamente", AvisosInmediatos.TipoAviso.Exito);
             return Redirect("MisArticulosPorRevisar");
         }
     }

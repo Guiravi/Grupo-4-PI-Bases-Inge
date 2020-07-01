@@ -6,21 +6,21 @@
 }
 
 <h2>Mi perfil</h2>
-@if (Notificaciones.Existe(Model, "articuloGuardado"))
+@if (AvisosInmediatos.Existe(Model, "articuloGuardado"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "articuloGuardado"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "articuloGuardado"));
 }
-@if (Notificaciones.Existe(Model, "articuloEditado"))
+@if (AvisosInmediatos.Existe(Model, "articuloEditado"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "articuloEditado"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "articuloEditado"));
 }
-@if (Notificaciones.Existe(Model, "articuloEnviadoRev"))
+@if (AvisosInmediatos.Existe(Model, "articuloEnviadoRev"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "articuloEnviadoRev"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "articuloEnviadoRev"));
 }
-@if (Notificaciones.Existe(Model, "Actualizado"))
+@if (AvisosInmediatos.Existe(Model, "Actualizado"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "Actualizado"))
+    @Html.Raw(AvisosInmediatos.Get(Model, "Actualizado"))
 }
 <head>
     <meta charset="utf-8">
@@ -148,16 +148,44 @@
                         <h3 class="panel-title">Habilidades</h3>
                     </div>
                     <div class="panel-body">
-                        @Model.miembro.habilidades @*/hacer un foreach*@
+                        @for (int i = 0; i < Model.miembro.habilidades.Count; i++)
+                        {
+                            if (i != Model.miembro.habilidades.Count - 1)
+                            {
+                                <text>
+                                    @Html.Raw(Model.miembro.habilidades[i]),
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    @Html.Raw(Model.miembro.habilidades[i])
+                                </text>
+                            }
+                        }
                     </div>
                 </div>
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Hobbies</h3>
+                        <h3 class="panel-title">Pasatiempos</h3>
                     </div>
                     <div class="panel-body">
-                        @Model.miembro.pasatiempos @*/hacer un foreach*@
+                        @for (int i = 0; i < Model.miembro.pasatiempos.Count; i++)
+                        {
+                            if (i != Model.miembro.pasatiempos.Count - 1)
+                            {
+                                <text>
+                                    @Html.Raw(Model.miembro.pasatiempos[i]),
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    @Html.Raw(Model.miembro.pasatiempos[i])
+                                </text>
+                            }
+                        }
                     </div>
                 </div>
 
@@ -166,7 +194,21 @@
                         <h3 class="panel-title">Idiomas</h3>
                     </div>
                     <div class="panel-body">
-                        @Model.miembro.idiomas @*/hacer un foreach*@
+                        @for (int i = 0; i < Model.miembro.idiomas.Count; i++)
+                        {
+                            if (i != Model.miembro.idiomas.Count - 1)
+                            {
+                                <text>
+                                    @Html.Raw(Model.miembro.idiomas[i]),
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    @Html.Raw(Model.miembro.idiomas[i])
+                                </text>
+                            }
+                        }
                     </div>
                 </div>
 
@@ -202,7 +244,7 @@
                                     <div class="container">
                                         <div class="row">
                                             <div class="col-md-7">
-                                                <h2 class="panel-title" style="font-size: 125%;"><a href="/VerResumen/@Model.misArticulos[articuloActual].articuloAID/@Model.misArticulos[articuloActual].tipo">@Model.misArticulos[articuloActual].titulo</a> </h2>
+                                                <h2 class="panel-title" style="font-size: 125%;"><a href="/VerResumen/@Model.misArticulos[articuloActual].articuloAID/@Model.misArticulos[articuloActual].tipo/1">@Model.misArticulos[articuloActual].titulo</a> </h2>
                                             </div>
                                             <div class="col-md-3">
                                                 <h3 class="panel-title" style="text-align: right;">

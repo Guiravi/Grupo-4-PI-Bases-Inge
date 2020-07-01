@@ -16,32 +16,36 @@ namespace LaCafeteria.Pages
 {
     public class SubirArticuloModel : PageModel
     {
-		public List<CategoriaTopicoModel> listaCategoriaTopicos { set; get; }
+        public List<CategoriaTopicoModel> listaCategoriaTopicos { set; get; }
 
-		public List<MiembroModel> listaMiembros { set; get; }
+        public List<MiembroModel> listaMiembros { set; get; }
 
-		[BindProperty]
-		public ArticuloModel articulo { set; get; }
+        [BindProperty]
+        public ArticuloModel articulo { set; get; }
 
-		[BindProperty]
-		public IFormFile archivoArticulo { get; set; }
+        [BindProperty]
+        public IFormFile archivoArticulo { get; set; }
 
-		[BindProperty]
-		public List<string> listaCategoriaTopicosArticulo { get; set; }
+        [BindProperty]
+        public List<string> listaCategoriaTopicosArticulo { get; set; }
 
-		[BindProperty]
-		public List<string> listaMiembrosAutores { set; get; }
+        [BindProperty]
+        public List<string> listaMiembrosAutores { set; get; }
 
         public List<string[]> autoresViejos { get; set; }
 
-        //public CorreoController correoController;
+        public List<RevisionModel> revisiones { get; set; }
 
+        public string estadoAnterior { set; get; }
+
+        private CreadorNotificacionController creadorNotificacionController;
         private InformacionCategoriaTopicoController informacionCategoriaTopicoController;
         private BuscadorMiembrosController buscadorMiembrosController;
         private InformacionArticuloController informacionArticuloController;
         private DocumentosArticuloController documentosArticuloController;
         private AlmacenadorArticuloController almacenadorArticuloController;
-        private EditorArticuloController editorArticuloController;        
+        private EditorArticuloController editorArticuloController;
+
 
         [BindProperty(SupportsGet = true)]
         public int idArticuloPK { get; set; }
@@ -51,9 +55,8 @@ namespace LaCafeteria.Pages
 
         public string inyeccion = "";
 
-        public SubirArticuloModel(IHostingEnvironment env)
-		{
-            //correoController = new CorreoController(env);
+        public SubirArticuloModel(IHostingEnvironment env) {
+            creadorNotificacionController = new CreadorNotificacionController();
             informacionCategoriaTopicoController = new InformacionCategoriaTopicoController();
             buscadorMiembrosController = new BuscadorMiembrosController();
             informacionArticuloController = new InformacionArticuloController();
@@ -62,22 +65,21 @@ namespace LaCafeteria.Pages
             editorArticuloController = new EditorArticuloController();
 
             listaCategoriaTopicos = informacionCategoriaTopicoController.GetCategoriasYTopicos();
-			listaMiembros = buscadorMiembrosController.GetListaMiembrosModel();
+            listaMiembros = buscadorMiembrosController.GetListaMiembrosModel();
             listaMiembrosAutores = new List<string>();
             listaCategoriaTopicosArticulo = new List<string>();
             autoresViejos = new List<string[]>();
             articulo = new ArticuloModel();
-
+            estadoAnterior = null;
 
             idArticuloPK = -1;
             rutaCarpeta = env.WebRootPath;
         }
 
-		public IActionResult OnGet()
-        {
-            if (Request.Cookies["usernamePK"] != null)
+        public IActionResult OnGet() {
+            if ( Request.Cookies["usernamePK"] != null )
             {
-                if (idArticuloPK != -1)
+                if ( idArticuloPK != -1 )
                 {
                     articulo = informacionArticuloController.GetInformacionArticuloModel(idArticuloPK);
 
@@ -86,7 +88,7 @@ namespace LaCafeteria.Pages
                     listaCategoriaTopicosArticulo = informacionArticuloController.GetCategoriaTopicosArticuloString(idArticuloPK);
 
                     autoresViejos = informacionArticuloController.GetAutoresArticuloListaStringArray(idArticuloPK);
-                    foreach (string[] item in autoresViejos)
+                    foreach ( string[] item in autoresViejos )
                     {
                         listaMiembrosAutores.Add(item[0]);
                     }
@@ -97,7 +99,7 @@ namespace LaCafeteria.Pages
 
                     TempData["idArticulo"] = idArticuloPK;
 
-                    for (int i = 0; i < autoresViejos.Count; i++)
+                    for ( int i = 0; i < autoresViejos.Count; i++ )
                     {
                         inyeccion += "var select = document.getElementById('slctAutor');" + "\n" +
                             "var option = select[select.selectedIndex];" + "\n" +
@@ -114,44 +116,31 @@ namespace LaCafeteria.Pages
                             "div.appendChild(button);" + "\n" +
                             "}\n";
                     }
-                }
-                else
+
+                    if ( articulo.estado == EstadoArticulo.EnCorrecciones )
+                    {
+                        revisiones = informacionArticuloController.GetRevisiones(idArticuloPK);
+                        estadoAnterior = articulo.estado;
+                    }
+                } else
                 {
                     TempData["idArticulo"] = -1;
                 }
-            }
-            else
+            } else
             {
-                Notificaciones.Set(this, "init_session_error", "Por favor inicie sesión para poder subir el artículo", Notificaciones.TipoNotificacion.Error);
+                AvisosInmediatos.Set(this, "init_session_error", "Por favor inicie sesión para poder subir el artículo", AvisosInmediatos.TipoAviso.Error);
                 return Redirect("/Login");
             }
             return Page();
         }
 
-		public IActionResult OnPostGuardar()
-		{	
-			if (EsValido())
-			{
-				articulo.tipo = TipoArticulo.Largo;
-				articulo.estado = EstadoArticulo.EnProgreso;
-                almacenadorArticuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo);
-				Notificaciones.Set(this, "articuloGuardado", "Su artículo se guardó correctamente", Notificaciones.TipoNotificacion.Exito);
-
-                return Redirect("/MiPerfil");
-			}
-
-            return Page();
-		}
-
-        public IActionResult OnPostEditar()
-        {
-            if (EsValido())
+        public IActionResult OnPostGuardar() {
+            if ( EsValido() )
             {
-                articulo.articuloAID = idArticuloPK;
                 articulo.tipo = TipoArticulo.Largo;
                 articulo.estado = EstadoArticulo.EnProgreso;
-                editorArticuloController.EditarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo, rutaCarpeta);
-                Notificaciones.Set(this, "articuloEditado", "Su artículo se editó correctamente", Notificaciones.TipoNotificacion.Exito);
+                almacenadorArticuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo);
+                AvisosInmediatos.Set(this, "articuloGuardado", "Su artículo se guardó correctamente", AvisosInmediatos.TipoAviso.Exito);
 
                 return Redirect("/MiPerfil");
             }
@@ -159,28 +148,74 @@ namespace LaCafeteria.Pages
             return Page();
         }
 
-        public IActionResult OnPostEnviarRevision()
-        {
-            if (EsValido())
-            {               
+        public IActionResult OnPostEditar() {
+            if ( EsValido() )
+            {
+                articulo.articuloAID = idArticuloPK;
                 articulo.tipo = TipoArticulo.Largo;
-                articulo.estado = EstadoArticulo.RequiereRevision;
-                if (TempData["idArticulo"] != null)
+                if ( estadoAnterior != EstadoArticulo.EnCorrecciones )
                 {
-                    articulo.articuloAID = (int)TempData["idArticulo"];
+                    articulo.estado = EstadoArticulo.EnProgreso;
                 }
-                if (articulo.articuloAID ==  -1)
+                editorArticuloController.EditarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo, rutaCarpeta);
+                AvisosInmediatos.Set(this, "articuloEditado", "Su artículo se editó correctamente", AvisosInmediatos.TipoAviso.Exito);
+
+                return Redirect("/MiPerfil");
+            }
+
+            return Page();
+        }
+
+        public IActionResult OnPostEnviarRevision() {
+            if ( EsValido() )
+            {
+                articulo.tipo = TipoArticulo.Largo;
+                if ( estadoAnterior == EstadoArticulo.EnCorrecciones )
+                {
+                    articulo.estado = EstadoArticulo.EnRevision;
+                } else
+                {
+                    articulo.estado = EstadoArticulo.RequiereRevision;
+                }
+                if ( TempData["idArticulo"] != null )
+                {
+                    articulo.articuloAID = (int) TempData["idArticulo"];
+                }
+                if ( articulo.articuloAID == -1 )
                 {
                     almacenadorArticuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo);
-                }
-                else
+                } else
                 {
                     editorArticuloController.EditarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo, rutaCarpeta);
                 }
 
-                //correoController.sendNecesitaRevision(articulo.titulo);
+                //Enviar notificacion a miembros nucleo
+                if ( articulo.estado == EstadoArticulo.EnRevision )
+                {
+                    Notificacion notificacion = new Notificacion();
+                    notificacion.mensaje = "El artículo " + articulo.titulo + " ha sido corregido. Por favor proceder a revisar las correcciones.";
+                    notificacion.url = "/RevisarArticulo/" + articulo.articuloAID + "/" + articulo.tipo;
 
-                Notificaciones.Set(this, "articuloEnviadoRev", "Su artículo fue enviado a revisión", Notificaciones.TipoNotificacion.Exito);
+                    foreach ( RevisionModel revision in revisiones )
+                    {
+                        notificacion.usernameFK = revision.usernameMiemFK;
+                        creadorNotificacionController.CrearNotificacion(notificacion);
+                    }
+
+                } else
+                {
+                    Notificacion notificacion = new Notificacion();
+                    notificacion.mensaje = "Un artículo nuevo con título " + articulo.titulo + " requiere revisión para se publicado. Por favor indicar su interés de participar en este proceso.";
+                    notificacion.url = "/ArticulosPorRevisar";
+
+                    List<MiembroModel> nucleos = buscadorMiembrosController.GetListaMiembrosNucleoModel();
+                    foreach ( MiembroModel miembroNucleo in nucleos )
+                    {
+                        notificacion.usernameFK = miembroNucleo.usernamePK;
+                        creadorNotificacionController.CrearNotificacion(notificacion);
+                    }
+                }
+                AvisosInmediatos.Set(this, "articuloEnviadoRev", "Su artículo fue enviado a revisión", AvisosInmediatos.TipoAviso.Exito);
 
                 return Redirect("/MiPerfil");
             }
@@ -188,38 +223,36 @@ namespace LaCafeteria.Pages
             return Page();
         }
 
-        private bool EsValido()
-		{
-			bool esValido = true;
+        private bool EsValido() {
+            bool esValido = true;
 
-			if(archivoArticulo == null)
-			{
-				esValido = false;
-				Notificaciones.Set(this, "archivoArticulo", "Debe seleccionar un archivo para subir", Notificaciones.TipoNotificacion.Error);
-			}
-			else
-			{
-				BinaryReader binaryReader = new BinaryReader(archivoArticulo.OpenReadStream());
-		
-				articulo.contenido = System.Convert.ToBase64String(binaryReader.ReadBytes((int) archivoArticulo.Length), 0, (int) archivoArticulo.Length);
-				ModelState.Remove("articulo.contenido");
-			}
+            if ( archivoArticulo == null )
+            {
+                esValido = false;
+                AvisosInmediatos.Set(this, "archivoArticulo", "Debe seleccionar un archivo para subir", AvisosInmediatos.TipoAviso.Error);
+            } else
+            {
+                BinaryReader binaryReader = new BinaryReader(archivoArticulo.OpenReadStream());
+
+                articulo.contenido = System.Convert.ToBase64String(binaryReader.ReadBytes((int) archivoArticulo.Length), 0, (int) archivoArticulo.Length);
+                ModelState.Remove("articulo.contenido");
+            }
 
 
-			if (listaCategoriaTopicosArticulo.Count == 0)
-			{
-				Notificaciones.Set(this, "listaTopicosArticulo", "Debe seleccionar al menos un tópico para su artículo", Notificaciones.TipoNotificacion.Error);
-				esValido = false;
-			}
+            if ( listaCategoriaTopicosArticulo.Count == 0 )
+            {
+                AvisosInmediatos.Set(this, "listaTopicosArticulo", "Debe seleccionar al menos un tópico para su artículo", AvisosInmediatos.TipoAviso.Error);
+                esValido = false;
+            }
 
-			if (listaMiembrosAutores.Count == 0)
-			{
-				Notificaciones.Set(this, "listaMiembrosAutores", "Debe seleccionar al menos un autor para su artículo", Notificaciones.TipoNotificacion.Error);
-				esValido = false;
-			}
+            if ( listaMiembrosAutores.Count == 0 )
+            {
+                AvisosInmediatos.Set(this, "listaMiembrosAutores", "Debe seleccionar al menos un autor para su artículo", AvisosInmediatos.TipoAviso.Error);
+                esValido = false;
+            }
 
-			return esValido && ModelState.IsValid;
-		}
+            return esValido && ModelState.IsValid;
+        }
 
     }
 }

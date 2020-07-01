@@ -56,7 +56,7 @@ namespace LaCafeteria.Pages
 				miembro.idiomas = listaIdiomas;
                 creadorMiembrosController.CrearMiembro(miembro);
 				Response.Cookies.Append("usernamePK", miembro.usernamePK);
-				Notificaciones.Set(this, "sesionIniciada", "Sesión iniciada", Notificaciones.TipoNotificacion.Exito);
+				AvisosInmediatos.Set(this, "sesionIniciada", "Sesión iniciada", AvisosInmediatos.TipoAviso.Exito);
 				return Redirect("/Index");
 			}
 
@@ -78,13 +78,13 @@ namespace LaCafeteria.Pages
 					if (!imagenDePerfil.ContentType.Equals("image/png") && !imagenDePerfil.ContentType.Equals("image/jpg") && !imagenDePerfil.ContentType.Equals("image/jpeg"))
 					{
 						esValido = false;
-						Notificaciones.Set(this, "formatoInvalido", "Debe subir una imagen en formato .png o .jpg", Notificaciones.TipoNotificacion.Error);
+						AvisosInmediatos.Set(this, "formatoInvalido", "Debe subir una imagen en formato .png o .jpg", AvisosInmediatos.TipoAviso.Error);
 					}
 				}
 				if ( buscadorMiembrosController.GetMiembro(miembro.usernamePK) != null && esValido)
 				{
 					esValido = false;
-					Notificaciones.Set(this, "usernamePKInvalido", "Nombre de usuario ya existe. Seleccione otro nombre de usuario", Notificaciones.TipoNotificacion.Error);
+					AvisosInmediatos.Set(this, "usernamePKInvalido", "Nombre de usuario ya existe. Seleccione otro nombre de usuario", AvisosInmediatos.TipoAviso.Error);
 				}
 			}
 

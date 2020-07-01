@@ -42,15 +42,15 @@ namespace LaCafeteria.Pages
             switch (error)
             {
                 case 0:
-                    Notificaciones.Set(this, "exitoEliminar", "Se ha eliminado la pregunta y la respuesta con éxito en su respectiva categoría", Notificaciones.TipoNotificacion.Exito);
+                    AvisosInmediatos.Set(this, "exitoEliminar", "Se ha eliminado la pregunta y la respuesta con éxito en su respectiva categoría", AvisosInmediatos.TipoAviso.Exito);
                     //TempData["Message"] = "Se ha eliminado la pregunta y la respuesta con éxito en su respectiva categoría";
                     break;
                 case 1:
-                    Notificaciones.Set(this, "camposIncompletos", "Por favor complete todos los campos antes de solicitar una funcionalidad", Notificaciones.TipoNotificacion.Error);
+                    AvisosInmediatos.Set(this, "camposIncompletos", "Por favor complete todos los campos antes de solicitar una funcionalidad", AvisosInmediatos.TipoAviso.Error);
                     //TempData["Message"] = "Por favor complete todos los campos antes de solicitar una funcionalidad";
                     break;
                 case 3:
-                    Notificaciones.Set(this, "noEncontrados", "Por favor ingrese otra pregunta y respuesta, ya que su pregunta no se ecuentra para eliminarla", Notificaciones.TipoNotificacion.Error);
+                    AvisosInmediatos.Set(this, "noEncontrados", "Por favor ingrese otra pregunta y respuesta, ya que su pregunta no se ecuentra para eliminarla", AvisosInmediatos.TipoAviso.Error);
                     //TempData["Message"] = "Por favor ingrese otra pregunta y respuesta, ya que su pregunta no se ecuentra para eliminarla";
                     break;
             }
@@ -60,17 +60,17 @@ namespace LaCafeteria.Pages
             this.error = fAQsController.Agregar(categoria, pregunta, respuesta);
             switch (error) {
                 case 0:
-                    Notificaciones.Set(this, "exitoAgregar", "Se ha agregado la pregunta y la respuesta con éxito en su respectiva categoría", Notificaciones.TipoNotificacion.Exito);
+                    AvisosInmediatos.Set(this, "exitoAgregar", "Se ha agregado la pregunta y la respuesta con éxito en su respectiva categoría", AvisosInmediatos.TipoAviso.Exito);
                     return Redirect("/CategoriasPregFrec");
                     //TempData["Message"] = "Se ha agregado la pregunta y la respuesta con éxito en su respectiva categoría";
                     break;
                 case 1:
-                    Notificaciones.Set(this, "camposIncompletos", "Por favor complete todos los campos antes de solicitar una funcionalidad", Notificaciones.TipoNotificacion.Error);
+                    AvisosInmediatos.Set(this, "camposIncompletos", "Por favor complete todos los campos antes de solicitar una funcionalidad", AvisosInmediatos.TipoAviso.Error);
                     //TempData["Message"] = "Por favor complete todos los campos antes de solicitar una funcionalidad";
                     return Page();
                     break;
                 case 2:
-                    Notificaciones.Set(this,"camposRepetidos" ,"Por favor ingrese otra pregunta y respuesta, ya que su pregunta está repetida para la categoría seleccionada", Notificaciones.TipoNotificacion.Error);
+                    AvisosInmediatos.Set(this,"camposRepetidos" ,"Por favor ingrese otra pregunta y respuesta, ya que su pregunta está repetida para la categoría seleccionada", AvisosInmediatos.TipoAviso.Error);
                     return Page();
                     //TempData["Message"] = "Por favor ingrese otra pregunta y respuesta, ya que su pregunta está repetida para la categoría seleccionada";
                     break;

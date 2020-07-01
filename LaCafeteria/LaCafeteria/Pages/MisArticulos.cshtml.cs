@@ -14,14 +14,6 @@ namespace LaCafeteria.Pages
     {
         public List<ArticuloModel> misArticulos { set; get; }
 
-        public List<ArticuloModel> misArticulosRevision { set; get; }
-
-        public List<ArticuloModel> misArticulosProgreso { set; get; }
-
-        public List<ArticuloModel> misArticulosPublicados { set; get; }
-
-        public List<ArticuloModel> misArticulosCorregir { set; get; }
-
         private BuscadorArticuloController buscadorArticuloController;
         public InformacionArticuloController informacionArticuloController;
 
@@ -34,11 +26,14 @@ namespace LaCafeteria.Pages
         public void OnGet()
         {	
 			string usernamePK = Request.Cookies["usernamePK"];
-			misArticulos = buscadorArticuloController.GetArticulosPorMiembro(usernamePK); 
-            misArticulosRevision = buscadorArticuloController.GetArticulosPorMiembroEstado(usernamePK,EstadoArticulo.EnRevision);
-            misArticulosProgreso = buscadorArticuloController.GetArticulosPorMiembroEstado(usernamePK, EstadoArticulo.EnProgreso);
-            misArticulosPublicados = buscadorArticuloController.GetArticulosPorMiembroEstado(usernamePK, EstadoArticulo.Publicado);
-            misArticulosCorregir = buscadorArticuloController.GetArticulosPorMiembroEstado(usernamePK, EstadoArticulo.EnCorrecciones);
+			misArticulos = buscadorArticuloController.GetArticulosPorMiembro(usernamePK);
+            for(int i=0; i < misArticulos.Count; i++)
+            {
+                if (misArticulos[i].estado == "Requiere Revisión")
+                {
+                    misArticulos[i].estado = "En Revisión";
+                }
+            }
         }
     }
 }
