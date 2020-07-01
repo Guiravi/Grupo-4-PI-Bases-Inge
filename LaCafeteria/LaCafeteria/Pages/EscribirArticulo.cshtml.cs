@@ -144,7 +144,11 @@ namespace LaCafeteria.Pages
             {
                 articulo.articuloAID = idArticuloPK;
                 articulo.tipo = TipoArticulo.Corto;
-                articulo.estado = EstadoArticulo.EnProgreso;
+
+                if ( estadoAnterior != EstadoArticulo.EnCorrecciones )
+                {
+                    articulo.estado = EstadoArticulo.EnProgreso;
+                }
                 editorArticuloController.EditarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo, "");
                 AvisosInmediatos.Set(this, "articuloEditado", "Su articulo se editó correctamente", AvisosInmediatos.TipoAviso.Exito);
 
@@ -200,7 +204,7 @@ namespace LaCafeteria.Pages
                     notificacion.url = "/ArticulosPorRevisar";
 
                     List<MiembroModel> nucleos = buscadorMiembrosController.GetListaMiembrosNucleoModel();
-                    foreach ( MiembroModel miembroNucleo in nucleos)
+                    foreach ( MiembroModel miembroNucleo in nucleos )
                     {
                         notificacion.usernameFK = miembroNucleo.usernamePK;
                         creadorNotificacionController.CrearNotificacion(notificacion);
