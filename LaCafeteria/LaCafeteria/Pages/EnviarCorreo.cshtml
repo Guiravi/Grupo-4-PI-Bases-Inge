@@ -12,8 +12,8 @@
 
 <h2 class="text-center">Enviar un Correo Electróncio</h2>
 
-@if (Notificaciones.Existe(Model, "Correo Enviado")){
-    @Html.Raw(Notificaciones.Get(Model,"Correo Enviado"))
+@if (AvisosInmediatos.Existe(Model, "Correo Enviado")){
+    @Html.Raw(AvisosInmediatos.Get(Model,"Correo Enviado"))
 } 
 
 <form method="post" enctype="multipart/form-data" data-toggle="validator" data-disable="false">

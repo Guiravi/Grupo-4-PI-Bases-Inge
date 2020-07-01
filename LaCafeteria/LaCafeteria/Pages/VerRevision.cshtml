@@ -4,17 +4,17 @@
 @{
     ViewData["Title"] = "VerRevision";
 }
-@if (Notificaciones.Existe(Model, "Aceptar"))
+@if (AvisosInmediatos.Existe(Model, "Aceptar"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "Aceptar"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "Aceptar"));
 }
-@if (Notificaciones.Existe(Model, "AceptarConModificaciones"))
+@if (AvisosInmediatos.Existe(Model, "AceptarConModificaciones"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "AceptarConModificaciones"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "AceptarConModificaciones"));
 }
-@if (Notificaciones.Existe(Model, "Rechazar"))
+@if (AvisosInmediatos.Existe(Model, "Rechazar"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "Rechazar"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "Rechazar"));
 }
 <style>
     .btn {

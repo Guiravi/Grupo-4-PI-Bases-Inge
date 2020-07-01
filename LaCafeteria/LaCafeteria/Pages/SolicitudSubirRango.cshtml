@@ -7,18 +7,18 @@
 
 
 <h3 class="text-center">Solicitar Subir de Rango</h3>
-@if (Notificaciones.Existe(Model, "exitoSolicitud"))
+@if (AvisosInmediatos.Existe(Model, "exitoSolicitud"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "exitoSolicitud"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "exitoSolicitud"));
 }
-@if (Notificaciones.Existe(Model, "fracasoSolicitud"))
+@if (AvisosInmediatos.Existe(Model, "fracasoSolicitud"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "fracasoSolicitud"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "fracasoSolicitud"));
 }
 
-@if (Notificaciones.Existe(Model, "rangoInvalido"))
+@if (AvisosInmediatos.Existe(Model, "rangoInvalido"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "rangoInvalido"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "rangoInvalido"));
 }
 <form method="post">
 

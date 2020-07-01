@@ -73,7 +73,7 @@ namespace LaCafeteria.Controllers
             return listaString;
 
         }
-        public int GetCalificacionMiembro(string username, int idArticulo) {
+        public int? GetCalificacionMiembro(string username, int idArticulo) {
             return informacionArticuloDBHandler.GetCalificacionMiembro(username, idArticulo);
         }
 

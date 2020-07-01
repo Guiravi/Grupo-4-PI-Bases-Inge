@@ -14,9 +14,9 @@
         <a href='javascript:history.go(-1)' class="btn btn-info text-center">Volver</a>
     </div>
 </div>
-@if (Notificaciones.Existe(Model, "exitoAgregar"))
+@if (AvisosInmediatos.Existe(Model, "exitoAgregar"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "exitoAgregar"))
+    @Html.Raw(AvisosInmediatos.Get(Model, "exitoAgregar"))
 }
 <table class="table">
     <tbody>

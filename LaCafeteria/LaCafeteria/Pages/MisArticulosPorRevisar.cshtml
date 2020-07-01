@@ -6,9 +6,9 @@
 }
 
 <h2 class="text-center">Artículos que debo revisión</h2>
-@if (Notificaciones.Existe(Model, "revisionExitosa"))
+@if (AvisosInmediatos.Existe(Model, "revisionExitosa"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "revisionExitosa"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "revisionExitosa"));
 }
 <div class="container">
     <table class="table table-hover table-striped">

@@ -28,25 +28,25 @@
     </div>
     <input type="submit" value="Agregar" asp-page-handler="add" />
     <input type="submit" value="Borrar" asp-page-handler="delete" />
-    @if (Notificaciones.Existe(Model, "exitoEliminar"))
+    @if (AvisosInmediatos.Existe(Model, "exitoEliminar"))
     {
-        @Html.Raw(Notificaciones.Get(Model, "exitoEliminar"));
+        @Html.Raw(AvisosInmediatos.Get(Model, "exitoEliminar"));
     }
-    @if (Notificaciones.Existe(Model, "camposIncompletos"))
+    @if (AvisosInmediatos.Existe(Model, "camposIncompletos"))
     {
-        @Html.Raw(Notificaciones.Get(Model, "camposIncompletos"));
+        @Html.Raw(AvisosInmediatos.Get(Model, "camposIncompletos"));
     }
-    @if (Notificaciones.Existe(Model, "noEncontrados"))
+    @if (AvisosInmediatos.Existe(Model, "noEncontrados"))
     {
-        @Html.Raw(Notificaciones.Get(Model, "noEncontrados"));
+        @Html.Raw(AvisosInmediatos.Get(Model, "noEncontrados"));
     }
-    @if (Notificaciones.Existe(Model, "exitoAgregar"))
+    @if (AvisosInmediatos.Existe(Model, "exitoAgregar"))
     {
-        @Html.Raw(Notificaciones.Get(Model, "exitoAgregar"));
+        @Html.Raw(AvisosInmediatos.Get(Model, "exitoAgregar"));
     }
-    @if (Notificaciones.Existe(Model, "camposRepetidos"))
+    @if (AvisosInmediatos.Existe(Model, "camposRepetidos"))
     {
-        @Html.Raw(Notificaciones.Get(Model, "camposRepetidos"));
+        @Html.Raw(AvisosInmediatos.Get(Model, "camposRepetidos"));
     }
    
 </form>

@@ -53,7 +53,7 @@ namespace LaCafeteria.Pages
             listaHabilidades.AddRange(listaHabilidadesCSV.Split(',').ToList());
             listaPasatiempos.AddRange(listaPasatiemposCSV.Split(',').ToList());
             editorArticuloController.ActualizarMiembro(Request.Cookies["usernamePK"], edicionMiembroModel, listaIdiomas, listaHabilidades, listaPasatiempos);
-            Notificaciones.Set(this, "Actualizado", "Su perfil se ha actualizado satifactoriamente", Notificaciones.TipoNotificacion.Exito);
+            AvisosInmediatos.Set(this, "Actualizado", "Su perfil se ha actualizado satifactoriamente", AvisosInmediatos.TipoAviso.Exito);
             return Redirect("/MiPerfil");
 
         }

@@ -6,18 +6,18 @@
 }
 
 <h2>Inicio de sesión</h2>
-@if (Notificaciones.Existe(Model, "cerrarSesion"))
+@if (AvisosInmediatos.Existe(Model, "cerrarSesion"))
 {
-	@Html.Raw(Notificaciones.Get(Model, "cerrarSesion"))
+	@Html.Raw(AvisosInmediatos.Get(Model, "cerrarSesion"))
 }
-@if (Notificaciones.Existe(Model, "init_session_error"))
+@if (AvisosInmediatos.Existe(Model, "init_session_error"))
 {
-	@Html.Raw(Notificaciones.Get(Model, "init_session_error"))
+	@Html.Raw(AvisosInmediatos.Get(Model, "init_session_error"))
 }
 
-@if (Notificaciones.Existe(Model, "usernameNoExiste"))
+@if (AvisosInmediatos.Existe(Model, "usernameNoExiste"))
 {
-	@Html.Raw(Notificaciones.Get(Model, "usernameNoExiste"))
+	@Html.Raw(AvisosInmediatos.Get(Model, "usernameNoExiste"))
 }
 <div class="container">
     <div class="row">

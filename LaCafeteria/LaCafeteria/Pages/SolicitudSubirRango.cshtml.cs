@@ -41,7 +41,7 @@ namespace LaCafeteria.Pages
                 nombreRolFK = buscadorMiembrosController.GetRango(usernamePK);
                 if (nombreRolFK != "Periférico" && nombreRolFK != "Activo" )
                 {
-                    Notificaciones.Set(this, "rangoInvalido", "El rango de este miembro no califica para la solicitud", Notificaciones.TipoNotificacion.Error);
+                    AvisosInmediatos.Set(this, "rangoInvalido", "El rango de este miembro no califica para la solicitud", AvisosInmediatos.TipoAviso.Error);
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace LaCafeteria.Pages
                     if (puede == 0)
                     {
                         miembroSolicitaSubirRangoNucleoEnviadaController.SolicitarSubirRango(usernamePK, miembros);
-                        Notificaciones.Set(this, "exitoSolicitud", "La solicitud se envió con éxito", Notificaciones.TipoNotificacion.Exito);
+                        AvisosInmediatos.Set(this, "exitoSolicitud", "La solicitud se envió con éxito", AvisosInmediatos.TipoAviso.Exito);
                         foreach (var miembro in miembros) {
                             string mensaje = "Hay que revisar la solicitud para subir de rango del miembro "+ usernamePK;
                             Notificacion notificacion = new Notificacion(miembro.usernamePK, mensaje, null);
@@ -59,7 +59,7 @@ namespace LaCafeteria.Pages
                     }
                     else
                     {
-                        Notificaciones.Set(this, "fracasoSolicitud", "Usted ha enviado una solicitud que sigue en valoración", Notificaciones.TipoNotificacion.Error);
+                        AvisosInmediatos.Set(this, "fracasoSolicitud", "Usted ha enviado una solicitud que sigue en valoración", AvisosInmediatos.TipoAviso.Error);
                     }
                 }
             }
