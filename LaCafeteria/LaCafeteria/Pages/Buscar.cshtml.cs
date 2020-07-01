@@ -111,7 +111,7 @@ namespace LaCafeteria.Pages
 
                 if (listaTopicosSelec.Count == 0)
                 {
-                    Notificaciones.Set(this, "ningunTopico", "Debe ingresar algún tópico de la lista", Notificaciones.TipoNotificacion.Error);
+                    AvisosInmediatos.Set(this, "ningunTopico", "Debe ingresar algún tópico de la lista", AvisosInmediatos.TipoAviso.Error);
                     return Page();
                 }
 
@@ -121,7 +121,7 @@ namespace LaCafeteria.Pages
             {
                 if (textoBusqueda == null)
                 {
-                    Notificaciones.Set(this, "busquedaVacio", "Debe ingresar texto en la barra de búsqueda", Notificaciones.TipoNotificacion.Error);
+                    AvisosInmediatos.Set(this, "busquedaVacio", "Debe ingresar texto en la barra de búsqueda", AvisosInmediatos.TipoAviso.Error);
                     return Page();
                 }
                 else

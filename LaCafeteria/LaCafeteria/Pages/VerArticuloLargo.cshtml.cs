@@ -16,7 +16,11 @@ namespace LaCafeteria.Pages
         [BindProperty(SupportsGet = true)]
         public int idArticuloPK { get; set; }
 
-        public ArticuloModel articulo { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public int paginaAnterior { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string username { get; set; }
 
         //public ArticuloController articuloController;
 
@@ -26,7 +30,7 @@ namespace LaCafeteria.Pages
         private InformacionArticuloController informacionArticuloController;
         private CalificadorDeArticuloController calificadorDeArticuloController;
 
-        public int calificacion;
+        public int? calificacion;
 
         public string articuloPDF = "";
 
@@ -55,10 +59,11 @@ namespace LaCafeteria.Pages
                 calificacion = informacionArticuloController.GetCalificacionMiembro(Request.Cookies["usernamePK"], idArticuloPK);
                 TempData["idArticuloPK"] = idArticuloPK;
                 TempData["rutaPDF"] = articuloPDF;
+                TempData["calificacion"] = calificacion;
             }
             else
             {
-                Notificaciones.Set(this, "init_session_error", "Por favor inicie sesión para poder ver el artículo", Notificaciones.TipoNotificacion.Error);
+                AvisosInmediatos.Set(this, "init_session_error", "Por favor inicie sesión para poder ver el artículo", AvisosInmediatos.TipoAviso.Error);
                 return Redirect("/Login");
             }
             return Page();
@@ -68,9 +73,21 @@ namespace LaCafeteria.Pages
         {
             idArticuloPK = (int)TempData["idArticuloPK"];
             articuloPDF = (string)TempData["rutaPDF"];
-            calificacion = 1;
+            int? calificacionVieja = (int?)TempData["calificacion"];
+            if (calificacionVieja == 1)
+            {
+                AvisosInmediatos.Set(this, "meGusta", "Se ha eliminado su calificación \"Me gusta\"", AvisosInmediatos.TipoAviso.Exito);
+                calificacion = null;
+            }
+            else
+            {
+                AvisosInmediatos.Set(this, "meGusta", "Su calificación \"Me gusta\" ha sido guardada", AvisosInmediatos.TipoAviso.Exito);
+                calificacion = 1;
+                TempData["calificacion"] = 1;
+            }
             calificadorDeArticuloController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, 1);
-            Notificaciones.Set(this, "meGusta", "Su calificación \"Me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
+            TempData["idArticuloPK"] = idArticuloPK;
+            TempData["rutaPDF"] = articuloPDF;
 
             return Page();
         }
@@ -79,9 +96,21 @@ namespace LaCafeteria.Pages
         {
             idArticuloPK = (int)TempData["idArticuloPK"];
             articuloPDF = (string)TempData["rutaPDF"];
-            calificacion = 0;
+            int? calificacionVieja = (int?)TempData["calificacion"];
+            if (calificacionVieja == 0)
+            {
+                AvisosInmediatos.Set(this, "nulo", "Se ha eliminado su calificación \"Nulo\"", AvisosInmediatos.TipoAviso.Exito);
+                calificacion = null;
+            }
+            else
+            {
+                AvisosInmediatos.Set(this, "nulo", "Su calificación \"Nulo\" ha sido guardada", AvisosInmediatos.TipoAviso.Exito);
+                calificacion = 0;
+                TempData["calificacion"] = 0;
+            }
             calificadorDeArticuloController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, 0);
-            Notificaciones.Set(this, "nulo", "Su calificación \"Nulo\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
+            TempData["idArticuloPK"] = idArticuloPK;
+            TempData["rutaPDF"] = articuloPDF;
 
             return Page();
         }
@@ -90,9 +119,22 @@ namespace LaCafeteria.Pages
         {
             idArticuloPK = (int)TempData["idArticuloPK"];
             articuloPDF = (string)TempData["rutaPDF"];
-            calificacion = -1;
+            int? calificacionVieja = (int?)TempData["calificacion"];
+            if (calificacionVieja == -1)
+            {
+                AvisosInmediatos.Set(this, "noMeGusta", "Se ha eliminado su calificación \"No me gusta\"", AvisosInmediatos.TipoAviso.Exito);
+                calificacion = null;
+            }
+            else
+            {
+                AvisosInmediatos.Set(this, "noMeGusta", "Su calificación \"No me gusta\" ha sido guardada", AvisosInmediatos.TipoAviso.Exito);
+                calificacion = -1;
+                TempData["calificacion"] = -1;
+            }
+
             calificadorDeArticuloController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, -1);
-            Notificaciones.Set(this, "noMeGusta", "Su calificación \"No me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
+            TempData["idArticuloPK"] = idArticuloPK;
+            TempData["rutaPDF"] = articuloPDF;
 
             return Page();
         }

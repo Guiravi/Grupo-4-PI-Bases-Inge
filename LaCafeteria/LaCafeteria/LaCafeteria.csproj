@@ -21,6 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Pages\MisArticulosPorRevisar.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Pages\EditarPregFrec.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

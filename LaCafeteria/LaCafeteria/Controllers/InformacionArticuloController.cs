@@ -40,7 +40,7 @@ namespace LaCafeteria.Controllers
             return listaAutores;
         }
 
-        public List<Tuple<string, string, double, string>> GetRevisiones(int id) {
+        public List<RevisionModel> GetRevisiones(int id) {
             return informacionArticuloDBHandler.GetRevisiones(id);
         }
 
@@ -73,7 +73,7 @@ namespace LaCafeteria.Controllers
             return listaString;
 
         }
-        public int GetCalificacionMiembro(string username, int idArticulo) {
+        public int? GetCalificacionMiembro(string username, int idArticulo) {
             return informacionArticuloDBHandler.GetCalificacionMiembro(username, idArticulo);
         }
 
@@ -81,6 +81,16 @@ namespace LaCafeteria.Controllers
         public ArticuloModel GetInformacionArticuloModel(int id) {
             ArticuloModel articulo = informacionArticuloDBHandler.GetInformacionArticuloModel(id);
             return articulo;
+        }
+
+        public List<DatosGraficoDona> GetArticulosPorRol()
+        {
+            return informacionArticuloDBHandler.GetArticulosPorRol();
+        }
+
+        public List<DatosTablaCategoriaTopicos> GetDatosTablaCategoriaTopicosPorRol(string rol)
+        {
+            return informacionArticuloDBHandler.GetDatosTablaCategoriaTopicosPorRol(rol);
         }
     }
 }

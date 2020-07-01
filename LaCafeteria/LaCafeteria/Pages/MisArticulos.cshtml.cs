@@ -14,8 +14,6 @@ namespace LaCafeteria.Pages
     {
         public List<ArticuloModel> misArticulos { set; get; }
 
-        public int cantResultados { set; get; }
-
         private BuscadorArticuloController buscadorArticuloController;
         public InformacionArticuloController informacionArticuloController;
 
@@ -29,7 +27,13 @@ namespace LaCafeteria.Pages
         {	
 			string usernamePK = Request.Cookies["usernamePK"];
 			misArticulos = buscadorArticuloController.GetArticulosPorMiembro(usernamePK);
-            cantResultados = misArticulos.Count;
+            for(int i=0; i < misArticulos.Count; i++)
+            {
+                if (misArticulos[i].estado == "Requiere Revisión")
+                {
+                    misArticulos[i].estado = "En Revisión";
+                }
+            }
         }
     }
 }

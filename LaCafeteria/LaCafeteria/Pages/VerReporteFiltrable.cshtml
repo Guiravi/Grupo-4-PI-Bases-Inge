@@ -15,21 +15,43 @@
             background-color: #b7d4c7;
         }
 
-        #chartDivDonut {
+        #panelTablaCatTop {
+            margin: 10px;
+            padding: 0;
+            background-color: #ffffff;
+        }
+
+        #chartDonutPais {
             width: 100%;
             height: 450px;
         }
 
+        #chartDonutRol {
+            width: 100%;
+            height: 400px;
+            margin: 0;
+        }
+
         .chartDivBarras {
             width: 90%;
-            height: 400px;
+            height: 600px;
+        }
+
+        .categorias {
+            vertical-align: middle !important; 
+            text-align: center;
+        }
+
+        .tablaCatTop > tbody > tr:nth-of-type(odd) {
+            background-color: #f0fff8;
         }
     </style>
 
-    <script src="https://www.amcharts.com/lib/4/core.js"></script>
-    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
-    <script src="https://www.amcharts.com/lib/4/themes/kelly.js"></script>
-    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+    <script src="~/lib/amcharts4/core.js"></script>
+    <script src="~/lib/amcharts4/charts.js"></script>
+    <script src="~/lib/amcharts4/themes/material.js"></script>
+    <script src="~/lib/amcharts4/themes/kelly.js"></script>
+    <script src="~/lib/amcharts4/themes/animated.js"></script>
 </head>
 
 <h2>Reportes de la comunidad</h2>
@@ -51,21 +73,21 @@
 
                     <div class="row panelReporte" id="donutPanel">
                         <h3 class="text-center">Miembros por país</h3>
-                        <div id="chartDivDonut"></div>
+                        <div id="chartDonutPais" class="chartDivDonut"></div>
                     </div>
 
                 </div>
                 <div class="col-md-9">
-                    <div class="row panelReporte" id="habilidadesPanel" style="height: 50%;">
+                    <div class="row panelReporte" id="habilidadesPanel">
                         <div id="chartDivHabilidadesIdiomas" class="center-block chartDivBarras"></div>
                     </div>
-                    <div class="row panelReporte" id="pasatiemposPanel" style="height: 50%;">
+                    <div class="row panelReporte" id="pasatiemposPanel">
                         <div id="chartDivHabilidadesPaises" class="center-block chartDivBarras"></div>
                     </div>
-                    <div class="row panelReporte" id="habilidadesPanel" style="height: 50%;">
+                    <div class="row panelReporte" id="habilidadesPanel">
                         <div id="chartDivPasatiemposIdiomas" class="center-block chartDivBarras"></div>
                     </div>
-                    <div class="row panelReporte" id="pasatiemposPanel" style="height: 50%;">
+                    <div class="row panelReporte" id="pasatiemposPanel">
                         <div id="chartDivPasatiemposPaises" class="center-block chartDivBarras"></div>
                     </div>
                 </div>
@@ -76,11 +98,348 @@
             <div class="row">
                 <h2 class="text-center">Distribución de roles y artículos</h2>
             </div>
+            <div class="row">
+                <div class="col-md-3">
+
+
+                    <div class="row panelReporte" id="donutPanel">
+                        <h3 class="text-center">Miembros por rol</h3>
+                        <div id="chartDonutRol" class="chartDivDonut"></div>
+                    </div>
+
+                </div>
+                <div class="col-md-9">
+                    <div class="row panelReporte" id="artRolesPanel">
+                        <div id="chartDivArtRol" class="center-block chartDivBarras"></div>
+                    </div>
+
+                </div>
+            </div>
+            <h3 class="text-center">Información de categorías y tópicos</h3>
+            <div class="row" style="background-color: #b7d4c7;">
+                <div class="col-md-2">
+                    <h4 style="text-align: right; vertical-align: middle;">Mostrar:</h4>
+                </div>
+                <div class="col-md-2">
+                    <input type="radio" id="todosRad" class="radio-inline" name="rol" checked="checked">
+                    <label for="todosRad" style="font-size: 125%; position: relative; top: 5px;">Todos los roles</label>
+                </div>
+                <div class="col-md-2">
+                    <input type="radio" id="nucleoRad" class="radio-inline" name="rol">
+                    <label for="nucleoRad" style="font-size: 125%; position: relative; top: 5px;">Núcleo</label>
+                </div>
+                <div class="col-md-2">
+                    <input type="radio" id="activoRad" class="radio-inline" name="rol">
+                    <label for="activoRad" style="font-size: 125%; position: relative; top: 5px;">Activo</label>
+                </div>
+                <div class="col-md-2">
+                    <input type="radio" id="perifRad" class="radio-inline" name="rol">
+                    <label for="perifRad" style="font-size: 125%; position: relative; top: 5px;">Periférico</label>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row" id="panelTablaCatTop">
+
+                <table class="table table-bordered tablaCatTop" id="tablaTodos">
+                    <thead>
+                        <tr style="font-size: 125%">
+                            <th class="text-center">Categorías</th>
+                            <th class="text-center">Tópicos</th>
+                            <th class="text-center">Cantidad de artículos</th>
+                            <th class="text-center">Visitas</th>
+                            <th class="text-center">Puntaje promedio</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        @{
+                            string catTopActual = "";
+                            int indiceCambio = -1;
+                            int cantTotal = 0;
+                            int visitasTotal = 0;
+                            double promTotal = 0.0;
+                            int rowspanActual = 0;
+                        }
+                        @for (int i = 0; i < Model.datosCatTopTodosRoles.Count; i++)
+                        {
+
+                            if (catTopActual != Model.datosCatTopTodosRoles[i].nombreCategoriaFK)
+                            {
+                                catTopActual = Model.datosCatTopTodosRoles[i].nombreCategoriaFK;
+                                indiceCambio = i;
+                                cantTotal = 0;
+                                visitasTotal = 0;
+                                promTotal = 0.0;
+                                rowspanActual = 1;
+                                int contador = i;
+                                while (contador < Model.datosCatTopTodosRoles.Count && catTopActual == Model.datosCatTopTodosRoles[contador].nombreCategoriaFK)
+                                {
+                                    cantTotal += Model.datosCatTopTodosRoles[contador].cantidad;
+                                    visitasTotal += Model.datosCatTopTodosRoles[contador].visitas;
+                                    promTotal += Model.datosCatTopTodosRoles[contador].puntajeProm;
+                                    rowspanActual++;
+                                    contador++;
+                                }
+
+
+                                <tr>
+                                    <th rowspan="@rowspanActual" scope="rowgroup" class="categorias">@catTopActual</th>
+                                    <th>@Model.datosCatTopTodosRoles[i].nombreTopicoFK</th>
+                                    <td>@Model.datosCatTopTodosRoles[i].cantidad</td>
+                                    <td>@Model.datosCatTopTodosRoles[i].visitas</td>
+                                    <td>@Model.datosCatTopTodosRoles[i].puntajeProm</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <th>@Model.datosCatTopTodosRoles[i].nombreTopicoFK</th>
+                                    <td>@Model.datosCatTopTodosRoles[i].cantidad</td>
+                                    <td>@Model.datosCatTopTodosRoles[i].visitas</td>
+                                    <td>@Model.datosCatTopTodosRoles[i].puntajeProm</td>
+                                </tr>
+                            }
+
+                            if (i + 2 - rowspanActual == indiceCambio)
+                            {
+                                promTotal = promTotal / rowspanActual;
+
+                                <tr style="font-weight: bolder; font-size: 115%;">
+                                    <th class="text-center">Total de categoría</th>
+                                    <td>@cantTotal</td>
+                                    <td>@visitasTotal</td>
+                                    <td>@promTotal</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <table class="table table-bordered tablaCatTop" id="tablaNucleo" style="display: none;">
+                    <thead>
+                        <tr style="font-size: 125%">
+                            <th class="text-center">Categorías</th>
+                            <th class="text-center">Tópicos</th>
+                            <th class="text-center">Cantidad de artículos</th>
+                            <th class="text-center">Visitas</th>
+                            <th class="text-center">Puntaje promedio</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        @{
+                            catTopActual = "";
+                            indiceCambio = -1;
+                            cantTotal = 0;
+                            visitasTotal = 0;
+                            promTotal = 0.0;
+                            rowspanActual = 0;
+                        }
+                        @for (int i = 0; i < Model.datosCatTopNucleo.Count; i++)
+                        {
+
+                            if (catTopActual != Model.datosCatTopNucleo[i].nombreCategoriaFK)
+                            {
+                                catTopActual = Model.datosCatTopNucleo[i].nombreCategoriaFK;
+                                indiceCambio = i;
+                                cantTotal = 0;
+                                visitasTotal = 0;
+                                promTotal = 0.0;
+                                rowspanActual = 1;
+                                int contador = i;
+                                while (contador < Model.datosCatTopNucleo.Count && catTopActual == Model.datosCatTopNucleo[contador].nombreCategoriaFK)
+                                {
+                                    cantTotal += Model.datosCatTopNucleo[contador].cantidad;
+                                    visitasTotal += Model.datosCatTopNucleo[contador].visitas;
+                                    promTotal += Model.datosCatTopNucleo[contador].puntajeProm;
+                                    rowspanActual++;
+                                    contador++;
+                                }
+
+
+                                <tr>
+                                    <th rowspan="@rowspanActual" scope="rowgroup" class="categorias">@catTopActual</th>
+                                    <th>@Model.datosCatTopNucleo[i].nombreTopicoFK</th>
+                                    <td>@Model.datosCatTopNucleo[i].cantidad</td>
+                                    <td>@Model.datosCatTopNucleo[i].visitas</td>
+                                    <td>@Model.datosCatTopNucleo[i].puntajeProm</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <th>@Model.datosCatTopNucleo[i].nombreTopicoFK</th>
+                                    <td>@Model.datosCatTopNucleo[i].cantidad</td>
+                                    <td>@Model.datosCatTopNucleo[i].visitas</td>
+                                    <td>@Model.datosCatTopNucleo[i].puntajeProm</td>
+                                </tr>
+                            }
+
+                            if (i + 2 - rowspanActual == indiceCambio)
+                            {
+                                promTotal = promTotal / rowspanActual;
+
+                                <tr style="font-weight: bolder; font-size: 115%;">
+                                    <th class="text-center">Total de categoría</th>
+                                    <td>@cantTotal</td>
+                                    <td>@visitasTotal</td>
+                                    <td>@promTotal</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <table class="table table-bordered tablaCatTop" id="tablaActivo" style="display: none;">
+                    <thead>
+                        <tr style="font-size: 125%">
+                            <th class="text-center">Categorías</th>
+                            <th class="text-center">Tópicos</th>
+                            <th class="text-center">Cantidad de artículos</th>
+                            <th class="text-center">Visitas</th>
+                            <th class="text-center">Puntaje promedio</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        @{
+                            catTopActual = "";
+                            indiceCambio = -1;
+                            cantTotal = 0;
+                            visitasTotal = 0;
+                            promTotal = 0.0;
+                            rowspanActual = 0;
+                        }
+                        @for (int i = 0; i < Model.datosCatTopActivo.Count; i++)
+                        {
+
+                            if (catTopActual != Model.datosCatTopActivo[i].nombreCategoriaFK)
+                            {
+                                catTopActual = Model.datosCatTopActivo[i].nombreCategoriaFK;
+                                indiceCambio = i;
+                                cantTotal = 0;
+                                visitasTotal = 0;
+                                promTotal = 0.0;
+                                rowspanActual = 1;
+                                int contador = i;
+                                while (contador < Model.datosCatTopActivo.Count && catTopActual == Model.datosCatTopActivo[contador].nombreCategoriaFK)
+                                {
+                                    cantTotal += Model.datosCatTopActivo[contador].cantidad;
+                                    visitasTotal += Model.datosCatTopActivo[contador].visitas;
+                                    promTotal += Model.datosCatTopActivo[contador].puntajeProm;
+                                    rowspanActual++;
+                                    contador++;
+                                }
+
+
+                                <tr>
+                                    <th rowspan="@rowspanActual" scope="rowgroup" class="categorias">@catTopActual</th>
+                                    <th>@Model.datosCatTopActivo[i].nombreTopicoFK</th>
+                                    <td>@Model.datosCatTopActivo[i].cantidad</td>
+                                    <td>@Model.datosCatTopActivo[i].visitas</td>
+                                    <td>@Model.datosCatTopActivo[i].puntajeProm</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <th>@Model.datosCatTopActivo[i].nombreTopicoFK</th>
+                                    <td>@Model.datosCatTopActivo[i].cantidad</td>
+                                    <td>@Model.datosCatTopActivo[i].visitas</td>
+                                    <td>@Model.datosCatTopActivo[i].puntajeProm</td>
+                                </tr>
+                            }
+
+                            if (i + 2 - rowspanActual == indiceCambio)
+                            {
+                                promTotal = promTotal / rowspanActual;
+
+                                <tr style="font-weight: bolder; font-size: 115%;">
+                                    <th class="text-center">Total de categoría</th>
+                                    <td>@cantTotal</td>
+                                    <td>@visitasTotal</td>
+                                    <td>@promTotal</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <table class="table table-bordered tablaCatTop" id="tablaPeriferico" style="display: none;">
+                    <thead>
+                        <tr style="font-size: 125%">
+                            <th class="text-center">Categorías</th>
+                            <th class="text-center">Tópicos</th>
+                            <th class="text-center">Cantidad de artículos</th>
+                            <th class="text-center">Visitas</th>
+                            <th class="text-center">Puntaje promedio</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        @{
+                            catTopActual = "";
+                            indiceCambio = -1;
+                            cantTotal = 0;
+                            visitasTotal = 0;
+                            promTotal = 0.0;
+                            rowspanActual = 0;
+                        }
+                        @for (int i = 0; i < Model.datosCatTopPeriferico.Count; i++)
+                        {
+
+                            if (catTopActual != Model.datosCatTopPeriferico[i].nombreCategoriaFK)
+                            {
+                                catTopActual = Model.datosCatTopPeriferico[i].nombreCategoriaFK;
+                                indiceCambio = i;
+                                cantTotal = 0;
+                                visitasTotal = 0;
+                                promTotal = 0.0;
+                                rowspanActual = 1;
+                                int contador = i;
+                                while (contador < Model.datosCatTopPeriferico.Count && catTopActual == Model.datosCatTopPeriferico[contador].nombreCategoriaFK)
+                                {
+                                    cantTotal += Model.datosCatTopPeriferico[contador].cantidad;
+                                    visitasTotal += Model.datosCatTopPeriferico[contador].visitas;
+                                    promTotal += Model.datosCatTopPeriferico[contador].puntajeProm;
+                                    rowspanActual++;
+                                    contador++;
+                                }
+
+
+                                <tr>
+                                    <th rowspan="@rowspanActual" scope="rowgroup" class="categorias">@catTopActual</th>
+                                    <th>@Model.datosCatTopPeriferico[i].nombreTopicoFK</th>
+                                    <td>@Model.datosCatTopPeriferico[i].cantidad</td>
+                                    <td>@Model.datosCatTopPeriferico[i].visitas</td>
+                                    <td>@Model.datosCatTopPeriferico[i].puntajeProm</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <th>@Model.datosCatTopPeriferico[i].nombreTopicoFK</th>
+                                    <td>@Model.datosCatTopPeriferico[i].cantidad</td>
+                                    <td>@Model.datosCatTopPeriferico[i].visitas</td>
+                                    <td>@Model.datosCatTopPeriferico[i].puntajeProm</td>
+                                </tr>
+                            }
+
+                            if (i + 2 - rowspanActual == indiceCambio)
+                            {
+                                promTotal = promTotal / rowspanActual;
+
+                                <tr style="font-weight: bolder; font-size: 115%;">
+                                    <th class="text-center">Total de categoría</th>
+                                    <td>@cantTotal</td>
+                                    <td>@visitasTotal</td>
+                                    <td>@promTotal</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+
+            </div>
         </div>
     </div>
 </div>
 
 <script>
+    ////////////////////////Distribución de miembros///////////////////////////
     am4core.ready(function () {
 
         // Themes begin
@@ -89,39 +448,35 @@
         // Themes end
 
         // Create chart instance
-        var chart = am4core.create("chartDivDonut", am4charts.PieChart);
-        
-        
+        var chart = am4core.create("chartDonutPais", am4charts.PieChart);
 
         // Add data
-        chart.data = [{
-            "country": "Lithuania",
-            "litres": 501.9
-        }, {
-            "country": "Czech Republic",
-            "litres": 301.9
-        }, {
-            "country": "Ireland",
-            "litres": 201.1
-        }, {
-            "country": "Germany",
-            "litres": 165.8
-        }, {
-            "country": "Australia",
-            "litres": 139.9
-        }, {
-            "country": "Austria",
-            "litres": 128.3
-        }, {
-            "country": "UK",
-            "litres": 99
-        }, {
-            "country": "Belgium",
-            "litres": 60
-        }, {
-            "country": "The Netherlands",
-            "litres": 50
-            }];
+        chart.data = [
+        @for (int i = 0; i < Model.miembrosPorPais.Count; i++)
+        {
+            if (i != Model.miembrosPorPais.Count - 1)
+            {
+
+                <text>
+                {
+                    "pais": "@Html.Raw(Model.miembrosPorPais[i].categoria)",
+                    "cantidad": @Model.miembrosPorPais[i].cantidad
+                },
+                </text>
+            }
+            else
+            {
+                <text>
+                {
+                    "pais": "@Html.Raw(Model.miembrosPorPais[i].categoria)",
+                    "cantidad": @Model.miembrosPorPais[i].cantidad
+                }
+                </text>
+            }
+
+        }
+
+        ];
 
 
         // Set inner radius
@@ -130,11 +485,21 @@
         chart.legend.maxHeight = 200;
         chart.legend.scrollable = true;
         chart.legend.marginBottom = 20;
+        chart.legend.labels.template.textDecoration = "none";
+        chart.legend.valueLabels.template.textDecoration = "none";
+
+        var as = chart.legend.labels.template.states.getKey("active");
+        as.properties.textDecoration = "line-through";
+        as.properties.fill = am4core.color("#000");
+
+        var as2 = chart.legend.valueLabels.template.states.getKey("active");
+        as2.properties.textDecoration = "line-through";
+        as2.properties.fill = am4core.color("#000");
 
         // Add and configure Series
         var pieSeries = chart.series.push(new am4charts.PieSeries());
-        pieSeries.dataFields.value = "litres";
-        pieSeries.dataFields.category = "country";
+        pieSeries.dataFields.value = "cantidad";
+        pieSeries.dataFields.category = "pais";
         pieSeries.slices.template.stroke = am4core.color("#000");
         pieSeries.slices.template.strokeWidth = 1;
         pieSeries.slices.template.strokeOpacity = 1;
@@ -171,74 +536,92 @@
 
 
         // Add data
-        chart.data = [{
-            "habilidades": "Cantar",
-            "europe": 2.5,
-            "namerica": 2.5,
-            "asia": 2.1,
-            "lamerica": 0.3,
-            "meast": 0.2,
-            "africa": 0.1
-        }, {
-            "habilidades": "Comer",
-            "europe": 2.6,
-            "namerica": 2.7,
-            "asia": 2.2,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }, {
-            "habilidades": "Saltar",
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }, {
-            "habilidades": "Correr",
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }, {
-            "habilidades": "Bailar",
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }, {
-            "habilidades": "Jugar",
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }, {
-            "habilidades": "Hablar",
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
+        chart.data = [
+        //{ EJEMPLO
+          //  "habilidades": "Cantar",
+          //  "europe": 2.5,
+          //  "namerica": 2.5,
+          //  "asia": 2.1,
+          //  "lamerica": 0.3,
+          //  "meast": 0.2,
+          //  "africa": 0.1
+        //},
+        @{ string catActual = ""; }
+        @for (int i = 0; i < Model.habilidadesPorIdioma.Count; i++)
+        {
+            if (catActual != Model.habilidadesPorIdioma[i].nombreCategoria)
+            {
+                catActual = Model.habilidadesPorIdioma[i].nombreCategoria;
+
+                if (i != Model.habilidadesPorIdioma.Count - 1)
+                {
+                    <text>
+                    {
+                        "habilidad": "@Html.Raw(Model.habilidadesPorIdioma[i].nombreCategoria)",
+                        "@Html.Raw(Model.habilidadesPorIdioma[i].nombreSubcategoria)": @Model.habilidadesPorIdioma[i].cantidad,
+                    </text>
+
+                    if (catActual != Model.habilidadesPorIdioma[i + 1].nombreCategoria)
+                    {
+                        <text>
+                        },
+                        </text>
+                    }
+
+                }
+                else
+                {
+                    <text>
+                    {
+                        "habilidad": "@Html.Raw(Model.habilidadesPorIdioma[i].nombreCategoria)",
+                        "@Html.Raw(Model.habilidadesPorIdioma[i].nombreSubcategoria)": @Model.habilidadesPorIdioma[i].cantidad
+                    }
+                    </text>
+                }
+            }
+            else
+            {
+                if (i != Model.habilidadesPorIdioma.Count - 1)
+                {
+                    <text>
+                        "@Html.Raw(Model.habilidadesPorIdioma[i].nombreSubcategoria)": @Model.habilidadesPorIdioma[i].cantidad,
+                    </text>
+
+                    if (catActual != Model.habilidadesPorIdioma[i + 1].nombreCategoria)
+                    {
+                        <text>
+                        },
+                        </text>
+                    }
+                }
+                else
+                {
+                    <text>
+                        "@Html.Raw(Model.habilidadesPorIdioma[i].nombreSubcategoria)": @Model.habilidadesPorIdioma[i].cantidad
+                    }
+                    </text>
+                }
+            }
         }
+
         ];
 
         // Create axes
         var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-        categoryAxis.dataFields.category = "habilidades";
+        categoryAxis.dataFields.category = "habilidad";
         categoryAxis.renderer.grid.template.location = 0;
         categoryAxis.renderer.minGridDistance = 30;
+        categoryAxis.renderer.labels.template.horizontalCenter = "right";
+        categoryAxis.renderer.labels.template.verticalCenter = "middle";
+        categoryAxis.renderer.labels.template.rotation = 285;
+        categoryAxis.renderer.minHeight = 110;
 
 
         var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
         valueAxis.min = 0;
+        valueAxis.title.text = "Cantidad de miembros";
+        valueAxis.title.fontSize = "125%";
+        valueAxis.maxPrecision = 0;
         valueAxis.renderer.grid.template.location = 0;
 
         // Create series
@@ -248,7 +631,7 @@
             var series = chart.series.push(new am4charts.ColumnSeries());
             series.name = name;
             series.dataFields.valueY = field;
-            series.dataFields.categoryX = "habilidades";
+            series.dataFields.categoryX = "habilidad";
             series.sequencedInterpolation = false;
 
             // Make it stacked
@@ -258,28 +641,50 @@
             series.columns.template.width = am4core.percent(60);
             series.columns.template.tooltipText = "[bold]{name}[/]\n[font-size:14px]{categoryX}: {valueY}";
 
-            // Add label
-            var labelBullet = series.bullets.push(new am4charts.LabelBullet());
-            labelBullet.label.text = "{valueY}";
-            labelBullet.locationY = 0.5;
-            labelBullet.label.hideOversized = true;
-
             return series;
         }
 
-        createSeries("europe", "Europe", false);
-        createSeries("namerica", "North America", true);
-        createSeries("asia", "Asia-Pacific", true);
-        createSeries("lamerica", "Latin America", false);
-        createSeries("meast", "Middle-East", true);
-        createSeries("africa", "Africa", true);
+        @{ List<string> subcategorias = new List<string>();}
+        @for (int i = 0; i < Model.habilidadesPorIdioma.Count; i++)
+        {
+            bool esta = false;
+            for (int j = 0; j < subcategorias.Count; j++)
+            {
+                if (subcategorias[j] == Model.habilidadesPorIdioma[i].nombreSubcategoria)
+                {
+                    esta = true;
+                }
+            }
+
+            if (!esta)
+            {
+                subcategorias.Add(Model.habilidadesPorIdioma[i].nombreSubcategoria);
+            }
+        }
+
+        @for (int i = 0 ; i < subcategorias.Count; i++) {
+
+            <text>
+            createSeries("@Html.Raw(subcategorias[i])", "@Html.Raw(subcategorias[i])")
+            </text>
+
+        }
 
         // Legend
         chart.legend = new am4charts.Legend();
-        chart.legend.position = "bottom";
-        chart.legend.maxHeight = 60;  
+        chart.legend.position = "right";
+        chart.legend.maxHeight = 300;
         chart.legend.scrollable = true;
-        chart.legend.marginBottom = 10;
+        chart.legend.labels.template.textDecoration = "none";
+        chart.legend.valueLabels.template.textDecoration = "none";
+
+        var as = chart.legend.labels.template.states.getKey("active");
+        as.properties.textDecoration = "line-through";
+        as.properties.fill = am4core.color("#000");
+
+        var as2 = chart.legend.valueLabels.template.states.getKey("active");
+        as2.properties.textDecoration = "line-through";
+        as2.properties.fill = am4core.color("#000");
 
     }); // end am4core.ready()
 
@@ -295,78 +700,87 @@
         title.text = "Habilidades por país";
         title.fontSize = 25;
         title.marginBottom = 30;
-        
+
 
         // Add data
-        chart.data = [{
-            "habilidades": "Cantar",
-            "europe": 2.5,
-            "namerica": 2.5,
-            "asia": 2.1,
-            "lamerica": 0.3,
-            "meast": 0.2,
-            "africa": 0.1
-        }, {
-            "habilidades": "Comer",
-            "europe": 2.6,
-            "namerica": 2.7,
-            "asia": 2.2,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }, {
-            "habilidades": "Saltar",
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }, {
-            "habilidades": "Correr",
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }, {
-            "habilidades": "Bailar",
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }, {
-            "habilidades": "Jugar",
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }, {
-            "habilidades": "Hablar",
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
+        chart.data = [
+        @{ catActual = ""; }
+        @for (int i = 0; i < Model.habilidadesPorPais.Count; i++)
+        {
+            if (catActual != Model.habilidadesPorPais[i].nombreCategoria)
+            {
+                catActual = Model.habilidadesPorPais[i].nombreCategoria;
+
+                if (i != Model.habilidadesPorPais.Count - 1)
+                {
+                    <text>
+                    {
+                        "habilidad": "@Html.Raw(Model.habilidadesPorPais[i].nombreCategoria)",
+                        "@Html.Raw(Model.habilidadesPorPais[i].nombreSubcategoria)": @Model.habilidadesPorPais[i].cantidad,
+                    </text>
+
+                    if (catActual != Model.habilidadesPorPais[i + 1].nombreCategoria)
+                    {
+                        <text>
+                        },
+                        </text>
+                    }
+                }
+                else
+                {
+                    <text>
+                    {
+                        "habilidad": "@Html.Raw(Model.habilidadesPorPais[i].nombreCategoria)",
+                        "@Html.Raw(Model.habilidadesPorPais[i].nombreSubcategoria)": @Model.habilidadesPorPais[i].cantidad
+                    }
+                    </text>
+                }
+            }
+            else
+            {
+                if (i != Model.habilidadesPorPais.Count - 1)
+                {
+                    <text>
+                        "@Html.Raw(Model.habilidadesPorPais[i].nombreSubcategoria)": @Model.habilidadesPorPais[i].cantidad,
+                    </text>
+
+                    if (catActual != Model.habilidadesPorPais[i + 1].nombreCategoria)
+                    {
+                        <text>
+                        },
+                        </text>
+                    }
+                }
+                else
+                {
+                    <text>
+                        "@Html.Raw(Model.habilidadesPorPais[i].nombreSubcategoria)": @Model.habilidadesPorPais[i].cantidad
+                    }
+                    </text>
+                }
+            }
         }
+
         ];
 
         // Create axes
         var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-        categoryAxis.dataFields.category = "habilidades";
+        categoryAxis.dataFields.category = "habilidad";
         categoryAxis.renderer.grid.template.location = 0;
         categoryAxis.renderer.minGridDistance = 30;
+        categoryAxis.renderer.labels.template.horizontalCenter = "right";
+        categoryAxis.renderer.labels.template.verticalCenter = "middle";
+        categoryAxis.renderer.labels.template.rotation = 285;
+        categoryAxis.renderer.minHeight = 110;
 
 
         var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
         valueAxis.min = 0;
+        valueAxis.title.text = "Cantidad de miembros";
+        valueAxis.title.fontSize = "125%";
+        valueAxis.maxPrecision = 0;
         valueAxis.renderer.grid.template.location = 0;
+
 
         // Create series
         function createSeries(field, name) {
@@ -375,7 +789,7 @@
             var series = chart.series.push(new am4charts.ColumnSeries());
             series.name = name;
             series.dataFields.valueY = field;
-            series.dataFields.categoryX = "habilidades";
+            series.dataFields.categoryX = "habilidad";
             series.sequencedInterpolation = false;
 
             // Make it stacked
@@ -385,28 +799,51 @@
             series.columns.template.width = am4core.percent(60);
             series.columns.template.tooltipText = "[bold]{name}[/]\n[font-size:14px]{categoryX}: {valueY}";
 
-            // Add label
-            var labelBullet = series.bullets.push(new am4charts.LabelBullet());
-            labelBullet.label.text = "{valueY}";
-            labelBullet.locationY = 0.5;
-            labelBullet.label.hideOversized = true;
-
             return series;
         }
 
-        createSeries("europe", "Europe", false);
-        createSeries("namerica", "North America", true);
-        createSeries("asia", "Asia-Pacific", true);
-        createSeries("lamerica", "Latin America", false);
-        createSeries("meast", "Middle-East", true);
-        createSeries("africa", "Africa", true);
+        @{ subcategorias = new List<string>();}
+        @for (int i = 0; i < Model.habilidadesPorPais.Count; i++)
+        {
+            bool esta = false;
+            for (int j = 0; j < subcategorias.Count; j++)
+            {
+                if (subcategorias[j] == Model.habilidadesPorPais[i].nombreSubcategoria)
+                {
+                    esta = true;
+                }
+            }
+
+            if (!esta)
+            {
+                subcategorias.Add(Model.habilidadesPorPais[i].nombreSubcategoria);
+            }
+        }
+
+        @for (int i = 0 ; i < subcategorias.Count; i++) {
+
+            <text>
+            createSeries("@Html.Raw(subcategorias[i])", "@Html.Raw(subcategorias[i])")
+            </text>
+
+        }
 
         // Legend
         chart.legend = new am4charts.Legend();
-        chart.legend.position = "bottom";
-        chart.legend.maxHeight = 60;
+        chart.legend.position = "right";
+        chart.legend.maxHeight = 300;
         chart.legend.scrollable = true;
         chart.legend.marginBottom = 10;
+        chart.legend.labels.template.textDecoration = "none";
+        chart.legend.valueLabels.template.textDecoration = "none";
+
+        var as = chart.legend.labels.template.states.getKey("active");
+        as.properties.textDecoration = "line-through";
+        as.properties.fill = am4core.color("#000");
+
+        var as2 = chart.legend.valueLabels.template.states.getKey("active");
+        as2.properties.textDecoration = "line-through";
+        as2.properties.fill = am4core.color("#000");
 
     }); // end am4core.ready()
 
@@ -425,74 +862,81 @@
 
 
         // Add data
-        chart.data = [{
-            "habilidades": "Cantar",
-            "europe": 2.5,
-            "namerica": 2.5,
-            "asia": 2.1,
-            "lamerica": 0.3,
-            "meast": 0.2,
-            "africa": 0.1
-        }, {
-            "habilidades": "Comer",
-            "europe": 2.6,
-            "namerica": 2.7,
-            "asia": 2.2,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }, {
-            "habilidades": "Saltar",
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }, {
-            "habilidades": "Correr",
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }, {
-            "habilidades": "Bailar",
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }, {
-            "habilidades": "Jugar",
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }, {
-            "habilidades": "Hablar",
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
+        chart.data = [
+        @{ catActual = ""; }
+        @for (int i = 0; i < Model.pasatiemposPorIdioma.Count; i++)
+        {
+            if (catActual != Model.pasatiemposPorIdioma[i].nombreCategoria)
+            {
+                catActual = Model.pasatiemposPorIdioma[i].nombreCategoria;
+
+                if (i != Model.pasatiemposPorIdioma.Count - 1)
+                {
+                    <text>
+                    {
+                        "pasatiempo": "@Html.Raw(Model.pasatiemposPorIdioma[i].nombreCategoria)",
+                        "@Html.Raw(Model.pasatiemposPorIdioma[i].nombreSubcategoria)": @Model.pasatiemposPorIdioma[i].cantidad,
+                    </text>
+
+                    if (catActual != Model.pasatiemposPorIdioma[i + 1].nombreCategoria)
+                    {
+                        <text>
+                        },
+                        </text>
+                    }
+                }
+                else
+                {
+                    <text>
+                    {
+                        "pasatiempo": "@Html.Raw(Model.pasatiemposPorIdioma[i].nombreCategoria)",
+                        "@Html.Raw(Model.pasatiemposPorIdioma[i].nombreSubcategoria)": @Model.pasatiemposPorIdioma[i].cantidad
+                    }
+                    </text>
+                }
+            }
+            else
+            {
+                if (i != Model.pasatiemposPorIdioma.Count - 1)
+                {
+                    <text>
+                        "@Html.Raw(Model.pasatiemposPorIdioma[i].nombreSubcategoria)": @Model.pasatiemposPorIdioma[i].cantidad,
+                    </text>
+
+                    if (catActual != Model.pasatiemposPorIdioma[i + 1].nombreCategoria)
+                    {
+                        <text>
+                        },
+                        </text>
+                    }
+                }
+                else
+                {
+                    <text>
+                        "@Html.Raw(Model.pasatiemposPorIdioma[i].nombreSubcategoria)": @Model.pasatiemposPorIdioma[i].cantidad
+                    }
+                    </text>
+                }
+            }
         }
         ];
 
         // Create axes
         var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-        categoryAxis.dataFields.category = "habilidades";
+        categoryAxis.dataFields.category = "pasatiempo";
         categoryAxis.renderer.grid.template.location = 0;
         categoryAxis.renderer.minGridDistance = 30;
+        categoryAxis.renderer.labels.template.horizontalCenter = "right";
+        categoryAxis.renderer.labels.template.verticalCenter = "middle";
+        categoryAxis.renderer.labels.template.rotation = 285;
+        categoryAxis.renderer.minHeight = 110;
 
 
         var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
         valueAxis.min = 0;
+        valueAxis.title.text = "Cantidad de miembros";
+        valueAxis.maxPrecision = 0;
+        valueAxis.title.fontSize = "125%";
         valueAxis.renderer.grid.template.location = 0;
 
         // Create series
@@ -502,7 +946,7 @@
             var series = chart.series.push(new am4charts.ColumnSeries());
             series.name = name;
             series.dataFields.valueY = field;
-            series.dataFields.categoryX = "habilidades";
+            series.dataFields.categoryX = "pasatiempo";
             series.sequencedInterpolation = false;
 
             // Make it stacked
@@ -512,28 +956,51 @@
             series.columns.template.width = am4core.percent(60);
             series.columns.template.tooltipText = "[bold]{name}[/]\n[font-size:14px]{categoryX}: {valueY}";
 
-            // Add label
-            var labelBullet = series.bullets.push(new am4charts.LabelBullet());
-            labelBullet.label.text = "{valueY}";
-            labelBullet.locationY = 0.5;
-            labelBullet.label.hideOversized = true;
-
             return series;
         }
 
-        createSeries("europe", "Europe", false);
-        createSeries("namerica", "North America", true);
-        createSeries("asia", "Asia-Pacific", true);
-        createSeries("lamerica", "Latin America", false);
-        createSeries("meast", "Middle-East", true);
-        createSeries("africa", "Africa", true);
+        @{ subcategorias = new List<string>();}
+        @for (int i = 0; i < Model.pasatiemposPorIdioma.Count; i++)
+        {
+            bool esta = false;
+            for (int j = 0; j < subcategorias.Count; j++)
+            {
+                if (subcategorias[j] == Model.pasatiemposPorIdioma[i].nombreSubcategoria)
+                {
+                    esta = true;
+                }
+            }
+
+            if (!esta)
+            {
+                subcategorias.Add(Model.pasatiemposPorIdioma[i].nombreSubcategoria);
+            }
+        }
+
+        @for (int i = 0 ; i < subcategorias.Count; i++) {
+
+            <text>
+            createSeries("@Html.Raw(subcategorias[i])", "@Html.Raw(subcategorias[i])")
+            </text>
+
+        }
 
         // Legend
         chart.legend = new am4charts.Legend();
-        chart.legend.position = "bottom";
-        chart.legend.maxHeight = 60;
+        chart.legend.position = "right";
+        chart.legend.maxHeight = 300;
         chart.legend.scrollable = true;
         chart.legend.marginBottom = 10;
+        chart.legend.labels.template.textDecoration = "none";
+        chart.legend.valueLabels.template.textDecoration = "none";
+
+        var as = chart.legend.labels.template.states.getKey("active");
+        as.properties.textDecoration = "line-through";
+        as.properties.fill = am4core.color("#000");
+
+        var as2 = chart.legend.valueLabels.template.states.getKey("active");
+        as2.properties.textDecoration = "line-through";
+        as2.properties.fill = am4core.color("#000");
 
     }); // end am4core.ready()
 
@@ -552,74 +1019,81 @@
 
 
         // Add data
-        chart.data = [{
-            "habilidades": "Cantar",
-            "europe": 2.5,
-            "namerica": 2.5,
-            "asia": 2.1,
-            "lamerica": 0.3,
-            "meast": 0.2,
-            "africa": 0.1
-        }, {
-            "habilidades": "Comer",
-            "europe": 2.6,
-            "namerica": 2.7,
-            "asia": 2.2,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }, {
-            "habilidades": "Saltar",
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }, {
-            "habilidades": "Correr",
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }, {
-            "habilidades": "Bailar",
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }, {
-            "habilidades": "Jugar",
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }, {
-            "habilidades": "Hablar",
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
+        chart.data = [
+        @{ catActual = ""; }
+        @for (int i = 0; i < Model.pasatiemposPorPais.Count; i++)
+        {
+            if (catActual != Model.pasatiemposPorPais[i].nombreCategoria)
+            {
+                catActual = Model.pasatiemposPorPais[i].nombreCategoria;
+
+                if (i != Model.pasatiemposPorPais.Count - 1)
+                {
+                    <text>
+                    {
+                        "pasatiempo": "@Html.Raw(Model.pasatiemposPorPais[i].nombreCategoria)",
+                        "@Html.Raw(Model.pasatiemposPorPais[i].nombreSubcategoria)": @Model.pasatiemposPorPais[i].cantidad,
+                    </text>
+
+                    if (catActual != Model.pasatiemposPorPais[i + 1].nombreCategoria)
+                    {
+                        <text>
+                        },
+                        </text>
+                    }
+                }
+                else
+                {
+                    <text>
+                    {
+                        "pasatiempo": "@Html.Raw(Model.pasatiemposPorPais[i].nombreCategoria)",
+                        "@Html.Raw(Model.pasatiemposPorPais[i].nombreSubcategoria)": @Model.pasatiemposPorPais[i].cantidad
+                    }
+                    </text>
+                }
+            }
+            else
+            {
+                if (i != Model.pasatiemposPorPais.Count - 1)
+                {
+                    <text>
+                        "@Html.Raw(Model.pasatiemposPorPais[i].nombreSubcategoria)": @Model.pasatiemposPorPais[i].cantidad,
+                    </text>
+
+                    if (catActual != Model.pasatiemposPorPais[i + 1].nombreCategoria)
+                    {
+                        <text>
+                        },
+                        </text>
+                    }
+                }
+                else
+                {
+                    <text>
+                        "@Html.Raw(Model.pasatiemposPorPais[i].nombreSubcategoria)": @Model.pasatiemposPorPais[i].cantidad
+                    }
+                    </text>
+                }
+            }
         }
         ];
 
         // Create axes
         var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-        categoryAxis.dataFields.category = "habilidades";
+        categoryAxis.dataFields.category = "pasatiempo";
         categoryAxis.renderer.grid.template.location = 0;
         categoryAxis.renderer.minGridDistance = 30;
+        categoryAxis.renderer.labels.template.horizontalCenter = "right";
+        categoryAxis.renderer.labels.template.verticalCenter = "middle";
+        categoryAxis.renderer.labels.template.rotation = 285;
+        categoryAxis.renderer.minHeight = 110;
 
 
         var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-        valueAxis.min = 0;
+        valueAxis.min = 0; 
+        valueAxis.title.text = "Cantidad de miembros";
+        valueAxis.title.fontSize = "125%";
+        valueAxis.maxPrecision = 0;
         valueAxis.renderer.grid.template.location = 0;
 
         // Create series
@@ -629,7 +1103,7 @@
             var series = chart.series.push(new am4charts.ColumnSeries());
             series.name = name;
             series.dataFields.valueY = field;
-            series.dataFields.categoryX = "habilidades";
+            series.dataFields.categoryX = "pasatiempo";
             series.sequencedInterpolation = false;
 
             // Make it stacked
@@ -639,28 +1113,259 @@
             series.columns.template.width = am4core.percent(60);
             series.columns.template.tooltipText = "[bold]{name}[/]\n[font-size:14px]{categoryX}: {valueY}";
 
-            // Add label
-            var labelBullet = series.bullets.push(new am4charts.LabelBullet());
-            labelBullet.label.text = "{valueY}";
-            labelBullet.locationY = 0.5;
-            labelBullet.label.hideOversized = true;
+            return series;
+        }
+
+        @{ subcategorias = new List<string>();}
+        @for (int i = 0; i < Model.pasatiemposPorPais.Count; i++)
+        {
+            bool esta = false;
+            for (int j = 0; j < subcategorias.Count; j++)
+            {
+                if (subcategorias[j] == Model.pasatiemposPorPais[i].nombreSubcategoria)
+                {
+                    esta = true;
+                }
+            }
+
+            if (!esta)
+            {
+                subcategorias.Add(Model.pasatiemposPorPais[i].nombreSubcategoria);
+            }
+        }
+
+        @for (int i = 0 ; i < subcategorias.Count; i++) {
+
+            <text>
+            createSeries("@Html.Raw(subcategorias[i])", "@Html.Raw(subcategorias[i])")
+            </text>
+
+        }
+
+        // Legend
+        chart.legend = new am4charts.Legend();
+        chart.legend.position = "right";
+        chart.legend.maxHeight = 300;
+        chart.legend.scrollable = true;
+        chart.legend.marginBottom = 10;
+        chart.legend.labels.template.textDecoration = "none";
+        chart.legend.valueLabels.template.textDecoration = "none";
+
+        var as = chart.legend.labels.template.states.getKey("active");
+        as.properties.textDecoration = "line-through";
+        as.properties.fill = am4core.color("#000");
+
+        var as2 = chart.legend.valueLabels.template.states.getKey("active");
+        as2.properties.textDecoration = "line-through";
+        as2.properties.fill = am4core.color("#000");
+
+    }); // end am4core.ready()
+
+    ////////////////////////Distribución de roles y artículos///////////////////////////
+    am4core.ready(function () {
+
+        // Themes begin
+        am4core.useTheme(am4themes_animated);
+        // Themes end
+
+        // Create chart instance
+        var chart = am4core.create("chartDonutRol", am4charts.PieChart);
+
+
+
+        // Add data
+        chart.data = [
+            @for (int i = 0; i < Model.miembrosPorRol.Count; i++)
+            {
+                if (i != Model.miembrosPorRol.Count - 1)
+                {
+                    <text>
+                    {
+                        "rol": "@Html.Raw(Model.miembrosPorRol[i].categoria)",
+                        "cantidad": @Model.miembrosPorRol[i].cantidad
+                    },
+                    </text>
+                }
+                else
+                {
+                    <text>
+                    {
+                        "rol": "@Html.Raw(Model.miembrosPorRol[i].categoria)",
+                        "cantidad": @Model.miembrosPorRol[i].cantidad
+                    }
+                    </text>
+                }
+
+            }
+
+        ];
+
+
+        // Set inner radius
+        chart.innerRadius = am4core.percent(50);
+        chart.legend = new am4charts.Legend();
+        chart.legend.maxHeight = 200;
+        chart.legend.scrollable = true;
+        chart.legend.marginBottom = 20;
+
+        // Add and configure Series
+        var pieSeries = chart.series.push(new am4charts.PieSeries());
+        pieSeries.dataFields.value = "cantidad";
+        pieSeries.dataFields.category = "rol";
+        pieSeries.slices.template.stroke = am4core.color("#000");
+        pieSeries.slices.template.strokeWidth = 1;
+        pieSeries.slices.template.strokeOpacity = 1;
+        pieSeries.labels.template.disabled = true;
+        pieSeries.ticks.template.disabled = true;
+
+        var label = pieSeries.createChild(am4core.Label);
+        label.text = "Total:\n{values.value.sum}";
+        label.fontSize = 16;
+        label.textAlign = "middle";
+        label.horizontalCenter = "middle";
+        label.verticalCenter = "middle";
+
+
+        // This creates initial animation
+        pieSeries.hiddenState.properties.opacity = 1;
+        pieSeries.hiddenState.properties.endAngle = -90;
+        pieSeries.hiddenState.properties.startAngle = -90;
+
+    }); // end am4core.ready()
+
+    am4core.ready(function () {
+
+        // Themes begin
+        am4core.useTheme(am4themes_animated);
+        // Themes end
+
+        // Create chart instance
+        var chart = am4core.create("chartDivArtRol", am4charts.XYChart);
+        var title = chart.titles.create();
+        title.text = "Cantidad de artículos por rol";
+        title.fontSize = 25;
+        title.marginBottom = 30;
+
+        // Add data
+        chart.data = [
+        {
+            "cantidad": "Cantidad de artículos",
+            //"nucleo": 95,
+            //"activo": 150,
+            //"perif": 214
+            @for (int i = 0; i < Model.articulosPorRol.Count; i++)
+            {
+                if (i != Model.articulosPorRol.Count - 1)
+                {
+                    <text>
+                    "@Html.Raw(Model.articulosPorRol[i].categoria)": @Model.articulosPorRol[i].cantidad,
+                    </text>
+                }
+                else
+                {
+                    <text>
+                    "@Html.Raw(Model.articulosPorRol[i].categoria)": @Model.articulosPorRol[i].cantidad
+                    </text>
+                }
+
+            }
+
+        }
+        ];
+
+        // Create axes
+        var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+        categoryAxis.dataFields.category = "cantidad";
+        categoryAxis.renderer.labels.template.disabled = true;
+
+        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        valueAxis.title.text = "Cantidad de artículos";
+        valueAxis.title.fontSize = "125%";
+        valueAxis.maxPrecision = 0;
+
+        // Create series
+        function createSeries(field, name) {
+
+            // Set up series
+            var series = chart.series.push(new am4charts.ColumnSeries());
+            series.name = name;
+            series.dataFields.valueY = field;
+            series.dataFields.categoryX = "cantidad";
+            series.sequencedInterpolation = false;
+
+            // Configure columns
+            series.columns.template.width = am4core.percent(60);
+            series.columns.template.tooltipText = "[bold]{name}[/]\n[font-size:14px]{categoryX}: {valueY}";
 
             return series;
         }
 
-        createSeries("europe", "Europe", false);
-        createSeries("namerica", "North America", true);
-        createSeries("asia", "Asia-Pacific", true);
-        createSeries("lamerica", "Latin America", false);
-        createSeries("meast", "Middle-East", true);
-        createSeries("africa", "Africa", true);
+        @for (int i = 0 ; i < Model.articulosPorRol.Count ; i++)
+        {
+            <text>
+            createSeries("@Html.Raw(Model.articulosPorRol[i].categoria)", "@Html.Raw(Model.articulosPorRol[i].categoria)")
+            </text>
+        }
 
         // Legend
         chart.legend = new am4charts.Legend();
-        chart.legend.position = "bottom";
-        chart.legend.maxHeight = 60;
+        chart.legend.position = "right";
+        chart.legend.maxHeight = 200;
         chart.legend.scrollable = true;
         chart.legend.marginBottom = 10;
+        chart.legend.labels.template.textDecoration = "none";
+        chart.legend.valueLabels.template.textDecoration = "none";
 
+        var as = chart.legend.labels.template.states.getKey("active");
+        as.properties.textDecoration = "line-through";
+        as.properties.fill = am4core.color("#000");
+
+        var as2 = chart.legend.valueLabels.template.states.getKey("active");
+        as2.properties.textDecoration = "line-through";
+        as2.properties.fill = am4core.color("#000");
     }); // end am4core.ready()
+
+    let tablaTodos = document.getElementById("tablaTodos");
+    let tablaNucleo = document.getElementById("tablaNucleo");
+    let tablaActivo = document.getElementById("tablaActivo");
+    let tablaPerif = document.getElementById("tablaPeriferico");
+    let todosRad = document.getElementById("todosRad");
+    let nucleoRad = document.getElementById("nucleoRad");
+    let activoRad = document.getElementById("activoRad");
+    let perifRad = document.getElementById("perifRad");
+
+    function mostrarTablaTodos()
+    {
+        tablaTodos.style.display = 'table';
+        tablaNucleo.style.display = 'none';
+        tablaActivo.style.display = 'none';
+        tablaPerif.style.display = 'none';
+    }
+
+    function mostrarTablaNucleo() {
+        tablaTodos.style.display = 'none';
+        tablaNucleo.style.display = 'table';
+        tablaActivo.style.display = 'none';
+        tablaPerif.style.display = 'none';
+    }
+
+    function mostrarTablaActivo() {
+        tablaTodos.style.display = 'none';
+        tablaNucleo.style.display = 'none';
+        tablaActivo.style.display = 'table';
+        tablaPerif.style.display = 'none';
+    }
+
+    function mostrarTablaPerif() {
+        tablaTodos.style.display = 'none';
+        tablaNucleo.style.display = 'none';
+        tablaActivo.style.display = 'none';
+        tablaPerif.style.display = 'table';
+    }
+
+    todosRad.addEventListener('click', mostrarTablaTodos);
+    nucleoRad.addEventListener('click', mostrarTablaNucleo);
+    activoRad.addEventListener('click', mostrarTablaActivo);
+    perifRad.addEventListener('click', mostrarTablaPerif);
+
 </script>

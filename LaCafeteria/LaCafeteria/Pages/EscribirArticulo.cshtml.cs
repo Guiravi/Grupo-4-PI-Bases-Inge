@@ -17,37 +17,40 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace LaCafeteria.Pages
 {
-	public class EscribirArticuloModel : PageModel
-	{	
-		public List<CategoriaTopicoModel> listaCategoriaTopicos { set; get; }
+    public class EscribirArticuloModel : PageModel
+    {
+        public List<CategoriaTopicoModel> listaCategoriaTopicos { set; get; }
 
-		public List<MiembroModel> listaMiembros { set; get; }
+        public List<MiembroModel> listaMiembros { set; get; }
 
-		[BindProperty]
-		public ArticuloModel articulo { set; get; }
+        [BindProperty]
+        public ArticuloModel articulo { set; get; }
 
-		[BindProperty]
-		public List<string> listaCategoriaTopicosArticulo { get; set; }
+        [BindProperty]
+        public List<string> listaCategoriaTopicosArticulo { get; set; }
 
-		[BindProperty]
-		public List<string> listaMiembrosAutores { set; get; }
+        [BindProperty]
+        public List<string> listaMiembrosAutores { set; get; }
 
         public List<string[]> autoresViejos { get; set; }
 
-        //public CorreoController correoController;
+        public List<RevisionModel> revisiones { get; set; }
+
+        public string estadoAnterior { set; get; }
+
         private InformacionCategoriaTopicoController informacionCategoriaTopicoController;
         private BuscadorMiembrosController buscadorMiembrosController;
         private InformacionArticuloController informacionArticuloController;
         private AlmacenadorArticuloController almacenadorArticuloController;
         private EditorArticuloController editorArticuloController;
+        private CreadorNotificacionController creadorNotificacionController;
 
         public string inyeccion = "";
         [BindProperty(SupportsGet = true)]
         public int idArticuloPK { get; set; }
 
-        public EscribirArticuloModel(IHostingEnvironment env)
-		{
-            //correoController = new CorreoController(env);
+        public EscribirArticuloModel(IHostingEnvironment env) {
+            creadorNotificacionController = new CreadorNotificacionController();
             informacionCategoriaTopicoController = new InformacionCategoriaTopicoController();
             buscadorMiembrosController = new BuscadorMiembrosController();
             informacionArticuloController = new InformacionArticuloController();
@@ -55,20 +58,20 @@ namespace LaCafeteria.Pages
             editorArticuloController = new EditorArticuloController();
 
             listaCategoriaTopicos = informacionCategoriaTopicoController.GetCategoriasYTopicos();
-			listaMiembros = buscadorMiembrosController.GetListaMiembrosModel();
+            listaMiembros = buscadorMiembrosController.GetListaMiembrosModel();
             listaMiembrosAutores = new List<string>();
             listaCategoriaTopicosArticulo = new List<string>();
             autoresViejos = new List<string[]>();
             articulo = new ArticuloModel();
+            estadoAnterior = null;
 
             idArticuloPK = -1;
         }
 
-		public IActionResult OnGet()
-        {
-            if (Request.Cookies["usernamePK"] != null)
+        public IActionResult OnGet() {
+            if ( Request.Cookies["usernamePK"] != null )
             {
-                if (idArticuloPK != -1)
+                if ( idArticuloPK != -1 )
                 {
                     articulo = informacionArticuloController.GetInformacionArticuloModel(idArticuloPK);
 
@@ -76,7 +79,7 @@ namespace LaCafeteria.Pages
 
                     autoresViejos = informacionArticuloController.GetAutoresArticuloListaStringArray(idArticuloPK);
 
-                    foreach (string[] item in autoresViejos)
+                    foreach ( string[] item in autoresViejos )
                     {
                         listaMiembrosAutores.Add(item[0]);
                     }
@@ -85,7 +88,7 @@ namespace LaCafeteria.Pages
 
                     TempData["idArticulo"] = idArticuloPK;
 
-                    for (int i = 0; i < autoresViejos.Count; i++)
+                    for ( int i = 0; i < autoresViejos.Count; i++ )
                     {
                         inyeccion += "var select = document.getElementById('slctAutor');" + "\n" +
                             "var option = select[select.selectedIndex];" + "\n" +
@@ -102,99 +105,134 @@ namespace LaCafeteria.Pages
                             "div.appendChild(button);" + "\n" +
                             "}\n";
                     }
-                }
-                else
+
+                    if ( articulo.estado == EstadoArticulo.EnCorrecciones )
+                    {
+                        revisiones = informacionArticuloController.GetRevisiones(idArticuloPK);
+                        estadoAnterior = articulo.estado;
+                    }
+                } else
                 {
                     TempData["idArticulo"] = -1;
                 }
-            }
-            else
+            } else
             {
-                Notificaciones.Set(this, "init_session_error","Por favor inicie sesión para poder escribir el artículo", Notificaciones.TipoNotificacion.Error);
+                AvisosInmediatos.Set(this, "init_session_error", "Por favor inicie sesión para poder escribir el artículo", AvisosInmediatos.TipoAviso.Error);
                 return Redirect("/Login");
             }
             return Page();
         }
 
-		public IActionResult OnPostGuardar()
-		{	
-			if(EsValido())
-			{	
-				articulo.tipo = TipoArticulo.Corto;
-				articulo.estado = EstadoArticulo.EnProgreso;
-                almacenadorArticuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo);
-				Notificaciones.Set(this, "articuloGuardado", "Su articulo se guardó", Notificaciones.TipoNotificacion.Exito);
-
-                return Redirect("/MiPerfil");
-			}
-
-            return Page();
-		}
-
-		public IActionResult OnPostEditar()
-		{	
-			if(EsValido())
-			{
-                articulo.articuloAID = idArticuloPK;
-				articulo.tipo = TipoArticulo.Corto;
-				articulo.estado = EstadoArticulo.EnProgreso;
-                editorArticuloController.EditarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo, "");
-                Notificaciones.Set(this, "articuloEditado", "Su articulo se editó correctamente", Notificaciones.TipoNotificacion.Exito);
-
-                return Redirect("/MiPerfil");
-            }
-
-            return Page();
-		}
-
-        public IActionResult OnPostEnviarRevision()
-        {
-            if (EsValido())
+        public IActionResult OnPostGuardar() {
+            if ( EsValido() )
             {
-                
                 articulo.tipo = TipoArticulo.Corto;
-                articulo.estado = EstadoArticulo.RequiereRevision;
-                if (TempData["idArticulo"] != null)
-                {
-                    articulo.articuloAID = (int)TempData["idArticulo"];
-                }
+                articulo.estado = EstadoArticulo.EnProgreso;
+                almacenadorArticuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo);
+                AvisosInmediatos.Set(this, "articuloGuardado", "Su articulo se guardó", AvisosInmediatos.TipoAviso.Exito);
 
-                if (articulo.articuloAID == -1)
-                {
-                    almacenadorArticuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo);
-                }
-                else
-                {
-                    editorArticuloController.EditarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo, "");
-                }
-
-                    //correoController.sendNecesitaRevision(articulo.titulo);
-
-                    Notificaciones.Set(this, "articuloEnviadoRev", "Su artículo fue enviado a revisión", Notificaciones.TipoNotificacion.Exito);
-
-                    return Redirect("/MiPerfil");
+                return Redirect("/MisArticulos");
             }
 
             return Page();
         }
 
-        private bool EsValido()
-		{
-			bool esValido = true;
+        public IActionResult OnPostEditar() {
+            if ( EsValido() )
+            {
+                articulo.articuloAID = idArticuloPK;
+                articulo.tipo = TipoArticulo.Corto;
 
-			if(listaCategoriaTopicosArticulo.Count == 0)
-			{
-				Notificaciones.Set(this, "listaTopicosArticulo", "Debe seleccionar al menos un tópico para su artículo", Notificaciones.TipoNotificacion.Error);
-				esValido = false;
-			}
+                if ( estadoAnterior != EstadoArticulo.EnCorrecciones )
+                {
+                    articulo.estado = EstadoArticulo.EnProgreso;
+                }
+                editorArticuloController.EditarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo, "");
+                AvisosInmediatos.Set(this, "articuloEditado", "Su articulo se editó correctamente", AvisosInmediatos.TipoAviso.Exito);
 
-			if (listaMiembrosAutores.Count == 0)
-			{
-				Notificaciones.Set(this, "listaMiembrosAutores", "Debe seleccionar al menos un autor para su artículo", Notificaciones.TipoNotificacion.Error);
-				esValido = false;
-			}
+                return Redirect("/MisArticulos");
+            }
 
-			return esValido && ModelState.IsValid;
-		}
-	}
+            return Page();
+        }
+
+        public IActionResult OnPostEnviarRevision() {
+            if ( EsValido() )
+            {
+
+                articulo.tipo = TipoArticulo.Corto;
+
+                if ( estadoAnterior == EstadoArticulo.EnCorrecciones )
+                {
+                    articulo.estado = EstadoArticulo.EnRevision;
+                } else
+                {
+                    articulo.estado = EstadoArticulo.RequiereRevision;
+                }
+
+                if ( TempData["idArticulo"] != null )
+                {
+                    articulo.articuloAID = (int) TempData["idArticulo"];
+                }
+
+                if ( articulo.articuloAID == -1 )
+                {
+                    almacenadorArticuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo);
+                } else
+                {
+                    editorArticuloController.EditarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo, "");
+                }
+
+                // Enviar una notificacion a los miembros nucleo
+                if ( articulo.estado == EstadoArticulo.EnRevision )
+                {
+                    Notificacion notificacion = new Notificacion();
+                    notificacion.mensaje = "El artículo " + articulo.titulo + " ha sido corregido. Por favor proceder a revisar las correcciones.";
+                    notificacion.url = "/RevisarArticulo/" + articulo.articuloAID + "/" + articulo.tipo;
+
+                    foreach ( RevisionModel revision in revisiones )
+                    {
+                        notificacion.usernameFK = revision.usernameMiemFK;
+                        creadorNotificacionController.CrearNotificacion(notificacion);
+                    }
+                } else
+                {
+                    Notificacion notificacion = new Notificacion();
+                    notificacion.mensaje = "Un artículo nuevo con título " + articulo.titulo + " requiere revisión para se publicado. Por favor indicar su interés de participar en este proceso.";
+                    notificacion.url = "/ArticulosPorRevisar";
+
+                    List<MiembroModel> nucleos = buscadorMiembrosController.GetListaMiembrosNucleoModel();
+                    foreach ( MiembroModel miembroNucleo in nucleos )
+                    {
+                        notificacion.usernameFK = miembroNucleo.usernamePK;
+                        creadorNotificacionController.CrearNotificacion(notificacion);
+                    }
+                }
+
+                AvisosInmediatos.Set(this, "articuloEnviadoRev", "Su artículo fue enviado a revisión", AvisosInmediatos.TipoAviso.Exito);
+
+                return Redirect("/MisArticulos");
+            }
+
+            return Page();
+        }
+
+        private bool EsValido() {
+            bool esValido = true;
+
+            if ( listaCategoriaTopicosArticulo.Count == 0 )
+            {
+                AvisosInmediatos.Set(this, "listaTopicosArticulo", "Debe seleccionar al menos un tópico para su artículo", AvisosInmediatos.TipoAviso.Error);
+                esValido = false;
+            }
+
+            if ( listaMiembrosAutores.Count == 0 )
+            {
+                AvisosInmediatos.Set(this, "listaMiembrosAutores", "Debe seleccionar al menos un autor para su artículo", AvisosInmediatos.TipoAviso.Error);
+                esValido = false;
+            }
+
+            return esValido && ModelState.IsValid;
+        }
+    }
 }

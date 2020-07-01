@@ -93,12 +93,21 @@ namespace LaCafeteria.Pages
 
             double merito = informacionMiembroController.GetMeritos(Request.Cookies["usernamePK"]);
 
+            RevisionModel revision = new RevisionModel();
+            revision.opinion = opinion;
+            revision.contribucion = contribucion;
+            revision.forma = forma;
+            revision.estadoRevision = "Finalizada";
+            revision.comentarios = comentario;
+            revision.recomendacion = recomend_final;
+            revision.usernameMiemFK = Request.Cookies["usernamePK"];
+            revision.idArticuloFK = idArticuloPK;
+
             /* Crear nuevo controlador de revisor de artículo */
-            revisorArticulosController.ActualizarRevisionArticulo(merito,opinion,contribucion, forma, "Finalizada", 
-                comentario,recomend_final,Request.Cookies["usernamePK"], idArticuloPK);
+            revisorArticulosController.ActualizarRevisionArticulo(revision);
 
 
-            Notificaciones.Set(this, "revisionExitosa", "Su revisión se ha efectuado exitosamente", Notificaciones.TipoNotificacion.Exito);
+            AvisosInmediatos.Set(this, "revisionExitosa", "Su revisión se ha efectuado exitosamente", AvisosInmediatos.TipoAviso.Exito);
             return Redirect("MisArticulosPorRevisar");
         }
     }

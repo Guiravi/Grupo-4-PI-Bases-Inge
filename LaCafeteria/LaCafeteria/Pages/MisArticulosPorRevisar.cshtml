@@ -1,0 +1,69 @@
+﻿@page
+@model LaCafeteria.Pages.ArticulosPorRevisarModel
+@using LaCafeteria.Utilidades
+@{
+    ViewData["Title"] = "MisArticulosPorRevisar";
+}
+
+<h2 class="text-center">Artículos que debo revisión</h2>
+@if (AvisosInmediatos.Existe(Model, "revisionExitosa"))
+{
+    @Html.Raw(AvisosInmediatos.Get(Model, "revisionExitosa"));
+}
+<div class="container">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Titulo</th>
+                <th>Autores</th>
+                <th>Tópicos</th>
+                <th>Tipo</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.artList.Count > 0)
+            {
+                string linkPagina = "RevisarArticulo";
+                for (int i = 0; i < Model.artList.Count; ++i)
+                {
+                    <tr>
+                        <td>@Model.artList[i].titulo</td>
+                        <td>@Model.dictAutores[Model.artList[i]]</td>
+                        <td>
+                            @{List<string> lista = Model.informacionArticuloController.GetCategoriaTopicosArticuloString(Model.artList[i].articuloAID);
+                                for (int j = 0; j < lista.Count; j++)
+                                {
+                                    if (j != lista.Count - 1)
+                                    {
+                                        <text>
+                                            @lista[j],
+                                        </text>
+                                    }
+                                    else
+                                    {
+                                        <text>
+                                            @lista[j]
+                                        </text>
+                                    }
+                                }
+                            }
+                        </td>
+                        <td>@Model.artList[i].tipo</td>
+                        <td><a href="/@linkPagina/@Model.artList[i].articuloAID/@Model.artList[i].tipo" class="btn btn-lg">Revisar Artículo</a></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><p class="text-center">No hay articulos que requieran revisión</p></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

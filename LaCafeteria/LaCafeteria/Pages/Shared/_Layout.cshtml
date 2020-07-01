@@ -40,92 +40,135 @@
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<li class="collapse navbar-collapse" id="navbar-collapse-2">
-				<ul class="nav navbar-nav navbar-right">
-					<li><a asp-page="/Index">Página principal</a></li>
-					<li><a asp-page="/Buscar">Buscar artículos</a></li>
-					@if (Context.Request.Cookies["usernamePK"] != null)
-					{
-						<li class="dropdown" role="presentation">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-								Crear artículo <span class="caret"></span>
-							</a>
-							<ul class="dropdown-menu">
-								<li><a style="color:darkslategrey;" asp-page="/EscribirArticulo">Escribir artículo</a></li>
-								<li><a style="color:darkslategrey;" asp-page="/SubirArticulo">Subir artículo</a></li>
-								<li><a style="color:darkslategrey;" asp-page="/EnlazarArticulo">Enlazar artículo</a></li>
-							</ul>
-						</li>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a asp-page="/Index">Página principal</a></li>
+                    <li><a asp-page="/Buscar">Buscar artículos</a></li>
+                    @if (Context.Request.Cookies["usernamePK"] != null)
+                    {
+                        <li class="dropdown" role="presentation">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                Crear artículo <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu navbar-dropdown">
+                                <li><a style="color:darkslategrey;" asp-page="/EscribirArticulo">Escribir artículo</a></li>
+                                <li><a style="color:darkslategrey;" asp-page="/SubirArticulo">Subir artículo</a></li>
+                                <li><a style="color:darkslategrey;" asp-page="/EnlazarArticulo">Enlazar artículo</a></li>
+                            </ul>
+                        </li>
 
-						<li class="dropdown" role="presentation">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Context.Request.Cookies["usernamePK"]<span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li><a style="color:darkslategrey;" asp-page="/MiPerfil">Mi perfil</a></li>
-								<li><a style="color:darkslategrey;" asp-page="/EnviarCorreo">Enviar correo</a></li>
-								<li><a style="color:darkslategrey;" href="/Login/cerrarSesion">Cerrar sesión</a></li>
-							</ul>
-						</li>
-					}
-					else
-					{
-						<li><a asp-page="/Login">Iniciar sesión</a></li>
-					}
+                        @if (Context.Request.Cookies["nombreRolFK"] == "Coordinador")
+                        {
+                            <li class="dropdown" role="presentation">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Coordinador<span class="caret"></span></a>
+                                <ul class="dropdown-menu navbar-dropdown">
+                                    <li><a style="color:darkslategrey;" asp-page="/VerMiembros">Lista de miembros</a></li>
+                                    <li><a style="color:darkslategrey;" asp-page="/VerReporteFiltrable">Reportes de la comunidad</a></li>
+                                    <li><a style="color:darkslategrey;" asp-page="/ArticulosPorRevisar">Artículos por revisar</a></li>
+                                    <li><a style="color:darkslategrey;" asp-page="/ArticulosRevisados">Artículos revisados</a></li>
+                                    <li><a style="color:darkslategrey;" asp-page="/PromoverMiembro">Promover miembros</a></li>
+                                    <li><a style="color:darkslategrey;" asp-page="/DegradarMiembro">Degradar miembros</a></li>
+                                    <li><a style="color:darkslategrey;" asp-page="/EditarPregFrec">Editar preguntas frecuentes</a></li>
+                                </ul>
+                            </li>
+                        }
 
-					<li class="dropdown" role="presentation">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-							<i class="glyphicon glyphicon-bell"></i>
-							@{	
+                        @if (Context.Request.Cookies["nombreRolFK"] == "Núcleo")
+                        {
+                            <li class="dropdown" role="presentation">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Núcleo<span class="caret"></span></a>
+                                <ul class="dropdown-menu navbar-dropdown">
+                                    <li><a style="color:darkslategrey;" asp-page="/MisArticulosPorRevisar">Mis artículos por revisar</a></li>
+                                    <li><a style="color:darkslategrey;" asp-page="/PromoverMiembro">Promover miembros</a></li>
+                                    <li><a style="color:darkslategrey;" asp-page="/EditarPregFrec">Editar preguntas frecuentes</a></li>
+                                </ul>
+                            </li>
+                        }
 
-							   byte[] value = new byte[32];
-							   if(Context.Session.TryGetValue("cantidadNotificacionesNuevas", out value))
-							   {
-								   int? cantidadNotificacionesNuevas = Context.Session.GetInt32("cantidadNotificacionesNuevas");
-								   if (cantidadNotificacionesNuevas > 0)
-								   {
-									  <span class="badge">@cantidadNotificacionesNuevas</span>
-								   }
-							   }
-							}
-						</a>
-						<ul class="dropdown-menu">
-							@{
-								List<Notificacion> listaNotificacion = Context.Session.GetComplexData<List<Notificacion>>("listaNotificaciones");
-								if (listaNotificacion != null && listaNotificacion.Count > 0)
-								{	<form method="post" asp-page="VerNotificaciones">
-										<div class="container" style="width:400px">
-											@for (int notificacionActual = 0; notificacionActual < listaNotificacion.Count && notificacionActual < 5; notificacionActual++)
-											{
-											<div class="row">
-												@if (listaNotificacion[notificacionActual].estado.Equals(Notificacion.Nueva))
-												{
-													<div class="col-sm-11">
-														<button id="notificacionAID" name="notificacionAID" type="submit" class="notificacion" value="@listaNotificacion[notificacionActual].notificacionAID"><li style="width:320px;"><div><p style="color:white; margin:auto">@listaNotificacion[notificacionActual].mensaje</p></div></li></button>
-													</div>
-													<div class="col-sm-1">
-														<span class="glyphicon glyphicon-exclamation-sign"></span>
-													</div>
-												}
-												else
-												{
-													<div class="col-sm-11">
-													<button id="notificacionAID" name="notificacionAID" type="submit" class="notificacion" value="@listaNotificacion[notificacionActual].notificacionAID"><li style="width:320px;"><div><p style="color:white; margin:auto">@listaNotificacion[notificacionActual].mensaje</p></div></li></button>
-													</div>
-												}
+                        <li class="dropdown" role="presentation">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mi cuenta<span class="caret"></span></a>
+                            <ul class="dropdown-menu navbar-dropdown">
+                                <li><a style="color:darkslategrey;" asp-page="/MiPerfil">Mi perfil</a></li>
+                                <li><a style="color:darkslategrey;" asp-page="/MisArticulos">Mis artículos</a></li>
+                                <li><a style="color:darkslategrey;" asp-page="/EnviarCorreo">Enviar correo</a></li>
+                                <li><a style="color:darkslategrey;" href="/Login/cerrarSesion">Cerrar sesión</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown" role="presentation">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                <i class="glyphicon glyphicon-bell"></i>
+                                @{
 
-											</div>
-											}
-											<a style="color:steelblue;" href="/VerNotificaciones"> Ver todas mis notificaciones</a>
-										</div>
-									</form>
-								}
-								else
-								{
-									<li style="width:320px; text-align:center"><p>No hay notificaciones disponibles</p></li>
-								}
-							}
-						</ul>
-					</li>
+                                    byte[] value = new byte[32];
+                                    if (Context.Session.TryGetValue("cantidadNotificacionesNuevas", out value))
+                                    {
+                                        int? cantidadNotificacionesNuevas = Context.Session.GetInt32("cantidadNotificacionesNuevas");
+                                        if (cantidadNotificacionesNuevas > 0)
+                                        {
+                                            <span class="badge">@cantidadNotificacionesNuevas</span>
+                                        }
+                                    }
+                                }
+                            </a>
+                            <ul class="dropdown-menu">
+                                @{
+                                    List<Notificacion> listaNotificacion = Context.Session.GetComplexData<List<Notificacion>>("listaNotificaciones");
+                                    if (listaNotificacion != null && listaNotificacion.Count > 0)
+                                    {
+                                        <form method="post" asp-page="VerNotificaciones">
+                                            <div class="container" style="width:400px">
+                                                @for (int notificacionActual = 0; notificacionActual < listaNotificacion.Count && notificacionActual < 5; notificacionActual++)
+                                                {
+                                                    <div class="row">
+                                                        @if (listaNotificacion[notificacionActual].estado.Equals(Notificacion.Nueva))
+                                                        {
+                                                        <div class="col-sm-11">
+                                                            <div class="row">
+                                                                <div style="border:1px solid black;border-left-width:10px;border-color:slategrey; background-color:#e1e5ee;border-radius:3px;border-left-color:brown;margin-bottom:5px;margin-top:5px">
+                                                                    <button id="notificacionAID" name="notificacionAID" type="submit" style="background-color:#e1e5ee" class="notificacion" value="@listaNotificacion[notificacionActual].notificacionAID">
+                                                                        <p style="font-weight:bolder;color:#444554;">
+                                                                            @listaNotificacion[notificacionActual].mensaje
+                                                                        </p>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        }
+                                                        else
+                                                        {
+                                                        <div class="col-sm-11">
+                                                            <div class="row">
+                                                                <div style=" background-color:#e1e5ee;border-radius:3px;margin-bottom:5px;margin-top:5px; margin-left:5px;">
+                                                                    <button id="notificacionAID" name="notificacionAID" type="submit" style="background-color:#e1e5ee" class="notificacion" value="@listaNotificacion[notificacionActual].notificacionAID">
+                                                                        <p style="font-weight:bolder;color:#444554;">
+                                                                            @listaNotificacion[notificacionActual].mensaje
+                                                                        </p>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        }
 
-				</ul>
+                                                    </div>
+                                                }
+                                                <a style="color:steelblue;" href="/VerNotificaciones"> Ver todas mis notificaciones</a>
+                                            </div>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <li style="width:320px; text-align:center"><p>No hay notificaciones disponibles</p></li>
+                                    }
+                                }
+                            </ul>
+                        </li>
+
+                    }
+                    else
+                    {
+                        <li><a asp-page="/Login">Iniciar sesión</a></li>
+                    }
+
+                </ul>
 	</div><!-- /.navbar-collapse -->
 </div><!-- /.container -->
 	</nav><!-- /.navbar -->
@@ -176,7 +219,7 @@
 	</environment>
 	<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 	<script>
-		$(".alert-success").fadeOut(4000);
+		$(".alert-success").fadeOut(5500);
 	</script>
 	@RenderSection("Scripts", required: false)
 </body>
