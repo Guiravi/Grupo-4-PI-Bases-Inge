@@ -65,7 +65,7 @@ namespace LaCafeteria.Models
 
 		public string GetNombreCompleto()
 		{
-			return nombre + " " + apellido1 + " " + apellido2;
+            return nombre + " " + apellido1 + (String.IsNullOrEmpty(apellido2) ? null : " " + apellido2);
 		}
 	}
 
