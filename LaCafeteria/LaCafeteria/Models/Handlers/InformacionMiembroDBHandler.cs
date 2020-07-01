@@ -140,7 +140,7 @@ namespace LaCafeteria.Models.Handlers
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
 
-                string sqlString = @"SELECT habilidad
+                string sqlString = @"SELECT habilidadFK
 									FROM MiembroHabilidad
 									WHERE @usernameFK =  usernameFK";
 
@@ -152,7 +152,7 @@ namespace LaCafeteria.Models.Handlers
                     {
                         while (dataReader.Read())
                         {
-                            habilidadesMiembro.Add((string)dataReader["habilidad"]);
+                            habilidadesMiembro.Add((string)dataReader["habilidadFK"]);
                         }
 
                     }
@@ -196,14 +196,14 @@ namespace LaCafeteria.Models.Handlers
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
 
-                string sqlString = @"SELECT MH.habilidad, M.paisFK, COUNT(*) AS cantidad
+                string sqlString = @"SELECT MH.habilidadFK, M.paisFK, COUNT(*) AS cantidad
                                     FROM [dbo].[Miembro] M
                                     JOIN [dbo].[MiembroHabilidad] MH
 	                                    ON M.usernamePK = MH.usernameFK
                                     WHERE	MH.habilidad IN (SELECT habilidadPK
 						                                    FROM [Catalogo].[Habilidad])
-                                    GROUP BY M.paisFK, MH.habilidad
-                                    ORDER BY MH.habilidad, M.paisFK";
+                                    GROUP BY M.paisFK, MH.habilidadFK
+                                    ORDER BY MH.habilidadFK, M.paisFK";
 
                 sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
@@ -211,7 +211,7 @@ namespace LaCafeteria.Models.Handlers
                     SqlDataReader dataReader = sqlCommand.ExecuteReader();
                     while (dataReader.Read())
                     {
-                        DatosGraficoBarrasApilado datos = new DatosGraficoBarrasApilado((string)dataReader["habilidad"], (string)dataReader["paisFK"], (int)dataReader["cantidad"]);
+                        DatosGraficoBarrasApilado datos = new DatosGraficoBarrasApilado((string)dataReader["habilidadFK"], (string)dataReader["paisFK"], (int)dataReader["cantidad"]);
                         lista.Add(datos);
                     }
                 }
@@ -228,16 +228,16 @@ namespace LaCafeteria.Models.Handlers
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
 
-                string sqlString = @"SELECT  MH.habilidad, MI.idiomaFK, COUNT(*) AS cantidad
+                string sqlString = @"SELECT  MH.habilidadFK, MI.idiomaFK, COUNT(*) AS cantidad
                                     FROM [dbo].[Miembro] M
                                     JOIN [dbo].[MiembroHabilidad] MH
 	                                    ON M.usernamePK = MH.usernameFK
                                     JOIN [dbo].[MiembroIdioma] MI
 	                                    ON M.usernamePK = MI.usernameFK
-                                    WHERE	MH.habilidad IN (SELECT habilidadPK
+                                    WHERE	MH.habilidadFK IN (SELECT habilidadPK
 						                                    FROM [Catalogo].[Habilidad])
-                                    GROUP BY MI.idiomaFK, MH.habilidad
-                                    ORDER BY MH.habilidad, MI.idiomaFK";
+                                    GROUP BY MI.idiomaFK, MH.habilidadFK
+                                    ORDER BY MH.habilidadFK, MI.idiomaFK";
 
                 sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
@@ -245,7 +245,7 @@ namespace LaCafeteria.Models.Handlers
                     SqlDataReader dataReader = sqlCommand.ExecuteReader();
                     while (dataReader.Read())
                     {
-                        DatosGraficoBarrasApilado datos = new DatosGraficoBarrasApilado((string)dataReader["habilidad"], (string)dataReader["idiomaFK"], (int)dataReader["cantidad"]);
+                        DatosGraficoBarrasApilado datos = new DatosGraficoBarrasApilado((string)dataReader["habilidadFK"], (string)dataReader["idiomaFK"], (int)dataReader["cantidad"]);
                         lista.Add(datos);
                     }
                 }
@@ -329,7 +329,7 @@ namespace LaCafeteria.Models.Handlers
 
                 string sqlString = @"SELECT H.habilidadPK
                                     FROM [Catalogo].[Habilidad] H
-                                    WHERE	H.habilidadPK NOT IN	(SELECT habilidad 
+                                    WHERE	H.habilidadPK NOT IN	(SELECT habilidadFK
 							                                    FROM [dbo].[MiembroHabilidad])";
 
                 sqlConnection.Open();
