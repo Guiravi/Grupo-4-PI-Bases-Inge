@@ -22,11 +22,10 @@ namespace LaCafeteria.Pages
         public List<MiembroModel> miembros { get; set; }
         public EditorMiembroController miembroController;
         public BuscadorMiembrosController buscadorMiembroController;
-        public  EditorMiembroSolicitaSubirRangoNucleoController editorMiembroSolicitaSubirRangoNucleoController;
+        public EditorMiembroSolicitaSubirRangoNucleoController editorMiembroSolicitaSubirRangoNucleoController;
         public RevisionSolicitudesPreviasMiembroSubirRangoNucleoController revisionSolicitudesPreviasMiembroSubirRangoNucleoController;
         public CreadorNotificacionController creadorNotificacionController;
-        public PromoverMiembroModel()
-        {
+        public PromoverMiembroModel() {
 
             editorMiembroSolicitaSubirRangoNucleoController = new EditorMiembroSolicitaSubirRangoNucleoController();
             revisionSolicitudesPreviasMiembroSubirRangoNucleoController = new RevisionSolicitudesPreviasMiembroSubirRangoNucleoController();
@@ -35,16 +34,16 @@ namespace LaCafeteria.Pages
             miembroController = new EditorMiembroController();
         }
 
-        public void OnGet()
-        {
+        public void OnGet() {
             usernameMiembroFK = Request.Cookies["usernamePK"];
-            if (nombreRolFK != "nulo") {
+            if ( nombreRolFK != "nulo" )
+            {
                 rolNucleoFK = buscadorMiembroController.GetRango(usernameMiembroFK);
-                if (aceptar == 1)
+                if ( aceptar == 1 )
                 {
                     VotarPromover();
-                }
-                else {
+                } else
+                {
                     VotarRechazar();
                 }
 
@@ -52,21 +51,19 @@ namespace LaCafeteria.Pages
             miembros = buscadorMiembroController.GetListaMiembrosSolicitud(usernameMiembroFK);
         }
 
-        public void VotarPromover()
-        {
+        public void VotarPromover() {
 
-            if (nombreRolFK != "Periférico" && nombreRolFK != "Activo" )
+            if ( nombreRolFK != "Periférico" && nombreRolFK != "Activo" )
             {
                 AvisosInmediatos.Set(this, "rangoInvalido", "El rango de este miembro no califica para poder pormoverse", AvisosInmediatos.TipoAviso.Error);
-            }
-            else {
-                if (nombreRolFK == "Núcleo")
+            } else
+            {
+                if ( nombreRolFK == "Núcleo" )
                 {
                     AvisosInmediatos.Set(this, "rangoPeriferico", "El rango de este miembro no se puede votar para aumentar", AvisosInmediatos.TipoAviso.Error);
-                }
-                 else
+                } else
                 {
-                    editorMiembroSolicitaSubirRangoNucleoController.VotarPromover(usernamePK,usernameMiembroFK);
+                    editorMiembroSolicitaSubirRangoNucleoController.VotarPromover(usernamePK, usernameMiembroFK);
                     AvisosInmediatos.Set(this, "exitoVotar", "Su voto ha sido emitido", AvisosInmediatos.TipoAviso.Exito);
                     revisarVotosAceptacion();
                 }
@@ -74,23 +71,20 @@ namespace LaCafeteria.Pages
 
 
 
-           
+
         }
 
-        public void VotarRechazar()
-        {
+        public void VotarRechazar() {
 
-            if (nombreRolFK != "Periférico" && nombreRolFK != "Activo")
+            if ( nombreRolFK != "Periférico" && nombreRolFK != "Activo" )
             {
                 AvisosInmediatos.Set(this, "rangoInvalido", "El rango de este miembro no califica para poder pormoverse", AvisosInmediatos.TipoAviso.Error);
-            }
-            else
+            } else
             {
-                if (nombreRolFK == "Núcleo")
+                if ( nombreRolFK == "Núcleo" )
                 {
                     AvisosInmediatos.Set(this, "rangoPeriferico", "El rango de este miembro no se puede votar para aumentar", AvisosInmediatos.TipoAviso.Error);
-                }
-                else
+                } else
                 {
                     editorMiembroSolicitaSubirRangoNucleoController.VotarRechazar(usernamePK, usernameMiembroFK);
                     AvisosInmediatos.Set(this, "exitoVotar", "Su voto ha sido emitido", AvisosInmediatos.TipoAviso.Exito);
@@ -105,8 +99,8 @@ namespace LaCafeteria.Pages
         public void revisarVotosAceptacion() {
             int votosTotales = revisionSolicitudesPreviasMiembroSubirRangoNucleoController.VerSiSolicitado(usernamePK);
             int votosAceptados = revisionSolicitudesPreviasMiembroSubirRangoNucleoController.VerTodosSolicitadosAceptados(usernamePK);
-            double porcentajeAceptacion = ((double)votosAceptados / (double)votosTotales) * (double)100;
-            if (porcentajeAceptacion > 50 || (nombreRolFK == "Activo" && rolNucleoFK == "Coordinador"))
+            double porcentajeAceptacion = ((double) votosAceptados / (double) votosTotales) * (double) 100;
+            if ( porcentajeAceptacion > 50 || (nombreRolFK == "Activo" && rolNucleoFK == "Coordinador") )
             {
                 miembroController.AscenderMiembro(usernamePK, nombreRolFK);
                 editorMiembroSolicitaSubirRangoNucleoController.BorrarSolicitudes(usernamePK);
@@ -114,11 +108,12 @@ namespace LaCafeteria.Pages
                 Notificacion notificacion = new Notificacion(usernamePK, mensaje, null);
                 creadorNotificacionController.CrearNotificacion(notificacion);
                 /*Notid=ficacion Aceptacion*/
-            }
-            else {
+            } else
+            {
                 int votosRechazados = revisionSolicitudesPreviasMiembroSubirRangoNucleoController.VerTodosSolicitadosRechazados(usernamePK);
-                double porcentajeRechazados = ((double)votosRechazados / (double)votosTotales) * (double)100;
-                if (porcentajeRechazados == 50 && porcentajeAceptacion == 50) {
+                double porcentajeRechazados = ((double) votosRechazados / (double) votosTotales) * (double) 100;
+                if ( porcentajeRechazados == 50 && porcentajeAceptacion == 50 )
+                {
                     string mensaje = "Su rango no pudo ser promovdio dado un empate de votos";
                     Notificacion notificacion = new Notificacion(usernamePK, mensaje, null);
                     creadorNotificacionController.CrearNotificacion(notificacion);
@@ -126,12 +121,11 @@ namespace LaCafeteria.Pages
             }
         }
 
-        public void revisarVotosRechazo()
-        {
+        public void revisarVotosRechazo() {
             int votosTotales = revisionSolicitudesPreviasMiembroSubirRangoNucleoController.VerSiSolicitado(usernamePK);
             int votosRechazados = revisionSolicitudesPreviasMiembroSubirRangoNucleoController.VerTodosSolicitadosRechazados(usernamePK);
-            double porcentajeRechazados = ((double)votosRechazados / (double)votosTotales) * (double)100;
-            if (porcentajeRechazados > 50 || (nombreRolFK == "Activo" && rolNucleoFK == "Coordinador"))
+            double porcentajeRechazados = ((double) votosRechazados / (double) votosTotales) * (double) 100;
+            if ( porcentajeRechazados > 50 || (nombreRolFK == "Activo" && rolNucleoFK == "Coordinador") )
             {
 
                 editorMiembroSolicitaSubirRangoNucleoController.BorrarSolicitudes(usernamePK);
@@ -139,12 +133,11 @@ namespace LaCafeteria.Pages
                 Notificacion notificacion = new Notificacion(usernamePK, mensaje, null);
                 creadorNotificacionController.CrearNotificacion(notificacion);
                 /*Notificacion Rechazo*/
-            }
-            else
+            } else
             {
                 int votosAceptados = revisionSolicitudesPreviasMiembroSubirRangoNucleoController.VerTodosSolicitadosAceptados(usernamePK);
-                double porcentajeAceptacion = ((double)votosAceptados / (double)votosTotales) * (double)100;
-                if (porcentajeRechazados == 50 && porcentajeAceptacion == 50)
+                double porcentajeAceptacion = ((double) votosAceptados / (double) votosTotales) * (double) 100;
+                if ( porcentajeRechazados == 50 && porcentajeAceptacion == 50 )
                 {
                     string mensaje = "Su rango no pudo ser promovdio dado un empate de votos";
                     Notificacion notificacion = new Notificacion(usernamePK, mensaje, null);
