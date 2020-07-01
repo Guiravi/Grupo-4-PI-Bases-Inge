@@ -11,4 +11,11 @@ BEGIN
 		DELETE FROM [NucleoPuedeSerRevisorDeArticulo]
 		WHERE @usernameMiemFK = [dbo].[NucleoPuedeSerRevisorDeArticulo].usernameMiemFK AND
          @articuloAID = [dbo].[NucleoPuedeSerRevisorDeArticulo].idArticuloFK
+
+		IF('Requiere Revisión' = (SELECT estado FROM Articulo WHERE articuloAID = @articuloAID))
+			BEGIN
+				UPDATE Articulo
+				SET estado = 'En Revisión'
+				WHERE articuloAID = @articuloAID
+			END
 END
