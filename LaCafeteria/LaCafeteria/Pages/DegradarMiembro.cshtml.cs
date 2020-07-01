@@ -20,41 +20,38 @@ namespace LaCafeteria.Pages
         public EditorMiembroController miembroController;
         public BuscadorMiembrosController buscadorMiembrosController;
         public CreadorNotificacionController creadorNotificacionController;
-        public DegradarMiembroModel()
-        {
-            
+        public DegradarMiembroModel() {
+
             miembroController = new EditorMiembroController();
             buscadorMiembrosController = new BuscadorMiembrosController();
             creadorNotificacionController = new CreadorNotificacionController();
         }
 
-        public void OnGet()
-        {
-            if (nombreRolFK != "nulo") {
+        public void OnGet() {
+            if ( nombreRolFK != "nulo" )
+            {
                 Degradar();
             }
             miembros = buscadorMiembrosController.GetListaMiembrosDegradarModel();
         }
 
-        public void Degradar()
-        {
-            if (nombreRolFK != "Periférico" && nombreRolFK != "Activo" && nombreRolFK != "Núcleo")
+        public void Degradar() {
+            if ( nombreRolFK != "Periférico" && nombreRolFK != "Activo" && nombreRolFK != "Núcleo" )
             {
                 AvisosInmediatos.Set(this, "rangoInvalido", "El rango de este miembro no califica para degradar", AvisosInmediatos.TipoAviso.Error);
-            }
-            else {
-                if (nombreRolFK == "Periférico")
+            } else
+            {
+                if ( nombreRolFK == "Periférico" )
                 {
                     AvisosInmediatos.Set(this, "rangoPeriferico", "El rango de este miembro no se puede degradar más", AvisosInmediatos.TipoAviso.Error);
-                }
-                 else
-                 {
-                    miembroController.DegradarMiembro(usernamePK,nombreRolFK);
+                } else
+                {
+                    miembroController.DegradarMiembro(usernamePK, nombreRolFK);
                     AvisosInmediatos.Set(this, "exitoDegradar", "El rango de este miembro fue degradado exitosamente", AvisosInmediatos.TipoAviso.Exito);
                     string mensaje = "Su rango ha sido degradado";
                     Notificacion notificacion = new Notificacion(usernamePK, mensaje, null);
                     creadorNotificacionController.CrearNotificacion(notificacion);
-                 }
+                }
             }
 
 

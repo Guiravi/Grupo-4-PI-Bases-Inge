@@ -8,15 +8,15 @@
 <h2>Lista de Miembros</h2>
 
 <input class="form-control" id="inputBusqueda" type="text" placeholder="Buscar miembro..">
-@if (AvisosInmediatos.Existe(Model, "rangoInvalido"))
+@if ( AvisosInmediatos.Existe(Model, "rangoInvalido") )
 {
     @Html.Raw(AvisosInmediatos.Get(Model, "rangoInvalido"));
 }
-@if (AvisosInmediatos.Existe(Model, "rangoPeriferico"))
+@if ( AvisosInmediatos.Existe(Model, "rangoPeriferico") )
 {
     @Html.Raw(AvisosInmediatos.Get(Model, "rangoPeriferico"));
 }
-@if (AvisosInmediatos.Existe(Model, "exitoDegradar"))
+@if ( AvisosInmediatos.Existe(Model, "exitoDegradar") )
 {
     @Html.Raw(AvisosInmediatos.Get(Model, "exitoDegradar"));
 }
@@ -34,7 +34,7 @@
 
     <tbody id="tablaMiembros" class="text-center">
 
-        @foreach (var miembro in Model.miembros)
+        @foreach ( var miembro in Model.miembros )
         {
             <tr>
                 <td><img class="img-rounded" style="width: 50px; height:50px" src="~/@miembro.rutaImagenPerfil" /></td>
