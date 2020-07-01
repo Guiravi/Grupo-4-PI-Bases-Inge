@@ -45,8 +45,8 @@ namespace LaCafeteriaTests
             };
 
             var mockDBHandler = new Mock<IBuscadorArticuloDBHandler>();
-            mockDBHandler.Setup(x => x.GetArticulosPorTopico(It.Is<CategoriaTopicoModel>(t => t.nombreCategoriaPK == "Fisica" && t.nombreTopicoPK== "Fisica Cuantica"), tipoArt)).Returns(mockArticulos1);
-            mockDBHandler.Setup(x => x.GetArticulosPorTopico(It.Is<CategoriaTopicoModel>(t => t.nombreCategoriaPK == "Fisica" && t.nombreTopicoPK == "Fisica Nuclear"), tipoArt)).Returns(mockArticulos2);
+            mockDBHandler.Setup(x => x.GetArticulosPorTopicoYTipo(It.Is<CategoriaTopicoModel>(t => t.nombreCategoriaPK == "Fisica" && t.nombreTopicoPK== "Fisica Cuantica"), tipoArt)).Returns(mockArticulos1);
+            mockDBHandler.Setup(x => x.GetArticulosPorTopicoYTipo(It.Is<CategoriaTopicoModel>(t => t.nombreCategoriaPK == "Fisica" && t.nombreTopicoPK == "Fisica Nuclear"), tipoArt)).Returns(mockArticulos2);
 
             var controller = new BuscadorArticuloController(mockDBHandler.Object);
 
@@ -78,7 +78,7 @@ namespace LaCafeteriaTests
             };
 
             var mockDBHandler = new Mock<IBuscadorArticuloDBHandler>();
-            mockDBHandler.Setup(x => x.GetArticulosPorTitulo(textB, tipoArt)).Returns(mockArticulos1);
+            mockDBHandler.Setup(x => x.GetArticulosPorTituloYTipo(textB, tipoArt)).Returns(mockArticulos1);
             
             var controller = new BuscadorArticuloController(mockDBHandler.Object);
 

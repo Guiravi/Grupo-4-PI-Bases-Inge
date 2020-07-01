@@ -7,7 +7,7 @@ namespace LaCafeteria.Models.Handlers
         List<DatosGraficoDona> GetArticulosPorRol();
         List<MiembroModel> GetAutoresDeArticulo(int id);
         byte[] GetBinario(int idArticulo);
-        int GetCalificacionMiembro(string username, int idArticulo);
+        int? GetCalificacionMiembro(string username, int idArticulo);
         List<CategoriaTopicoModel> GetCategoriasTopicosArticulo(int id);
         List<DatosTablaCategoriaTopicos> GetDatosTablaCategoriaTopicosPorRol(string rol);
         ArticuloModel GetInformacionArticuloModel(int id);
