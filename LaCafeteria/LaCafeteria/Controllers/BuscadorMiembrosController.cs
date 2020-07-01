@@ -56,7 +56,8 @@ namespace LaCafeteria.Controllers
 
             foreach (MiembroModel miembro in listaMiembros)
             {
-                stringMiembros.Add(miembro.nombre + " " + miembro.apellido1 + " " + miembro.apellido2 + " (" + miembro.usernamePK + ")");
+                stringMiembros.Add(miembro.nombre + " " + miembro.apellido1 + 
+                    (String.IsNullOrEmpty(miembro.apellido2) ? null : " " + miembro.apellido2) + " (" + miembro.usernamePK + ")");
             }
 
             return stringMiembros;
