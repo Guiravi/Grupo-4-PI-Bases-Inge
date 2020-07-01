@@ -6,18 +6,6 @@
 }
 
 <h2>Mi perfil</h2>
-@if (AvisosInmediatos.Existe(Model, "articuloGuardado"))
-{
-    @Html.Raw(AvisosInmediatos.Get(Model, "articuloGuardado"));
-}
-@if (AvisosInmediatos.Existe(Model, "articuloEditado"))
-{
-    @Html.Raw(AvisosInmediatos.Get(Model, "articuloEditado"));
-}
-@if (AvisosInmediatos.Existe(Model, "articuloEnviadoRev"))
-{
-    @Html.Raw(AvisosInmediatos.Get(Model, "articuloEnviadoRev"));
-}
 @if (AvisosInmediatos.Existe(Model, "Actualizado"))
 {
     @Html.Raw(AvisosInmediatos.Get(Model, "Actualizado"))
