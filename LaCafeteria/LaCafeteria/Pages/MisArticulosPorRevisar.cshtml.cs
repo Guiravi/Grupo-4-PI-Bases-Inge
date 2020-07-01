@@ -12,7 +12,7 @@ namespace LaCafeteria.Pages
     public class MisArticulosPorRevisarModel : PageModel
     {
         private BuscadorArticuloController buscadorArticuloController { get; set; }
-        private InformacionArticuloController informacionArticuloController { get; set; }
+        public InformacionArticuloController informacionArticuloController { get; set; }
 
         public List<ArticuloModel> artList { get; set; }
 
@@ -24,22 +24,21 @@ namespace LaCafeteria.Pages
 
             buscadorArticuloController = new BuscadorArticuloController();
             informacionArticuloController = new InformacionArticuloController();
-
-            artList = buscadorArticuloController.GetArticulosPorEstadoAsignaMiem(EstadoArticulo.RequiereRevision, Request.Cookies["usernamePK"]);
-
-            dictTopicos = new Dictionary<ArticuloModel, List<CategoriaTopicoModel>>();
-            dictAutores = new Dictionary<ArticuloModel, string>();
-
-            for (int i = 0; i<artList.Count(); ++i )
-            {
-                dictTopicos.Add(artList[i], informacionArticuloController.GetCategoriaTopicosArticulo(artList[i].articuloAID));
-                dictAutores.Add(artList[i], informacionArticuloController.GetAutoresDeArticuloString(artList[i].articuloAID));
-            }
         }
 
         public void OnGet()
         {
 
-        }
+			artList = buscadorArticuloController.GetArticulosPorEstadoAsignaMiem(EstadoArticulo.RequiereRevision, Request.Cookies["usernamePK"]);
+
+			dictTopicos = new Dictionary<ArticuloModel, List<CategoriaTopicoModel>>();
+			dictAutores = new Dictionary<ArticuloModel, string>();
+
+			for (int i = 0; i < artList.Count(); ++i)
+			{
+				dictTopicos.Add(artList[i], informacionArticuloController.GetCategoriaTopicosArticulo(artList[i].articuloAID));
+				dictAutores.Add(artList[i], informacionArticuloController.GetAutoresDeArticuloString(artList[i].articuloAID));
+			}
+		}
     }
 }
