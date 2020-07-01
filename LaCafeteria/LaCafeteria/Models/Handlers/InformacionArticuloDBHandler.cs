@@ -217,8 +217,8 @@ namespace LaCafeteria.Models.Handlers
             return categoriaTopicos;
         }
 
-        public int GetCalificacionMiembro(string username, int idArticulo) {
-            int calificacion = 10;
+        public int? GetCalificacionMiembro(string username, int idArticulo) {
+            int? calificacion = null;
 
             string connectionString = AppSettings.GetConnectionString();
 
