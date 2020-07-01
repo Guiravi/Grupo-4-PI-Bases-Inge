@@ -68,7 +68,7 @@ namespace LaCafeteria.Pages
 			if(!OnGetEsValido())
 			{	
 				//TODO: Setear notificacion de error
-				Redirect("/ArticulosPorRevisar");
+				Redirect("/ArticulosParaRevisionCoordinador");
 			}
 		}
 

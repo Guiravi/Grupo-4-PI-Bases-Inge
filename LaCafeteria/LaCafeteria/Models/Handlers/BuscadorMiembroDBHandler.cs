@@ -247,7 +247,7 @@ namespace LaCafeteria.Models.Handlers
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
 
-                string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, pais, estado, ciudad, rutaImagenPerfil, 
+                string sqlString = @"SELECT usernamePK, email, nombre, apellido1, apellido2, fechaNacimiento, paisFK, estado, ciudad, rutaImagenPerfil, 
 											informacionLaboral, meritos, activo, nombreRolFK
 									FROM Miembro WHERE nombreRolFK = 'Núcleo'";
 
@@ -271,7 +271,7 @@ namespace LaCafeteria.Models.Handlers
                                 ciudad = (!DBNull.Value.Equals(dataReader["ciudad"])) ? (string) dataReader["ciudad"] : null,
                                 rutaImagenPerfil = (string) dataReader["rutaImagenPerfil"],
                                 informacionLaboral = (!DBNull.Value.Equals(dataReader["informacionLaboral"])) ? (string) dataReader["informacionLaboral"] : null,
-                                meritos = (!DBNull.Value.Equals(dataReader["meritos"])) ? (int) dataReader["meritos"] : 0,
+                                meritos = (!DBNull.Value.Equals(dataReader["meritos"])) ? (double) dataReader["meritos"] : 0,
                                 activo = (bool) dataReader["activo"],
                                 nombreRolFK = (string) dataReader["nombreRolFK"]
                             };
