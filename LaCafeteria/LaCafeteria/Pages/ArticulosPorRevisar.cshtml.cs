@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using LaCafeteria.Controllers;
 using LaCafeteria.Models;
+using LaCafeteria.Utilidades;
 
 namespace LaCafeteria.Pages
 {
@@ -42,9 +43,9 @@ namespace LaCafeteria.Pages
 			string usernameFK = Request.Cookies["usernamePK"];
 			string nombreRolFK = Request.Cookies["nombreRolFK"];
 			if (usernameFK == null || !(nombreRolFK.Equals("Coordinador") || nombreRolFK.Equals("Núcleo")))
-			{	
-				//TODO: Desplegar notificacion de error
-				return Redirect("Index");
+			{
+                AvisosInmediatos.Set(this, "noPoseeAutorizacion", "Usted no posee autorizacion para ver esta pagina", AvisosInmediatos.TipoAviso.Error);
+                return Redirect("Index");
 			}
 
 			return Page();
