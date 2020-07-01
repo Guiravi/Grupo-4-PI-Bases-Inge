@@ -1,167 +1,193 @@
 ﻿@page  "{idArticuloPK:int?}"
 @using LaCafeteria.Utilidades
+@using LaCafeteria.Models;
 @model LaCafeteria.Pages.SubirArticuloModel
 @{
     ViewData["Title"] = "SubirArticulo";
 }
 
 <h2>Subir Articulo</h2>
-@if (AvisosInmediatos.Existe(Model, "articuloGuardado"))
+@if ( AvisosInmediatos.Existe(Model, "articuloGuardado") )
 {
     @Html.Raw(AvisosInmediatos.Get(Model, "articuloGuardado"));
 }
 
-@if (Model.idArticuloPK != -1)
-{
-    <a href="~/ArticulosDOCX/@Model.nombreArchivo" download class="btn">Descargar archivo editable</a>
-    <br/>
-    <br/>
-}
-
-    <form method="post" enctype="multipart/form-data">
-        <div class="form-group">
-            <label for="txtTitulo">Título del artículo</label>
-            <input id="txtTitulo" type="text" class="form-control" asp-for="articulo.titulo" />
-            <span asp-validation-for="articulo.titulo"></span>
-        </div>
-        <div class="form-group">
-            <label for="slctAutor">Autor(es)</label>
-            <select id="slctAutor" class="form-control">
-                @foreach (var autor in Model.listaMiembros)
-                {
-                    <option value="@autor.usernamePK">@autor.GetNombreCompleto()</option>
-                }
-            </select>
-            <input type="button" class="btn" value="Agregar autor" onclick="agregarAutor()" />
-            @if (AvisosInmediatos.Existe(Model, "listaMiembrosAutores"))
+<form method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="txtTitulo">Título del artículo</label>
+        <input id="txtTitulo" type="text" class="form-control" asp-for="articulo.titulo" />
+        <span asp-validation-for="articulo.titulo"></span>
+    </div>
+    <div class="form-group">
+        <label for="slctAutor">Autor(es)</label>
+        <select id="slctAutor" class="form-control">
+            @foreach ( var autor in Model.listaMiembros )
             {
-                @Html.Raw(AvisosInmediatos.Get(Model, "listaMiembrosAutores"));
+                <option value="@autor.usernamePK">@autor.GetNombreCompleto()</option>
             }
-            <div id="autores">           
+        </select>
+        <input type="button" class="btn" value="Agregar autor" onclick="agregarAutor()" />
+        @if ( AvisosInmediatos.Existe(Model, "listaMiembrosAutores") )
+        {
+            @Html.Raw(AvisosInmediatos.Get(Model, "listaMiembrosAutores"));
+        }
+        <div id="autores">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="txtResumen">Resumen del artículo</label>
+        <textarea id="txtResumen" rows="2" cols="20" class="form-control" asp-for="articulo.resumen"></textarea>
+        <span asp-validation-for="articulo.resumen"></span>
+    </div>
+    <div class="form-group">
+        <label for="txtFecha">Fecha de publicación</label>
+        @if ( Model.idArticuloPK != -1 )
+        {
+            <input id="txtFecha" type="date" class="form-control" asp-for="articulo.fechaPublicacion" style="width: 150px;" />
+            <span asp-validation-for="articulo.fechaPublicacion"></span>
+        } else
+        {
+            <input id="txtFecha" type="date" class="form-control" asp-for="articulo.fechaPublicacion" value="" Model.articulo.fechaPublicacion" />
+            <span asp-validation-for="articulo.fechaPublicacion"></span>
+        }
+    </div>
+
+    <div class="container">
+        <div class="row">
+            @if ( Model.idArticuloPK != -1 )
+            {
+                <a href="~/ArticulosDOCX/@Model.nombreArchivo" download style="background-color:#5cb85c" class="btn">Descargar archivo editable</a>
+                <br />
+                <br />
+            }
+        </div>
+        <div class="row">
+            <div class="form-group col-lg-8">
+                <label for="txtContenido">Artículo</label>
+                <input type="file" asp-for="archivoArticulo" />
+                <span asp-validation-for="archivoArticulo"></span>
+                @if ( AvisosInmediatos.Existe(Model, "archivoArticulo") )
+                {
+                    @Html.Raw(AvisosInmediatos.Get(Model, "archivoArticulo"));
+                }
+            </div>
+            <div class="form-group col-lg-4" style="position: relative; bottom: 350px;">
+                <div class="btn-group" style="margin-top: 25px">
+                    @if ( AvisosInmediatos.Existe(Model, "listaTopicosArticulo") )
+                    {
+                        @Html.Raw(AvisosInmediatos.Get(Model, "listaTopicosArticulo"));
+                    }
+                    <button type="button" class="btn btn-info">Seleccione tópicos</button>
+                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        @if ( Model.idArticuloPK != -1 )
+                        {
+                            string categoriaActual = "";
+                            for ( int topicoActual = 0; topicoActual < Model.listaCategoriaTopicos.Count; ++topicoActual )
+                            {
+                                if ( categoriaActual != Model.listaCategoriaTopicos[topicoActual].nombreCategoriaPK )
+                                {
+                                    categoriaActual = Model.listaCategoriaTopicos[topicoActual].nombreCategoriaPK;
+
+                                    <li role="separator" class="divider"></li>
+                                    <li class="dropdown-header">@Html.Raw(Model.listaCategoriaTopicos[topicoActual].nombreCategoriaPK)</li>
+                                    <li role="separator" class="divider"></li>
+                                }
+
+                                int contador = 0;
+                                bool encontrado = false;
+                                while ( !encontrado && contador < Model.listaCategoriaTopicosArticulo.Count )
+                                {
+                                    if ( Model.listaCategoriaTopicos[topicoActual].ToString().Equals(Model.listaCategoriaTopicosArticulo[contador]) )
+                                    {
+                                        encontrado = true;
+
+                                        <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaCategoriaTopicosArticulo" value="@Model.listaCategoriaTopicos[topicoActual].ToString()" checked="checked"> @Model.listaCategoriaTopicos[topicoActual].nombreTopicoPK</li>
+                                    }
+
+                                    contador++;
+                                }
+
+                                if ( !encontrado )
+                                {
+                                    <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaCategoriaTopicosArticulo" value="@Model.listaCategoriaTopicos[topicoActual].ToString()"> @Model.listaCategoriaTopicos[topicoActual].nombreTopicoPK</li>
+                                }
+
+                            }
+                        } else
+                        {
+                            string categoriaActual = "";
+                            for ( int topicoActual = 0; topicoActual < Model.listaCategoriaTopicos.Count; ++topicoActual )
+                            {
+                                if ( categoriaActual != Model.listaCategoriaTopicos[topicoActual].nombreCategoriaPK )
+                                {
+                                    categoriaActual = Model.listaCategoriaTopicos[topicoActual].nombreCategoriaPK;
+
+                                    <li role="separator" class="divider"></li>
+                                    <li class="dropdown-header">@Html.Raw(Model.listaCategoriaTopicos[topicoActual].nombreCategoriaPK)</li>
+                                    <li role="separator" class="divider"></li>
+                                    <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaCategoriaTopicosArticulo" value="@Model.listaCategoriaTopicos[topicoActual].ToString()"> @Model.listaCategoriaTopicos[topicoActual].nombreTopicoPK</li>
+                                } else
+                                {
+                                    <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaCategoriaTopicosArticulo" value="@Model.listaCategoriaTopicos[topicoActual].ToString()"> @Model.listaCategoriaTopicos[topicoActual].nombreTopicoPK</li>
+                                }
+                            }
+                        }
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="txtResumen">Resumen del artículo</label>
-            <textarea id="txtResumen" rows="2" cols="20" class="form-control" asp-for="articulo.resumen"></textarea>
-            <span asp-validation-for="articulo.resumen"></span>
-        </div>
-        <div class="form-group">
-            <label for="txtFecha">Fecha de publicación</label>
-            @if (Model.idArticuloPK != -1)
+        @{ if ( Model.articulo.estado == EstadoArticulo.EnCorrecciones )
             {
-                <input id="txtFecha" type="date" class="form-control" asp-for="articulo.fechaPublicacion" style="width: 150px;" />
-                <span asp-validation-for="articulo.fechaPublicacion"></span>
-            }
-            else
-            {
-                <input id="txtFecha" type="date" class="form-control" asp-for="articulo.fechaPublicacion" value=""Model.articulo.fechaPublicacion" />
-                <span asp-validation-for="articulo.fechaPublicacion"></span>
-            }
-        </div>
-
-        <div class="container">
-            <div class="row">
-                <div class="form-group col-lg-8">
-                    <label for="txtContenido">Artículo</label>
-                    <input type="file" asp-for="archivoArticulo" />
-                    <span asp-validation-for="archivoArticulo"></span>
-                    @if (AvisosInmediatos.Existe(Model, "archivoArticulo"))
-                    {
-                        @Html.Raw(AvisosInmediatos.Get(Model, "archivoArticulo"));
-                    }
-                </div>
-                <div class="form-group col-lg-4" style="position: relative; bottom: 350px;">
-                    <div class="btn-group" style="margin-top: 25px">
-                        @if (AvisosInmediatos.Existe(Model, "listaTopicosArticulo"))
-                        {
-                            @Html.Raw(AvisosInmediatos.Get(Model, "listaTopicosArticulo"));
-                        }
-                        <button type="button" class="btn btn-info">Seleccione tópicos</button>
-                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            @if (Model.idArticuloPK != -1)
+                <div style="margin-top:20px;border-radius:10px" class="row">
+                    <div style="max-height:500px;overflow:scroll" class="panel panel-default">
+                        <div class="panel-heading">
+                            Revisiones
+                        </div>
+                        <div class="panel-body">
+                            @for ( int i = 0; i < Model.revisiones.Count; ++i )
                             {
-                                string categoriaActual = "";
-                                for (int topicoActual = 0; topicoActual < Model.listaCategoriaTopicos.Count; ++topicoActual)
-                                {
-                                    if (categoriaActual != Model.listaCategoriaTopicos[topicoActual].nombreCategoriaPK)
-                                    {
-                                        categoriaActual = Model.listaCategoriaTopicos[topicoActual].nombreCategoriaPK;
+                                <div class="panel panel-default">
 
-                                        <li role="separator" class="divider"></li>
-                                        <li class="dropdown-header">@Html.Raw(Model.listaCategoriaTopicos[topicoActual].nombreCategoriaPK)</li>
-                                        <li role="separator" class="divider"></li>
-                                    }
+                                    <div class="panel-heading">Revisor @(i + 1)</div>
+                                    <div class="panel-body">
+                                        <p><b>Opinion:</b> @Model.revisiones[i].opinion</p>
+                                        <p><b>Contribucion:</b> @Model.revisiones[i].contribucion</p>
+                                        <p><b>Forma:</b> @Model.revisiones[i].forma</p>
 
-                                    int contador = 0;
-                                    bool encontrado = false;
-                                    while (!encontrado && contador < Model.listaCategoriaTopicosArticulo.Count)
-                                    {
-                                        if (Model.listaCategoriaTopicos[topicoActual].ToString().Equals(Model.listaCategoriaTopicosArticulo[contador]))
-                                        {
-                                            encontrado = true;
-
-                                            <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaCategoriaTopicosArticulo" value="@Model.listaCategoriaTopicos[topicoActual].ToString()" checked="checked"> @Model.listaCategoriaTopicos[topicoActual].nombreTopicoPK</li>
-                                        }
-
-                                        contador++;
-                                    }
-
-                                    if (!encontrado)
-                                    {
-                                        <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaCategoriaTopicosArticulo" value="@Model.listaCategoriaTopicos[topicoActual].ToString()"> @Model.listaCategoriaTopicos[topicoActual].nombreTopicoPK</li>
-                                    }
-
-                                }
+                                        <p>Comentarios:</p>
+                                        <p>@Model.revisiones[i].comentarios</p>
+                                    </div>
+                                </div>
                             }
-                            else
-                            {
-                                string categoriaActual = "";
-                                for (int topicoActual = 0; topicoActual < Model.listaCategoriaTopicos.Count; ++topicoActual)
-                                {
-                                    if (categoriaActual != Model.listaCategoriaTopicos[topicoActual].nombreCategoriaPK)
-                                    {
-                                        categoriaActual = Model.listaCategoriaTopicos[topicoActual].nombreCategoriaPK;
-
-                                        <li role="separator" class="divider"></li>
-                                        <li class="dropdown-header">@Html.Raw(Model.listaCategoriaTopicos[topicoActual].nombreCategoriaPK)</li>
-                                        <li role="separator" class="divider"></li>
-                                        <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaCategoriaTopicosArticulo" value="@Model.listaCategoriaTopicos[topicoActual].ToString()"> @Model.listaCategoriaTopicos[topicoActual].nombreTopicoPK</li>
-                                    }
-                                    else
-                                    {
-                                        <li style="margin: 5px 5px" class="text-primary"><input type="checkbox" name="listaCategoriaTopicosArticulo" value="@Model.listaCategoriaTopicos[topicoActual].ToString()"> @Model.listaCategoriaTopicos[topicoActual].nombreTopicoPK</li>
-                                    }
-                                }
-                            }
-                        </ul>
+                        </div>
                     </div>
                 </div>
+            }
+        }
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+
+                @if ( Model.idArticuloPK != -1 )
+                {
+                    <input id="btnGuardar" type="submit" class="btn-primary" asp-page-handler="editar" value="Guardar progreso" style="width: 150px" />
+                } else
+                {
+                    <input id="btnEditar" type="submit" class="btn-primary" asp-page-handler="guardar" value="Guardar progreso" style="width: 150px" />
+                }
+
+            </div>
+            <div class="col-md-3">
+                <input id="btnEnviarRev" type="submit" class="btn-primary" asp-page-handler="enviarRevision" value="Enviar a revisión" style="width: 150px" />
             </div>
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-
-                    @if (Model.idArticuloPK != -1)
-                    {
-                        <input id="btnGuardar"  type="submit" class="btn-primary" asp-page-handler="editar" value="Guardar progreso" style="width: 150px"/>
-                    }
-                    else
-                    {
-                        <input id="btnEditar"  type="submit" class="btn-primary" asp-page-handler="guardar" value="Guardar progreso" style="width: 150px"/>
-                    }
-
-                </div>
-                <div class="col-md-3">
-                    <input id="btnEnviarRev" type="submit" class="btn-primary" asp-page-handler="enviarRevision" value="Enviar a revisión" style="width: 150px"/>
-                </div>
-            </div>
-        </div>
-    </form>
+    </div>
+</form>
 
 <script>
     var miembrosAutores = new Array();
