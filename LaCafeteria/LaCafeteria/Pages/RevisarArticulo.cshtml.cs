@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using LaCafeteria.Models;
 using LaCafeteria.Utilidades;
 using LaCafeteria.Controllers;
+using LaCafeteria.Models;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Hosting;
 
@@ -52,6 +53,8 @@ namespace LaCafeteria.Pages
         [BindProperty]
         public string comentario { get; set; }
 
+        public RevisionModel revisionModel { get; set; }
+
         public RevisarArticuloModel(IHostingEnvironment env)
         {
             revisorArticulosController = new RevisorArticulosController();
@@ -76,7 +79,9 @@ namespace LaCafeteria.Pages
             {
                 documentosArticuloController.CargarArticuloPDF(idArticuloPK, rutaCarpeta);
                 articuloPDF = Convert.ToString(idArticuloPK) + ".pdf";
-            } 
+            }
+            List<RevisionModel> revisionesModel = informacionArticuloController.GetRevisiones(idArticuloPK);
+            revisionModel = revisionesModel.Find(x => x.usernameMiemFK == Request.Cookies["usernamePK"]);
         }
 
         public IActionResult OnPostEnviar()
