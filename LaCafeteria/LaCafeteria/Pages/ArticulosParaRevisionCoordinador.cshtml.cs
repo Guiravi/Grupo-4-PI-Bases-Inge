@@ -9,7 +9,7 @@ using LaCafeteria.Models;
 
 namespace LaCafeteria.Pages
 {
-    public class ArticulosPorRevisarModel : PageModel
+    public class ArticulosParaRevisionCoordinadorModel : PageModel
     {
         private BuscadorArticuloController buscadorArticuloController { get; set; }
         public InformacionArticuloController informacionArticuloController { get; set; }
@@ -20,7 +20,7 @@ namespace LaCafeteria.Pages
 
         public Dictionary<ArticuloModel, string> dictAutores { get; set; } 
 
-        public ArticulosPorRevisarModel() {
+        public ArticulosParaRevisionCoordinadorModel() {
 
             buscadorArticuloController = new BuscadorArticuloController();
             informacionArticuloController = new InformacionArticuloController();
@@ -30,7 +30,7 @@ namespace LaCafeteria.Pages
             dictTopicos = new Dictionary<ArticuloModel, List<CategoriaTopicoModel>>();
             dictAutores = new Dictionary<ArticuloModel, string>();
 
-            for (int i = 0; i<artList.Count(); ++i )
+            for (int i = 0; i< artList.Count(); ++i )
             {
                 dictTopicos.Add(artList[i], informacionArticuloController.GetCategoriaTopicosArticulo(artList[i].articuloAID));
                 dictAutores.Add(artList[i], informacionArticuloController.GetAutoresDeArticuloString(artList[i].articuloAID));
