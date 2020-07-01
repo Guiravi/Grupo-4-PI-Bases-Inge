@@ -136,7 +136,7 @@ namespace LaCafeteria.Pages
                 almacenadorArticuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo);
                 AvisosInmediatos.Set(this, "articuloGuardado", "Su articulo se guardó", AvisosInmediatos.TipoAviso.Exito);
 
-                return Redirect("/MiPerfil");
+                return Redirect("/MisArticulos");
             }
 
             return Page();
@@ -155,7 +155,7 @@ namespace LaCafeteria.Pages
                 editorArticuloController.EditarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo, "");
                 AvisosInmediatos.Set(this, "articuloEditado", "Su articulo se editó correctamente", AvisosInmediatos.TipoAviso.Exito);
 
-                return Redirect("/MiPerfil");
+                return Redirect("/MisArticulos");
             }
 
             return Page();
@@ -217,7 +217,7 @@ namespace LaCafeteria.Pages
 
                 AvisosInmediatos.Set(this, "articuloEnviadoRev", "Su artículo fue enviado a revisión", AvisosInmediatos.TipoAviso.Exito);
 
-                return Redirect("/MiPerfil");
+                return Redirect("/MisArticulos");
             }
 
             return Page();

@@ -34,6 +34,11 @@ namespace LaCafeteria.Pages
 
         }
 
+        public int verificar(string username)
+        {
+            return 1;
+        }
+
         public void OnGet()
         {
 			if(ModelState.IsValid)

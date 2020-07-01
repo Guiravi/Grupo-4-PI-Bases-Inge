@@ -93,7 +93,6 @@
                                 <li><a style="color:darkslategrey;" href="/Login/cerrarSesion">Cerrar sesión</a></li>
                             </ul>
                         </li>
-
                         <li class="dropdown" role="presentation">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
                                 <i class="glyphicon glyphicon-bell"></i>
@@ -122,18 +121,31 @@
                                                     <div class="row">
                                                         @if (listaNotificacion[notificacionActual].estado.Equals(Notificacion.Nueva))
                                                         {
-                                                            <div class="col-sm-11">
-                                                                <button id="notificacionAID" name="notificacionAID" type="submit" class="notificacion" value="@listaNotificacion[notificacionActual].notificacionAID"><li style="width:320px;"><div><p style="color:white; margin:auto">@listaNotificacion[notificacionActual].mensaje</p></div></li></button>
+                                                        <div class="col-sm-11">
+                                                            <div class="row">
+                                                                <div style="border:1px solid black;border-left-width:10px;border-color:slategrey; background-color:#e1e5ee;border-radius:3px;border-left-color:brown;margin-bottom:5px;margin-top:5px">
+                                                                    <button id="notificacionAID" name="notificacionAID" type="submit" style="background-color:#e1e5ee" class="notificacion" value="@listaNotificacion[notificacionActual].notificacionAID">
+                                                                        <p style="font-weight:bolder;color:#444554;">
+                                                                            @listaNotificacion[notificacionActual].mensaje
+                                                                        </p>
+                                                                    </button>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-sm-1">
-                                                                <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                                            </div>
+                                                        </div>
                                                         }
                                                         else
                                                         {
-                                                            <div class="col-sm-11">
-                                                                <button id="notificacionAID" name="notificacionAID" type="submit" class="notificacion" value="@listaNotificacion[notificacionActual].notificacionAID"><li style="width:320px;"><div><p style="color:white; margin:auto">@listaNotificacion[notificacionActual].mensaje</p></div></li></button>
+                                                        <div class="col-sm-11">
+                                                            <div class="row">
+                                                                <div style=" background-color:#e1e5ee;border-radius:3px;margin-bottom:5px;margin-top:5px; margin-left:5px;">
+                                                                    <button id="notificacionAID" name="notificacionAID" type="submit" style="background-color:#e1e5ee" class="notificacion" value="@listaNotificacion[notificacionActual].notificacionAID">
+                                                                        <p style="font-weight:bolder;color:#444554;">
+                                                                            @listaNotificacion[notificacionActual].mensaje
+                                                                        </p>
+                                                                    </button>
+                                                                </div>
                                                             </div>
+                                                        </div>
                                                         }
 
                                                     </div>

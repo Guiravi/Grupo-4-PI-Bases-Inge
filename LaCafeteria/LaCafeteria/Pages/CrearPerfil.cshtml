@@ -1,124 +1,298 @@
-﻿@page
+﻿@page "{editar?}/{username}"
 @using LaCafeteria.Utilidades;
 @model LaCafeteria.Pages.CrearPerfilModel
 @{
     ViewData["Title"] = "Crear Perfil";
 }
 
-<h2>Crear perfil</h2>
+@if (Model.editar != null)
+{
+    <h2>Editar perfil</h2>
+}
+else
+{
+    <h2>Crear perfil</h2>
+}
 
 <div class="container">
-	<form method="post" enctype="multipart/form-data">
-		<div class="row">
-			<div class="col-lg-6">
-				<div class="form-group">
-					<label for="txtUsername">Nombre de usuario</label>
-					<input id="txtUsername" type="text" class="form-control" asp-for="miembro.usernamePK" />
-					<span asp-validation-for="miembro.usernamePK"></span>
-					@if(AvisosInmediatos.Existe(Model, "usernamePKInvalido"))
-					{
-						@Html.Raw(AvisosInmediatos.Get(Model, "usernamePKInvalido"))
-					}
-				</div>
+    <form method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-lg-6">
+                @if (Model.editar != null)
+                {
+                    <div class="form-group">
+                        <label for="txtUsername">Nombre de usuario</label>
+                        <input id="txtUsername" type="text" class="form-control" asp-for="miembro.usernamePK" disabled="disabled" />
+                        <span asp-validation-for="miembro.usernamePK"></span>
+                        <input type="hidden" asp-for="miembro.usernamePK" value="@Model.miembro.usernamePK">
+                        @if (AvisosInmediatos.Existe(Model, "usernamePKInvalido"))
+                        {
+                            @Html.Raw(AvisosInmediatos.Get(Model, "usernamePKInvalido"))
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <label for="txtUsername">Nombre de usuario</label>
+                        <input id="txtUsername" type="text" class="form-control" asp-for="miembro.usernamePK" />
+                        <span asp-validation-for="miembro.usernamePK"></span>
+                        @if (AvisosInmediatos.Existe(Model, "usernamePKInvalido"))
+                        {
+                            @Html.Raw(AvisosInmediatos.Get(Model, "usernamePKInvalido"))
+                        }
+                    </div>
+                }
 
-				<div class="form-group">
-					<label for="txtEmail">Email</label>
-					<input id="txtEmail" type="text" class="form-control" asp-for="miembro.email" />
-					<span asp-validation-for="miembro.email"></span>
-				</div>
+                @if (Model.editar != null)
+                {
+                    <div class="form-group">
+                        <label for="txtEmail">Email</label>
+                        <input id="txtEmail" type="text" class="form-control" asp-for="miembro.email" disabled="disabled" />
+                        <span asp-validation-for="miembro.email"></span>
+                        <input type="hidden" asp-for="miembro.email" value="@Model.miembro.email">
+                        @if (AvisosInmediatos.Existe(Model, "emailInvalido"))
+                        {
+                            @Html.Raw(AvisosInmediatos.Get(Model, "emailInvalido"))
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <label for="txtEmail">Email</label>
+                        <input id="txtEmail" type="text" class="form-control" asp-for="miembro.email" />
+                        <span asp-validation-for="miembro.email"></span>
+                        @if (AvisosInmediatos.Existe(Model, "emailInvalido"))
+                        {
+                            @Html.Raw(AvisosInmediatos.Get(Model, "emailInvalido"))
+                        }
+                    </div>
+                }
 
-				<div class="form-group">
-					<label for="txtNombre">Nombre</label>
-					<input id="txtNombre" type="text" class="form-control" asp-for="miembro.nombre" />
-					<span asp-validation-for="miembro.nombre"></span>
-				</div>
+                <div class="form-group">
+                    <label for="txtNombre">Nombre</label>
+                    <input id="txtNombre" type="text" class="form-control" asp-for="miembro.nombre" />
+                    <span asp-validation-for="miembro.nombre"></span>
+                </div>
 
-				<div class="form-group">
-					<label for="txtApellido1">Primer apellido</label>
-					<input id="txtApellido1" type="text" class="form-control" asp-for="miembro.apellido1" />
-					<span asp-validation-for="miembro.apellido1"></span>
-				</div>
+                <div class="form-group">
+                    <label for="txtApellido1">Primer apellido</label>
+                    <input id="txtApellido1" type="text" class="form-control" asp-for="miembro.apellido1" />
+                    <span asp-validation-for="miembro.apellido1"></span>
+                </div>
 
-				<div class="form-group">
-					<label for="txtApellido2">Segundo apellido</label>
-					<input id="txtApellido2" type="text" class="form-control" asp-for="miembro.apellido2" />
-					<span asp-validation-for="miembro.apellido2"></span>
-				</div>
+                <div class="form-group">
+                    <label for="txtApellido2">Segundo apellido</label>
+                    <input id="txtApellido2" type="text" class="form-control" asp-for="miembro.apellido2" />
+                    <span asp-validation-for="miembro.apellido2"></span>
+                </div>
 
-				<div class="form-group">
-					<label for="txtFechaNacimiento">Fecha de nacimiento</label>
-					<input id="txtFechaNacimiento" type="date" class="form-control" asp-for="miembro.fechaNacimiento" />
-					<span asp-validation-for="miembro.fechaNacimiento"></span>
-				</div>
+                <div class="form-group">
+                    <label for="txtFechaNacimiento">Fecha de nacimiento</label>
+                    <input id="txtFechaNacimiento" type="date" class="form-control" asp-for="miembro.fechaNacimiento" />
+                    <span asp-validation-for="miembro.fechaNacimiento"></span>
+                </div>
 
-				<div class="form-group">
-					<label for="txtFechaNacimiento">Pais</label>
-					<input id="txtFechaNacimiento" type="text" class="form-control" asp-for="miembro.paisFK" />
-					<span asp-validation-for="miembro.paisFK"></span>
-				</div>
+                <div class="form-group">
+                    <label for="selectPais">País</label>
+                    <select id="selectPais" class="form-control" asp-for="miembro.paisFK" />
+                    @foreach (string pais in Model.listaPaises)
+                    {
+                        <option value="@pais">@pais</option>
+                    }
+                    </select>
+                    <span asp-validation-for="miembro.paisFK"></span>
 
-				<div class="form-group">
-					<label for="txtFechaNacimiento">Estado</label>
-					<input id="txtFechaNacimiento" type="text" class="form-control" asp-for="miembro.estado" />
-					<span asp-validation-for="miembro.estado"></span>
-				</div>
+                </div>
 
-				<div class="form-group">
-					<label for="txtFechaNacimiento">Ciudad</label>
-					<input id="txtFechaNacimiento" type="text" class="form-control" asp-for="miembro.ciudad" />
-					<span asp-validation-for="miembro.ciudad"></span>
-				</div>
+                <div class="form-group">
+                    <label for="txtFechaNacimiento">Estado</label>
+                    <input id="txtFechaNacimiento" type="text" class="form-control" asp-for="miembro.estado" />
+                    <span asp-validation-for="miembro.estado"></span>
+                </div>
 
-			</div>
-		<div class="col-lg-6">
-			<div class="form-group">
-				<label for="imgPerfil">Imagen de perfil</label>
-				<input id="imgPerfil" accept=".png,.jpg" type="file" class="form-control" asp-for="imagenDePerfil" />
-				<span asp-validation-for="imagenDePerfil"></span>
-				@if(AvisosInmediatos.Existe(Model, "formatoInvalido"))
-				{
-					@Html.Raw(AvisosInmediatos.Get(Model, "formatoInvalido"));
-				}
+                <div class="form-group">
+                    <label for="txtFechaNacimiento">Ciudad</label>
+                    <input id="txtFechaNacimiento" type="text" class="form-control" asp-for="miembro.ciudad" />
+                    <span asp-validation-for="miembro.ciudad"></span>
+                </div>
 
-			</div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label for="imgPerfil">Imagen de perfil</label>
+                    <input id="imgPerfil" accept=".png,.jpg" type="file" class="form-control" asp-for="imagenDePerfil" />
+                    <span asp-validation-for="imagenDePerfil"></span>
+                    @if (AvisosInmediatos.Existe(Model, "formatoInvalido"))
+                    {
+                        @Html.Raw(AvisosInmediatos.Get(Model, "formatoInvalido"));
+                    }
 
-			<div class="form-group">
-				<label for="txtHobbies">Hobbies</label>
-				<textarea id="txtHobbies" class="form-control" asp-for="miembro.pasatiempos"></textarea>
-				<span asp-validation-for="miembro.pasatiempos"></span>
-			</div>
+                </div>
 
-			<div class="form-group">
-				<label for="txtHobbies">Habilidades</label>
-				<textarea id="txtHabilidades" class="form-control" asp-for="miembro.habilidades"></textarea>
-				<span asp-validation-for="miembro.habilidades"></span>
-			</div>
+                <div class="form-group">
+                    <label for="txtInfoLaboral">Información laboral</label>
+                    <textarea id="txtInfoLaboral" class="form-control" asp-for="miembro.informacionLaboral"></textarea>
+                    <span asp-validation-for="miembro.informacionLaboral"></span>
+                </div>
+                <br />
+                <label for="habilidadesDrop">Habilidades estándar del sitio</label>
+                <div class="btn-group form-group col-lg-offset-4 form-group" id="habilidadesDrop">
+                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Habilidades que maneja <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" style="max-height: 250px; overflow: scroll;">
+                        @if (Model.editar != null)
+                        {
+                            @foreach (string habilidad in Model.listaHabilidadesEstandar)
+                            {
+                                int contador = 0;
+                                bool encontrado = false;
+                                while (!encontrado && contador < Model.miembro.habilidades.Count)
+                                {
+                                    if (habilidad == Model.miembro.habilidades[contador])
+                                    {
+                                        encontrado = true;
+                                    }
+                                    contador++;
+                                }
 
-			<div class="form-group">
-				<label for="txtInfoLaboral">Información laboral</label>
-				<textarea id="txtInfoLaboral" class="form-control" asp-for="miembro.informacionLaboral"></textarea>
-				<span asp-validation-for="miembro.informacionLaboral"></span>
-			</div>
+                                if (encontrado)
+                                {
+                                    <li style="margin-bottom: 5px;  width: 100%; height: auto;" class="form-control">
+                                        <input type="checkbox" name="listaHabilidadesSelec" value="@habilidad" checked="checked">  @habilidad
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li style="margin-bottom: 5px;  width: 100%; height: auto;" class="form-control">
+                                        <input type="checkbox" name="listaHabilidadesSelec" value="@habilidad">  @habilidad
+                                    </li>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            @foreach (string habilidad in Model.listaHabilidadesEstandar)
+                            {
+                                <li style="margin-bottom: 5px;  width: 100%; height: auto;" class="form-control">
+                                    <input type="checkbox" name="listaHabilidadesSelec" value="@habilidad">  @habilidad
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <br />
+                <label for="pasatiemposDrop">Pasatiempos estándar del sitio</label>
+                <div class="btn-group form-group col-lg-offset-4 form-group" id="pasatiemposDrop">
+                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Pasatiempos que realiza <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" style="max-height: 250px; overflow: scroll;">
+                        @if (Model.editar != null)
+                        {
+                            @foreach (string pasatiempo in Model.listaPasatiempoEstandar)
+                            {
+                                int contador = 0;
+                                bool encontrado = false;
+                                while (!encontrado && contador < Model.miembro.pasatiempos.Count)
+                                {
+                                    if (pasatiempo == Model.miembro.pasatiempos[contador])
+                                    {
+                                        encontrado = true;
+                                    }
+                                    contador++;
+                                }
 
-			<div class="btn-group form-group col-lg-offset-4 form-group">
-				<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Idiomas que maneja <span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu" style="background-color:transparent">
-					<li style="margin: 5px 5px" class="form-control"><input type="checkbox" style="margin:5px 5px" name="listaIdiomas" value="Español">Español</li>
-					<li style="margin: 5px 5px" class="form-control"><input type="checkbox" style="margin:5px 5px" name="listaIdiomas" value="Inglés">Inglés</li>
-					<li style="margin: 5px 5px" class="form-control"><input type="checkbox" style="margin:5px 5px" name="listaIdiomas" value="Hindi">Hindi</li>
-					<li style="margin: 5px 5px" class="form-control"><input type="checkbox" style="margin:5px 5px" name="listaIdiomas" value="Árabe">Árabe</li>
-					<li style="margin: 5px 5px" class="form-control"><input type="checkbox" style="margin:5px 5px" name="listaIdiomas" value="Chino">Chino</li>
-					<li style="margin: 5px 5px" class="form-control"><input type="checkbox" style="margin:5px 5px" name="listaIdiomas" value="Ruso">Ruso</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-		<div class="row">
-			<div class="form-group col-lg-offset-5">
-				<input id="btnSubmit" type="submit" class="form-control btn" style="width:200px" value="Crear perfil" />
-			</div>
-		</div>
-	</form>
+                                if (encontrado)
+                                {
+                                    <li style="margin-bottom: 5px;  width: 100%; height: auto;" class="form-control">
+                                        <input type="checkbox" name="listaPasatiemposSelec" value="@pasatiempo" checked="checked">  @pasatiempo
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li style="margin-bottom: 5px;  width: 100%; height: auto;" class="form-control">
+                                        <input type="checkbox" name="listaPasatiemposSelec" value="@pasatiempo">  @pasatiempo
+                                    </li>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            @foreach (string pasatiempo in Model.listaPasatiempoEstandar)
+                            {
+                                <li style="margin-bottom: 5px;  width: 100%; height: auto;" class="form-control">
+                                    <input type="checkbox" name="listaPasatiemposSelec" value="@pasatiempo">  @pasatiempo
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <br />
+                <label for="idiomasDrop">Idiomas</label>
+                <br />
+                <div class="btn-group form-group col-lg-offset-4 form-group" id="idiomasDrop">
+                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Idiomas que maneja <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" style="max-height: 250px; overflow: scroll;">
+                        @if (Model.editar != null)
+                        {
+                            @foreach (string idioma in Model.listaIdiomasEstandar)
+                            {
+                                int contador = 0;
+                                bool encontrado = false;
+                                while (!encontrado && contador < Model.miembro.idiomas.Count)
+                                {
+                                    if (idioma == Model.miembro.idiomas[contador])
+                                    {
+                                        encontrado = true;
+                                    }
+                                    contador++;
+                                }
+
+                                if (encontrado)
+                                {
+                                    <li style="margin-bottom: 5px;  width: 100%; height: auto;" class="form-control">
+                                        <input type="checkbox" name="listaIdiomasSelec" value="@idioma" checked="checked">  @idioma
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li style="margin-bottom: 5px;  width: 100%; height: auto;" class="form-control">
+                                        <input type="checkbox" name="listaIdiomasSelec" value="@idioma">  @idioma
+                                    </li>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            @foreach (string idioma in Model.listaIdiomasEstandar)
+                            {
+                                <li style="margin-bottom: 5px;  width: 100%; height: auto;" class="form-control">
+                                    <input type="checkbox" name="listaIdiomasSelec" value="@idioma">  @idioma
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @if (Model.editar != null)
+            {
+                <div class="form-group col-lg-offset-5">
+                    <button id="btnSubmit" type="submit" class="form-control btn" style="width:200px" asp-page-handler="editar">Editar perfil</button>
+                </div>
+            }
+            else
+            {
+                <div class="form-group col-lg-offset-5">
+                    <button id="btnSubmit" type="submit" class="form-control btn" style="width:200px" asp-page-handler="crear">Crear perfil</button>
+                </div>
+            }
+        </div>
+    </form>
 </div>

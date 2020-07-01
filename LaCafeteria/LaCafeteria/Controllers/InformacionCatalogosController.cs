@@ -17,5 +17,21 @@ namespace LaCafeteria.Controllers
         public List<string> GetIdiomasCatalogo() {
             return informacionCatalogosDBHandler.GetIdiomasCatalogo();
         }
+
+        public List<string> GetHabilidadesCatalogo()
+        {
+            return informacionCatalogosDBHandler.GetHabilidadesCatalogo();
+        }
+
+        public List<string> GetPasatiemposCatalogo()
+        {
+            return informacionCatalogosDBHandler.GetPasatiemposCatalogo();
+        }
+
+        public List<string> GetPaisesCatalogo()
+        {
+            return informacionCatalogosDBHandler.GetPaisesCatalogo();
+        }
+
     }
 }
