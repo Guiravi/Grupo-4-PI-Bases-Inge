@@ -36,6 +36,7 @@ namespace LaCafeteria.Pages
 		private CreadorSolicitudRevisionController creadorSolicitudRevisionController;
 		private InformacionArticuloController informacionArticuloController;
 		private AsignadorRevisoresController asignadorRevisoresController;
+		private DestructorSolicitudRevisionController destructorSolicitudRevisionController;
 
 		public AsignarRevisorModel()
 		{
@@ -49,6 +50,7 @@ namespace LaCafeteria.Pages
 			creadorSolicitudRevisionController = new CreadorSolicitudRevisionController();
 			informacionArticuloController = new InformacionArticuloController();
 			asignadorRevisoresController = new AsignadorRevisoresController();
+			destructorSolicitudRevisionController = new DestructorSolicitudRevisionController();
 		}
 
 		public void OnGet()
@@ -103,12 +105,14 @@ namespace LaCafeteria.Pages
 
 		public IActionResult OnPostAceptarSolicitud()
 		{
-			return Page();
+			asignadorRevisoresController.AsignarRevisor(solicitudUsernamePK, articuloAID);
+			return Redirect("/AsignarRevisor/" + articuloAID);
 		}
 
 		public IActionResult OnPostRechazarSolicitud()
 		{
-			return Page();
+			destructorSolicitudRevisionController.DestruirSolicitudRevision(solicitudUsernamePK, articuloAID);
+			return Redirect("/AsignarRevisor/" + articuloAID);
 		}
 
 		public IActionResult OnPostCancelar()
