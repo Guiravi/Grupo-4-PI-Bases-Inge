@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using LaCafeteria.Models;
 using LaCafeteria.Controllers;
+using LaCafeteria.Utilidades;
 
 namespace LaCafeteria.Pages
 {
@@ -70,15 +71,22 @@ namespace LaCafeteria.Pages
 		}
 
 		public IActionResult OnPostSolicitarColaboracion()
-		{	
-			// TODO: Validar informacion necesaria para solicitar colaboracion
-            string mensaje = "Se le solicita colaboracion para revisar el articulo: " + articulo.titulo;
-			foreach(string usernameMiemFK in listaSolicitados)
-			{
-				creadorSolicitudRevisionController.CrearSolicitudRevision(usernameMiemFK, articuloAID, CreadorSolicitudRevisionController.Solicitado);
-                creadorNotificacionController.CrearNotificacion()
-			}
-			
+		{
+            if ( listaAsignados.Count == 0 )
+            {
+                AvisosInmediatos.Set(this, "listaSolicitadosVacio", "Se necesita agregar a la lista los miembros nucleos que solicitara colaboracion", AvisosInmediatos.TipoAviso.Error);
+            } else
+            {
+                string mensaje = "Se le solicita colaboracion para revisar el articulo: " + articulo.titulo;
+                string url = "/ArticulosPAraRevisionNucleo";
+                foreach ( string usernameMiemFK in listaSolicitados )
+                {
+                    creadorSolicitudRevisionController.CrearSolicitudRevision(usernameMiemFK, articuloAID, CreadorSolicitudRevisionController.Solicitado);
+                    Notificacion notificacion = new Notificacion(usernameMiemFK, mensaje, url);
+                    creadorNotificacionController.CrearNotificacion(notificacion);
+                }
+            }
+
 			return Redirect("/AsignarRevisor/" + articuloAID);
 		}
 
