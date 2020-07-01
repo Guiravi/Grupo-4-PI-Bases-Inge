@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using LaCafeteria.Controllers;
 using LaCafeteria.Models;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LaCafeteria.Pages
 {
-	public class InteresaRevisarModel : PageModel
-	{
+    public class DefinirSolicitudRevisionModel : PageModel
+    {
 		private InformacionArticuloController informacionArticuloController;
 		private DocumentosArticuloController documentosArticuloController;
-		private CreadorSolicitudRevisionController creadorSolicitudRevisionController;
+		private AsignadorRevisoresController asignadorRevisoresController;
+		private DestructorSolicitudRevisionController destructorSolicitudRevisionController;
 
 		[BindProperty(SupportsGet = true)]
 		public int articuloAID { get; set; }
@@ -22,7 +23,7 @@ namespace LaCafeteria.Pages
 		public ArticuloModel articulo { get; set; }
 		public string rutaCarpeta { get; set; }
 
-		public InteresaRevisarModel(IHostingEnvironment env)
+		public DefinirSolicitudRevisionModel(IHostingEnvironment env)
 		{
 			informacionArticuloController = new InformacionArticuloController();
 			rutaCarpeta = env.WebRootPath;
@@ -39,11 +40,20 @@ namespace LaCafeteria.Pages
 			}
 		}
 
-		public ActionResult OnPostMeInteresaRevisar()
+		public ActionResult OnPostAceptaRevision()
 		{
 			string usernamePK = Request.Cookies["usernamePK"];
-			creadorSolicitudRevisionController = new CreadorSolicitudRevisionController();
-			creadorSolicitudRevisionController.CrearSolicitudRevision(usernamePK, articuloAID, CreadorSolicitudRevisionController.Interesa);
+			asignadorRevisoresController = new AsignadorRevisoresController();
+			asignadorRevisoresController.AsignarRevisor(usernamePK, articuloAID);
+			//TODO: Notificar a usuario en pantalla
+			return Redirect("/ArticulosParaRevisionNucleo");
+		}
+
+		public ActionResult OnPostRechazaRevision()
+		{
+			string usernamePK = Request.Cookies["usernamePK"];
+			destructorSolicitudRevisionController = new DestructorSolicitudRevisionController();
+			destructorSolicitudRevisionController.DestruirSolicitudRevision(usernamePK, articuloAID);
 			//TODO: Notificar a usuario en pantalla
 			return Redirect("/ArticulosParaRevisionNucleo");
 		}
