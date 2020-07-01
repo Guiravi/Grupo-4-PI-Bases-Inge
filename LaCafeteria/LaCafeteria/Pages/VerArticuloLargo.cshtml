@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{idArticuloPK}/{paginaAnterior:int}/{username?}"
 @using LaCafeteria.Utilidades
 @model LaCafeteria.Pages.VerArticuloLargoModel
 @{
@@ -28,15 +28,18 @@
     </div>
     <div class="row">
         <div class=" col-md-3">
-            @if (Model.calificacion == null)
+            @if (Model.paginaAnterior == 0)
             {
-                <a href='/Buscar' class="btn btn-lg btn-info text-center" style="position: static" id="volverResumen">Volver</a>
+                <a href='/Buscar' class="btn btn-link btn-lg btn-info text-center">Volver</a>
+            }
+            else if (Model.paginaAnterior == 1)
+            {
+                <a href='/MiPerfil' class="btn btn-link btn-lg btn-info text-center">Volver</a>
             }
             else
             {
-                <a href='/Buscar' class="btn btn-lg btn-info text-center" style="position: static" id="volverResumen">Volver</a>
+                <a href='/VerPerfil/@Model.username' class="btn btn-link btn-lg btn-info text-center">Volver</a>
             }
-
         </div>
         <div class="col-md-6"></div>
 

@@ -16,7 +16,11 @@ namespace LaCafeteria.Pages
         [BindProperty(SupportsGet = true)]
         public int idArticuloPK { get; set; }
 
-        public ArticuloModel articulo { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public int paginaAnterior { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string username { get; set; }
 
         //public ArticuloController articuloController;
 

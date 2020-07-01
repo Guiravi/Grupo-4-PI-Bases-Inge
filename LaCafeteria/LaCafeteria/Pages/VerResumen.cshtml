@@ -251,7 +251,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
-                <a href="/VerArticuloLargo?idArticuloPK=@Model.idArticuloPK" class="btn btn-info btn-lg" onclick="disable(this)">Ver artículo largo completo</a>
+                <a href="/VerArticuloLargo/@Model.idArticuloPK/@Model.paginaAnterior/@Model.username" class="btn btn-info btn-lg" onclick="disable(this)">Ver artículo largo completo</a>
             </div>
             <div class="col-lg-1"></div>
             <div class="col-lg-2 text-primary" style="font-size: 150%;">Visitas: @Model.articulo.visitas</div>
