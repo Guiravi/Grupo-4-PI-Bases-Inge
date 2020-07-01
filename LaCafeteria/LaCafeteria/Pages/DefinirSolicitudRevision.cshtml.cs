@@ -15,6 +15,7 @@ namespace LaCafeteria.Pages
 		private InformacionArticuloController informacionArticuloController;
 		private DocumentosArticuloController documentosArticuloController;
 		private AsignadorRevisoresController asignadorRevisoresController;
+		private DestructorSolicitudRevisionController destructorSolicitudRevisionController;
 
 		[BindProperty(SupportsGet = true)]
 		public int articuloAID { get; set; }
@@ -51,7 +52,8 @@ namespace LaCafeteria.Pages
 		public ActionResult OnPostRechazaRevision()
 		{
 			string usernamePK = Request.Cookies["usernamePK"];
-		
+			destructorSolicitudRevisionController = new DestructorSolicitudRevisionController();
+			destructorSolicitudRevisionController.DestruirSolicitudRevision(usernamePK, articuloAID);
 			//TODO: Notificar a usuario en pantalla
 			return Redirect("/ArticulosParaRevisionNucleo");
 		}
