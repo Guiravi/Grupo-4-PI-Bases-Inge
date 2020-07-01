@@ -62,30 +62,31 @@
 		@* Solicitar colaboracion a miembros de nucleo que no esten asignados (Revisa) o solicitados (PuedeSerRevisor "Solicitado")*@
 		@if (Model.listaMiembrosParaSolicitudRevision.Count > 0)
 		{
-		<form method="post" enctype="multipart/form-data">
+			<form method="post" enctype="multipart/form-data">
 
-			<label for="slctNucleo">Miembros Núcleo</label>
-			<div class="container row">
-				<div class="col-xs-4">
-					<select id="slctNucleo" class="form-control">
-						@foreach (MiembroModel miembro in Model.listaMiembrosParaSolicitudRevision)
-						{
-							<option value="@miembro.usernamePK">@miembro.GetNombreCompleto()</option>
-						}
-					</select>
-				</div>
-				<div>
-					<input type="button" class="btn" value="Agregar a lista" onclick="agregarSolicitudMiembro()" />
-				</div>
-				</div>
-				@* Lista de nucleos solicitados para colaboracion*@
+				<label for="slctNucleo">Miembros Núcleo</label>
+				<div class="container row">
+					<div class="col-xs-4">
+						<select id="slctNucleo" class="form-control">
+							@foreach (MiembroModel miembro in Model.listaMiembrosParaSolicitudRevision)
+							{
+								<option value="@miembro.usernamePK">@miembro.GetNombreCompleto()</option>
+							}
+						</select>
+					</div>
+					<div>
+						<input type="button" class="btn" value="Agregar a lista" onclick="agregarSolicitudMiembro()" />
+					</div>
+					</div>
+					@* Lista de nucleos solicitados para colaboracion*@
 				<div id="nucleosSolicitados">
+					<p id="pListaVacia" class="text-center">Lista vacía</p>
 				</div>
-				<div class="container text-center">
-					<input type="submit" name="cancelar" class="btn btn-danger" value="Cancelar" asp-page-handler="cancelar" />
-					<input type="submit" name="solicitar" class="btn btn-success" value="Solicitar colaboración" asp-page-handler="solicitarcolaboracion" />
-				</div>
-		</form>
+					<div class="container text-center">
+						<input type="submit" name="cancelar" class="btn btn-danger" value="Cancelar" asp-page-handler="cancelar" />
+						<input type="submit" name="solicitar" class="btn btn-success" value="Solicitar colaboración" asp-page-handler="solicitarcolaboracion" />
+					</div>
+			</form>
 		}
 		else
 		{	
@@ -126,12 +127,12 @@
 					}
 				</tbody>
 				</table>
-				}
-				else
-				{
-				<p class="text-center">No hay ningún miembro asignado</p>
-				}
-		</div>
+			}
+			else
+			{
+			<p class="text-center">No hay ningún miembro asignado</p>
+			}
+	</div>
 </div>
 
 <div class="panel">
@@ -164,7 +165,7 @@
 				</div>
 				<div class="container text-center">
 					<input type="submit" name="cancelar" class="btn btn-danger" value="Cancelar" asp-page-handler="cancelar" />
-					<input type="submit" name="solicitar" class="btn btn-success" value="Asignar Revisor" asp-page-handler="asignarrevisor" />
+					<input type="submit" name="solicitar" class="btn btn-success" value="Asignar para revision" asp-page-handler="asignarrevisor" />
 				</div>
 			</form>
 		}
@@ -180,7 +181,12 @@
 		let select = document.getElementById('slctNucleo');
         let option = select[select.selectedIndex];
 
-        if (!miembrosAutores.includes(option.value)) {
+		if (!miembrosAutores.includes(option.value)) {
+			if (document.getElementById("pListaVacia") !== null) {
+				const pListaVacia = document.getElementById("pListaVacia")
+				document.getElementById('nucleosSolicitados').removeChild(pListaVacia);
+			}
+
             const div = document.createElement('div');
             const button = document.createElement('input');
             button.type = "button";
@@ -196,6 +202,13 @@
     function borrarNucleoSolicitado() {
         miembrosAutores.splice(miembrosAutores.indexOf(this.toDelete), 1);
 		document.getElementById('nucleosSolicitados').removeChild(this.parentNode);
+		if (miembrosAutores.length === 0) {
+			const p = document.createElement('p');
+			p.id = 'pListaVacia';
+			p.className = 'text-center';
+			p.innerHTML = 'Lista vacía';
+			document.getElementById('nucleosSolicitados').appendChild(p);
+		}
 	}
 
 	var nucleosAsignados = new Array();
