@@ -29,7 +29,7 @@ namespace LaCafeteria.Pages
 
         public string autores { get; set; }
 
-        public int calificacion;
+        public int? calificacion;
 
         public string contenido;
 
@@ -47,19 +47,31 @@ namespace LaCafeteria.Pages
             if (Request.Cookies["usernamePK"] != null)
             {
                 calificacion = informacionArticuloController.GetCalificacionMiembro(Request.Cookies["usernamePK"], idArticuloPK);
+                TempData["calificacion"] = calificacion;
             }
            
             TempData["idArticuloPK"] = idArticuloPK;
         }
 
         public IActionResult OnPostGustar()
-        {
-            idArticuloPK = (int)TempData["idArticuloPK"]; 
-            calificacion = 1;
+        {            
+            idArticuloPK = (int)TempData["idArticuloPK"];
+            int? calificacionVieja = (int?)TempData["calificacion"];
+            if (calificacionVieja == 1)
+            {
+                Notificaciones.Set(this, "meGusta", "Se ha eliminado su calificación \"Me gusta\"", Notificaciones.TipoNotificacion.Exito);
+                calificacion = null;
+            }
+            else
+            {
+                Notificaciones.Set(this, "meGusta", "Su calificación \"Me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
+                calificacion = 1;
+                TempData["calificacion"] = 1;
+            }           
             calificadorDeArticuloController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, 1);
             SetInformacionArticulo();
             TempData["visto"] = 2;
-            Notificaciones.Set(this, "meGusta", "Su calificación \"Me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
+            TempData["idArticuloPK"] = idArticuloPK;           
 
             return Page();
         }
@@ -67,11 +79,22 @@ namespace LaCafeteria.Pages
         public IActionResult OnPostIgual()
         {
             idArticuloPK = (int)TempData["idArticuloPK"];
-            calificacion = 0;
+            int? calificacionVieja = (int?)TempData["calificacion"];
+            if (calificacionVieja == 0)
+            {
+                Notificaciones.Set(this, "nulo", "Se ha eliminado su calificación \"Nulo\"", Notificaciones.TipoNotificacion.Exito);
+                calificacion = null;
+            }
+            else
+            {
+                Notificaciones.Set(this, "nulo", "Su calificación \"Nulo\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
+                calificacion = 0;
+                TempData["calificacion"] = 0;
+            }          
             calificadorDeArticuloController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, 0);
             SetInformacionArticulo();
             TempData["visto"] = 2;
-            Notificaciones.Set(this, "nulo", "Su calificación \"Nulo\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
+            TempData["idArticuloPK"] = idArticuloPK;         
 
             return Page();
         }
@@ -79,11 +102,24 @@ namespace LaCafeteria.Pages
         public IActionResult OnPostDisgustar()
         {
             idArticuloPK = (int)TempData["idArticuloPK"];
+            int? calificacionVieja = (int?)TempData["calificacion"];
+            if (calificacionVieja == -1)
+            {
+                Notificaciones.Set(this, "noMeGusta", "Se ha eliminado su calificación \"No me gusta\"", Notificaciones.TipoNotificacion.Exito);
+                calificacion = null;
+            }
+            else
+            {
+                Notificaciones.Set(this, "noMeGusta", "Su calificación \"Nulo\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
+                calificacion = -1;
+                TempData["calificacion"] = -1;
+            }
             calificacion = -1;
             calificadorDeArticuloController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, -1);
             SetInformacionArticulo();
             TempData["visto"] = 2;
-            Notificaciones.Set(this, "noMeGusta", "Su calificación \"No me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
+            TempData["idArticuloPK"] = idArticuloPK;
+            
 
             return Page();
         }
