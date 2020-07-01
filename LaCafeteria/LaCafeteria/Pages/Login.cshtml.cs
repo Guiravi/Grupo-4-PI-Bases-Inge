@@ -66,7 +66,11 @@ namespace LaCafeteria.Pages
 		{
 			bool esValido = true;
 
-			if(buscadorMiembrosController.GetMiembro(usernamePK) == null)
+            if (usernamePK == null)
+            {
+                esValido = false;
+            }
+            else if (buscadorMiembrosController.GetMiembro(usernamePK) == null)
 			{
 				esValido = false;
 				AvisosInmediatos.Set(this, "usernameNoExiste", "Ingrese con un nombre de usuario valido", AvisosInmediatos.TipoAviso.Error);
