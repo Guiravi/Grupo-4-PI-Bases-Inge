@@ -1,4 +1,4 @@
-﻿@page "{idArticuloPK}/{tipo}"
+﻿@page "{idArticuloPK}/{tipo}/{paginaAnterior:int}/{username?}"
 @using LaCafeteria.Utilidades
 @model LaCafeteria.Pages.VerResumenModel
 @{
@@ -24,21 +24,17 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            @if (TempData["visto"] != null)
+            @if (Model.paginaAnterior == 0)
             {
-                if ((int)TempData["visto"] == 1)
-                {
-                    <a href='/Buscar' class="btn btn-link btn-lg btn-info text-center">Volver</a>
-                }
-                else
-                {
-                    <a href='/Buscar' class="btn btn-link btn-lg btn-info text-center">Volver</a>
-                }
-
+                <a href='/Buscar' class="btn btn-link btn-lg btn-info text-center">Volver</a>
+            }
+            else if (Model.paginaAnterior == 1)
+            {
+                <a href='/MiPerfil' class="btn btn-link btn-lg btn-info text-center">Volver</a>
             }
             else
             {
-                <a href='/Buscar' class="btn btn-link btn-lg btn-info text-center">Volver</a>
+                <a href='/VerPerfil/@Model.username' class="btn btn-link btn-lg btn-info text-center">Volver</a>
             }
         </div>
         <div class="col-md-6"><h2 class="text-center">@Model.articulo.titulo</h2></div>

@@ -18,6 +18,12 @@ namespace LaCafeteria.Pages
         [BindProperty(SupportsGet =true)]
         public string tipo { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public int paginaAnterior { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string username { get; set; }
+
         [BindProperty]
         public ArticuloModel articulo { get; set; }
 
@@ -47,7 +53,7 @@ namespace LaCafeteria.Pages
             if (Request.Cookies["usernamePK"] != null)
             {
                 calificacion = informacionArticuloController.GetCalificacionMiembro(Request.Cookies["usernamePK"], idArticuloPK);
-                TempData["calificacion"] = calificacion;
+                TempData["calificacion"] = calificacion;              
             }
            
             TempData["idArticuloPK"] = idArticuloPK;

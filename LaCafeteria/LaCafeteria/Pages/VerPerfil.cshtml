@@ -167,33 +167,35 @@
 					<div class="col-md-12">
 
 						@for (int articuloActual = 0; articuloActual < Model.cantResultados; articuloActual++)
-						{
-
-							<div class="panel panel-info">
-								<div class="panel-heading">
-									<div class="container">
-										<div class="row">
-											<div class="col-md-7">
-												<h2 class="panel-title" style="font-size: 125%;"><a href="/VerResumen/@Model.articulosResultado[articuloActual].articuloAID/@Model.articulosResultado[articuloActual].tipo">@Model.articulosResultado[articuloActual].titulo</a></h2>
-											</div>
-											<div class="col-md-3">
-												<h3 class="panel-title" style="text-align: right;">
-													Estado: @Model.articulosResultado[articuloActual].estado
-												</h3>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="panel-body">
-									<ul style="list-style: none;">
-										<li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.articulosResultado[articuloActual].fechaPublicacion)</li>
-										<li><strong>Tipo: </strong>@Model.articulosResultado[articuloActual].tipo</li>
-										<li><strong>Autor(es): </strong>@Model.informacionArticuloController.GetAutoresDeArticuloString(Model.articulosResultado[articuloActual].articuloAID)</li>
-										<li><strong>Tópico(s): </strong>@Model.informacionArticuloController.GetCategoriaTopicosArticulo(Model.articulosResultado[articuloActual].articuloAID)</li>
-									</ul>
-								</div>
-							</div>
-						}
+                        {
+                            if (Model.articulosResultado[articuloActual].estado == "Publicado")
+                            {
+							    <div class="panel panel-info">
+								    <div class="panel-heading">
+									    <div class="container">
+										    <div class="row">
+											    <div class="col-md-7">
+												    <h2 class="panel-title" style="font-size: 125%;"><a href="/VerResumen/@Model.articulosResultado[articuloActual].articuloAID/@Model.articulosResultado[articuloActual].tipo/2/@Model.usernamePK">@Model.articulosResultado[articuloActual].titulo</a></h2>
+											    </div>
+											    <div class="col-md-3">
+												    <h3 class="panel-title" style="text-align: right;">
+													    Estado: @Model.articulosResultado[articuloActual].estado
+												    </h3>
+											    </div>
+										    </div>
+									    </div>
+								    </div>
+								    <div class="panel-body">
+									    <ul style="list-style: none;">
+										    <li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.articulosResultado[articuloActual].fechaPublicacion)</li>
+										    <li><strong>Tipo: </strong>@Model.articulosResultado[articuloActual].tipo</li>
+										    <li><strong>Autor(es): </strong>@Model.informacionArticuloController.GetAutoresDeArticuloString(Model.articulosResultado[articuloActual].articuloAID)</li>
+										    <li><strong>Tópico(s): </strong>@Model.informacionArticuloController.GetCategoriaTopicosArticulo(Model.articulosResultado[articuloActual].articuloAID)</li>
+									    </ul>
+								    </div>
+							    </div>
+                            }
+                        }
 					</div>
 
 				</div>
