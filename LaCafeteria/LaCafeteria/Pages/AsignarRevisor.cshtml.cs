@@ -57,7 +57,7 @@ namespace LaCafeteria.Pages
 
 			listaMiembrosRevisores = buscadorMiembroController.GetListaMiembrosRevisores(articuloAID);
 
-			if(!EsValidoGet())
+			if(!OnGetEsValido())
 			{	
 				//TODO: Setear notificacion de error
 				Redirect("/ArticulosPorRevisar");
@@ -65,17 +65,19 @@ namespace LaCafeteria.Pages
 		}
 
 		public IActionResult OnPostSolicitarColaboracion()
-		{
+		{	
+			// TODO: Validar informacion necesaria para solicitar colaboracion
 			foreach(string usernameMiemFK in listaSolicitados)
 			{
 				creadorSolicitudRevisionController.CrearSolicitudRevision(usernameMiemFK, articuloAID, CreadorSolicitudRevisionController.Solicitado);
 			}
-	
+			
 			return Redirect("/AsignarRevisor/" + articuloAID);
 		}
 
 		public IActionResult OnPostAsignarRevisor()
 		{
+			// TODO: Validar informacion necesaria para asignar revision
 			foreach (string usernameMiemFK in listaAsignados)
 			{
 				asignadorRevisoresController.AsignarRevisor(usernameMiemFK, articuloAID);
@@ -89,7 +91,7 @@ namespace LaCafeteria.Pages
 			return Redirect("/AsignarRevisor/" + articuloAID);
 		}
 
-		private bool EsValidoGet()
+		private bool OnGetEsValido()
 		{
 			bool valido = false;
 			if(articulo != null)

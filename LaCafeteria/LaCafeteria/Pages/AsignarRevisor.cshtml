@@ -79,8 +79,9 @@
 					</div>
 					</div>
 					@* Lista de nucleos solicitados para colaboracion*@
-					<div id="nucleosSolicitados">
-					</div>
+				<div id="nucleosSolicitados">
+					<p id="pListaVacia" class="text-center">Lista vacía</p>
+				</div>
 					<div class="container text-center">
 						<input type="submit" name="cancelar" class="btn btn-danger" value="Cancelar" asp-page-handler="cancelar" />
 						<input type="submit" name="solicitar" class="btn btn-success" value="Solicitar colaboración" asp-page-handler="solicitarcolaboracion" />
@@ -180,7 +181,12 @@
 		let select = document.getElementById('slctNucleo');
         let option = select[select.selectedIndex];
 
-        if (!miembrosAutores.includes(option.value)) {
+		if (!miembrosAutores.includes(option.value)) {
+			if (document.getElementById("pListaVacia") !== null) {
+				const pListaVacia = document.getElementById("pListaVacia")
+				document.getElementById('nucleosSolicitados').removeChild(pListaVacia);
+			}
+
             const div = document.createElement('div');
             const button = document.createElement('input');
             button.type = "button";
@@ -196,6 +202,13 @@
     function borrarNucleoSolicitado() {
         miembrosAutores.splice(miembrosAutores.indexOf(this.toDelete), 1);
 		document.getElementById('nucleosSolicitados').removeChild(this.parentNode);
+		if (miembrosAutores.length === 0) {
+			const p = document.createElement('p');
+			p.id = 'pListaVacia';
+			p.className = 'text-center';
+			p.innerHTML = 'Lista vacía';
+			document.getElementById('nucleosSolicitados').appendChild(p);
+		}
 	}
 
 	var nucleosAsignados = new Array();
