@@ -110,7 +110,7 @@ namespace LaCafeteria.Pages
             }
             else
             {
-                Notificaciones.Set(this, "noMeGusta", "Su calificación \"Nulo\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
+                Notificaciones.Set(this, "noMeGusta", "Su calificación \"No me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
                 calificacion = -1;
                 TempData["calificacion"] = -1;
             }
