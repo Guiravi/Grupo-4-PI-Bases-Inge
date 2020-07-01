@@ -1,10 +1,25 @@
 ﻿@page "{articuloAID}"
-@model LaCafeteria.Pages.InteresaRevisarModel
+@model LaCafeteria.Pages.DefinirSolicitudRevisionModel
 @{
-	ViewData["Title"] = "InteresaRevisar";
+	ViewData["Title"] = "DefinirSolicitudRevision";
 }
 
-<h2>InteresaRevisar</h2>
+<style>
+	.btn-success {
+		color: #fff;
+		background-color: #259959;
+		border-color: #259959;
+	}
+
+	.btn-danger {
+		color: #fff;
+		background-color: #992525;
+		border-color: #992525;
+	}
+</style>
+
+<h2>Solicitud de revisión</h2>
+
 <div class="container">
 	<div class="row">
 		<div class="col-8"></div>
@@ -43,8 +58,9 @@
 	</div>
 	<div class="row text-center">
 		</br>
-		<form method="post">
-			<button type="submit" class="btn btn-info btn-lg" id="idMeInteresaRevisar" asp-page-handler="meinteresarevisar">Me interesa revisar</button>
+		<form method="post" >
+			<button type="submit" class="btn btn-success" id="idAceptarRevision" asp-page-handler="aceptarevision">Aceptar revisón</button>
+			<button type="submit" class="btn btn-danger" id="idRechazarRevision" asp-page-handler="rechazarevision">Rechazar revisón</button>
 		</form>
 	</div>
 </div>
