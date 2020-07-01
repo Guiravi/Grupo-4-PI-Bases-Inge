@@ -120,7 +120,6 @@ namespace LaCafeteria.Pages
                 calificacion = -1;
                 TempData["calificacion"] = -1;
             }
-            calificacion = -1;
             calificadorDeArticuloController.CalificarArticulo(Request.Cookies["usernamePK"], idArticuloPK, -1);
             SetInformacionArticulo();
             TempData["visto"] = 2;
