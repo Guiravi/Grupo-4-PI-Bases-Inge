@@ -6,10 +6,21 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h2 >
+<h2>
     Mis Artículos
 </h2>
-
+@if (AvisosInmediatos.Existe(Model, "articuloGuardado"))
+{
+    @Html.Raw(AvisosInmediatos.Get(Model, "articuloGuardado"));
+}
+@if (AvisosInmediatos.Existe(Model, "articuloEditado"))
+{
+    @Html.Raw(AvisosInmediatos.Get(Model, "articuloEditado"));
+}
+@if (AvisosInmediatos.Existe(Model, "articuloEnviadoRev"))
+{
+    @Html.Raw(AvisosInmediatos.Get(Model, "articuloEnviadoRev"));
+}
 <div class="container">
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#todosArticulos"> Todos </a></li>
@@ -49,7 +60,25 @@
                                 <li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.misArticulos[articuloActual].fechaPublicacion)</li>
                                 <li><strong>Tipo: </strong>@Model.misArticulos[articuloActual].tipo</li>
                                 <li><strong>Autor(es): </strong>@Model.informacionArticuloController.GetAutoresDeArticuloString(Model.misArticulos[articuloActual].articuloAID)</li>
-                                <li><strong>Tópico(s): </strong>@Model.informacionArticuloController.GetCategoriaTopicosArticulo(Model.misArticulos[articuloActual].articuloAID)</li>
+                                <li><strong>Tópico(s): </strong>
+                                    @{List<string> lista = Model.informacionArticuloController.GetCategoriaTopicosArticuloString(Model.misArticulos[articuloActual].articuloAID);
+                                        for (int i = 0; i < lista.Count; i++)
+                                        {
+                                            if (i != lista.Count - 1)
+                                            {
+                                                <text>
+                                                    @lista[i],
+                                                </text>
+                                            }
+                                            else
+                                            {
+                                                <text>
+                                                    @lista[i]
+                                                </text>
+                                            }
+                                        }
+                                    }
+                                </li>
                                 @if (Model.misArticulos[articuloActual].tipo == "Corto")
                                 {
                                     <li style="margin-top: 20px"><a href="/EscribirArticulo/@Model.misArticulos[articuloActual].articuloAID" class="btn">Editar</a></li>
@@ -100,7 +129,25 @@
                                     <li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.misArticulos[articuloActual].fechaPublicacion)</li>
                                     <li><strong>Tipo: </strong>@Model.misArticulos[articuloActual].tipo</li>
                                     <li><strong>Autor(es): </strong>@Model.informacionArticuloController.GetAutoresDeArticuloString(Model.misArticulos[articuloActual].articuloAID)</li>
-                                    <li><strong>Tópico(s): </strong>@Model.informacionArticuloController.GetCategoriaTopicosArticulo(Model.misArticulos[articuloActual].articuloAID)</li>
+                                    <li><strong>Tópico(s): </strong>
+                                    @{List<string> lista = Model.informacionArticuloController.GetCategoriaTopicosArticuloString(Model.misArticulos[articuloActual].articuloAID);
+                                        for (int i = 0; i < lista.Count; i++)
+                                        {
+                                            if (i != lista.Count - 1)
+                                            {
+                                                <text>
+                                                    @lista[i],
+                                                </text>
+                                            }
+                                            else
+                                            {
+                                                <text>
+                                                    @lista[i]
+                                                </text>
+                                            }
+                                        }
+                                    }
+                                    </li>
                                     @if (Model.misArticulos[articuloActual].tipo == "Corto")
                                     {
                                         <li style="margin-top: 20px"><a href="/EscribirArticulo/@Model.misArticulos[articuloActual].articuloAID" class="btn">Editar</a></li>
@@ -155,7 +202,25 @@
                                     <li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.misArticulos[articuloActual].fechaPublicacion)</li>
                                     <li><strong>Tipo: </strong>@Model.misArticulos[articuloActual].tipo</li>
                                     <li><strong>Autor(es): </strong>@Model.informacionArticuloController.GetAutoresDeArticuloString(Model.misArticulos[articuloActual].articuloAID)</li>
-                                    <li><strong>Tópico(s): </strong>@Model.informacionArticuloController.GetCategoriaTopicosArticulo(Model.misArticulos[articuloActual].articuloAID)</li>
+                                    <li><strong>Tópico(s): </strong>
+                                    @{List<string> lista = Model.informacionArticuloController.GetCategoriaTopicosArticuloString(Model.misArticulos[articuloActual].articuloAID);
+                                        for (int i = 0; i < lista.Count; i++)
+                                        {
+                                            if (i != lista.Count - 1)
+                                            {
+                                                <text>
+                                                    @lista[i],
+                                                </text>
+                                            }
+                                            else
+                                            {
+                                                <text>
+                                                    @lista[i]
+                                                </text>
+                                            }
+                                        }
+                                    }
+                                    </li>
                                     @if (Model.misArticulos[articuloActual].tipo == "Corto")
                                     {
                                         <li style="margin-top: 20px"><a href="/EscribirArticulo/@Model.misArticulos[articuloActual].articuloAID" class="btn">Editar</a></li>
@@ -211,7 +276,25 @@
                                     <li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.misArticulos[articuloActual].fechaPublicacion)</li>
                                     <li><strong>Tipo: </strong>@Model.misArticulos[articuloActual].tipo</li>
                                     <li><strong>Autor(es): </strong>@Model.informacionArticuloController.GetAutoresDeArticuloString(Model.misArticulos[articuloActual].articuloAID)</li>
-                                    <li><strong>Tópico(s): </strong>@Model.informacionArticuloController.GetCategoriaTopicosArticulo(Model.misArticulos[articuloActual].articuloAID)</li>
+                                    <li><strong>Tópico(s): </strong>
+                                    @{List<string> lista = Model.informacionArticuloController.GetCategoriaTopicosArticuloString(Model.misArticulos[articuloActual].articuloAID);
+                                        for (int i = 0; i < lista.Count; i++)
+                                        {
+                                            if (i != lista.Count - 1)
+                                            {
+                                                <text>
+                                                    @lista[i],
+                                                </text>
+                                            }
+                                            else
+                                            {
+                                                <text>
+                                                    @lista[i]
+                                                </text>
+                                            }
+                                        }
+                                    }
+                                    </li>
                                     @if (Model.misArticulos[articuloActual].tipo == "Corto")
                                     {
                                         <li style="margin-top: 20px"><a href="/EscribirArticulo/@Model.misArticulos[articuloActual].articuloAID" class="btn">Editar</a></li>
@@ -235,7 +318,7 @@
                 <h3 class="text-center"> No hay artículos para mostrar </h3>
             }
         </div>
-    
+
         <div id="porCorregir" class="tab-pane fade">
             @if (Model.misArticulos.Count != 0)
             {
@@ -267,7 +350,25 @@
                                     <li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.misArticulos[articuloActual].fechaPublicacion)</li>
                                     <li><strong>Tipo: </strong>@Model.misArticulos[articuloActual].tipo</li>
                                     <li><strong>Autor(es): </strong>@Model.informacionArticuloController.GetAutoresDeArticuloString(Model.misArticulos[articuloActual].articuloAID)</li>
-                                    <li><strong>Tópico(s): </strong>@Model.informacionArticuloController.GetCategoriaTopicosArticulo(Model.misArticulos[articuloActual].articuloAID)</li>
+                                    <li><strong>Tópico(s): </strong>
+                                    @{List<string> lista = Model.informacionArticuloController.GetCategoriaTopicosArticuloString(Model.misArticulos[articuloActual].articuloAID);
+                                        for (int i = 0; i < lista.Count; i++)
+                                        {
+                                            if (i != lista.Count - 1)
+                                            {
+                                                <text>
+                                                    @lista[i],
+                                                </text>
+                                            }
+                                            else
+                                            {
+                                                <text>
+                                                    @lista[i]
+                                                </text>
+                                            }
+                                        }
+                                    }
+                                    </li>
                                     @if (Model.misArticulos[articuloActual].tipo == "Corto")
                                     {
                                         <li style="margin-top: 20px"><a href="/EscribirArticulo/@Model.misArticulos[articuloActual].articuloAID" class="btn">Editar</a></li>
