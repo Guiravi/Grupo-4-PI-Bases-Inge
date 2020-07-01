@@ -6,7 +6,15 @@
     ViewData["Title"] = "Enlazar Artículo";
 }
 
-<h2>Enlazar Artículo</h2>
+@{ if ( Model.articulo.estado == EstadoArticulo.EnCorrecciones )
+    {
+        <h2>Corregir Artículo</h2>
+    } else
+    {
+        <h2>Enlazar Artículo</h2>
+    }
+}
+
 @if ( AvisosInmediatos.Existe(Model, "articuloGuardado") )
 {
     @Html.Raw(AvisosInmediatos.Get(Model, "articuloGuardado"));
