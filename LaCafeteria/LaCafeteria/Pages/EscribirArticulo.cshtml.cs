@@ -38,8 +38,6 @@ namespace LaCafeteria.Pages
 
         public string estadoAnterior { set; get; }
 
-
-        //public CorreoController correoController;
         private InformacionCategoriaTopicoController informacionCategoriaTopicoController;
         private BuscadorMiembrosController buscadorMiembrosController;
         private InformacionArticuloController informacionArticuloController;
