@@ -28,7 +28,8 @@ namespace LaCafeteria.Utilidades
 			else
 			{
 				page.TempData[nombre] = "<div class=\"alert alert-danger\"role=\"alert\">" +
-										mensaje +
+                                        "<span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>" +
+										" " + mensaje +
 										"</div>";
 			}
 
