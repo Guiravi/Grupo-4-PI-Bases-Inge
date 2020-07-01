@@ -21,6 +21,24 @@ namespace LaCafeteria.Controllers
 			return buscadorMiembroDBHandler.GetMiembro(usernamePK);
 		}
 
+        public bool CorreoValido(string correo)
+        {
+            bool valido = true;
+            List<MiembroModel> listaMiembros = buscadorMiembroDBHandler.GetListaMiembros();
+            int contador = 0;
+
+            while (valido && contador < listaMiembros.Count)
+            {
+                if (correo == listaMiembros[contador].email)
+                {
+                    valido = false;
+                }
+                contador++;
+            }
+
+            return valido;
+        }
+
 		public List<MiembroModel> GetListaMiembrosModel()
 		{
             return buscadorMiembroDBHandler.GetListaMiembros();
