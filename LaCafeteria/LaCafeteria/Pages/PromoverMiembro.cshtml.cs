@@ -57,17 +57,17 @@ namespace LaCafeteria.Pages
 
             if (nombreRolFK != "Periférico" && nombreRolFK != "Activo" )
             {
-                Notificaciones.Set(this, "rangoInvalido", "El rango de este miembro no califica para poder pormoverse", Notificaciones.TipoNotificacion.Error);
+                AvisosInmediatos.Set(this, "rangoInvalido", "El rango de este miembro no califica para poder pormoverse", AvisosInmediatos.TipoAviso.Error);
             }
             else {
                 if (nombreRolFK == "Núcleo")
                 {
-                    Notificaciones.Set(this, "rangoPeriferico", "El rango de este miembro no se puede votar para aumentar", Notificaciones.TipoNotificacion.Error);
+                    AvisosInmediatos.Set(this, "rangoPeriferico", "El rango de este miembro no se puede votar para aumentar", AvisosInmediatos.TipoAviso.Error);
                 }
                  else
                 {
                     editorMiembroSolicitaSubirRangoNucleoController.VotarPromover(usernamePK,usernameMiembroFK);
-                    Notificaciones.Set(this, "exitoVotar", "Su voto ha sido emitido", Notificaciones.TipoNotificacion.Exito);
+                    AvisosInmediatos.Set(this, "exitoVotar", "Su voto ha sido emitido", AvisosInmediatos.TipoAviso.Exito);
                     revisarVotosAceptacion();
                 }
             }
@@ -82,18 +82,18 @@ namespace LaCafeteria.Pages
 
             if (nombreRolFK != "Periférico" && nombreRolFK != "Activo")
             {
-                Notificaciones.Set(this, "rangoInvalido", "El rango de este miembro no califica para poder pormoverse", Notificaciones.TipoNotificacion.Error);
+                AvisosInmediatos.Set(this, "rangoInvalido", "El rango de este miembro no califica para poder pormoverse", AvisosInmediatos.TipoAviso.Error);
             }
             else
             {
                 if (nombreRolFK == "Núcleo")
                 {
-                    Notificaciones.Set(this, "rangoPeriferico", "El rango de este miembro no se puede votar para aumentar", Notificaciones.TipoNotificacion.Error);
+                    AvisosInmediatos.Set(this, "rangoPeriferico", "El rango de este miembro no se puede votar para aumentar", AvisosInmediatos.TipoAviso.Error);
                 }
                 else
                 {
                     editorMiembroSolicitaSubirRangoNucleoController.VotarRechazar(usernamePK, usernameMiembroFK);
-                    Notificaciones.Set(this, "exitoVotar", "Su voto ha sido emitido", Notificaciones.TipoNotificacion.Exito);
+                    AvisosInmediatos.Set(this, "exitoVotar", "Su voto ha sido emitido", AvisosInmediatos.TipoAviso.Exito);
                     revisarVotosRechazo();
                 }
             }

@@ -6,21 +6,21 @@
 }
 
 <h2>Mi perfil</h2>
-@if (Notificaciones.Existe(Model, "articuloGuardado"))
+@if (AvisosInmediatos.Existe(Model, "articuloGuardado"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "articuloGuardado"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "articuloGuardado"));
 }
-@if (Notificaciones.Existe(Model, "articuloEditado"))
+@if (AvisosInmediatos.Existe(Model, "articuloEditado"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "articuloEditado"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "articuloEditado"));
 }
-@if (Notificaciones.Existe(Model, "articuloEnviadoRev"))
+@if (AvisosInmediatos.Existe(Model, "articuloEnviadoRev"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "articuloEnviadoRev"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "articuloEnviadoRev"));
 }
-@if (Notificaciones.Existe(Model, "Actualizado"))
+@if (AvisosInmediatos.Existe(Model, "Actualizado"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "Actualizado"))
+    @Html.Raw(AvisosInmediatos.Get(Model, "Actualizado"))
 }
 <head>
     <meta charset="utf-8">

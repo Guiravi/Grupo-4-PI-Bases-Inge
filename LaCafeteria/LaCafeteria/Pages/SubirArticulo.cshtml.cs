@@ -122,7 +122,7 @@ namespace LaCafeteria.Pages
             }
             else
             {
-                Notificaciones.Set(this, "init_session_error", "Por favor inicie sesión para poder subir el artículo", Notificaciones.TipoNotificacion.Error);
+                AvisosInmediatos.Set(this, "init_session_error", "Por favor inicie sesión para poder subir el artículo", AvisosInmediatos.TipoAviso.Error);
                 return Redirect("/Login");
             }
             return Page();
@@ -135,7 +135,7 @@ namespace LaCafeteria.Pages
 				articulo.tipo = TipoArticulo.Largo;
 				articulo.estado = EstadoArticulo.EnProgreso;
                 almacenadorArticuloController.GuardarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo);
-				Notificaciones.Set(this, "articuloGuardado", "Su artículo se guardó correctamente", Notificaciones.TipoNotificacion.Exito);
+				AvisosInmediatos.Set(this, "articuloGuardado", "Su artículo se guardó correctamente", AvisosInmediatos.TipoAviso.Exito);
 
                 return Redirect("/MiPerfil");
 			}
@@ -151,7 +151,7 @@ namespace LaCafeteria.Pages
                 articulo.tipo = TipoArticulo.Largo;
                 articulo.estado = EstadoArticulo.EnProgreso;
                 editorArticuloController.EditarArticulo(articulo, listaMiembrosAutores, listaCategoriaTopicosArticulo, rutaCarpeta);
-                Notificaciones.Set(this, "articuloEditado", "Su artículo se editó correctamente", Notificaciones.TipoNotificacion.Exito);
+                AvisosInmediatos.Set(this, "articuloEditado", "Su artículo se editó correctamente", AvisosInmediatos.TipoAviso.Exito);
 
                 return Redirect("/MiPerfil");
             }
@@ -180,7 +180,7 @@ namespace LaCafeteria.Pages
 
                 //correoController.sendNecesitaRevision(articulo.titulo);
 
-                Notificaciones.Set(this, "articuloEnviadoRev", "Su artículo fue enviado a revisión", Notificaciones.TipoNotificacion.Exito);
+                AvisosInmediatos.Set(this, "articuloEnviadoRev", "Su artículo fue enviado a revisión", AvisosInmediatos.TipoAviso.Exito);
 
                 return Redirect("/MiPerfil");
             }
@@ -195,7 +195,7 @@ namespace LaCafeteria.Pages
 			if(archivoArticulo == null)
 			{
 				esValido = false;
-				Notificaciones.Set(this, "archivoArticulo", "Debe seleccionar un archivo para subir", Notificaciones.TipoNotificacion.Error);
+				AvisosInmediatos.Set(this, "archivoArticulo", "Debe seleccionar un archivo para subir", AvisosInmediatos.TipoAviso.Error);
 			}
 			else
 			{
@@ -208,13 +208,13 @@ namespace LaCafeteria.Pages
 
 			if (listaCategoriaTopicosArticulo.Count == 0)
 			{
-				Notificaciones.Set(this, "listaTopicosArticulo", "Debe seleccionar al menos un tópico para su artículo", Notificaciones.TipoNotificacion.Error);
+				AvisosInmediatos.Set(this, "listaTopicosArticulo", "Debe seleccionar al menos un tópico para su artículo", AvisosInmediatos.TipoAviso.Error);
 				esValido = false;
 			}
 
 			if (listaMiembrosAutores.Count == 0)
 			{
-				Notificaciones.Set(this, "listaMiembrosAutores", "Debe seleccionar al menos un autor para su artículo", Notificaciones.TipoNotificacion.Error);
+				AvisosInmediatos.Set(this, "listaMiembrosAutores", "Debe seleccionar al menos un autor para su artículo", AvisosInmediatos.TipoAviso.Error);
 				esValido = false;
 			}
 

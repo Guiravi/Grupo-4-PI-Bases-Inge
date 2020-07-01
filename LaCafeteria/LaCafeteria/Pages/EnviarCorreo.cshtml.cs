@@ -64,7 +64,7 @@ namespace LaCafeteria.Pages
             }
             enviarEmailController.EnviarMail(destino, remitente, asunto, mensaje, filePath);
 
-            Notificaciones.Set(this, "Correo Enviado", "Su correo ha sido enviado exitosamente", Notificaciones.TipoNotificacion.Exito);
+            AvisosInmediatos.Set(this, "Correo Enviado", "Su correo ha sido enviado exitosamente", AvisosInmediatos.TipoAviso.Exito);
             return Redirect("/EnviarCorreo");
         }
     }

@@ -7,17 +7,17 @@
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-@if (Notificaciones.Existe(Model, "meGusta"))
+@if (AvisosInmediatos.Existe(Model, "meGusta"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "meGusta"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "meGusta"));
 }
-@if (Notificaciones.Existe(Model, "nulo"))
+@if (AvisosInmediatos.Existe(Model, "nulo"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "nulo"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "nulo"));
 }
-@if (Notificaciones.Existe(Model, "noMeGusta"))
+@if (AvisosInmediatos.Existe(Model, "noMeGusta"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "noMeGusta"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "noMeGusta"));
 }
 
 <br />

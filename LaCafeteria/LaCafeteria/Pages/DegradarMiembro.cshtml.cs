@@ -40,17 +40,17 @@ namespace LaCafeteria.Pages
         {
             if (nombreRolFK != "Periférico" && nombreRolFK != "Activo" && nombreRolFK != "Núcleo")
             {
-                Notificaciones.Set(this, "rangoInvalido", "El rango de este miembro no califica para degradar", Notificaciones.TipoNotificacion.Error);
+                AvisosInmediatos.Set(this, "rangoInvalido", "El rango de este miembro no califica para degradar", AvisosInmediatos.TipoAviso.Error);
             }
             else {
                 if (nombreRolFK == "Periférico")
                 {
-                    Notificaciones.Set(this, "rangoPeriferico", "El rango de este miembro no se puede degradar más", Notificaciones.TipoNotificacion.Error);
+                    AvisosInmediatos.Set(this, "rangoPeriferico", "El rango de este miembro no se puede degradar más", AvisosInmediatos.TipoAviso.Error);
                 }
                  else
                  {
                     miembroController.DegradarMiembro(usernamePK,nombreRolFK);
-                    Notificaciones.Set(this, "exitoDegradar", "El rango de este miembro fue degradado exitosamente", Notificaciones.TipoNotificacion.Exito);
+                    AvisosInmediatos.Set(this, "exitoDegradar", "El rango de este miembro fue degradado exitosamente", AvisosInmediatos.TipoAviso.Exito);
                     string mensaje = "Su rango ha sido degradado";
                     Notificacion notificacion = new Notificacion(usernamePK, mensaje, null);
                     creadorNotificacionController.CrearNotificacion(notificacion);

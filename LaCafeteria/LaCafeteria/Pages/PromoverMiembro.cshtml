@@ -8,17 +8,17 @@
 <h2>Lista de miembros</h2>
 
 <input class="form-control" id="inputBusqueda" type="text" placeholder="Buscar miembro..">
-@if (Notificaciones.Existe(Model, "rangoInvalido"))
+@if (AvisosInmediatos.Existe(Model, "rangoInvalido"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "rangoInvalido"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "rangoInvalido"));
 }
-@if (Notificaciones.Existe(Model, "rangoPeriferico"))
+@if (AvisosInmediatos.Existe(Model, "rangoPeriferico"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "rangoPeriferico"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "rangoPeriferico"));
 }
-@if (Notificaciones.Existe(Model, "exitoVotar"))
+@if (AvisosInmediatos.Existe(Model, "exitoVotar"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "exitoVotar"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "exitoVotar"));
 }
 
 <table class="table-hover table-striped table ">

@@ -63,7 +63,7 @@ namespace LaCafeteria.Pages
             }
             else
             {
-                Notificaciones.Set(this, "init_session_error", "Por favor inicie sesión para poder ver el artículo", Notificaciones.TipoNotificacion.Error);
+                AvisosInmediatos.Set(this, "init_session_error", "Por favor inicie sesión para poder ver el artículo", AvisosInmediatos.TipoAviso.Error);
                 return Redirect("/Login");
             }
             return Page();
@@ -76,12 +76,12 @@ namespace LaCafeteria.Pages
             int? calificacionVieja = (int?)TempData["calificacion"];
             if (calificacionVieja == 1)
             {
-                Notificaciones.Set(this, "meGusta", "Se ha eliminado su calificación \"Me gusta\"", Notificaciones.TipoNotificacion.Exito);
+                AvisosInmediatos.Set(this, "meGusta", "Se ha eliminado su calificación \"Me gusta\"", AvisosInmediatos.TipoAviso.Exito);
                 calificacion = null;
             }
             else
             {
-                Notificaciones.Set(this, "meGusta", "Su calificación \"Me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
+                AvisosInmediatos.Set(this, "meGusta", "Su calificación \"Me gusta\" ha sido guardada", AvisosInmediatos.TipoAviso.Exito);
                 calificacion = 1;
                 TempData["calificacion"] = 1;
             }
@@ -99,12 +99,12 @@ namespace LaCafeteria.Pages
             int? calificacionVieja = (int?)TempData["calificacion"];
             if (calificacionVieja == 0)
             {
-                Notificaciones.Set(this, "nulo", "Se ha eliminado su calificación \"Nulo\"", Notificaciones.TipoNotificacion.Exito);
+                AvisosInmediatos.Set(this, "nulo", "Se ha eliminado su calificación \"Nulo\"", AvisosInmediatos.TipoAviso.Exito);
                 calificacion = null;
             }
             else
             {
-                Notificaciones.Set(this, "nulo", "Su calificación \"Nulo\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
+                AvisosInmediatos.Set(this, "nulo", "Su calificación \"Nulo\" ha sido guardada", AvisosInmediatos.TipoAviso.Exito);
                 calificacion = 0;
                 TempData["calificacion"] = 0;
             }
@@ -122,12 +122,12 @@ namespace LaCafeteria.Pages
             int? calificacionVieja = (int?)TempData["calificacion"];
             if (calificacionVieja == -1)
             {
-                Notificaciones.Set(this, "noMeGusta", "Se ha eliminado su calificación \"No me gusta\"", Notificaciones.TipoNotificacion.Exito);
+                AvisosInmediatos.Set(this, "noMeGusta", "Se ha eliminado su calificación \"No me gusta\"", AvisosInmediatos.TipoAviso.Exito);
                 calificacion = null;
             }
             else
             {
-                Notificaciones.Set(this, "noMeGusta", "Su calificación \"No me gusta\" ha sido guardada", Notificaciones.TipoNotificacion.Exito);
+                AvisosInmediatos.Set(this, "noMeGusta", "Su calificación \"No me gusta\" ha sido guardada", AvisosInmediatos.TipoAviso.Exito);
                 calificacion = -1;
                 TempData["calificacion"] = -1;
             }

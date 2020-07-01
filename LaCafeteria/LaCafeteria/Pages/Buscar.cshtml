@@ -10,14 +10,14 @@
 
 <br />
 
-@if (Notificaciones.Existe(Model, "busquedaVacio"))
+@if (AvisosInmediatos.Existe(Model, "busquedaVacio"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "busquedaVacio"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "busquedaVacio"));
 }
 
-@if (Notificaciones.Existe(Model, "ningunTopico"))
+@if (AvisosInmediatos.Existe(Model, "ningunTopico"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "ningunTopico"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "ningunTopico"));
 }
 
 <div class="container">

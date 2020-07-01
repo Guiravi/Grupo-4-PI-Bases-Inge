@@ -69,21 +69,21 @@ namespace LaCafeteria.Pages
             string estadoArticulo = EstadoArticulo.Rechazado;
             editorArticuloController.ActualizarEstadoArticulo(idArticuloPK, estadoArticulo);
 
-            Notificaciones.Set(this, "Aceptar", "El artículo ha sido rechazado", Notificaciones.TipoNotificacion.Exito);
+            AvisosInmediatos.Set(this, "Aceptar", "El artículo ha sido rechazado", AvisosInmediatos.TipoAviso.Exito);
             return Redirect("/VerRevision/" + idArticuloPK + "/" + tipoArticulo);
         }
         public IActionResult OnPostAceptarConModificaciones() {
             string estadoArticulo = EstadoArticulo.EnCorrecciones;
             editorArticuloController.ActualizarEstadoArticulo(idArticuloPK, estadoArticulo);
 
-            Notificaciones.Set(this, "Aceptar", "El artículo ha sido aceptado con correcciones", Notificaciones.TipoNotificacion.Exito);
+            AvisosInmediatos.Set(this, "Aceptar", "El artículo ha sido aceptado con correcciones", AvisosInmediatos.TipoAviso.Exito);
             return Redirect("/VerRevision/" + idArticuloPK + "/" + tipoArticulo);
         }
         public IActionResult OnPostAceptar() {
             string estadoArticulo = EstadoArticulo.Publicado;
             editorArticuloController.ActualizarEstadoArticulo(idArticuloPK, estadoArticulo);
 
-            Notificaciones.Set(this, "Aceptar", "El artículo ha sido aceptado", Notificaciones.TipoNotificacion.Exito);
+            AvisosInmediatos.Set(this, "Aceptar", "El artículo ha sido aceptado", AvisosInmediatos.TipoAviso.Exito);
             return Redirect("/VerRevision/" + idArticuloPK + "/" + tipoArticulo);
         }
     }

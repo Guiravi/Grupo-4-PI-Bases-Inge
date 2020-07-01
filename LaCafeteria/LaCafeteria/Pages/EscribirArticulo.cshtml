@@ -15,9 +15,9 @@
     }
 }
 
-@if ( Notificaciones.Existe(Model, "articuloGuardado") )
+@if ( AvisosInmediatos.Existe(Model, "articuloGuardado") )
 {
-    @Html.Raw(Notificaciones.Get(Model, "articuloGuardado"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "articuloGuardado"));
 }
 <form method="post">
     <div class="form-group">
@@ -34,9 +34,9 @@
             }
         </select>
         <input type="button" class="btn" value="Agregar autor" onclick="agregarAutor()" />
-        @if ( Notificaciones.Existe(Model, "listaMiembrosAutores") )
+        @if ( AvisosInmediatos.Existe(Model, "listaMiembrosAutores") )
         {
-            @Html.Raw(Notificaciones.Get(Model, "listaMiembrosAutores"));
+            @Html.Raw(AvisosInmediatos.Get(Model, "listaMiembrosAutores"));
         }
         <div id="autores">
         </div>
@@ -69,9 +69,9 @@
             <div class="form-group col-lg-4">
                 <div class="row">
                     <div class="btn-group" style="margin-top: 25px">
-                        @if ( Notificaciones.Existe(Model, "listaTopicosArticulo") )
+                        @if ( AvisosInmediatos.Existe(Model, "listaTopicosArticulo") )
                         {
-                            @Html.Raw(Notificaciones.Get(Model, "listaTopicosArticulo"));
+                            @Html.Raw(AvisosInmediatos.Get(Model, "listaTopicosArticulo"));
                         }
                         <button type="button" class="btn btn-info">Seleccione tópicos</button>
                         <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

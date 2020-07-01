@@ -44,7 +44,7 @@ namespace LaCafeteria.Pages
 			if (cerrarSesion != null)
 			{
 				Response.Cookies.Delete("usernamePK");
-				Notificaciones.Set(this, "cerrarSesion", "Se ha cerrado la sesión", Notificaciones.TipoNotificacion.Exito);
+				AvisosInmediatos.Set(this, "cerrarSesion", "Se ha cerrado la sesión", AvisosInmediatos.TipoAviso.Exito);
 				return Redirect("/Login");
 			}
 
@@ -61,7 +61,7 @@ namespace LaCafeteria.Pages
 				List<Notificacion> listaNotificaciones = informacionMiembroController.GetNotificaciones(usernamePK);
 				HttpContext.Session.SetComplexData("listaNotificaciones", listaNotificaciones);
 				HttpContext.Session.SetInt32("cantidadNotificacionesNuevas", GetCantidadNotificacionesNuevas(listaNotificaciones));
-				Notificaciones.Set(this, "sesionIniciada", "Sesión iniciada", Notificaciones.TipoNotificacion.Exito);
+				AvisosInmediatos.Set(this, "sesionIniciada", "Sesión iniciada", AvisosInmediatos.TipoAviso.Exito);
 				return Redirect("/Index");
 			}
 
@@ -75,7 +75,7 @@ namespace LaCafeteria.Pages
 			if(buscadorMiembrosController.GetMiembro(usernamePK) == null)
 			{
 				esValido = false;
-				Notificaciones.Set(this, "usernameNoExiste", "Ingrese con un nombre de usuario valido", Notificaciones.TipoNotificacion.Error);
+				AvisosInmediatos.Set(this, "usernameNoExiste", "Ingrese con un nombre de usuario valido", AvisosInmediatos.TipoAviso.Error);
 			}
 
 			return esValido && ModelState.IsValid;

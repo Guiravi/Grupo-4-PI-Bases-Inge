@@ -6,17 +6,17 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-@if (Notificaciones.Existe(Model, "meGusta"))
+@if (AvisosInmediatos.Existe(Model, "meGusta"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "meGusta"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "meGusta"));
 }
-@if (Notificaciones.Existe(Model, "nulo"))
+@if (AvisosInmediatos.Existe(Model, "nulo"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "nulo"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "nulo"));
 }
-@if (Notificaciones.Existe(Model, "noMeGusta"))
+@if (AvisosInmediatos.Existe(Model, "noMeGusta"))
 {
-    @Html.Raw(Notificaciones.Get(Model, "noMeGusta"));
+    @Html.Raw(AvisosInmediatos.Get(Model, "noMeGusta"));
 }
 
 <div class="container">

@@ -7,19 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LaCafeteria.Utilidades
 {
-	public static class Notificaciones
+	public static class AvisosInmediatos
 	{
-		public enum TipoNotificacion
+		public enum TipoAviso
 		{
 			Exito = 0,
 			Error = 1
 		}
 
-		public static void Set(PageModel page , string nombre, string mensaje, TipoNotificacion tipo)
+		public static void Set(PageModel page , string nombre, string mensaje, TipoAviso tipo)
 		{
 			
 
-			if (tipo == TipoNotificacion.Exito)
+			if (tipo == TipoAviso.Exito)
 			{
 				page.TempData[nombre] = "<div class=\"alert alert-success\"role=\"alert\">" +
 										mensaje +
