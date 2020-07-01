@@ -50,7 +50,7 @@ namespace LaCafeteria.Pages
                         foreach ( var miembro in miembros )
                         {
                             string mensaje = "Hay que revisar la solicitud para subir de rango del miembro " + usernamePK;
-                            Notificacion notificacion = new Notificacion(miembro.usernamePK, mensaje, null);
+                            Notificacion notificacion = new Notificacion(miembro.usernamePK, mensaje, "/PromoverMiembro");
                             creadorNotificacionController.CrearNotificacion(notificacion);
                         }
                     } else
