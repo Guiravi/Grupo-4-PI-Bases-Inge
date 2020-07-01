@@ -28,7 +28,7 @@ namespace LaCafeteria.Pages
         }
 
         public void OnGet() {
-            if ( nombreRolFK != "nulo" )
+            if ( nombreRolFK != null )
             {
                 Degradar();
             }
