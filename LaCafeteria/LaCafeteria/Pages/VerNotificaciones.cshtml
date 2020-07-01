@@ -6,27 +6,55 @@
 	ViewData["Title"] = "VerNotificaciones";
 }
 
-<h2>Mis notificaciones</h2>
+<h2 style="font-weight:bolder">Mis notificaciones</h2>
 <div class="container-fluid">
 	@{
 		List<Notificacion> listaNotificaciones = HttpContext.Session.GetComplexData<List<Notificacion>>("listaNotificaciones");
 
 		if (listaNotificaciones != null && listaNotificaciones.Count != 0)
 		{	<form method="post">
-			@foreach (Notificacion notificacion in listaNotificaciones)
-			{
-				<div class="row">
-					<div class="col-md-1 notificacion" style="background-color:lightgray; width:100px"><p style="margin-top:30px; margin-bottom:2px; height:100%">@notificacion.fechaCreacion</p></div>
-					<div class="col-md-9"><button id="notificacionAID" name="notificacionAID" type="submit" class="notificacion" value="@notificacion.notificacionAID"><div><p style="color:white;">@notificacion.mensaje</p></div></button></div>
-					<div class="col-md-2">					
-					</div>
-				</div>
-			}
-			</form>
+    @foreach (Notificacion notificacion in listaNotificaciones)
+    {
+        if (notificacion.estado == "Nueva")
+        {
+            <div class="row">
+                <div style="border:1px solid black;border-left-width:10px;border-color:slategrey; background-color:#e1e5ee;border-radius:3px;border-left-color:brown;margin-bottom:5px;margin-top:5px">
+                    <button id="notificacionAID" name="notificacionAID" type="submit" style="background-color:#e1e5ee" class="notificacion" value="@notificacion.notificacionAID">
+                        <p style="font-weight:bolder;color:#444554;">
+                            @notificacion.mensaje
+                        </p>
+                    </button>
+                    <div style="background-color:#e1e5ee;text-align:right;color:#444554;">
+                        <small> @notificacion.fechaCreacion </small>
+                    </div>
+                    <div style="background-color:#e1e5ee">
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div style="border:1px solid black;border-color:slategrey; background-color:#e1e5ee;border-radius:3px;margin-bottom:5px;margin-top:5px">
+                    <button id="notificacionAID" name="notificacionAID" type="submit" style="background-color:#e1e5ee" class="notificacion" value="@notificacion.notificacionAID">
+                        <p style="font-weight:bolder;color:#444554;">
+                            @notificacion.mensaje
+                        </p>
+                    </button>
+                    <div style="background-color:#e1e5ee;text-align:right;color:#444554;">
+                        <small> @notificacion.fechaCreacion </small>
+                    </div>
+                    <div style="background-color:#e1e5ee">
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</form>
 		}
 		else
 		{
 			<p> No hay notificaciones disponibles</p>
 		}
 	}
-</div">
+</div>
