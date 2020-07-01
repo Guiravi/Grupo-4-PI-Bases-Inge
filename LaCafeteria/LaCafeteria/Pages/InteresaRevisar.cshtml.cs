@@ -14,6 +14,7 @@ namespace LaCafeteria.Pages
 	{
 		private InformacionArticuloController informacionArticuloController;
 		private DocumentosArticuloController documentosArticuloController;
+		private CreadorSolicitudRevisionController creadorSolicitudRevisionController;
 
 		[BindProperty(SupportsGet = true)]
 		public int articuloAID { get; set; }
@@ -40,8 +41,11 @@ namespace LaCafeteria.Pages
 
 		public ActionResult OnPostMeInteresaRevisar()
 		{
-
-			return Redirect("InteresaRevisar");
+			string usernamePK = Request.Cookies["usernamePK"];
+			creadorSolicitudRevisionController = new CreadorSolicitudRevisionController();
+			creadorSolicitudRevisionController.CrearSolicitudRevision(usernamePK, articuloAID, CreadorSolicitudRevisionController.Interesa);
+			//TODO: Notificar a usuario en pantalla
+			return Redirect("/ArticulosPorRevisar");
 		}
 	}
 }
