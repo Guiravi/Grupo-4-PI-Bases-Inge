@@ -426,6 +426,7 @@ namespace LaCafeteria.Models.Handlers
 								            A.puntajeTotalRev, A.calificacionTotalMiem
 									FROM Articulo AS A, MiembroAutorDeArticulo AS MADA
 									WHERE @usernamePK = MADA.usernameMiemFK AND
+									A.articuloAID = MADA.idArticuloFK AND
 									estado = 'Requiere Revisión' AND
 									NOT EXISTS(SELECT 1 
 											   FROM NucleoPuedeSerRevisorDeArticulo
@@ -458,7 +459,6 @@ namespace LaCafeteria.Models.Handlers
 								puntajeTotalRev = (!DBNull.Value.Equals(dataReader["puntajeTotalRev"])) ? (double?)dataReader["puntajeTotalRev"] : null,
 								calificacionTotalMiem = (int) dataReader["calificacionTotalMiem"]
 							};
-
 
 							listaArticulosParaRevisarNucleo.Add(articulo);
 						}
