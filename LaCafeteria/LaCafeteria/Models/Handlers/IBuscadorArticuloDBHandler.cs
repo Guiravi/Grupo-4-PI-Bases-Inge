@@ -4,6 +4,9 @@ namespace LaCafeteria.Models.Handlers
 {
     public interface IBuscadorArticuloDBHandler
     {
+        List<ArticuloModel> GetArticulosNucleoEsSolicitado(string usernamePK);
+        List<ArticuloModel> GetArticulosNucleoLeInteresa(string usernamePK);
+        List<ArticuloModel> GetArticulosParaRevisarNucleo(string usernamePK);
         List<ArticuloModel> GetArticulosPorAutorYTipo(string autores, int tipos);
         List<ArticuloModel> GetArticulosPorEstado(string estadoArticulo);
         List<ArticuloModel> GetArticulosPorEstadoAsignaMiem(string estadoArticulo, string username);
