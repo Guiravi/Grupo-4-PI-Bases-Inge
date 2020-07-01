@@ -36,6 +36,7 @@ namespace LaCafeteria.Pages
 		private CreadorSolicitudRevisionController creadorSolicitudRevisionController;
 		private InformacionArticuloController informacionArticuloController;
 		private AsignadorRevisoresController asignadorRevisoresController;
+		private DestructorSolicitudRevisionController destructorSolicitudRevisionController;
 
 		public AsignarRevisorModel()
 		{
@@ -49,6 +50,7 @@ namespace LaCafeteria.Pages
 			creadorSolicitudRevisionController = new CreadorSolicitudRevisionController();
 			informacionArticuloController = new InformacionArticuloController();
 			asignadorRevisoresController = new AsignadorRevisoresController();
+			destructorSolicitudRevisionController = new DestructorSolicitudRevisionController();
 		}
 
 		public void OnGet()
@@ -72,10 +74,11 @@ namespace LaCafeteria.Pages
 
 		public IActionResult OnPostSolicitarColaboracion()
 		{
-            if ( listaAsignados.Count == 0 )
+            if( listaAsignados.Count == 0 )
             {
                 AvisosInmediatos.Set(this, "listaSolicitadosVacio", "Se necesita agregar a la lista los miembros nucleos que solicitara colaboracion", AvisosInmediatos.TipoAviso.Error);
-            } else
+            }
+			else
             {
                 string mensaje = "Se le solicita colaboracion para revisar el articulo: " + articulo.titulo;
                 string url = "/ArticulosParaRevisionNucleo";
@@ -92,27 +95,38 @@ namespace LaCafeteria.Pages
 
 		public IActionResult OnPostAsignarRevisor()
 		{
-            // TODO: Validar informacion necesaria para asignar revision
-            string mensaje = "Se le ha asignado para revisar el articulo: " + articulo.titulo;
-            string url = "/ArticulosParaRevisionNucleo";
-            foreach (string usernameMiemFK in listaAsignados)
-            {
-                creadorSolicitudRevisionController.CrearSolicitudRevision(usernameMiemFK, articuloAID, CreadorSolicitudRevisionController.Solicitado);
-                Notificacion notificacion = new Notificacion(usernameMiemFK, mensaje, url);
-                asignadorRevisoresController.AsignarRevisor(usernameMiemFK, articuloAID);
+			if (listaAsignados.Count == 0)
+			{
+				AvisosInmediatos.Set(this, "listaAsignadosVacio", "Se necesita agregar a la lista los miembros nucleos que va a asignar como revisores", AvisosInmediatos.TipoAviso.Error);
 			}
-
+			{
+				foreach (string usernameMiemFK in listaAsignados)
+				{
+					asignadorRevisoresController.AsignarRevisor(usernameMiemFK, articuloAID);
+					ArticuloModel articulo = informacionArticuloController.GetInformacionArticuloModel(articuloAID);
+					Notificacion notificacion = new Notificacion(usernameMiemFK, "Usted ha sido asignado como revisor del artículo " + articulo.titulo, "/MisArticulosPorRevisar" );
+					creadorNotificacionController.CrearNotificacion(notificacion);
+				}
+			}
 			return Redirect("/AsignarRevisor/" + articuloAID);
 		}
 
 		public IActionResult OnPostAceptarSolicitud()
 		{
-			return Page();
+			asignadorRevisoresController.AsignarRevisor(solicitudUsernamePK, articuloAID);
+			ArticuloModel articulo = informacionArticuloController.GetInformacionArticuloModel(articuloAID);
+			Notificacion notificacion = new Notificacion(solicitudUsernamePK, "Usted ha sido aceptado como revisor del artículo " + articulo.titulo, "/MisArticulosPorRevisar");
+			creadorNotificacionController.CrearNotificacion(notificacion);
+			return Redirect("/AsignarRevisor/" + articuloAID);
 		}
 
 		public IActionResult OnPostRechazarSolicitud()
 		{
-			return Page();
+			ArticuloModel articulo = informacionArticuloController.GetInformacionArticuloModel(articuloAID);
+			Notificacion notificacion = new Notificacion(solicitudUsernamePK, "Usted ha sido rechazado como revisor del artículo " + articulo.titulo, "/MisArticulosPorRevisar");
+			creadorNotificacionController.CrearNotificacion(notificacion);
+			destructorSolicitudRevisionController.DestruirSolicitudRevision(solicitudUsernamePK, articuloAID);
+			return Redirect("/AsignarRevisor/" + articuloAID);
 		}
 
 		public IActionResult OnPostCancelar()

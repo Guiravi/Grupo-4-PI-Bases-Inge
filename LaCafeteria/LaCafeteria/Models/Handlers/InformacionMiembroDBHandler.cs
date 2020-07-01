@@ -200,7 +200,7 @@ namespace LaCafeteria.Models.Handlers
                                     FROM [dbo].[Miembro] M
                                     JOIN [dbo].[MiembroHabilidad] MH
 	                                    ON M.usernamePK = MH.usernameFK
-                                    WHERE	MH.habilidad IN (SELECT habilidadPK
+                                    WHERE	MH.habilidadFK IN (SELECT habilidadPK
 						                                    FROM [Catalogo].[Habilidad])
                                     GROUP BY M.paisFK, MH.habilidadFK
                                     ORDER BY MH.habilidadFK, M.paisFK";
