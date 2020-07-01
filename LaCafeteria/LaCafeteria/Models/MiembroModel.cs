@@ -14,8 +14,8 @@ namespace LaCafeteria.Models
 		public string usernamePK { get; set; }
 
 		[BindProperty]
-		[Required(ErrorMessage = "Debe introducir un correo electronico")]
-		[EmailAddressAttribute(ErrorMessage = "Debe introducir un correo electronico valido")]
+		[Required(ErrorMessage = "Debe introducir un correo electrónico")]
+		[EmailAddressAttribute(ErrorMessage = "Debe introducir un correo electrónico válido")]
 		public string email { get; set; }
 
 		[BindProperty]
