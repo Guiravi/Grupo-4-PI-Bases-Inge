@@ -148,16 +148,44 @@
                         <h3 class="panel-title">Habilidades</h3>
                     </div>
                     <div class="panel-body">
-                        @Model.miembro.habilidades @*/hacer un foreach*@
+                        @for (int i = 0; i < Model.miembro.habilidades.Count; i++)
+                        {
+                            if (i != Model.miembro.habilidades.Count - 1)
+                            {
+                                <text>
+                                    @Html.Raw(Model.miembro.habilidades[i]),
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    @Html.Raw(Model.miembro.habilidades[i])
+                                </text>
+                            }
+                        }
                     </div>
                 </div>
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Hobbies</h3>
+                        <h3 class="panel-title">Pasatiempos</h3>
                     </div>
                     <div class="panel-body">
-                        @Model.miembro.pasatiempos @*/hacer un foreach*@
+                        @for (int i = 0; i < Model.miembro.pasatiempos.Count; i++)
+                        {
+                            if (i != Model.miembro.pasatiempos.Count - 1)
+                            {
+                                <text>
+                                    @Html.Raw(Model.miembro.pasatiempos[i]),
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    @Html.Raw(Model.miembro.pasatiempos[i])
+                                </text>
+                            }
+                        }
                     </div>
                 </div>
 
@@ -166,7 +194,21 @@
                         <h3 class="panel-title">Idiomas</h3>
                     </div>
                     <div class="panel-body">
-                        @Model.miembro.idiomas @*/hacer un foreach*@
+                        @for (int i = 0; i < Model.miembro.idiomas.Count; i++)
+                        {
+                            if (i != Model.miembro.idiomas.Count - 1)
+                            {
+                                <text>
+                                    @Html.Raw(Model.miembro.idiomas[i]),
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    @Html.Raw(Model.miembro.idiomas[i])
+                                </text>
+                            }
+                        }
                     </div>
                 </div>
 

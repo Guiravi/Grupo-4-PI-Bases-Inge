@@ -20,7 +20,7 @@ namespace LaCafeteria.Models.Handlers
 
 				string sqlString = @"SELECT notificacionAID, usernameFK, fechaCreacion, mensaje, estado, url
 								     FROM Notificacion WHERE @usernamePK = usernameFK
-									 ORDER BY fechaCreacion, estado DESC";
+									 ORDER BY fechaCreacion DESC, estado DESC";
 
 				sqlConnection.Open();
 				using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))

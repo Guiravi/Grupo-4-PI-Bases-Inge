@@ -36,7 +36,7 @@ namespace LaCafeteria.Pages
 
         public void OnGet() {
             usernameMiembroFK = Request.Cookies["usernamePK"];
-            if ( nombreRolFK != "nulo" )
+            if ( nombreRolFK != null )
             {
                 rolNucleoFK = buscadorMiembroController.GetRango(usernameMiembroFK);
                 if ( aceptar == 1 )
@@ -114,9 +114,10 @@ namespace LaCafeteria.Pages
                 double porcentajeRechazados = ((double) votosRechazados / (double) votosTotales) * (double) 100;
                 if ( porcentajeRechazados == 50 && porcentajeAceptacion == 50 )
                 {
-                    string mensaje = "Su rango no pudo ser promovdio dado un empate de votos";
+                    string mensaje = "Su rango no pudo ser promovido dado un empate de votos";
                     Notificacion notificacion = new Notificacion(usernamePK, mensaje, null);
                     creadorNotificacionController.CrearNotificacion(notificacion);
+                    editorMiembroSolicitaSubirRangoNucleoController.BorrarSolicitudes(usernamePK);
                 }
             }
         }
@@ -129,7 +130,7 @@ namespace LaCafeteria.Pages
             {
 
                 editorMiembroSolicitaSubirRangoNucleoController.BorrarSolicitudes(usernamePK);
-                string mensaje = "Su rango ha sido promovido ya que no tuvo la aprobación mínima";
+                string mensaje = "Su rango no ha sido promovido ya que no tuvo la aprobación mínima";
                 Notificacion notificacion = new Notificacion(usernamePK, mensaje, null);
                 creadorNotificacionController.CrearNotificacion(notificacion);
                 /*Notificacion Rechazo*/
@@ -142,6 +143,7 @@ namespace LaCafeteria.Pages
                     string mensaje = "Su rango no pudo ser promovdio dado un empate de votos";
                     Notificacion notificacion = new Notificacion(usernamePK, mensaje, null);
                     creadorNotificacionController.CrearNotificacion(notificacion);
+                    editorMiembroSolicitaSubirRangoNucleoController.BorrarSolicitudes(usernamePK);
                 }
             }
         }
