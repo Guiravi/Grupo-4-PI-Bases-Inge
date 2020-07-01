@@ -15,6 +15,9 @@ namespace LaCafeteria.Pages
 {
     public class RevisarArticuloModel : PageModel
     {
+        private CreadorNotificacionController creadorNotificacionController;
+        private BuscadorMiembrosController buscadorMiembrosController;
+        private BuscadorArticuloController buscadorArticuloController;
         private RevisorArticulosController revisorArticulosController;
         private InformacionMiembroController informacionMiembroController;
         private InformacionArticuloController informacionArticuloController;
@@ -57,10 +60,13 @@ namespace LaCafeteria.Pages
 
         public RevisarArticuloModel(IHostingEnvironment env)
         {
+            buscadorArticuloController = new BuscadorArticuloController();
             revisorArticulosController = new RevisorArticulosController();
             informacionMiembroController = new InformacionMiembroController();
             informacionArticuloController = new InformacionArticuloController();
             documentosArticuloController = new DocumentosArticuloController();
+            creadorNotificacionController = new CreadorNotificacionController();
+            buscadorMiembrosController = new BuscadorMiembrosController();
 
             forma = -1;
             opinion = -1;
@@ -111,6 +117,27 @@ namespace LaCafeteria.Pages
             /* Crear nuevo controlador de revisor de artículo */
             revisorArticulosController.ActualizarRevisionArticulo(revision);
 
+            List <ArticuloModel> articulosRevisionFinalizada = buscadorArticuloController.GetArticulosRevisionFinalizada();
+
+            bool revFinalizada = false;
+
+            foreach ( ArticuloModel articuloRev in articulosRevisionFinalizada )
+            {
+                if ( idArticuloPK == articuloRev.articuloAID )
+                {
+                    revFinalizada = true;
+                }
+            }
+
+            if ( revFinalizada )
+            {
+                string mensaje = "Estimado Coordinador, se ha finalizado las revisiones del articulo " + articulo.titulo + " . Por favor proceder a realizar un veredicto.";
+                string url = "/ArticulosParaRevisionCoordinador";
+
+                Notificacion notificacion = new Notificacion(buscadorMiembrosController.GetMiembroCoordinador().usernamePK, mensaje, url);
+
+                creadorNotificacionController.CrearNotificacion(notificacion);
+            }
 
             AvisosInmediatos.Set(this, "revisionExitosa", "Su revisión se ha efectuado exitosamente", AvisosInmediatos.TipoAviso.Exito);
             return Redirect("MisArticulosPorRevisar");

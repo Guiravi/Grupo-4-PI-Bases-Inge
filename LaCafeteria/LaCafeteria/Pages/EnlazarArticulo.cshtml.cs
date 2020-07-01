@@ -38,7 +38,6 @@ namespace LaCafeteria.Pages
 
         public string estadoAnterior { set; get; }
 
-        //public CorreoController correoController;
         private CreadorNotificacionController creadorNotificacionController;
         private InformacionCategoriaTopicoController informacionCategoriaTopicoController;
         private BuscadorMiembrosController buscadorMiembrosController;
@@ -71,6 +70,8 @@ namespace LaCafeteria.Pages
 
         public IActionResult OnGet()
         {
+            MiembroModel usuario = listaMiembros.Find(x => x.usernamePK == Request.Cookies["usernamePK"]);
+            listaMiembros.Remove(usuario);
             if (Request.Cookies["usernamePK"] != null)
             {
                 if (idArticuloPK != -1)
@@ -84,7 +85,7 @@ namespace LaCafeteria.Pages
                     {
                         listaMiembrosAutores.Add(item[0]);
                     }
-
+                    listaMiembrosAutores.Add(Request.Cookies["usernamePK"]);
                     listaCategoriaTopicosArticulo = informacionArticuloController.GetCategoriaTopicosArticuloString(idArticuloPK);
 
                     TempData["idArticulo"] = idArticuloPK;
@@ -108,7 +109,7 @@ namespace LaCafeteria.Pages
                     }
 
 
-                    if ( articulo.estado == EstadoArticulo.EnCorrecciones )
+                    if ( articulo.estado == EstadoArticulo.EnCorrecciones || articulo.estado == EstadoArticulo.Rechazado)
                     {
                         revisiones = informacionArticuloController.GetRevisiones(idArticuloPK);
                         estadoAnterior = articulo.estado;
@@ -205,7 +206,7 @@ namespace LaCafeteria.Pages
                 {
                     Notificacion notificacion = new Notificacion();
                     notificacion.mensaje = "Un artículo nuevo con título " + articulo.titulo + " requiere revisión para se publicado. Por favor indicar su interés de participar en este proceso.";
-                    notificacion.url = "/ArticulosPorRevisar";
+                    notificacion.url = "/ArticulosParaRevisionNucleo";
 
                     List<MiembroModel> nucleos = buscadorMiembrosController.GetListaMiembrosNucleoModel();
                     foreach ( MiembroModel miembroNucleo in nucleos )

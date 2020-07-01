@@ -19,7 +19,9 @@ namespace LaCafeteria.Models
 
 		public Notificacion()
 		{
-		}
+            this.fechaCreacion = DateTime.Now.ToString("yyyy/MM/dd");
+            this.estado = Nueva;
+        }
 
 		public Notificacion(string usernameFK, string mensaje, string url)
 		{

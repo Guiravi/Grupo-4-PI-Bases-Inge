@@ -55,7 +55,6 @@
 			{
 				@Html.Raw(AvisosInmediatos.Get(Model, "listaAsignadosVacio"));
 			}
-			<h1>Bienvenidos a la comunidad de práctica La Cafetería</h1>
 		</div>
     </div>
 </div>
@@ -90,13 +89,10 @@
                                     <td>@miembro.apellido2</td>
                                     <td>@miembro.usernamePK</td>
                                     <td>
-									
-										<input type="submit" asp-for="@Model.solicitudUsernamePK" value="@miembro.usernamePK" asp-page-handler="aceptarsolicitud">
-						
-									
+										<input type="submit" asp-for="@Model.solicitudUsernamePK" value="@miembro.usernamePK" asp-page-handler="aceptarsolicitud"/>Aceptar
 									</td>
 									<td>
-										<input type="submit" asp-for="@Model.solicitudUsernamePK" value="@miembro.usernamePK" asp-page-handler="rechazarsolicitud" />
+										<input type="submit" asp-for="@Model.solicitudUsernamePK" value="@miembro.usernamePK" asp-page-handler="rechazarsolicitud"/> Aceptar
 									</td>
                                 </tr>
                             }

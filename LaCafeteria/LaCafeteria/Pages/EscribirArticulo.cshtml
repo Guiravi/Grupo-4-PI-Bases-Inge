@@ -26,14 +26,16 @@
         <span asp-validation-for="articulo.titulo"></span>
     </div>
     <div class="form-group">
-        <label for="slctAutor">Autor(es)</label>
-        <select id="slctAutor" class="form-control">
-            @foreach ( var autor in Model.listaMiembros )
-            {
-                <option value="@autor.usernamePK">@autor.GetNombreCompleto()</option>
-            }
-        </select>
-        <input type="button" class="btn" value="Agregar autor" onclick="agregarAutor()" />
+        <div class="form-inline">
+            <label for="slctAutor">Autor(es)</label>
+            <select id="slctAutor" class="form-control">
+                @foreach ( var autor in Model.listaMiembros )
+                {
+                    <option value="@autor.usernamePK">@autor.GetNombreCompleto()</option>
+                }
+            </select>
+            <input type="button" class="btn" value="Agregar autor" onclick="agregarAutor()" />
+        </div>
         @if ( AvisosInmediatos.Existe(Model, "listaMiembrosAutores") )
         {
             @Html.Raw(AvisosInmediatos.Get(Model, "listaMiembrosAutores"));
@@ -135,7 +137,7 @@
                         </ul>
                     </div>
                 </div>
-                @{ if ( Model.articulo.estado == EstadoArticulo.EnCorrecciones )
+                @{ if ( Model.articulo.estado == EstadoArticulo.EnCorrecciones || Model.articulo.estado == EstadoArticulo.Rechazado )
                     {
                         <div style="margin-top:20px;border-radius:10px" class="row">
                             <div style="max-height:500px;overflow:scroll" class="panel panel-default">

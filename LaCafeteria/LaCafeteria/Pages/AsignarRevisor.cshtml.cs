@@ -68,7 +68,7 @@ namespace LaCafeteria.Pages
 			if(!OnGetEsValido())
 			{	
 				//TODO: Setear notificacion de error
-				Redirect("/ArticulosPorRevisar");
+				Redirect("/ArticulosParaRevisionCoordinador");
 			}
 		}
 
@@ -81,7 +81,7 @@ namespace LaCafeteria.Pages
 			else
             {
                 string mensaje = "Se le solicita colaboracion para revisar el articulo: " + articulo.titulo;
-                string url = "/ArticulosPAraRevisionNucleo";
+                string url = "/ArticulosParaRevisionNucleo";
                 foreach ( string usernameMiemFK in listaSolicitados )
                 {
                     creadorSolicitudRevisionController.CrearSolicitudRevision(usernameMiemFK, articuloAID, CreadorSolicitudRevisionController.Solicitado);
