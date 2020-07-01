@@ -78,7 +78,7 @@ namespace LaCafeteria.Pages
             } else
             {
                 string mensaje = "Se le solicita colaboracion para revisar el articulo: " + articulo.titulo;
-                string url = "/ArticulosPAraRevisionNucleo";
+                string url = "/ArticulosParaRevisionNucleo";
                 foreach ( string usernameMiemFK in listaSolicitados )
                 {
                     creadorSolicitudRevisionController.CrearSolicitudRevision(usernameMiemFK, articuloAID, CreadorSolicitudRevisionController.Solicitado);
@@ -92,10 +92,14 @@ namespace LaCafeteria.Pages
 
 		public IActionResult OnPostAsignarRevisor()
 		{
-			// TODO: Validar informacion necesaria para asignar revision
-			foreach (string usernameMiemFK in listaAsignados)
-			{
-				asignadorRevisoresController.AsignarRevisor(usernameMiemFK, articuloAID);
+            // TODO: Validar informacion necesaria para asignar revision
+            string mensaje = "Se le ha asignado para revisar el articulo: " + articulo.titulo;
+            string url = "/ArticulosParaRevisionNucleo";
+            foreach (string usernameMiemFK in listaAsignados)
+            {
+                creadorSolicitudRevisionController.CrearSolicitudRevision(usernameMiemFK, articuloAID, CreadorSolicitudRevisionController.Solicitado);
+                Notificacion notificacion = new Notificacion(usernameMiemFK, mensaje, url);
+                asignadorRevisoresController.AsignarRevisor(usernameMiemFK, articuloAID);
 			}
 
 			return Redirect("/AsignarRevisor/" + articuloAID);
