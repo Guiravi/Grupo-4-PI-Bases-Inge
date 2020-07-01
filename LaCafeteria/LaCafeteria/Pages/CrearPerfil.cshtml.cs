@@ -72,7 +72,12 @@ namespace LaCafeteria.Pages
             if (editar != null)
             {
                 miembro = buscadorMiembrosController.GetMiembro(username);
-                miembro.fechaNacimiento = Utilidades.Convertidor.CambiarFormatoFechaAMD(miembro.fechaNacimiento);
+
+                if (miembro.fechaNacimiento != null)
+                {
+                    miembro.fechaNacimiento = Utilidades.Convertidor.CambiarFormatoFechaAMD(miembro.fechaNacimiento);
+                }
+                
                 listaHabilidadesSelec = miembro.habilidades;
                 listaPasatiemposSelec = miembro.pasatiempos;
                 listaIdiomasSelec = miembro.idiomas;
