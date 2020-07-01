@@ -110,7 +110,7 @@ namespace LaCafeteria.Models.Handlers
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
 
-                string sqlString = @"SELECT pasatiempo
+                string sqlString = @"SELECT pasatiempoFK
 									FROM MiembroPasatiempo
 									WHERE @usernameFK =  usernameFK";
 
@@ -122,7 +122,7 @@ namespace LaCafeteria.Models.Handlers
                     {
                         while (dataReader.Read())
                         {
-                            pasatiemposMiembro.Add((string)dataReader["pasatiempo"]);
+                            pasatiemposMiembro.Add((string)dataReader["pasatiempoFK"]);
                         }
 
                     }
@@ -262,14 +262,14 @@ namespace LaCafeteria.Models.Handlers
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
 
-                string sqlString = @"SELECT MP.pasatiempo, M.paisFK, COUNT(*) AS cantidad
+                string sqlString = @"SELECT MP.pasatiempoFK, M.paisFK, COUNT(*) AS cantidad
                                     FROM [dbo].[Miembro] M
                                     JOIN [dbo].[MiembroPasatiempo] MP
 	                                    ON M.usernamePK = MP.usernameFK
-                                    WHERE	MP.pasatiempo IN (SELECT pasatiempoPK
+                                    WHERE	MP.pasatiempoFK IN (SELECT pasatiempoPK
 						                                    FROM [Catalogo].[Pasatiempo])
-                                    GROUP BY M.paisFK, MP.pasatiempo
-                                    ORDER BY MP.pasatiempo, M.paisFK";
+                                    GROUP BY M.paisFK, MP.pasatiempoFK
+                                    ORDER BY MP.pasatiempoFK, M.paisFK";
 
                 sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
@@ -277,7 +277,7 @@ namespace LaCafeteria.Models.Handlers
                     SqlDataReader dataReader = sqlCommand.ExecuteReader();
                     while (dataReader.Read())
                     {
-                        DatosGraficoBarrasApilado datos = new DatosGraficoBarrasApilado((string)dataReader["pasatiempo"], (string)dataReader["paisFK"], (int)dataReader["cantidad"]);
+                        DatosGraficoBarrasApilado datos = new DatosGraficoBarrasApilado((string)dataReader["pasatiempoFK"], (string)dataReader["paisFK"], (int)dataReader["cantidad"]);
                         lista.Add(datos);
                     }
                 }
@@ -294,16 +294,16 @@ namespace LaCafeteria.Models.Handlers
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
 
-                string sqlString = @"SELECT  MP.pasatiempo, MI.idiomaFK, COUNT(*) AS cantidad
+                string sqlString = @"SELECT  MP.pasatiempoFK, MI.idiomaFK, COUNT(*) AS cantidad
                                     FROM [dbo].[Miembro] M
                                     JOIN [dbo].[MiembroPasatiempo] MP
 	                                    ON M.usernamePK = MP.usernameFK
                                     JOIN [dbo].[MiembroIdioma] MI
 	                                    ON M.usernamePK = MI.usernameFK
-                                    WHERE	MP.pasatiempo IN (SELECT pasatiempoPK
+                                    WHERE	MP.pasatiempoFK IN (SELECT pasatiempoPK
 						                                    FROM [Catalogo].[Pasatiempo])
-                                    GROUP BY MI.idiomaFK, MP.pasatiempo
-                                    ORDER BY MP.pasatiempo, MI.idiomaFK";
+                                    GROUP BY MI.idiomaFK, MP.pasatiempoFK
+                                    ORDER BY MP.pasatiempoFK, MI.idiomaFK";
 
                 sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
@@ -311,7 +311,7 @@ namespace LaCafeteria.Models.Handlers
                     SqlDataReader dataReader = sqlCommand.ExecuteReader();
                     while (dataReader.Read())
                     {
-                        DatosGraficoBarrasApilado datos = new DatosGraficoBarrasApilado((string)dataReader["pasatiempo"], (string)dataReader["idiomaFK"], (int)dataReader["cantidad"]);
+                        DatosGraficoBarrasApilado datos = new DatosGraficoBarrasApilado((string)dataReader["pasatiempoFK"], (string)dataReader["idiomaFK"], (int)dataReader["cantidad"]);
                         lista.Add(datos);
                     }
                 }
@@ -356,7 +356,7 @@ namespace LaCafeteria.Models.Handlers
 
                 string sqlString = @"SELECT P.pasatiempoPK
                                     FROM [Catalogo].[Pasatiempo] P
-                                    WHERE	P.pasatiempoPK NOT IN	(SELECT pasatiempo
+                                    WHERE	P.pasatiempoPK NOT IN	(SELECT pasatiempoFK
 								                                    FROM [dbo].[MiembroPasatiempo])";
 
                 sqlConnection.Open();
