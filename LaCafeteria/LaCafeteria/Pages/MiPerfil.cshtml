@@ -35,6 +35,11 @@
 {
     @Html.Raw(AvisosInmediatos.Get(Model, "rangoInvalido"));
 }
+
+@if (AvisosInmediatos.Existe(Model, "perfilEditado"))
+{
+    @Html.Raw(AvisosInmediatos.Get(Model, "perfilEditado"));
+}
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -42,316 +47,201 @@
 </head>
 
 <div class="container">
-
-    <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#informacionPersonal">Información personal</a></li>
-        <li><a data-toggle="tab" href="#misArticulos">Mis articulos</a></li>
-        <li><a data-toggle="tab" href="#funcionesCoordinador">Funciones de coordinador</a></li>
-        <li><a data-toggle="tab" href="#funcionesNucleo">Funciones de núcleo</a></li>
-    </ul>
+    <br />
+    <br />
+    <div class="row">
 
 
-    <div class="tab-content">
-        <div id="informacionPersonal" class="tab-pane fade in active">
-            <div class="container">
-                <br />
-                <br />
-                <div class="row">
-
-
-                    <div class="col-sm-4">
-                        <div class="panel panel-warning">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">@Model.miembro.usernamePK</h3>
-                            </div>
-                            <div class="panel-body text-center">
-                                <img class="img-rounded" style="width: 150px; height:150px" src="~/@Model.miembro.rutaImagenPerfil" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="panel panel-warning">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Rol</h3>
-                            </div>
-                            <div class="panel-body text-center">
-                                @Model.miembro.nombreRolFK
-                            </div>
-                        </div>
-                        <form method="post">
-                            
-                            @if (Model.nombreRolFK == "Periférico" || Model.nombreRolFK == "Activo")
-                            {
-
-                            <p style="text-align:center">
-                                <button class="btn" asp-page-handler="solicitar" style="margin-top:10px; padding-top: 10px;">
-                                    Solicitar Ascenso de Rango
-                                </button>
-                                
-                            </p>
-                            }
-
-                        </form>
-                    
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="panel panel-warning">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Meritos</h3>
-                            </div>
-                            <div class="panel-body text-center">
-                                @Model.miembro.meritos
-                            </div>
-                        </div>
-                    </div>
+        <div class="col-sm-4">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@Model.miembro.usernamePK</h3>
                 </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Nombre de usuario</h3>
-                    </div>
-                    <div class="panel-body">
-                        @Model.miembro.usernamePK
-                    </div>
-                </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Nombre</h3>
-                    </div>
-                    <div class="panel-body">
-                        @Model.miembro.GetNombreCompleto()
-                    </div>
-                </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Email </h3>
-                    </div>
-                    <div class="panel-body">
-                        @Model.miembro.email
-                    </div>
-                </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Fecha de nacimiento</h3>
-                    </div>
-                    <div class="panel-body">
-                        @Model.miembro.fechaNacimiento
-                    </div>
-                </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">País</h3>
-                    </div>
-                    <div class="panel-body">
-                        @Model.miembro.paisFK
-                    </div>
-                </div>
-
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Estado</h3>
-                    </div>
-                    <div class="panel-body">
-                        @Model.miembro.estado
-                    </div>
-                </div>
-
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Ciudad</h3>
-                    </div>
-                    <div class="panel-body">
-                        @Model.miembro.ciudad
-                    </div>
-                </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Habilidades</h3>
-                    </div>
-                    <div class="panel-body">
-                        @for (int i = 0; i < Model.miembro.habilidades.Count; i++)
-                        {
-                            if (i != Model.miembro.habilidades.Count - 1)
-                            {
-                                <text>
-                                    @Html.Raw(Model.miembro.habilidades[i]),
-                                </text>
-                            }
-                            else
-                            {
-                                <text>
-                                    @Html.Raw(Model.miembro.habilidades[i])
-                                </text>
-                            }
-                        }
-                    </div>
-                </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Pasatiempos</h3>
-                    </div>
-                    <div class="panel-body">
-                        @for (int i = 0; i < Model.miembro.pasatiempos.Count; i++)
-                        {
-                            if (i != Model.miembro.pasatiempos.Count - 1)
-                            {
-                                <text>
-                                    @Html.Raw(Model.miembro.pasatiempos[i]),
-                                </text>
-                            }
-                            else
-                            {
-                                <text>
-                                    @Html.Raw(Model.miembro.pasatiempos[i])
-                                </text>
-                            }
-                        }
-                    </div>
-                </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Idiomas</h3>
-                    </div>
-                    <div class="panel-body">
-                        @for (int i = 0; i < Model.miembro.idiomas.Count; i++)
-                        {
-                            if (i != Model.miembro.idiomas.Count - 1)
-                            {
-                                <text>
-                                    @Html.Raw(Model.miembro.idiomas[i]),
-                                </text>
-                            }
-                            else
-                            {
-                                <text>
-                                    @Html.Raw(Model.miembro.idiomas[i])
-                                </text>
-                            }
-                        }
-                    </div>
-                </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Informacion laboral</h3>
-                    </div>
-                    <div class="panel-body">
-                        @Model.miembro.informacionLaboral
-                    </div>
-                </div>
-                <form method="post">
-                    <button class="btn" asp-page-handler="modificar" style="margin-top:10px; padding-top: 10px;">
-                        Modficar Perfil
-                    </button>
-                    
-
-                </form>
-            </div>
-        </div>
-
-        <div id="misArticulos" class="tab-pane fade">
-            <br />
-            <br />
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-md-12">
-
-                        @for (int articuloActual = 0; articuloActual < Model.cantResultados; articuloActual++)
-                        {
-
-                            <div class="panel panel-info">
-                                <div class="panel-heading">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-md-7">
-                                                <h2 class="panel-title" style="font-size: 125%;"><a href="/VerResumen/@Model.misArticulos[articuloActual].articuloAID/@Model.misArticulos[articuloActual].tipo/1">@Model.misArticulos[articuloActual].titulo</a> </h2>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <h3 class="panel-title" style="text-align: right;">
-                                                    Estado: @Model.misArticulos[articuloActual].estado
-                                                </h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel-body">
-                                    <ul style="list-style: none;">
-                                        <li><strong>Fecha publicación: </strong>@Convertidor.CambiarFormatoFechaDMA(Model.misArticulos[articuloActual].fechaPublicacion)</li>
-                                        <li><strong>Tipo: </strong>@Model.misArticulos[articuloActual].tipo</li>
-                                        <li><strong>Autor(es): </strong>@Model.informacionArticuloController.GetAutoresDeArticuloString(Model.misArticulos[articuloActual].articuloAID)</li>
-                                        <li>
-                                            <strong>Tópico(s): </strong>
-                                            @{List<string> lista = Model.informacionArticuloController.GetCategoriaTopicosArticuloString(Model.misArticulos[articuloActual].articuloAID);
-                                                for (int i = 0; i < lista.Count; i++)
-                                                {
-                                                    if (i != lista.Count - 1)
-                                                    {
-                                                        <text>
-                                                            @lista[i],
-                                                        </text>
-                                                    }
-                                                    else
-                                                    {
-                                                        <text>
-                                                            @lista[i]
-                                                        </text>
-                                                    }
-                                                }
-                                            }
-                                        </li>
-                                        @if (Model.misArticulos[articuloActual].tipo == "Corto")
-                                        {
-                                            <li style="margin-top: 20px"><a href="/EscribirArticulo/@Model.misArticulos[articuloActual].articuloAID" class="btn">Editar</a></li>
-                                        }
-                                        else if (Model.misArticulos[articuloActual].tipo == "Largo")
-                                        {
-                                            <li style="margin-top: 20px"><a href="/SubirArticulo/@Model.misArticulos[articuloActual].articuloAID" class="btn">Editar</a></li>
-                                        }
-                                        else
-                                        {
-                                            <li style="margin-top: 20px"><a href="/EnlazarArticulo/@Model.misArticulos[articuloActual].articuloAID" class="btn">Editar</a></li>
-                                        }
-                                    </ul>
-                                </div>
-                            </div>
-                        }
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-
-        <div id="funcionesCoordinador" class="tab-pane fade">
-            <br />
-            <br />
-            <div class="container">
-                <div class="list-group row col-md-offset-4 col-sm-4 text-center">
-                    <a href="/VerMiembros" class="list-group-item">Ver lista de miembros</a>
-                    <a href="/ArticulosPorRevisar" class="list-group-item">Ver articulos que necesitan revisión</a>
-                    <a href="/ArticulosRevisados" class="list-group-item">Ver articulos revisados</a>
+                <div class="panel-body text-center">
+                    <img class="img-rounded" style="width: 150px; height:150px" src="~/@Model.miembro.rutaImagenPerfil" />
                 </div>
             </div>
         </div>
-        <div id="funcionesNucleo" class="tab-pane fade">
-            <br />
-            <br />
-            <div class="container">
-                <div class="list-group row col-md-offset-4 col-sm-4 text-center">
-
-                    <a href="/EditarPregFrec" class="list-group-item">Editar preguntas frecuentes</a>
+        <div class="col-sm-4">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Rol</h3>
+                </div>
+                <div class="panel-body text-center">
+                    @Model.miembro.nombreRolFK
                 </div>
             </div>
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Meritos</h3>
+                </div>
+                <div class="panel-body text-center">
+                    @Model.miembro.meritos
+                </div>
+            </div>                       
+
+        </div>
+        <div class="col-sm-4">
+            <form method="post">
+
+                @if (Model.nombreRolFK == "Periférico" || Model.nombreRolFK == "Activo")
+                {
+
+                    <p style="text-align:center">
+                        <button class="btn" asp-page-handler="solicitar" style="margin-top:10px; padding-top: 10px;">
+                            Solicitar Ascenso de Rango
+                        </button>
+
+                    </p>
+                }
+
+            </form>
+            <p style="text-align:center">
+                <a href='/CrearPerfil/1/@Model.miembro.usernamePK' class="btn text-center">Editar perfil</a>
+            </p>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Nombre de usuario</h3>
+        </div>
+        <div class="panel-body">
+            @Model.miembro.usernamePK
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Nombre</h3>
+        </div>
+        <div class="panel-body">
+            @Model.miembro.GetNombreCompleto()
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Email </h3>
+        </div>
+        <div class="panel-body">
+            @Model.miembro.email
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Fecha de nacimiento</h3>
+        </div>
+        <div class="panel-body">
+            @Model.miembro.fechaNacimiento
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">País</h3>
+        </div>
+        <div class="panel-body">
+            @Model.miembro.paisFK
+        </div>
+    </div>
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Estado</h3>
+        </div>
+        <div class="panel-body">
+            @Model.miembro.estado
+        </div>
+    </div>
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Ciudad</h3>
+        </div>
+        <div class="panel-body">
+            @Model.miembro.ciudad
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Habilidades</h3>
+        </div>
+        <div class="panel-body">
+            @for (int i = 0; i < Model.miembro.habilidades.Count; i++)
+            {
+                if (i != Model.miembro.habilidades.Count - 1)
+                {
+                    <text>
+                        @Html.Raw(Model.miembro.habilidades[i]),
+                    </text>
+                }
+                else
+                {
+                    <text>
+                        @Html.Raw(Model.miembro.habilidades[i])
+                    </text>
+                }
+            }
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Pasatiempos</h3>
+        </div>
+        <div class="panel-body">
+            @for (int i = 0; i < Model.miembro.pasatiempos.Count; i++)
+            {
+                if (i != Model.miembro.pasatiempos.Count - 1)
+                {
+                    <text>
+                        @Html.Raw(Model.miembro.pasatiempos[i]),
+                    </text>
+                }
+                else
+                {
+                    <text>
+                        @Html.Raw(Model.miembro.pasatiempos[i])
+                    </text>
+                }
+            }
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Idiomas</h3>
+        </div>
+        <div class="panel-body">
+            @for (int i = 0; i < Model.miembro.idiomas.Count; i++)
+            {
+                if (i != Model.miembro.idiomas.Count - 1)
+                {
+                    <text>
+                        @Html.Raw(Model.miembro.idiomas[i]),
+                    </text>
+                }
+                else
+                {
+                    <text>
+                        @Html.Raw(Model.miembro.idiomas[i])
+                    </text>
+                }
+            }
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Informacion laboral</h3>
+        </div>
+        <div class="panel-body">
+            @Model.miembro.informacionLaboral
         </div>
     </div>
 </div>

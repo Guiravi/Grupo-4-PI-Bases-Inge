@@ -55,10 +55,6 @@ namespace LaCafeteria.Pages
 			cantResultados = misArticulos.Count;
 		}
 
-        public IActionResult OnPostModificar()
-        {
-            return Redirect("/ModificarPerfil");
-        }
         public IActionResult OnPostSolicitar()
         {
             if (Request.Cookies["usernamePK"] != null)
