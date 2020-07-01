@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using LaCafeteria.Models;
 using LaCafeteria.Controllers;
+using LaCafeteria.Utilidades;
 
 namespace LaCafeteria.Pages
 {
@@ -22,11 +23,15 @@ namespace LaCafeteria.Pages
 		public int articuloAID { get; set; }
 
 		[BindProperty]
+		public string solicitudUsernamePK { get; set; }
+
+		[BindProperty]
 		public List<string> listaSolicitados { set; get; }
 
 		[BindProperty]
 		public List<string> listaAsignados { set; get; }
 
+        private CreadorNotificacionController creadorNotificacionController;
 		private BuscadorMiembrosController buscadorMiembroController;
 		private CreadorSolicitudRevisionController creadorSolicitudRevisionController;
 		private InformacionArticuloController informacionArticuloController;
@@ -39,6 +44,7 @@ namespace LaCafeteria.Pages
 			listaMiembrosParaAsignarRevision = new List<MiembroModel>();
 			listaMiembrosRevisores = new List<MiembroModel>();
 
+            creadorNotificacionController = new CreadorNotificacionController();
 			buscadorMiembroController = new BuscadorMiembrosController();
 			creadorSolicitudRevisionController = new CreadorSolicitudRevisionController();
 			informacionArticuloController = new InformacionArticuloController();
@@ -57,7 +63,7 @@ namespace LaCafeteria.Pages
 
 			listaMiembrosRevisores = buscadorMiembroController.GetListaMiembrosRevisores(articuloAID);
 
-			if(!EsValidoGet())
+			if(!OnGetEsValido())
 			{	
 				//TODO: Setear notificacion de error
 				Redirect("/ArticulosPorRevisar");
@@ -66,16 +72,27 @@ namespace LaCafeteria.Pages
 
 		public IActionResult OnPostSolicitarColaboracion()
 		{
-			foreach(string usernameMiemFK in listaSolicitados)
-			{
-				creadorSolicitudRevisionController.CrearSolicitudRevision(usernameMiemFK, articuloAID, CreadorSolicitudRevisionController.Solicitado);
-			}
-	
+            if ( listaAsignados.Count == 0 )
+            {
+                AvisosInmediatos.Set(this, "listaSolicitadosVacio", "Se necesita agregar a la lista los miembros nucleos que solicitara colaboracion", AvisosInmediatos.TipoAviso.Error);
+            } else
+            {
+                string mensaje = "Se le solicita colaboracion para revisar el articulo: " + articulo.titulo;
+                string url = "/ArticulosPAraRevisionNucleo";
+                foreach ( string usernameMiemFK in listaSolicitados )
+                {
+                    creadorSolicitudRevisionController.CrearSolicitudRevision(usernameMiemFK, articuloAID, CreadorSolicitudRevisionController.Solicitado);
+                    Notificacion notificacion = new Notificacion(usernameMiemFK, mensaje, url);
+                    creadorNotificacionController.CrearNotificacion(notificacion);
+                }
+            }
+
 			return Redirect("/AsignarRevisor/" + articuloAID);
 		}
 
 		public IActionResult OnPostAsignarRevisor()
 		{
+			// TODO: Validar informacion necesaria para asignar revision
 			foreach (string usernameMiemFK in listaAsignados)
 			{
 				asignadorRevisoresController.AsignarRevisor(usernameMiemFK, articuloAID);
@@ -84,12 +101,22 @@ namespace LaCafeteria.Pages
 			return Redirect("/AsignarRevisor/" + articuloAID);
 		}
 
+		public IActionResult OnPostAceptarSolicitud()
+		{
+			return Page();
+		}
+
+		public IActionResult OnPostRechazarSolicitud()
+		{
+			return Page();
+		}
+
 		public IActionResult OnPostCancelar()
 		{
 			return Redirect("/AsignarRevisor/" + articuloAID);
 		}
 
-		private bool EsValidoGet()
+		private bool OnGetEsValido()
 		{
 			bool valido = false;
 			if(articulo != null)

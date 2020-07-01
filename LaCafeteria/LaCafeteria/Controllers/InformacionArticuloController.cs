@@ -8,10 +8,14 @@ using LaCafeteria.Models.Handlers;
 namespace LaCafeteria.Controllers
 {
     public class InformacionArticuloController {
-        private InformacionArticuloDBHandler informacionArticuloDBHandler;
+        private IInformacionArticuloDBHandler informacionArticuloDBHandler;
 
         public InformacionArticuloController() {
             informacionArticuloDBHandler = new InformacionArticuloDBHandler();
+        }
+
+        public InformacionArticuloController(IInformacionArticuloDBHandler informacionArticuloDBHandler) {
+            this.informacionArticuloDBHandler = informacionArticuloDBHandler;
         }
 
         public String GetAutoresDeArticuloString(int id) {

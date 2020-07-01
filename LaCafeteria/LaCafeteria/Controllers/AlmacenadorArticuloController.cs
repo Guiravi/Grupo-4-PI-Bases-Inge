@@ -9,29 +9,37 @@ namespace LaCafeteria.Controllers
 {
     public class AlmacenadorArticuloController
     {
-        private AlmacenadorArticuloDBHandler almacenadorArticuloDBHandler;
+        private IAlmacenadorArticuloDBHandler almacenadorArticuloDBHandler;
+
+        public AlmacenadorArticuloController(IAlmacenadorArticuloDBHandler almacenadorArticuloDBHandler) {
+            this.almacenadorArticuloDBHandler = almacenadorArticuloDBHandler;
+        }
 
         public AlmacenadorArticuloController() {
             almacenadorArticuloDBHandler = new AlmacenadorArticuloDBHandler();
         }
 
         public void GuardarArticulo(ArticuloModel articulo, List<string> usernamePKMiembrosAutores, List<string> categoriaTopicoStrings) {
-            List<CategoriaTopicoModel> listaModels = new List<CategoriaTopicoModel>();
-
-            foreach (string catTop in categoriaTopicoStrings)
+            if ( articulo != null && usernamePKMiembrosAutores.Count > 0 && categoriaTopicoStrings.Count > 0 )
             {
-                string[] separacion = catTop.Split(": ");
 
-                CategoriaTopicoModel modelo = new CategoriaTopicoModel()
+                List<CategoriaTopicoModel> listaModels = new List<CategoriaTopicoModel>();
+
+                foreach ( string catTop in categoriaTopicoStrings )
                 {
-                    nombreCategoriaPK = separacion[0],
-                    nombreTopicoPK = separacion[1]
-                };
+                    string[] separacion = catTop.Split(": ");
 
-                listaModels.Add(modelo);
+                    CategoriaTopicoModel modelo = new CategoriaTopicoModel()
+                    {
+                        nombreCategoriaPK = separacion[0],
+                        nombreTopicoPK = separacion[1]
+                    };
+
+                    listaModels.Add(modelo);
+                }
+
+                almacenadorArticuloDBHandler.GuardarArticulo(articulo, usernamePKMiembrosAutores, listaModels);
             }
-
-            almacenadorArticuloDBHandler.GuardarArticulo(articulo, usernamePKMiembrosAutores, listaModels);
         }
     }
 }

@@ -10,9 +10,13 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            @if (AvisosInmediatos.Existe(Model, "sesionIniciada"))
+            @if ( AvisosInmediatos.Existe(Model, "sesionIniciada") )
             {
                 @Html.Raw(AvisosInmediatos.Get(Model, "sesionIniciada"));
+            }
+            @if ( AvisosInmediatos.Existe(Model, "noPoseeAutorizacion") )
+            {
+                @Html.Raw(AvisosInmediatos.Get(Model, "noPoseeAutorizacion"));
             }
             <h1>Bienvenidos a la comunidad de práctica La Cafetería</h1>
         </div>

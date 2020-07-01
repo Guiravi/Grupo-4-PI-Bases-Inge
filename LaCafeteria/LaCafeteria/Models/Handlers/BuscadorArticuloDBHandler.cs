@@ -8,7 +8,7 @@ using LaCafeteria.Utilidades;
 
 namespace LaCafeteria.Models.Handlers
 {
-    public class BuscadorArticuloDBHandler
+    public class BuscadorArticuloDBHandler : IBuscadorArticuloDBHandler
     {
         public List<ArticuloModel> GetArticulosPorAutorYTipo(String autores, int tipos) {
             String connectionString = AppSettings.GetConnectionString();
@@ -384,5 +384,158 @@ namespace LaCafeteria.Models.Handlers
                 return artList;
             }
         }
-    }
+
+		public List<ArticuloModel> GetArticulosParaRevisarNucleo(string usernamePK)
+		{
+			List<ArticuloModel> listaArticulosParaRevisarNucleo = new List<ArticuloModel>();
+
+
+			string connectionString = AppSettings.GetConnectionString();
+			using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+			{
+
+				string sqlString = @"SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, 
+								            A.puntajeTotalRev, A.calificacionTotalMiem
+									FROM Articulo AS A
+									WHERE A.estado = 'Requiere Revisión' AND
+									NOT EXISTS(SELECT 1 
+											   FROM NucleoPuedeSerRevisorDeArticulo AS NPSRDA
+											   WHERE @usernamePK = NPSRDA.usernameMiemFK AND
+											   A.articuloAID = NPSRDA.idArticuloFK) AND
+									NOT EXISTS(SELECT 1
+
+											   FROM NucleoRevisaArticulo AS NRA
+											   WHERE @usernamePK = NRA.usernameMiemFK AND
+											   A.articuloAID = NRA.idArticuloFK)";
+
+				sqlConnection.Open();
+				using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+				{
+					sqlCommand.Parameters.AddWithValue("@usernamePK", usernamePK);
+					using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
+					{
+						while (dataReader.Read())
+						{
+							
+							 ArticuloModel articulo = new ArticuloModel()
+							{
+								articuloAID = (int) dataReader["articuloAID"],
+								titulo = (String) dataReader["titulo"],
+								tipo = (String) dataReader["tipo"],
+								fechaPublicacion = dataReader["fechaPublicacion"].ToString().Remove(dataReader["fechaPublicacion"].ToString().Length - 12, 12),
+								resumen = (String) dataReader["resumen"],
+								contenido = (String)dataReader["contenido"],
+								estado = (String)dataReader["estado"],
+								visitas = (int)dataReader["visitas"],
+								puntajeTotalRev = (!DBNull.Value.Equals(dataReader["puntajeTotalRev"])) ? (double?)dataReader["puntajeTotalRev"] : null,
+								calificacionTotalMiem = (int) dataReader["calificacionTotalMiem"]
+							};
+
+							listaArticulosParaRevisarNucleo.Add(articulo);
+						}
+					}
+				}
+			}
+
+			return listaArticulosParaRevisarNucleo;
+		}
+
+		public List<ArticuloModel> GetArticulosNucleoEsSolicitado(string usernamePK)
+		{
+			List<ArticuloModel> listaArticulosNucleoEsSolicitado = new List<ArticuloModel>();
+
+			string connectionString = AppSettings.GetConnectionString();
+			using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+			{
+
+				string sqlString = @"SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, 
+								            A.puntajeTotalRev, A.calificacionTotalMiem
+									FROM Articulo AS A
+									WHERE EXISTS(SELECT 1 
+												 FROM NucleoPuedeSerRevisorDeArticulo AS NPSRDA
+												 WHERE @usernamePK = NPSRDA.usernameMiemFK AND
+												 A.articuloAID = NPSRDA.idArticuloFK AND
+												 NPSRDA.estado = 'Solicitado')";
+
+				sqlConnection.Open();
+				using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+				{
+					sqlCommand.Parameters.AddWithValue("@usernamePK", usernamePK);
+					using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
+					{
+						while (dataReader.Read())
+						{
+
+							ArticuloModel articulo = new ArticuloModel()
+							{
+								articuloAID = (int)dataReader["articuloAID"],
+								titulo = (String)dataReader["titulo"],
+								tipo = (String)dataReader["tipo"],
+								fechaPublicacion = dataReader["fechaPublicacion"].ToString().Remove(dataReader["fechaPublicacion"].ToString().Length - 12, 12),
+								resumen = (String)dataReader["resumen"],
+								contenido = (String)dataReader["contenido"],
+								estado = (String)dataReader["estado"],
+								visitas = (int)dataReader["visitas"],
+								puntajeTotalRev = (!DBNull.Value.Equals(dataReader["puntajeTotalRev"])) ? (double?)dataReader["puntajeTotalRev"] : null,
+								calificacionTotalMiem = (int)dataReader["calificacionTotalMiem"]
+							};
+
+							listaArticulosNucleoEsSolicitado.Add(articulo);
+						}
+					}
+				}
+			}
+
+			return listaArticulosNucleoEsSolicitado;
+		}
+
+		public List<ArticuloModel> GetArticulosNucleoLeInteresa(string usernamePK)
+		{
+			List<ArticuloModel> listaArticulosNucleoEsSolicitado = new List<ArticuloModel>();
+
+			string connectionString = AppSettings.GetConnectionString();
+			using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+			{
+
+				string sqlString = @"SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, 
+								            A.puntajeTotalRev, A.calificacionTotalMiem
+									FROM Articulo AS A
+									WHERE EXISTS(SELECT 1 
+												 FROM NucleoPuedeSerRevisorDeArticulo AS NPSRDA
+												 WHERE @usernamePK = NPSRDA.usernameMiemFK AND
+												 A.articuloAID = NPSRDA.idArticuloFK AND
+												 NPSRDA.estado = 'Interesa')";
+
+				sqlConnection.Open();
+				using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
+				{
+					sqlCommand.Parameters.AddWithValue("@usernamePK", usernamePK);
+					using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
+					{
+						while (dataReader.Read())
+						{
+
+							ArticuloModel articulo = new ArticuloModel()
+							{
+								articuloAID = (int)dataReader["articuloAID"],
+								titulo = (String)dataReader["titulo"],
+								tipo = (String)dataReader["tipo"],
+								fechaPublicacion = dataReader["fechaPublicacion"].ToString().Remove(dataReader["fechaPublicacion"].ToString().Length - 12, 12),
+								resumen = (String)dataReader["resumen"],
+								contenido = (String)dataReader["contenido"],
+								estado = (String)dataReader["estado"],
+								visitas = (int)dataReader["visitas"],
+								puntajeTotalRev = (!DBNull.Value.Equals(dataReader["puntajeTotalRev"])) ? (double?)dataReader["puntajeTotalRev"] : null,
+								calificacionTotalMiem = (int)dataReader["calificacionTotalMiem"]
+							};
+
+							listaArticulosNucleoEsSolicitado.Add(articulo);
+						}
+					}
+				}
+			}
+
+			return listaArticulosNucleoEsSolicitado;
+		}
+	}
 }

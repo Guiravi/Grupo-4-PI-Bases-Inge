@@ -10,10 +10,15 @@ namespace LaCafeteria.Controllers
 {
     public class BuscadorArticuloController
     {
-        private BuscadorArticuloDBHandler buscadorArticuloDBHandler;
+
+        private IBuscadorArticuloDBHandler buscadorArticuloDBHandler;
 
         public BuscadorArticuloController() {
-            buscadorArticuloDBHandler = new BuscadorArticuloDBHandler();
+            this.buscadorArticuloDBHandler = new BuscadorArticuloDBHandler();
+        }
+
+        public BuscadorArticuloController(IBuscadorArticuloDBHandler buscadorArticuloDBHandler) {
+            this.buscadorArticuloDBHandler = buscadorArticuloDBHandler;
         }
 
         public List<ArticuloModel> BuscarArticulo(SolicitudBusquedaModel solicitud) {
@@ -72,9 +77,24 @@ namespace LaCafeteria.Controllers
         public List<ArticuloModel> GetArticulosPorMiembro(string username) {
             return buscadorArticuloDBHandler.GetArticulosPorMiembro(username);
         }
-    }
 
-    class ItemEqualityComparer : IEqualityComparer<ArticuloModel>
+		public List<ArticuloModel> GetArticulosParaRevisarNucleo(string usernamePK)
+		{
+			return buscadorArticuloDBHandler.GetArticulosParaRevisarNucleo(usernamePK);
+		}
+
+		public List<ArticuloModel> GetArticulosNucleoEsSolicitado(string usernamePK)
+		{
+			return buscadorArticuloDBHandler.GetArticulosNucleoEsSolicitado(usernamePK);
+		}
+
+		public List<ArticuloModel> GetArticulosNucleoLeInteresa(string usernamePK)
+		{
+			return buscadorArticuloDBHandler.GetArticulosNucleoLeInteresa(usernamePK);
+		}
+	}
+
+	class ItemEqualityComparer : IEqualityComparer<ArticuloModel>
     {
         public bool Equals(ArticuloModel x, ArticuloModel y) {
             // Two items are equal if their keys are equal.

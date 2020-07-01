@@ -1,0 +1,156 @@
+﻿@page
+@model LaCafeteria.Pages.ArticulosParaRevisionNucleoModel
+@using LaCafeteria.Models;
+@using System.Text;
+@{
+	ViewData["Title"] = "Articulos para revisión";
+}
+
+<h2>Articulos que necesitan revisión</h2>
+
+<ul class="nav nav-tabs">
+	<li class="active"><a data-toggle="tab" href="#home">Necesitan revisión</a></li>
+	<li><a data-toggle="tab" href="#menu1">Se me solicita revisar</a></li>
+	<li><a data-toggle="tab" href="#menu2">Me interesa revisar</a></li>
+</ul>
+
+<div class="tab-content">
+	<div id="home" class="tab-pane fade in active">
+		@*Articulos que necesitan revision que no he solicitado y no me han solicitado revisar*@
+		</br>
+		<table class="table table-hover table-striped">
+			<thead>
+				<tr>
+					<th>Titulo</th>
+					<th>Autores</th>
+					<th>Tópicos</th>
+					<th>Tipo</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@if (Model.listaArticulosParaRevisonNucleo.Count == 0)
+				{
+					<tr>
+						<td></td>
+						<td></td>
+						<td><p class="text-center">No hay articulos para revisar</p></td>
+						<td></td>
+						<td></td>
+					</tr>
+				}
+				else
+				{
+					@foreach (ArticuloModel articulo in Model.listaArticulosParaRevisonNucleo)
+					{
+						<tr>
+							<td>@articulo.titulo</td>
+							<td>@Model.informacionArticuloController.GetAutoresDeArticuloString(articulo.articuloAID)</td>
+							<td>
+								@{StringBuilder sbCategoriasTopicos = new StringBuilder();}
+								@foreach (string stringCategoriaTopico in Model.informacionArticuloController.GetCategoriaTopicosArticuloString(articulo.articuloAID))
+								{
+									sbCategoriasTopicos.Append(stringCategoriaTopico + ", ");
+								}
+								@sbCategoriasTopicos.ToString().Remove(sbCategoriasTopicos.ToString().Length - 2)
+							</td>
+							<td>@articulo.tipo</td>
+							<td class="text-center"><a href="/InteresaRevisar/@articulo.articuloAID" class="btn btn-lg"><span class="glyphicon glyphicon-eye-open" aria-hidden="true" style="color: black;"></span></a></td>
+						</tr>
+					}
+				}
+			</tbody>
+			</table>
+	</div>
+	<div id="menu1" class="tab-pane fade">
+		@*Articulos para los que se me solicita colaboracion*@
+		</br>
+		<table class="table table-hover table-striped">
+			<thead>
+				<tr>
+					<th>Titulo</th>
+					<th>Autores</th>
+					<th>Tópicos</th>
+					<th>Tipo</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@if (Model.listaArticulosNucleoEsSolicitado.Count == 0)
+				{
+					<tr>
+						<td></td>
+						<td></td>
+						<td><p class="text-center">No tiene solicitudes pendientes</p></td>
+						<td></td>
+						<td></td>
+					</tr>
+				}
+				else
+				{
+					@foreach (ArticuloModel articulo in Model.listaArticulosNucleoEsSolicitado)
+					{
+						<tr>
+							<td>@articulo.titulo</td>
+							<td>@Model.informacionArticuloController.GetAutoresDeArticuloString(articulo.articuloAID)</td>
+							<td>
+								@{StringBuilder sbCategoriasTopicos = new StringBuilder();}
+								@foreach (string stringCategoriaTopico in Model.informacionArticuloController.GetCategoriaTopicosArticuloString(articulo.articuloAID))
+								{
+									sbCategoriasTopicos.Append(stringCategoriaTopico + ", ");
+								}
+								@sbCategoriasTopicos.ToString().Remove(sbCategoriasTopicos.ToString().Length - 2)
+							</td>
+							<td>@articulo.tipo</td>
+							<td class="text-center"><a href="/DefinirSolicitudRevision/@articulo.articuloAID" class="btn btn-lg"><span class="glyphicon glyphicon-eye-open" aria-hidden="true" style="color: black;"></span></a></td>
+						</tr>
+					}
+				}
+			</tbody>
+		</table>
+	</div>
+	<div id="menu2" class="tab-pane fade">
+		@*Articulos que me interesan revisar*@
+			</br>
+			<table class="table table-hover table-striped">
+				<thead>
+					<tr>
+						<th>Titulo</th>
+						<th>Autores</th>
+						<th>Tópicos</th>
+						<th>Tipo</th>
+					</tr>
+				</thead>
+				<tbody>
+					@if(Model.listaArticulosNucleoLeInteresa.Count == 0)
+					{
+						<tr>
+							<td></td>
+							<td></td>
+							<td><p class="text-center">No tiene articulos que le interesen revisar</p></td>
+							<td></td>
+						</tr>
+					}
+					else
+					{
+						@foreach(ArticuloModel articulo in Model.listaArticulosNucleoLeInteresa)
+						{
+							<tr>
+								<td>@articulo.titulo</td>
+								<td>@Model.informacionArticuloController.GetAutoresDeArticuloString(articulo.articuloAID)</td>
+								<td>
+									@{StringBuilder sbCategoriasTopicos = new StringBuilder();}
+									@foreach (string stringCategoriaTopico in Model.informacionArticuloController.GetCategoriaTopicosArticuloString(articulo.articuloAID))
+									{
+										sbCategoriasTopicos.Append(stringCategoriaTopico + ", ");
+									}
+									@sbCategoriasTopicos.ToString().Remove(sbCategoriasTopicos.ToString().Length - 2)
+								</td>
+								<td>@articulo.tipo</td>
+							</tr>
+						}
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>

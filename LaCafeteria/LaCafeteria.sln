@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.1082
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaCafeteria", "LaCafeteria\LaCafeteria.csproj", "{ED890357-2E87-46B7-A2CD-34946107919A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaCafeteria", "LaCafeteria\LaCafeteria.csproj", "{ED890357-2E87-46B7-A2CD-34946107919A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaCafeteriaTests", "LaCafeteriaTests\LaCafeteriaTests.csproj", "{40D636AA-4655-4B81-AE9C-CAC0C49DDC37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{ED890357-2E87-46B7-A2CD-34946107919A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED890357-2E87-46B7-A2CD-34946107919A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED890357-2E87-46B7-A2CD-34946107919A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40D636AA-4655-4B81-AE9C-CAC0C49DDC37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40D636AA-4655-4B81-AE9C-CAC0C49DDC37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40D636AA-4655-4B81-AE9C-CAC0C49DDC37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40D636AA-4655-4B81-AE9C-CAC0C49DDC37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

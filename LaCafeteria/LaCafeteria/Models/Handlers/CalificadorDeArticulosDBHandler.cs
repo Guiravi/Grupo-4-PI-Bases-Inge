@@ -7,7 +7,7 @@ using LaCafeteria.Utilidades;
 
 namespace LaCafeteria.Models.Handlers
 {
-    public class CalificadorDeArticulosDBHandler
+    public class CalificadorDeArticulosDBHandler : ICalificadorDeArticulosDBHandler
     {
         public void CalificarArticulo(string username, int idArticulo, int valorCalif) {
             string connectionString = AppSettings.GetConnectionString();
