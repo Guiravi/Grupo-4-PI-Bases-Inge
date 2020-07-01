@@ -424,18 +424,16 @@ namespace LaCafeteria.Models.Handlers
 
 				string sqlString = @"SELECT A.articuloAID, A.titulo, A.tipo, A.fechaPublicacion, A.resumen, A.contenido, A.estado, A.visitas, 
 								            A.puntajeTotalRev, A.calificacionTotalMiem
-									FROM Articulo AS A, MiembroAutorDeArticulo AS MADA
-									WHERE @usernamePK = MADA.usernameMiemFK AND
-									A.articuloAID = MADA.idArticuloFK AND
-									estado = 'Requiere Revisión' AND
+									FROM Articulo AS A
+									WHERE A.estado = 'Requiere Revisión' AND
 									NOT EXISTS(SELECT 1 
-											   FROM NucleoPuedeSerRevisorDeArticulo
-											   WHERE @usernamePK = usernameMiemFK AND
-											   A.articuloAID = idArticuloFK) AND
+											   FROM NucleoPuedeSerRevisorDeArticulo AS NPSRDA
+											   WHERE @usernamePK = NPSRDA.usernameMiemFK AND
+											   A.articuloAID = NPSRDA.idArticuloFK) AND
 									NOT EXISTS(SELECT 1
-											   FROM NucleoRevisaArticulo
-											   WHERE @usernamePK = usernameMiemFK AND
-											   A.articuloAID = idArticuloFK)";
+											   FROM NucleoRevisaArticulo AS NRA
+											   WHERE @usernamePK = NRA.usernameMiemFK AND
+											   A.articuloAID = NRA.idArticuloFK)";
 
 				sqlConnection.Open();
 				using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
