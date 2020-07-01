@@ -36,7 +36,7 @@ namespace LaCafeteria.Pages
 
         public void OnGet() {
             usernameMiembroFK = Request.Cookies["usernamePK"];
-            if ( nombreRolFK != "nulo" )
+            if ( nombreRolFK != null )
             {
                 rolNucleoFK = buscadorMiembroController.GetRango(usernameMiembroFK);
                 if ( aceptar == 1 )
@@ -117,6 +117,7 @@ namespace LaCafeteria.Pages
                     string mensaje = "Su rango no pudo ser promovdio dado un empate de votos";
                     Notificacion notificacion = new Notificacion(usernamePK, mensaje, null);
                     creadorNotificacionController.CrearNotificacion(notificacion);
+                    editorMiembroSolicitaSubirRangoNucleoController.BorrarSolicitudes(usernamePK);
                 }
             }
         }
@@ -142,6 +143,7 @@ namespace LaCafeteria.Pages
                     string mensaje = "Su rango no pudo ser promovdio dado un empate de votos";
                     Notificacion notificacion = new Notificacion(usernamePK, mensaje, null);
                     creadorNotificacionController.CrearNotificacion(notificacion);
+                    editorMiembroSolicitaSubirRangoNucleoController.BorrarSolicitudes(usernamePK);
                 }
             }
         }
