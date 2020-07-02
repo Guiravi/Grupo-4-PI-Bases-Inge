@@ -44,6 +44,7 @@ namespace LaCafeteria.Pages
             documentosArticuloController = new DocumentosArticuloController();
             informacionMiembroController = new InformacionMiembroController();
             creadorNotificacionController = new CreadorNotificacionController();
+            editorArticuloController = new EditorArticuloController();
 
             rutaCarpeta = env.WebRootPath;
         }
@@ -75,6 +76,7 @@ namespace LaCafeteria.Pages
 
             string mensaje = "Su articulo: " + articulo.titulo + " ha sido rechazado.";
             string url = "/MisArticulos";
+            autores = informacionArticuloController.GetAutoresArticuloListaStringArray(idArticuloPK);
 
             foreach ( string[] autor in autores )
             {
@@ -83,7 +85,7 @@ namespace LaCafeteria.Pages
             }
 
             AvisosInmediatos.Set(this, "Aceptar", "El artículo ha sido rechazado", AvisosInmediatos.TipoAviso.Exito);
-            return Redirect("/VerRevision/" + idArticuloPK + "/" + tipoArticulo);
+            return Redirect("/ArticulosParaRevisionCoordinador");
         }
         public IActionResult OnPostAceptarConModificaciones() {
             string estadoArticulo = EstadoArticulo.EnCorrecciones;
@@ -91,6 +93,7 @@ namespace LaCafeteria.Pages
 
             string mensaje = "Su articulo: " + articulo.titulo + " ha sido aceptado con correcciones.";
             string url = "/MisArticulos";
+            autores = informacionArticuloController.GetAutoresArticuloListaStringArray(idArticuloPK);
 
             foreach ( string[] autor in autores )
             {
@@ -99,7 +102,7 @@ namespace LaCafeteria.Pages
             }
 
             AvisosInmediatos.Set(this, "Aceptar", "El artículo ha sido aceptado con correcciones", AvisosInmediatos.TipoAviso.Exito);
-            return Redirect("/VerRevision/" + idArticuloPK + "/" + tipoArticulo);
+            return Redirect("/ArticulosParaRevisionCoordinador");
         }
         public IActionResult OnPostAceptar() {
             string estadoArticulo = EstadoArticulo.Publicado;
@@ -107,6 +110,7 @@ namespace LaCafeteria.Pages
 
             string mensaje = "Su articulo: " + articulo.titulo + " ha sido aceptado para publicacion.";
             string url = "/MisArticulos";
+            autores = informacionArticuloController.GetAutoresArticuloListaStringArray(idArticuloPK);
 
             foreach ( string[] autor in autores )
             {
@@ -115,7 +119,7 @@ namespace LaCafeteria.Pages
             }
 
             AvisosInmediatos.Set(this, "Aceptar", "El artículo ha sido aceptado", AvisosInmediatos.TipoAviso.Exito);
-            return Redirect("/VerRevision/" + idArticuloPK + "/" + tipoArticulo);
+            return Redirect("/ArticulosParaRevisionCoordinador");
         }
     }
 }
