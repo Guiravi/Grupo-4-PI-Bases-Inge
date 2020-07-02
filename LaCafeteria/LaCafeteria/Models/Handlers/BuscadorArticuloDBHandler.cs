@@ -160,7 +160,7 @@ namespace LaCafeteria.Models.Handlers
 
                 SqlCommand cmd = new SqlCommand("SELECT articuloAID, titulo, tipo, estado" +
                         " FROM Articulo JOIN NucleoRevisaArticulo ON idArticuloFK = articuloAID " +
-                        "WHERE estado = @estadoArticulo AND @username = usernameMiemFK", connection);
+                        "WHERE estado = @estadoArticulo AND @username = usernameMiemFK AND NucleoRevisaArticulo.estadoRevision != 'Finalizada'", connection);
                 cmd.Parameters.AddWithValue("@estadoArticulo", estadoArticulo);
                 cmd.Parameters.AddWithValue("@username", username);
 

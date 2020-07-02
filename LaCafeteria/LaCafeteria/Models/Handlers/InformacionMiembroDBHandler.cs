@@ -62,10 +62,10 @@ namespace LaCafeteria.Models.Handlers
                 sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(sqlString, sqlConnection))
                 {
-                    sqlCommand.Parameters.AddWithValue("@usernamePK", username);
+                    sqlCommand.Parameters.AddWithValue("@username", username);
                     SqlDataReader dataReader = sqlCommand.ExecuteReader();
                     dataReader.Read();
-                    merito = (float)dataReader["meritos"];
+                    merito = (double)dataReader["meritos"];
                 }
             }
             return merito;

@@ -29,7 +29,7 @@ namespace LaCafeteria.Pages
         public void OnGet()
         {
 
-			artList = buscadorArticuloController.GetArticulosPorEstadoAsignaMiem(EstadoArticulo.RequiereRevision, Request.Cookies["usernamePK"]);
+			artList = buscadorArticuloController.GetArticulosPorEstadoAsignaMiem("En Revisión", Request.Cookies["usernamePK"]);
 
 			dictTopicos = new Dictionary<ArticuloModel, List<CategoriaTopicoModel>>();
 			dictAutores = new Dictionary<ArticuloModel, string>();

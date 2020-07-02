@@ -17,8 +17,8 @@ namespace LaCafeteria.Models.Handlers
             using ( SqlConnection connection = new SqlConnection(connectionString) )
             {
                 connection.Open();
-                string cmdString = "UPDATE NucleoRevisaArticulo SET puntaje = opinionGeneral = @opinionGeneral, " +
-                    "contribucion = @contribucion, forma = @forma, estadoRevision = @estadoRevision,  comentarios = @comentarios " +
+                string cmdString = "UPDATE NucleoRevisaArticulo SET opinionGeneral = @opinion, " +
+                    "contribucion = @contribucion, forma = @forma, estadoRevision = @estadoRevision,  comentarios = @comentarios, " +
                     "recomendacion = @recomendacion WHERE usernameMiemFK = @username AND idArticuloFK = @idArticulo";
                 SqlCommand command = new SqlCommand(cmdString, connection);
                 command.Parameters.AddWithValue("@opinion", revision.opinion);
@@ -43,6 +43,7 @@ namespace LaCafeteria.Models.Handlers
 
                 string cmdString = "SELECT COUNT(*) AS 'Cantidad' FROM NucleoRevisaArticulo WHERE idArticuloFK = @id AND estadoRevision = 'En Revisión'";
                 SqlCommand command = new SqlCommand(cmdString, connection);
+                command.Parameters.AddWithValue("@id", id);
                 SqlDataReader reader = command.ExecuteReader();
 
                 reader.Read();
