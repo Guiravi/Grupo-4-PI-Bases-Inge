@@ -61,7 +61,7 @@ CREATE TABLE Articulo
 	CONSTRAINT PK_Articulo PRIMARY KEY NONCLUSTERED (articuloAID),
 	CONSTRAINT UQ_Articulo_titulo UNIQUE (titulo),
 	CONSTRAINT CK_Articulo_tipo CHECK (tipo in ('Corto','Largo','Link')),
-	CONSTRAINT CK_Articulo_estado CHECK (estado in ('En Progreso','Requiere Revisión', 'En Revisión', 'Rechazado', 'Aceptado con Correcciones', 'Publicado'))
+	CONSTRAINT CK_Articulo_estado CHECK (estado in ('En Progreso','Requiere RevisiÃ³n', 'En RevisiÃ³n', 'Rechazado', 'Aceptado con Correcciones', 'Publicado'))
 );
 
 CREATE TABLE Miembro
@@ -79,15 +79,15 @@ CREATE TABLE Miembro
 	informacionLaboral NVARCHAR(MAX),
 	meritos FLOAT CONSTRAINT DF_Miembro_merito DEFAULT 0.0 CONSTRAINT NN_Miembro_merito NOT NULL,
 	activo BIT CONSTRAINT DF_Miembro_activo DEFAULT 1 CONSTRAINT NN_Miembro_activo NOT NULL,
-	nombreRolFK NVARCHAR(50) CONSTRAINT DF_Miembro_nombreRolFK DEFAULT 'Periférico' CONSTRAINT NN_Miembro_nombreRolFK NOT NULL,
+	nombreRolFK NVARCHAR(50) CONSTRAINT DF_Miembro_nombreRolFK DEFAULT 'PerifÃ©rico' CONSTRAINT NN_Miembro_nombreRolFK NOT NULL,
 
 	CONSTRAINT PK_Miembro PRIMARY KEY NONCLUSTERED (usernamePK),
 	CONSTRAINT UQ_Miembro_email UNIQUE (email),
 	CONSTRAINT FK_Miembro_Rol FOREIGN KEY (nombreRolFK) REFERENCES ROL(nombrePK)
-		ON DELETE NO ACTION --Se deberían eliminar todos los usuarios asociados a este rol antes de eliminar el rol.
+		ON DELETE NO ACTION --Se deberÃ­an eliminar todos los usuarios asociados a este rol antes de eliminar el rol.
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_Miembro_CatalogoPais FOREIGN KEY (paisFK) REFERENCES Catalogo.Pais(paisPK)
-		ON DELETE SET DEFAULT --A nivel de opciones para el usuario no se va a mostrar el valor N/A, pero si el país escopgido llegara a borrarse se quiere representar esta falta de país con el valor N/A
+		ON DELETE SET DEFAULT --A nivel de opciones para el usuario no se va a mostrar el valor N/A, pero si el paÃ­s escogido llegara a borrarse se quiere representar esta falta de paÃ­s con el valor N/A
 		ON UPDATE CASCADE 
 );
 
@@ -98,10 +98,10 @@ CREATE TABLE MiembroAutorDeArticulo
 
 	CONSTRAINT PK_MiembroAutorDeArticulo PRIMARY KEY (usernameMiemFK, idArticuloFK),
 	CONSTRAINT FK_MiembroAutorDeArticulo_Miembro FOREIGN KEY (usernameMiemFK) REFERENCES Miembro(usernamePK)
-		ON DELETE NO ACTION  --Se quiere mantener un historial de los autores de este artículo aunque ya sean activos.
+		ON DELETE NO ACTION  --Se quiere mantener un historial de los autores de este artÃ­culo aunque ya sean activos.
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_MiembroAutorDeArticulo_Articulo FOREIGN KEY (idArticuloFK) REFERENCES Articulo(articuloAID)
-		ON DELETE CASCADE --Se eliminan las tuplas que asocian a los autores con el articulo borrado.
+		ON DELETE CASCADE --Se quiere eliminar la relacion que tienen los autores con ese articulo pues ya no existe.
 		ON UPDATE CASCADE
 );
 
@@ -113,10 +113,10 @@ CREATE TABLE MiembroCalificaArticulo
 
 	CONSTRAINT PK_MiembroCalificaArticulo PRIMARY KEY (usernameMiemFK, idArticuloFK),
 	CONSTRAINT FK_MiembroCalificaArticulo_Miembro FOREIGN KEY (usernameMiemFK) REFERENCES Miembro(usernamePK)
-		ON DELETE NO ACTION --Se quiere mantener el registro de que este usuario calificó este artículo
+		ON DELETE NO ACTION --Se quiere mantener el registro de que este usuario calificÃ³ este artÃ­culo
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_MiembroCalificaArticulo_Articulo FOREIGN KEY (idArticuloFK) REFERENCES Articulo(articuloAID)
-		ON DELETE CASCADE --Se eliminan todas las calificaciones de este artículo.
+		ON DELETE CASCADE --Se quieren eliminar los registro de calificaciones para el artÃ­culo borrado. No se quieren mantener calificaciones sin articulo.
 		ON UPDATE CASCADE
 );
 
@@ -128,10 +128,10 @@ CREATE TABLE NucleoPuedeSerRevisorDeArticulo
 
 	CONSTRAINT PK_NucleoInteresaRevisarArticulo PRIMARY KEY (usernameMiemFK, idArticuloFK),
 	CONSTRAINT FK_NucleoInteresaRevisarArticulo_Miembro FOREIGN KEY (usernameMiemFK) REFERENCES Miembro(usernamePK)
-		ON DELETE CASCADE --Ya el usuario no va a existir, por lo que ya no tiene interes en revisar el artículo
+		ON DELETE CASCADE --Ya el usuario no va a existir, por lo que ya no tiene interes en revisar el artÃ­culo
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_NucleoInteresaRevisarArticulo_Articulo FOREIGN KEY (idArticuloFK) REFERENCES Articulo(articuloAID)
-		ON DELETE CASCADE --Se eliminan todos las tuplas relacionadas a querer revisar este artículo.
+		ON DELETE CASCADE --Se quieren eliminan todos las tuplas que representan el interes de un nucleo en revisar un articulo va a ser borrado.
 		ON UPDATE CASCADE,
 	CONSTRAINT CK_NucleoPuedeSerRevisorDeArticulo_estado CHECK (estado in ('Interesa','Solicitado')),
 );
@@ -140,7 +140,7 @@ CREATE TABLE NucleoRevisaArticulo
 (
 	usernameMiemFK NVARCHAR(50) CONSTRAINT NN_NucleoRevisaArticulo_usernameMiemFK NOT NULL,
 	idArticuloFK INTEGER CONSTRAINT NN_NucleoRevisaArticulo_idArticuloFK NOT NULL,	
-	estadoRevision NVARCHAR(25)  CONSTRAINT DF_NucleoRevisaArticulo_estadoRevision DEFAULT 'En Revisión' CONSTRAINT NN_NucleoRevisaArticulo_estadoRevision NOT NULL,
+	estadoRevision NVARCHAR(25)  CONSTRAINT DF_NucleoRevisaArticulo_estadoRevision DEFAULT 'En RevisiÃ³n' CONSTRAINT NN_NucleoRevisaArticulo_estadoRevision NOT NULL,
 	puntaje FLOAT,
 	opinionGeneral INTEGER,
 	contribucion INTEGER,
@@ -150,12 +150,12 @@ CREATE TABLE NucleoRevisaArticulo
 
 	CONSTRAINT PK_NucleoRevisaArticulo PRIMARY KEY (usernameMiemFK, idArticuloFK),
 	CONSTRAINT FK_NucleoRevisaArticulo_Miembro FOREIGN KEY (usernameMiemFK) REFERENCES Miembro(usernamePK)
-		ON DELETE NO ACTION --Se quiere mantener el registro del puntaje y comentarios dados por este autor, además que influye en el cálculo de los méritos.
+		ON DELETE NO ACTION --Se quiere mantener el registro del puntaje y comentarios dados por este autor, ademÃ¡s de que esto influye en el cÃ¡lculo de los mÃ©ritos.
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_NucleoRevisaArticulo_Articulo FOREIGN KEY (idArticuloFK) REFERENCES Articulo(articuloAID)
-		ON DELETE CASCADE --Si se elimina el artículo en su proceso de revisión se quieren eliminar todos los registros de revisión asociados a este artículo.
+		ON DELETE CASCADE --Si se elimina el artÃ­culo en su proceso de revisiÃ³n se quieren eliminar todos los registros de revisiÃ³n asociados a este artÃ­culo. No se quieren registros de revision sin un articulo asociado.
 		ON UPDATE CASCADE,
-	CONSTRAINT CK_NucleoRevisaArticulo_estadoRevision CHECK (estadoRevision in ('En Revisión', 'Finalizada')),
+	CONSTRAINT CK_NucleoRevisaArticulo_estadoRevision CHECK (estadoRevision in ('En RevisiÃ³n', 'Finalizada')),
 	CONSTRAINT CK_NucleoRevisaArticulo_recomendacion CHECK (recomendacion in ('Aceptar', 'Aceptar con modificaciones', 'Rechazar'))
 );
 
@@ -167,10 +167,10 @@ CREATE TABLE ArticuloTrataTopico
 
 	CONSTRAINT PK_ArticuloTrataTopico PRIMARY KEY(nombreCategoriaFK, nombreTopicoFK, idArticuloFK),
 	CONSTRAINT FK_ArticuloTrataTopico_CategoriaTopico FOREIGN KEY (nombreCategoriaFK, nombreTopicoFK) REFERENCES CategoriaTopico(nombreCategoriaPK, nombreTopicoPK)
-		ON DELETE NO ACTION --Se tienen que borrar todos los artículos asociados al tópico antes de borrar el tópico.
+		ON DELETE NO ACTION --Se tienen que borrar todos los artÃ­culos asociados al tÃ³pico antes de borrar el tÃ³pico pues no se pueden tener articulos que no esten asociados a un topico.
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_ArticuloTrataTopico_Articulo FOREIGN KEY (idArticuloFK) REFERENCES Articulo(articuloAID)
-		ON DELETE CASCADE --Se elimina la tupla que asociaba al artículo con el tópico.
+		ON DELETE CASCADE --Se desea eliminar la tupla que asociaba al artÃ­culo borrado con un tÃ³pico pues no se quiere mantener datos sobre un articulo borrado.
 		ON UPDATE CASCADE
 );
 
@@ -184,7 +184,7 @@ CREATE TABLE MiembroPasatiempo
 		ON DELETE CASCADE --Si se elimina el pasatiempo, se quiere eliminar la tupla en esta tabla que asocia al miembro con este pasatiempo borrado.
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_MiembroPasatiempo_Miembro FOREIGN KEY (usernameFK) REFERENCES Miembro(usernamePK)
-		ON DELETE CASCADE --Si se elimina al miembro, se quiere eliminar la relación que tenía este miembro con sus pasatiempos.
+		ON DELETE CASCADE --Si se elimina al miembro, se quiere eliminar la relaciÃ³n que tenÃ­a este miembro con sus pasatiempos. No se quiere almacenar informacion sobre un miembro borrado.
 		ON UPDATE CASCADE,
 );
 
@@ -198,7 +198,7 @@ CREATE TABLE MiembroIdioma
 		ON DELETE CASCADE --Si se elimina el idioma, se quiere eliminar la tupla en esta tabla que asocia al miembro con este idioma borrado.
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_MiembroIdioma_Miembro FOREIGN KEY (usernameFK) REFERENCES Miembro(usernamePK)
-		ON DELETE CASCADE --Si se elimina al miembro, se quiere eliminar la relación que tenía este miembro con sus idiomas.
+		ON DELETE CASCADE --Si se elimina al miembro, se quiere eliminar la relaciÃ³n que tenÃ­a este miembro con sus idiomas. No se quiere almacenar informacion sobre un miembro borrado.
 		ON UPDATE CASCADE,
 );
 
@@ -212,7 +212,7 @@ CREATE TABLE MiembroHabilidad
 		ON DELETE CASCADE --Si se elimina la habilidad, se quiere eliminar la tupla en esta tabla que asocia al miembro con esta habilidad borrada.
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_MiembroHabilidad_Miembro FOREIGN KEY (usernameFK) REFERENCES Miembro(usernamePK)
-		ON DELETE CASCADE --Si se elimina al miembro, se quiere eliminar la relación que tenía este miembro con sus habilidades.
+		ON DELETE CASCADE --Si se elimina al miembro, se quiere eliminar la relaciÃ³n que tenÃ­a este miembro con sus habilidades. No se quiere almacenar informacion sobre un miembro borrado.
 		ON UPDATE CASCADE,
 );
 
@@ -227,9 +227,9 @@ CREATE TABLE Notificacion
 
 	CONSTRAINT PK_Notificacion PRIMARY KEY (notificacionAID),
 	CONSTRAINT FK_Notificacion_Miembro FOREIGN KEY (usernameFK) REFERENCES Miembro(usernamePK)
-		ON DELETE CASCADE --Si se elimina al miembro, se quieren eliminar todas sus notificaciones asociadas para no tener notificaciones sin dueño.
+		ON DELETE CASCADE --Si se elimina al miembro, se quieren eliminar todas sus notificaciones asociadas para no tener notificaciones sin dueÃ±o.
 		ON UPDATE CASCADE,
-	CONSTRAINT CK_Notificacion_estado CHECK (estado in ('Nueva','Leída')),
+	CONSTRAINT CK_Notificacion_estado CHECK (estado in ('Nueva','LeÃ­da')),
 );
 
 CREATE TABLE MiembroSolicitaSubirRangoNucleo
@@ -239,7 +239,7 @@ CREATE TABLE MiembroSolicitaSubirRangoNucleo
 	estado NVARCHAR(50),
 
 	CONSTRAINT FK_MiembroSolicitaSubirRangoNucleo_Miembro_Nucleo FOREIGN KEY (usernameNucleoFK) REFERENCES Miembro(usernamePK)
-		ON DELETE NO ACTION --Si se elimina al miembro núcleo, no se quiere que este miembro se tome en cuenta para la decisión de la solicitud.
+		ON DELETE NO ACTION --Si se elimina al miembro nÃºcleo, no se quiere que este miembro se tome en cuenta para la decisiÃ³n de la solicitud.
 		ON UPDATE NO ACTION,
 	CONSTRAINT FK_MiembroSolicitaSubirRangoNucleo_Miembro FOREIGN KEY (usernameMiembroFK) REFERENCES Miembro(usernamePK)
 		ON DELETE NO ACTION --Si se elimina al miembro que solicita el ascenso, se quieren eliminar todos los registros de aprobaciones y rechazos que hay almacenados.
