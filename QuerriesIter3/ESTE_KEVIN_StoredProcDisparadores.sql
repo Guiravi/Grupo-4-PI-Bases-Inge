@@ -45,10 +45,10 @@ BEGIN
 		WHERE @usernameMiemFK = [dbo].[NucleoPuedeSerRevisorDeArticulo].usernameMiemFK AND
          @articuloAID = [dbo].[NucleoPuedeSerRevisorDeArticulo].idArticuloFK
 
-		IF('Requiere Revisión' = (SELECT estado FROM Articulo WHERE articuloAID = @articuloAID))
+		IF('Requiere RevisiÃ³n' = (SELECT estado FROM Articulo WHERE articuloAID = @articuloAID))
 			BEGIN
 				UPDATE Articulo
-				SET estado = 'En Revisión'
+				SET estado = 'En RevisiÃ³n'
 				WHERE articuloAID = @articuloAID
 			END
 END
