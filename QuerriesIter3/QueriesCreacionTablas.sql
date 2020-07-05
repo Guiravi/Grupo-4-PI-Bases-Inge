@@ -58,7 +58,7 @@ CREATE TABLE Articulo
 	puntajeTotalRev FLOAT,
 	calificacionTotalMiem INTEGER CONSTRAINT DF_Articulo_calificacionTotalMiem DEFAULT 0 CONSTRAINT NN_Articulo_calificacionTotalMiem NOT NULL,
 
-	CONSTRAINT PK_Articulo PRIMARY KEY (articuloAID),
+	CONSTRAINT PK_Articulo PRIMARY KEY NONCLUSTERED (articuloAID),
 	CONSTRAINT UQ_Articulo_titulo UNIQUE (titulo),
 	CONSTRAINT CK_Articulo_tipo CHECK (tipo in ('Corto','Largo','Link')),
 	CONSTRAINT CK_Articulo_estado CHECK (estado in ('En Progreso','Requiere Revisión', 'En Revisión', 'Rechazado', 'Aceptado con Correcciones', 'Publicado'))
@@ -81,7 +81,7 @@ CREATE TABLE Miembro
 	activo BIT CONSTRAINT DF_Miembro_activo DEFAULT 1 CONSTRAINT NN_Miembro_activo NOT NULL,
 	nombreRolFK NVARCHAR(50) CONSTRAINT DF_Miembro_nombreRolFK DEFAULT 'Periférico' CONSTRAINT NN_Miembro_nombreRolFK NOT NULL,
 
-	CONSTRAINT PK_Miembro PRIMARY KEY (usernamePK),
+	CONSTRAINT PK_Miembro PRIMARY KEY NONCLUSTERED (usernamePK),
 	CONSTRAINT UQ_Miembro_email UNIQUE (email),
 	CONSTRAINT FK_Miembro_Rol FOREIGN KEY (nombreRolFK) REFERENCES ROL(nombrePK)
 		ON DELETE NO ACTION --Se deberían eliminar todos los usuarios asociados a este rol antes de eliminar el rol.
@@ -180,7 +180,7 @@ CREATE TABLE MiembroPasatiempo
 	usernameFK NVARCHAR(50) CONSTRAINT NN_MiembroPasatiempo_usernameFK NOT NULL,
 
 	CONSTRAINT PK_MiembroPasatiempo PRIMARY KEY(pasatiempoFK, usernameFK),
-	CONSTRAINT FK_MiembroPasatiempo_CatalogoPasatiempo FOREIGN KEY (pasatiempoFK) REFERENCES Catalogo.Pasatiempo(pasatiempoPK)
+	CONSTRAINT FK_MiembroIdioma_CatalogoPasatiempo FOREIGN KEY (pasatiempoFK) REFERENCES Catalogo.Pasatiempo(pasatiempoPK)
 		ON DELETE CASCADE --Si se elimina el pasatiempo, se quiere eliminar la tupla en esta tabla que asocia al miembro con este pasatiempo borrado.
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_MiembroPasatiempo_Miembro FOREIGN KEY (usernameFK) REFERENCES Miembro(usernamePK)
@@ -204,12 +204,12 @@ CREATE TABLE MiembroIdioma
 
 CREATE TABLE MiembroHabilidad
 (
-	habilidadFK NVARCHAR(50) CONSTRAINT NN_MiembroHabilidad_habilidadFK NOT NULL,
+	habilidadFK NVARCHAR(50) CONSTRAINT NN_MiembroHabilidad_habilidad NOT NULL,
 	usernameFK NVARCHAR(50) CONSTRAINT NN_MiembroHabilidad_usernameFK NOT NULL,
 
 	CONSTRAINT PK_MiembroHabilidad PRIMARY KEY(habilidadFK, usernameFK),
-	CONSTRAINT FK_MiembroHabilidado_CatalogoHabilidad FOREIGN KEY (habilidadFK) REFERENCES Catalogo.Habilidad(habilidadPK)
-		ON DELETE CASCADE --Si se elimina la habilidad, se quiere eliminar la tupla en esta tabla que asocia al miembro con esta habilidad borrado.
+	CONSTRAINT FK_MiembroIdioma_CatalogoHabilidad FOREIGN KEY (habilidadFK) REFERENCES Catalogo.Habilidad(habilidadPK)
+		ON DELETE CASCADE --Si se elimina la habilidad, se quiere eliminar la tupla en esta tabla que asocia al miembro con esta habilidad borrada.
 		ON UPDATE CASCADE,
 	CONSTRAINT FK_MiembroHabilidad_Miembro FOREIGN KEY (usernameFK) REFERENCES Miembro(usernamePK)
 		ON DELETE CASCADE --Si se elimina al miembro, se quiere eliminar la relación que tenía este miembro con sus habilidades.
